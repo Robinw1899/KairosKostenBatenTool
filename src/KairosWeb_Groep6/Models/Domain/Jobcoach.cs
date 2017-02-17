@@ -5,6 +5,7 @@ namespace KairosWeb_Groep6.Models.Domain
 {
     public class Jobcoach
     {
+        public int JobcoachId { get; set; }
         public string Naam { get; set; }
 
         public string Voornaam { get; set; }
