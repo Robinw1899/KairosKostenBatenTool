@@ -42,11 +42,6 @@ textarea {
     width: 100%;
 }
 
-.loginForm {
-    background-color: rgba(254, 249, 219, 0.9);
-    border-radius: 25px;
-}
-
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
   /* Hide captions */
