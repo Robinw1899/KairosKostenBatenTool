@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    color: black;
 }
 
 /* Wrapping element */
@@ -39,6 +40,11 @@ textarea {
 .carousel-inner .item img[src$=".svg"]
 {
     width: 100%;
+}
+
+.loginForm {
+    background-color: rgba(254, 249, 219, 0.9);
+    border-radius: 25px;
 }
 
 /* Hide/rearrange for smaller screens */

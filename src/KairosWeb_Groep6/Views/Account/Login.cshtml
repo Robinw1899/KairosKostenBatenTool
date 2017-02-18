@@ -1,61 +1,60 @@
-﻿@using System.Collections.Generic
-@using Microsoft.AspNetCore.Http
-@using Microsoft.AspNetCore.Http.Authentication
-@model LoginViewModel
+﻿@model LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
     ViewData["Title"] = "Aanmelden";
 }
 
-<h2>@ViewData["Title"]</h2>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5 loginForm">
+        <h2>@ViewData["Title"]</h2>
         <section>
             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
-                    <label asp-for="Email" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Email" class="form-control"/>
+                    <label asp-for="Email" class="col-md-4 control-label"></label>
+                    <div class="col-md-8">
+                        <input asp-for="Email" class="form-control" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Password" class="col-md-2 control-label"></label>
-                    <div class="col-md-10">
-                        <input asp-for="Password" class="form-control"/>
+                    <label asp-for="Password" class="col-md-4 control-label"></label>
+                    <div class="col-md-8">
+                        <input asp-for="Password" class="form-control" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            <label asp-for="RememberMe">
-                                <input asp-for="RememberMe"/>
-                                @Html.DisplayNameFor(m => m.RememberMe)
-                            </label>
+                <div class="col-md-12">
+                    <div class="form-group col-md-6">
+                        <div class="col-md-12">
+                            <div class="checkbox">
+                                <label asp-for="RememberMe">
+                                    <input asp-for="RememberMe" />
+                                    @Html.DisplayNameFor(m => m.RememberMe)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="col-md-offset-5 col-md-12 text-right">
+                            <button type="submit" class="btn btn-primary">Inloggen</button>
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <button type="submit" class="btn btn-default">Log in</button>
-                    </div>
-                </div>
                 <p>
-                    <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Registreren als nieuwe jobcoach</a>
+                    <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Registreren</a>
                 </p>
                 <p>
-                    <a asp-action="ForgotPassword">Wachtwoord vergeten</a>
+                    <a asp-action="ForgotPassword">Wachtwoord vergeten?</a>
                 </p>
             </form>
         </section>
     </div>
-    <div class="col-md-6">
-        <section>
+    <div class="col-md-7">
+        <section class="intro">
             <h4>Introductie</h4>
-            <hr />
+            <hr/>
             <p>
                 Waarom zou een werkgever investeren in het tewerkstellen van personen met een grote
                 afstand tot de arbeidsmarkt en/of functiecreatie? We zijn geneigd te denken dat
@@ -73,7 +72,7 @@
             <p>
                 Het maken van een business case kan helpen om de besluitvorming te verbeteren,
                 want het geeft betrouwbare, op feiten gebaseerde informatie en vermindert de subjectiviteit
-                in beoordeling en besluitvorming.  De kans dat de werkgever op jouw aanbod zal ingaan, vergroot
+                in beoordeling en besluitvorming. De kans dat de werkgever op jouw aanbod zal ingaan, vergroot
                 naarmate je deze vraag duidelijk en zakelijk onderbouwd weet te beantwoorden.
             </p>
             <p>
@@ -87,3 +86,8 @@
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
+<script>
+    var body = document.getElementsByTagName("body")[0];
+    body.style.backgroundImage = "url(/images/registreer_bg.jpg)";
+    //$("body").css("background-image", "url(/images/registreer_bg.jpg)");
+</script>
