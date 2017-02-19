@@ -90,7 +90,7 @@ namespace KairosWeb_Groep6
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Kairos}/{action=Index}/{id?}");
             });
         }
     }

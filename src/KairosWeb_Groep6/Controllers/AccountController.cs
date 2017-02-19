@@ -134,7 +134,7 @@ namespace KairosWeb_Groep6.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(KairosController.Index), "Kairos");
         }
 
         //
@@ -459,7 +459,7 @@ namespace KairosWeb_Groep6.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(KairosController.Index), "Kairos");
             }
         }
 
