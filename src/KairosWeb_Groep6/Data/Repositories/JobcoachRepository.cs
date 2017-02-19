@@ -13,7 +13,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public JobcoachRepository(ApplicationDbContext _context)
         {
             _dbContext = _context;
-            _jobcoaches = _context.Jobcoaches;
+            //_jobcoaches = _context.Jobcoaches;
         }
         public void AddJobcoach(Jobcoach jobcoach)
         {
