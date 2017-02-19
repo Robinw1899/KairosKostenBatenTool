@@ -8,6 +8,8 @@ using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace KairosWeb_Groep6.Data
 {
@@ -18,19 +20,19 @@ namespace KairosWeb_Groep6.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            MySql.Data.MySqlClient.MySqlConnection conn;
+          
             string myConnectionString;
 
             myConnectionString = "server=127.0.0.1;uid=root;" +
                 "pwd=12345;database=test;";
-
+            MySqlConnection conn = new MySqlConnection(myConnectionString);
             try
             {
                 conn = new MySql.Data.MySqlClient.MySqlConnection();
                 conn.ConnectionString = myConnectionString;
                 conn.Open();
             }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
+            catch (MySqlException ex)
             {
                 
             }
