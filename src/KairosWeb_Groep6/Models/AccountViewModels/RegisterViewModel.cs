@@ -39,6 +39,11 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
         [Display(Name = "Gemeente")]
         public string Gemeente { get; set; }
 
+        public RegisterViewModel()
+        {
+            
+        }
+
         public RegisterViewModel(Jobcoach jobcoach, Organisatie organisatie)
         {
             Naam = jobcoach.Naam;

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.AccountViewModels;
+using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
 
 namespace KairosWeb_Groep6.Controllers
@@ -102,12 +103,13 @@ namespace KairosWeb_Groep6.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
+            Random random = new Random();
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                //var password = System.Web.Security.Membership.GeneratePassword;
-                var result = await _userManager.CreateAsync(user);
+                var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
+                var result = await _userManager.CreateAsync(user, password);
                 
                 if (result.Succeeded)
                 {
