@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +22,7 @@ namespace KairosWeb_Groep6.Data.Repositories
 
         public IEnumerable<Jobcoach> GetAll()
         {
-            return _jobcoaches.ToList();//Hier moeten nog meer includes bij naarmate we andere kolommen hebben in de DB
+            return _jobcoaches.ToList(); //Hier moeten nog meer includes bij naarmate we andere kolommen hebben in de DB
         }
 
         public Jobcoach GetById(int id)

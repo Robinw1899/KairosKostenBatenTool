@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
@@ -12,6 +9,5 @@ namespace KairosWeb_Groep6.Models.Domain
         Jobcoach GetById(int id);
         IEnumerable<Jobcoach> GetAll();
         void SaveChanges();
-
     }
 }
