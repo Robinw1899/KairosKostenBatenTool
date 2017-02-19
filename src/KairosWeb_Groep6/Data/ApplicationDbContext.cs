@@ -25,8 +25,7 @@ namespace KairosWeb_Groep6.Data
 
             myConnectionString = "server=127.0.0.1;uid=root;" +
                 "pwd=12345;database=test;";
-            MySqlConnection conn = new MySqlConnection(myConnectionString);
-            try
+            MySqlConnection conn;
             {
                 conn = new MySql.Data.MySqlClient.MySqlConnection();
                 conn.ConnectionString = myConnectionString;
