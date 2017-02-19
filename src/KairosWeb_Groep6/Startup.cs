@@ -40,6 +40,7 @@ namespace KairosWeb_Groep6
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
+            services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddDbContext<ApplicationDbContext>();
 
@@ -70,6 +71,8 @@ namespace KairosWeb_Groep6
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
 
