@@ -7,12 +7,18 @@ namespace KairosWeb_Groep6.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public Microsoft.EntityFrameworkCore.DbSet<Jobcoach> Jobcoaches { get; set; }
+        //public Microsoft.EntityFrameworkCore.DbSet<Jobcoach> Jobcoaches { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var connectionString = @"Server=.\SQLEXPRESS;Database=KairosUsers;Integrated Security=True;";
+            optionsBuilder.UseSqlServer(connectionString);
+        }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-
+            
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
