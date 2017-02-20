@@ -8,5 +8,10 @@ namespace KairosWeb_Groep6.Controllers
         {
             return View();
         }
+
+        public IActionResult NieuweAnalyse()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
