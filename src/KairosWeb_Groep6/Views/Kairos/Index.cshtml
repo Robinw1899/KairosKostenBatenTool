@@ -1,1 +1,22 @@
-﻿<h1>Welkom bij Kairos!</h1> <!--Test titel-->
+﻿@using KairosWeb_Groep6.Models.Domain
+@model KairosWeb_Groep6.Models.KairosViewModels.JobcoachViewModel
+@{
+    ViewData["title"] = "Home";
+}
+
+<h3>@ViewData["title"]</h3>
+<hr />
+
+@if (Model == null || Model.Analyses.Count == 0)
+{   // Model == null moet er nog uit, voorlopig staat dit er om ervoor te zorgen dat de pagina opent.
+    // Er wordt namelijk nog geen model doorgegeven.
+    <p>Er zijn nog geen analyses om te tonen.</p>
+}
+else
+{
+    <p>Er zijn al analyses.</p>
+    /*foreach (Analyse a in Model.Analyses)
+    {
+
+    }*/
+}

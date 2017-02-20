@@ -13,7 +13,7 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public Organisatie Organisatie { get; set; }
 
-        public ICollection<Analyse> analyses { get; private set; }
+        public ICollection<Analyse> Analyses { get; private set; }
 
         public Jobcoach(string naam, string voornaam, string emailadres, Organisatie organisatie)
         {
@@ -21,7 +21,7 @@ namespace KairosWeb_Groep6.Models.Domain
             Voornaam = voornaam;
             Emailadres = emailadres;
             Organisatie = organisatie;
-            analyses = new List<Analyse>();
+            Analyses = new List<Analyse>();
         }
     }
 }
