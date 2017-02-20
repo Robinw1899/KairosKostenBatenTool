@@ -1,6 +1,9 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-image: url(../images/dashboard_bg.jpg);
+    background-attachment: fixed;
+    background-position: top left;
 }
 
 /* Wrapping element */
@@ -8,6 +11,7 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    background-color: #FAFAFA;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -39,6 +43,24 @@ textarea {
 .carousel-inner .item img[src$=".svg"]
 {
     width: 100%;
+}
+
+.navbar-inverse {
+    background-color: #FAFAFA;
+    border-color: #E5E5E5;
+}
+
+.navbar-nav > li > a, .navbar-brand {
+    color: #97C900 !important; 
+    font-weight: bold !important;
+}
+
+a.navbar-brand {
+    padding-top: 5px;
+}
+
+.navbar-brand img {
+    max-width: 100px;
 }
 
 /* Hide/rearrange for smaller screens */
