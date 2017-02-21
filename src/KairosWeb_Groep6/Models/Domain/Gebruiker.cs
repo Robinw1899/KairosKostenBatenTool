@@ -10,6 +10,11 @@
 
         public bool IsAdmin { get; set; }
 
+        public Gebruiker()
+        {
+            
+        }
+
         public Gebruiker(string naam, string voornaam, string emailadres, bool isAdmin)
         {
             Naam = naam;
