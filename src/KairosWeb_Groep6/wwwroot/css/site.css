@@ -61,6 +61,13 @@ a.navbar-brand {
 
 .navbar-brand img {
     max-width: 100px;
+  
+.intro {
+    font-weight: bold;
+}
+
+footer {
+    color: #5bc0de;
 }
 
 /* Hide/rearrange for smaller screens */

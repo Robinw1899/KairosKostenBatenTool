@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.AccountViewModels;
+using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
 
 namespace KairosWeb_Groep6.Controllers
@@ -102,11 +103,14 @@ namespace KairosWeb_Groep6.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
+            Random random = new Random();
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
+                var result = await _userManager.CreateAsync(user, password);
+                
                 if (result.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
