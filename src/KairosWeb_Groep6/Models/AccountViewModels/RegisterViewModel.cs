@@ -4,12 +4,16 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using KairosWeb_Groep6.Models.Domain;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
 /*info jobcoach*/
+
+        [HiddenInput]
+        public int JobcoachId { get; set; }
         [Display(Name = "Naam")]
         public string Naam { get; set; }
         [Display(Name = "Voornaam")]
