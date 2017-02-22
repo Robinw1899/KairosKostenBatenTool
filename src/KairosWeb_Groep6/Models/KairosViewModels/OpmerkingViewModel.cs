@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels
 {
-    public class ContactAdminViewModel
+    public class OpmerkingViewModel
     {
         [Required]
         [DataType(DataType.Text)]
@@ -24,7 +24,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         [HiddenInput]
         public string Naam { get; set; }
 
-        public ContactAdminViewModel(Jobcoach jobCoach, string onderwerp, string bericht)
+        public OpmerkingViewModel(Jobcoach jobCoach, string onderwerp, string bericht)
         {
             Email = jobCoach.Emailadres;
             Voornaam = jobCoach.Voornaam;
