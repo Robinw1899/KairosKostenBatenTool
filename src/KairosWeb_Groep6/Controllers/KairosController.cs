@@ -13,5 +13,11 @@ namespace KairosWeb_Groep6.Controllers
         {
             throw new System.NotImplementedException();
         }
+
+        public IActionResult Opmerking()
+        {
+            //throw new System.NotImplementedException();
+            return View();
+        }
     }
 }

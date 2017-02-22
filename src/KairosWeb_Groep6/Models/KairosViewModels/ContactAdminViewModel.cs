@@ -4,20 +4,31 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using KairosWeb_Groep6.Models.Domain;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels
 {
     public class ContactAdminViewModel
     {
         [Required]
-        public String Onderwerp { get; set; }
+        [DataType(DataType.Text)]
+        public string Onderwerp { get; set; }
         [Required]
-        public String Bericht { get; set; }
-        /*public Jobcoach Jobcoach { get; set; }*/
+        [DataType(DataType.Text)]
+        public string Bericht { get; set; }
+        [HiddenInput]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
+        [HiddenInput]
+        public string Voornaam { get; set; }
+        [HiddenInput]
+        public string Naam { get; set; }
 
-        public ContactAdminViewModel(string onderwerp, string bericht)
+        public ContactAdminViewModel(Jobcoach jobCoach, string onderwerp, string bericht)
         {
-            
+            Email = jobCoach.Emailadres;
+            Voornaam = jobCoach.Voornaam;
+            Naam = jobCoach.Naam;
             Onderwerp = onderwerp;
             Bericht = bericht;
         }
