@@ -26,7 +26,7 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult Opmerking(OpmerkingViewModel opmerkingViewModel)
         {
             throw new NotImplementedException();
-            if (ModelState.IsValid)
+            /*if (ModelState.IsValid)
             {
                 try
                 {
@@ -36,7 +36,7 @@ namespace KairosWeb_Groep6.Controllers
                 {
                     
                 }
-            }
+            }*/
         }
     }
 }
