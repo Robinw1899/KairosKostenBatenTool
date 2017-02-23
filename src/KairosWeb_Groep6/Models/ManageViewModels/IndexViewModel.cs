@@ -66,11 +66,14 @@ namespace KairosWeb_Groep6.Models.ManageViewModels
             Email = jobcoach.Emailadres;
             // PathImage = jobcoach.PathImage == String.Empty? "":jobcoach.PathImage
 
-            OrganisatieNaam = organisatie.Naam;
-            StraatOrganisatie = organisatie.Straat;
-            NrOrganisatie = organisatie.Nummer;
-            Postcode = organisatie.Postcode;
-            Gemeente = organisatie.Gemeente;
+            if (organisatie != null)
+            {
+                OrganisatieNaam = organisatie.Naam == String.Empty ? "" : organisatie.Naam;
+                StraatOrganisatie = organisatie.Straat == String.Empty ? "" : organisatie.Straat;
+                NrOrganisatie = organisatie.Nummer == 0 ? 0 : organisatie.Nummer;
+                Postcode = organisatie.Postcode == 0 ? 0 : organisatie.Postcode;
+                Gemeente = organisatie.Gemeente == String.Empty ? "" : organisatie.Gemeente;
+            }
         }
     }
 }

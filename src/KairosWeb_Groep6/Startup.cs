@@ -60,6 +60,7 @@ namespace KairosWeb_Groep6
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<IJobcoachRepository, JobcoachRepository>();
+            services.AddScoped<IGebruikerRepository, GebruikerRepository>();
             services.Configure<AuthMessageSenderOptions>(Configuration);/*dit toegevoegd*/ 
         }
 

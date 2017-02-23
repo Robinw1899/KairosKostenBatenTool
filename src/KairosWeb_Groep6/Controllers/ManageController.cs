@@ -10,6 +10,7 @@ using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.ManageViewModels;
 using KairosWeb_Groep6.Services;
+using Remotion.Linq.Parsing.Structure.ExpressionTreeProcessors;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -21,21 +22,21 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
-        private readonly IJobcoachRepository _jobcoachRepository;
+        private readonly IGebruikerRepository _gebruikerRepository;
         public ManageController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IEmailSender emailSender,
         ISmsSender smsSender,
         ILoggerFactory loggerFactory,
-        IJobcoachRepository jobcoachRepo)
+        IGebruikerRepository gebruikerRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
-            _jobcoachRepository = jobcoachRepo;
+            _gebruikerRepository = gebruikerRepo;
         }
 
         //
@@ -52,13 +53,13 @@ namespace KairosWeb_Groep6.Controllers
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
-            var user = await GetCurrentUserAsync();
+            var user = await GetCurrentUserAsync();           
             if (user == null)
             {
                 return View("Error");
             }
-
-            Jobcoach jobcoach = _jobcoachRepository.GetById(int.Parse(_userManager.GetUserId(User)));
+            var gebruiker = _gebruikerRepository.GetBy(user.Email);
+            Jobcoach jobcoach = new Jobcoach(gebruiker.Naam,gebruiker.Voornaam,gebruiker.Emailadres,null);
             var model = new IndexViewModel( jobcoach,jobcoach.Organisatie)
             
                 /*HasPassword = await _userManager.HasPasswordAsync(user),
