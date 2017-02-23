@@ -2,6 +2,8 @@
 {
     public class Organisatie
     {
+        public int OrganisatieId { get; set; }
+
         public string Naam { get; set; }
 
         public string Straat { get; set; }

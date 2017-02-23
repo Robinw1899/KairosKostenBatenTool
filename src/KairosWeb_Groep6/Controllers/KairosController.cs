@@ -13,5 +13,10 @@ namespace KairosWeb_Groep6.Controllers
         {
             throw new System.NotImplementedException();
         }
+
+        public IActionResult EersteKeerAanmelden()
+        {
+            return View();
+        }
     }
 }

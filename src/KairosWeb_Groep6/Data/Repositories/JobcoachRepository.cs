@@ -25,9 +25,10 @@ namespace KairosWeb_Groep6.Data.Repositories
             return _jobcoaches.ToList(); //Hier moeten nog meer includes bij naarmate we andere kolommen hebben in de DB
         }
 
-        public Jobcoach GetById(int id)
+        public Jobcoach GetById(string email)
         {
-            return _jobcoaches.SingleOrDefault(b => b.JobcoachId == id);//include
+            return _jobcoaches
+                .SingleOrDefault(b => b.Emailadres == email);//include
         }
 
         public void RemoveJobcoach(Jobcoach jobcoach)

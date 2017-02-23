@@ -6,7 +6,7 @@ namespace KairosWeb_Groep6.Models.Domain
     {
         void AddJobcoach(Jobcoach jobcoach);
         void RemoveJobcoach(Jobcoach jobcoach);
-        Jobcoach GetById(int id);
+        Jobcoach GetById(string email);
         IEnumerable<Jobcoach> GetAll();
         void SaveChanges();
     }
