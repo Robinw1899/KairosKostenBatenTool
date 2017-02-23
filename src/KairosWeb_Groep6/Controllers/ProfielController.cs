@@ -29,10 +29,10 @@ namespace KairosWeb_Groep6.Controllers
 
         [HttpGet]
         [ValidateAntiForgeryToken]
-        public IActionResult Index()
+        public IActionResult Index(int id)
         {
             
-            Jobcoach jobcoach = _jobCoachRepository.GetByEmail(_userManager.GetUserName(User));
+            Jobcoach jobcoach = _jobCoachRepository.GetById(id);
             if (jobcoach == null)
                 return NotFound();
 
