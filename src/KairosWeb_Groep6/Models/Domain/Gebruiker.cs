@@ -25,6 +25,7 @@
             Voornaam = voornaam;
             Emailadres = emailadres;
             IsAdmin = isAdmin;
+            AlAangemeld = false;
         }
     }
 }

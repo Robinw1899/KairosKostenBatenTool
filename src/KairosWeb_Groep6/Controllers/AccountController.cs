@@ -23,19 +23,22 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IGebruikerRepository _gebruikerRepository;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IGebruikerRepository gebruikerRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _gebruikerRepository = gebruikerRepository;
         }
 
         //
@@ -64,6 +67,17 @@ namespace KairosWeb_Groep6.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
+
+                    Gebruiker gebruiker = _gebruikerRepository.GetBy(model.Email);
+
+                    if (gebruiker != null)
+                    {
+                        if (!gebruiker.AlAangemeld)
+                        {
+                            return RedirectToAction(nameof(KairosController.EersteKeerAanmelden), "Kairos");
+                        }
+                    }
+
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

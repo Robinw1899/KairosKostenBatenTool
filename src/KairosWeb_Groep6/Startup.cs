@@ -10,7 +10,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using KairosWeb_Groep6.Data;
+using KairosWeb_Groep6.Data.Repositories;
 using KairosWeb_Groep6.Models;
+using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
 
 namespace KairosWeb_Groep6
@@ -56,6 +58,8 @@ namespace KairosWeb_Groep6
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            services.AddScoped<IGebruikerRepository, GebruikerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,6 +84,8 @@ namespace KairosWeb_Groep6
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            context.Database.EnsureDeleted();
 
             context.Database.EnsureCreated();
 
