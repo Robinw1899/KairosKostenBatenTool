@@ -141,7 +141,7 @@ namespace KairosWeb_Groep6.Controllers
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     //_logger.LogInformation(3, "User created a new account with password.");
                     //return RedirectToLocal(returnUrl);
-                    return RedirectToAction(nameof(KairosController.Index), "Kairos");
+                    return RedirectToAction(nameof(Login), "Account");
                 }
                 AddErrors(result);
             }
