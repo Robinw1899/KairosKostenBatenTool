@@ -12,6 +12,7 @@ using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.AccountViewModels;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
+using WebMatrix.WebData;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -67,7 +68,6 @@ namespace KairosWeb_Groep6.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
-
                     Gebruiker gebruiker = _gebruikerRepository.GetBy(model.Email);
 
                     if (gebruiker != null)
@@ -77,7 +77,6 @@ namespace KairosWeb_Groep6.Controllers
                             return RedirectToAction(nameof(KairosController.EersteKeerAanmelden), "Kairos");
                         }
                     }
-
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
