@@ -61,13 +61,25 @@ a.navbar-brand {
 
 .navbar-brand img {
     max-width: 100px;
-  
+}
 .intro {
     font-weight: bold;
 }
 
 footer {
     color: #5bc0de;
+}
+input#Bericht {
+    width: 600px;
+    height: 300px;
+    max-width: none;
+}
+input#Onderwerp {
+    width: 600px;
+    max-width: none;
+}
+form.formOpmerking.form-horizontal.call {
+    width: 900px;
 }
 
 /* Hide/rearrange for smaller screens */
