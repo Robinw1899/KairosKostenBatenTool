@@ -2,7 +2,7 @@
 
 namespace KairosWeb_Groep6.Models.Domain
 {
-    interface IJobcoachRepository
+    public interface IJobcoachRepository
     {
         void AddJobcoach(Jobcoach jobcoach);
         void RemoveJobcoach(Jobcoach jobcoach);
