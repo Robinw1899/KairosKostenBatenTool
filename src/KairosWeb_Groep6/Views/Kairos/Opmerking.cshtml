@@ -8,8 +8,6 @@
 <hr />
 <form asp-controller="Kairos" asp-action="Opmerking" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="formOpmerking form-horizontal">
     <div asp-validation-summary="All" class="text-danger"></div>
-    <input asp-for="Naam"/>
-    <input asp-for="Voornaam"/>
     <input asp-for="Email" />
     <div class="form-group">
         <label asp-for="Onderwerp" class="col-md-4 control-label"></label>

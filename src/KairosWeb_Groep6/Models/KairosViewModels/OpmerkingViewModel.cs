@@ -19,16 +19,10 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         [HiddenInput]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        [HiddenInput]
-        public string Voornaam { get; set; }
-        [HiddenInput]
-        public string Naam { get; set; }
 
         public OpmerkingViewModel(Jobcoach jobCoach, string onderwerp, string bericht)
         {
             Email = jobCoach.Emailadres;
-            Voornaam = jobCoach.Voornaam;
-            Naam = jobCoach.Naam;
             Onderwerp = onderwerp;
             Bericht = bericht;
         }
