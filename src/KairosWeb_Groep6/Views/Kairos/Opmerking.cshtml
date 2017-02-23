@@ -6,7 +6,7 @@
 
 <h3>@ViewData["title"]</h3>
 <hr />
-<form asp-controller="Kairos" asp-action="Opmerking" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+<form asp-controller="Kairos" asp-action="Opmerking" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="formOpmerking form-horizontal">
     <div asp-validation-summary="All" class="text-danger"></div>
     <input asp-for="Naam"/>
     <input asp-for="Voornaam"/>
@@ -27,9 +27,9 @@
     </div>
     <div class="col-md-12">
         <div class="form-group col-md-12">
-            <div class="col-md-offset-3 col-md-6 text-right">
+            <div class="col-md-offset-3 col-md-8 text-right">
                 <div>
-                    <a asp-action="Index" class="btn btn-default">Cancel</a>
+                    <a asp-action="Index" class="btn btn-default">Annuleer</a>
                     <button class="btn btn-primary" type="submit">Verzenden</button>
                 </div>
             </div>
