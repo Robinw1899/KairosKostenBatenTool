@@ -24,7 +24,7 @@ namespace KairosWeb_Groep6.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
 
-        private readonly IJobcoachRepository _jobCoachRepository;
+       
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -98,16 +98,7 @@ namespace KairosWeb_Groep6.Controllers
             return View();
         }
 
-        [HttpGet]
-        [ValidateAntiForgeryToken]
-        public IActionResult JobcoachEdit(int id,string returnUrl =  null)
-        {
-            Jobcoach jobcoach = _jobCoachRepository.GetById(id);
-            if (jobcoach == null)
-                return NotFound();
-            ViewData["ReturnUrl"] = returnUrl;
-            return View(nameof(Register),new RegisterViewModel(jobcoach,jobcoach.Organisatie));
-        }
+       
 
         //
         // POST: /Account/Register
@@ -143,35 +134,7 @@ namespace KairosWeb_Groep6.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> JobcoachEdit(RegisterViewModel model,string returnUrl = null)
-        {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    Jobcoach jobcoach = _jobCoachRepository.GetById(model.JobcoachId);
-                    jobcoach.Emailadres = model.Email;
-                    jobcoach.Organisatie.Naam = model.OrganisatieNaam;
-                    jobcoach.Organisatie.Gemeente = model.Gemeente;
-                    jobcoach.Organisatie.Nummer = model.NrOrganisatie;
-                    jobcoach.Organisatie.Postcode = model.Postcode;
-                    jobcoach.Organisatie.Straat = model.StraatOrganisatie;
-                    _jobCoachRepository.SaveChanges();
-                    TempData["message"] = "U hebt succesvol uw account gewijzigd.";
-                    return RedirectToLocal(returnUrl);
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", ex.Message);
-                } 
-            }
-            return View(nameof(Register), model);
-
-        }         
+        
 
         //
         // POST: /Account/LogOff
