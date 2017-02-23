@@ -1,0 +1,40 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.EersteKeerAanmeldenViewModel
+
+@{
+    ViewData["Title"] = "Eerste keer aanmelden";
+}
+
+<h2>@ViewData["Title"]</h2>
+<hr />
+<p>
+    Je meldt je voor de eerste keer aan, gelieve een nieuw wachtwoord te kiezen.
+    Een wachtwoord moet tussen 6 en 16 karakters bevatten.
+</p>
+
+<form asp-controller="Kairos" asp-action="EersteKeerAanmelden" method="post" class="form-horizontal">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input asp-for="Email" type="hidden" />
+    <div class="form-group">
+        <label asp-for="Password" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-default">Stel wachtwoord in</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
