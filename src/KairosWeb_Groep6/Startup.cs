@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using KairosWeb_Groep6.Data;
 using KairosWeb_Groep6.Models;
+using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
 
 namespace KairosWeb_Groep6
@@ -58,6 +59,7 @@ namespace KairosWeb_Groep6
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);/*dit toegevoegd*/ 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,7 +93,7 @@ namespace KairosWeb_Groep6
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Kairos}/{action=Index}/{id?}");
             });
         }
     }

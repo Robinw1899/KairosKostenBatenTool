@@ -10,10 +10,10 @@ namespace KairosWeb_Groep6.Data.Repositories
         private readonly ApplicationDbContext _dbContext;
         private readonly DbSet<Jobcoach> _jobcoaches;
 
-        public JobcoachRepository(ApplicationDbContext _context)
+        public JobcoachRepository(ApplicationDbContext context)
         {
-            _dbContext = _context;
-            //_jobcoaches = _context.Jobcoaches;
+            _dbContext = context;
+            _jobcoaches = context.Jobcoaches;
         }
         public void AddJobcoach(Jobcoach jobcoach)
         {
