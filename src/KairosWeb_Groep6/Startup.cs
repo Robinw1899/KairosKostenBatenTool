@@ -56,6 +56,7 @@ namespace KairosWeb_Groep6
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
+            services.AddSession();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -85,6 +86,8 @@ namespace KairosWeb_Groep6
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            app.UseSession();
 
             context.Database.EnsureDeleted();
 
