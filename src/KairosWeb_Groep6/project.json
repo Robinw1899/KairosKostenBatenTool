@@ -3,6 +3,7 @@
 
   "dependencies": {
     "BundlerMinifier.Core": "2.3.327",
+    "MailKit": "1.10.2",
     "Microsoft.ApplicationInsights.AspNetCore": "1.0.0",
     "Microsoft.AspNetCore.Authentication.Cookies": "1.1.0",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
@@ -33,6 +34,7 @@
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
     "Pomelo.EntityFrameworkCore.MySql": "1.1.0"
+    "Sendgrid": "9.0.12"
   },
 
   "tools": {

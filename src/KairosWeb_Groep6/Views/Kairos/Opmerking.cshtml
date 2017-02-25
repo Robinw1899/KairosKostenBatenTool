@@ -1,0 +1,36 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.OpmerkingViewModel
+
+@{
+    ViewData["title"] = "Contact opnemen met een administrator";
+}
+
+<h3>@ViewData["title"]</h3>
+<hr />
+<form asp-controller="Kairos" asp-action="Opmerking" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="formOpmerking form-horizontal">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input asp-for="Email" />
+    <div class="form-group">
+        <label asp-for="Onderwerp" class="col-md-4 control-label"></label>
+        <div class="col-md-8">
+            <input asp-for="Onderwerp" class="form-control" />
+            <span asp-validation-for="Onderwerp" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Bericht" class="col-md-4 control-label"></label>
+        <div class="col-md-8">
+            <input asp-for="Bericht" class="form-control" type="text"/>
+            <span asp-validation-for="Bericht" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group col-md-12">
+            <div class="col-md-offset-3 col-md-8 text-right">
+                <div>
+                    <a asp-action="Index" class="btn btn-default">Annuleer</a>
+                    <button class="btn btn-primary" type="submit">Verzenden</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
