@@ -82,6 +82,8 @@ namespace KairosWeb_Groep6
 
             app.UseIdentity();
 
+            context.Database.EnsureDeleted();
+
             context.Database.EnsureCreated();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
