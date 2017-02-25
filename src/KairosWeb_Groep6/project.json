@@ -33,7 +33,7 @@
     },
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.1.0",
-    "Pomelo.EntityFrameworkCore.MySql": "1.1.0"
+    "Pomelo.EntityFrameworkCore.MySql": "1.1.0",
     "Sendgrid": "9.0.12"
   },
 
