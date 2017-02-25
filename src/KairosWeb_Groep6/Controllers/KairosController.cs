@@ -1,9 +1,11 @@
-﻿using System;
+using Microsoft.AspNetCore.Authorization;
+using System;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Controllers
 {
+    [Authorize]
     public class KairosController : Controller
     {
         public IActionResult Index()
@@ -18,7 +20,6 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult Opmerking()
         {
-            //throw new System.NotImplementedException();
             return View();
         }
 
@@ -26,17 +27,6 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult Opmerking(OpmerkingViewModel opmerkingViewModel)
         {
             throw new NotImplementedException();
-            /*if (ModelState.IsValid)
-            {
-                try
-                {
-
-                }
-                catch 
-                {
-                    
-                }
-            }*/
         }
     }
 }
