@@ -12,6 +12,7 @@ using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.AccountViewModels;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
+using WebMatrix.WebData;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -23,6 +24,7 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly IGebruikerRepository _gebruikerRepository;
 
        
 
@@ -31,13 +33,15 @@ namespace KairosWeb_Groep6.Controllers
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            IGebruikerRepository gebruikerRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _gebruikerRepository = gebruikerRepository;
         }
 
         //
@@ -66,6 +70,15 @@ namespace KairosWeb_Groep6.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
+                    Gebruiker gebruiker = _gebruikerRepository.GetBy(model.Email);
+
+                    if (gebruiker != null)
+                    {
+                        if (!gebruiker.AlAangemeld)
+                        {
+                            return RedirectToAction(nameof(KairosController.EersteKeerAanmelden), "Kairos");
+                        }
+                    }
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -114,7 +127,12 @@ namespace KairosWeb_Groep6.Controllers
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
                 var result = await _userManager.CreateAsync(user, password);
-                
+                Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
+                    model.NrOrganisatie, model.Postcode, model.Gemeente);
+                Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie);
+                _gebruikerRepository.Add(jobcoach);
+                _gebruikerRepository.Save();
+
                 if (result.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
@@ -123,9 +141,10 @@ namespace KairosWeb_Groep6.Controllers
                     //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation(3, "User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    //_logger.LogInformation(3, "User created a new account with password.");
+                    //return RedirectToLocal(returnUrl);
+                    return RedirectToAction(nameof(Login), "Account");
                 }
                 AddErrors(result);
             }

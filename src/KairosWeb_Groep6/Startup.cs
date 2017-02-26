@@ -52,6 +52,8 @@ namespace KairosWeb_Groep6
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireDigit = false;
                     options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequiredLength = 6;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -89,9 +91,9 @@ namespace KairosWeb_Groep6
             app.UseStaticFiles();
 
             app.UseIdentity();
-
+          
             app.UseSession();
-
+          
             context.Database.EnsureDeleted();
 
             context.Database.EnsureCreated();

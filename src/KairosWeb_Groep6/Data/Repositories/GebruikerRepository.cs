@@ -13,7 +13,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public GebruikerRepository(ApplicationDbContext _context)
         {
             _dbContext = _context;
-            //_jobcoaches = _context.Jobcoaches;
+            _gebruikers = _context.Gebruikers;
         }
         public IEnumerable<Gebruiker> GetAll()
         {
@@ -23,9 +23,8 @@ namespace KairosWeb_Groep6.Data.Repositories
 
         public Gebruiker GetBy(string email)
         {
-            return new Gebruiker("Aelbrecht", "Thomas", email, false);
-            //return _gebruikers
-              //  .FirstOrDefault(g => g.Emailadres.Equals(email));
+            return _gebruikers
+                .FirstOrDefault(g => g.Emailadres.Equals(email));
         }
 
         public void Add(Gebruiker gebruiker)
