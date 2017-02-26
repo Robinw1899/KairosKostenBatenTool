@@ -4,17 +4,22 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                <a asp-area="" asp-controller="Profiel" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log off</button>
             </li>
-            <li><a asp-area="" asp-controller="Kairos" asp-action="Opmerking"></a><i class="fa fa-commenting-o fa-2x" aria-hidden="true"></i></li>
+            <li>
+                <a asp-area="" asp-controller="Kairos" asp-action="Opmerking">
+                    <i class="fa fa-commenting-o fa-2x fa-align-center" aria-hidden="true"></i>
+                </a>
+            </li>
         </ul>
     </form>
 }

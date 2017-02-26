@@ -44,17 +44,20 @@ namespace KairosWeb_Groep6
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddDbContext<ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                           options.UseMySql(Configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
                     options.Password.RequireNonAlphanumeric = false;
-                    options.SignIn.RequireConfirmedEmail = true;/*dit toegevoegd*/
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireUppercase = false;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
+            services.AddSession();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -86,6 +89,10 @@ namespace KairosWeb_Groep6
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            app.UseSession();
+
+            context.Database.EnsureDeleted();
 
             context.Database.EnsureCreated();
 

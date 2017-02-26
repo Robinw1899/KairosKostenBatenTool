@@ -24,6 +24,8 @@ namespace KairosWeb_Groep6.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
 
+       
+
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
@@ -96,6 +98,8 @@ namespace KairosWeb_Groep6.Controllers
             return View();
         }
 
+       
+
         //
         // POST: /Account/Register
         [HttpPost]
@@ -129,6 +133,8 @@ namespace KairosWeb_Groep6.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        
 
         //
         // POST: /Account/LogOff

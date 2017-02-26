@@ -40,7 +40,7 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         //
-        // GET: /Manage/Index
+        // GET: /Manage/Index dit is de edit main page
         [HttpGet]
         public async Task<IActionResult> Index(ManageMessageId? message = null)
         {
@@ -52,8 +52,9 @@ namespace KairosWeb_Groep6.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
-
-            var user = await GetCurrentUserAsync();           
+                
+            var user = await GetCurrentUserAsync();
+            
             if (user == null)
             {
                 return View("Error");
