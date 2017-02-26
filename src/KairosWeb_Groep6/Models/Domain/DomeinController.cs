@@ -4,11 +4,11 @@ namespace KairosWeb_Groep6.Models.Domain
 {
     public class DomeinController
     {
-        private ICollection<Jobcoach> jobcoaches;
+        private ICollection<Gebruiker> gebruikers;
 
         public DomeinController()
         {
-            jobcoaches = new List<Jobcoach>();
+            gebruikers = new List<Gebruiker>();
         }
     }
 }

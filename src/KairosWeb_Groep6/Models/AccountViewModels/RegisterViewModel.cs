@@ -51,17 +51,20 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
             
         }
 
-        public RegisterViewModel(Jobcoach jobcoach, Organisatie organisatie)
+        public RegisterViewModel(Gebruiker gebruiker)
         {
-            Naam = jobcoach.Naam;
-            Voornaam = jobcoach.Voornaam;
-            Email = jobcoach.Emailadres;
+            Naam = gebruiker.Naam;
+            Voornaam = gebruiker.Voornaam;
+            Email = gebruiker.Emailadres;
 
-            OrganisatieNaam = organisatie.Naam;
-            StraatOrganisatie = organisatie.Straat;
-            NrOrganisatie = organisatie.Nummer;
-            Postcode = organisatie.Postcode;
-            Gemeente = organisatie.Gemeente;
+            if (gebruiker.Organisatie != null)
+            {
+                OrganisatieNaam = gebruiker.Organisatie.Naam;
+                StraatOrganisatie = gebruiker.Organisatie.Straat;
+                NrOrganisatie = gebruiker.Organisatie.Nummer;
+                Postcode = gebruiker.Organisatie.Postcode;
+                Gemeente = gebruiker.Organisatie.Gemeente;
+            }
         }
     }
 

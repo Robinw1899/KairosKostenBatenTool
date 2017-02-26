@@ -146,7 +146,7 @@ namespace KairosWeb_Groep6.Controllers
 
                     Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
                     model.NrOrganisatie, model.Postcode, model.Gemeente);
-                    Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie);
+                    Gebruiker jobcoach = new Gebruiker(model.Naam, model.Voornaam, model.Email, organisatie);
                     _gebruikerRepository.Add(jobcoach);
                     _gebruikerRepository.Save();
 
@@ -158,8 +158,6 @@ namespace KairosWeb_Groep6.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-        
 
         //
         // POST: /Account/LogOff

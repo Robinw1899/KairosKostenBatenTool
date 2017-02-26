@@ -20,9 +20,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        public OpmerkingViewModel(Jobcoach jobCoach, string onderwerp, string bericht)
+        public OpmerkingViewModel()
         {
-            Email = jobCoach.Emailadres;
+            
+        }
+
+        public OpmerkingViewModel(Gebruiker gebruiker, string onderwerp, string bericht)
+        {
+            Email = gebruiker.Emailadres;
             Onderwerp = onderwerp;
             Bericht = bericht;
         }

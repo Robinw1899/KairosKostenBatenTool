@@ -20,15 +20,12 @@ namespace KairosWeb_Groep6.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IGebruikerRepository _gebruikerRepository;
-        private readonly IJobcoachRepository _jobCoachRepository;
 
         public ProfielController(
             UserManager<ApplicationUser> userManager, 
-            IJobcoachRepository jobCoachRepository,
             IGebruikerRepository gebruikerRepository)
         {
             _userManager = userManager;
-            _jobCoachRepository = jobCoachRepository;
             _gebruikerRepository = gebruikerRepository;
         }
 
@@ -36,14 +33,14 @@ namespace KairosWeb_Groep6.Controllers
         {
             Gebruiker gebruiker = _gebruikerRepository.GetByEmail(_userManager.GetUserAsync(User).Result.Email);
 
-            if (!gebruiker.IsAdmin)
-            {
-                Jobcoach jobcoach = gebruiker as Jobcoach;
-                if (jobcoach == null)
-                    return NotFound();
+            //if (!gebruiker.IsAdmin)
+            //{
+            //    Jobcoach jobcoach = gebruiker as Jobcoach;
+            //    if (jobcoach == null)
+            //        return NotFound();
 
-                return View(new ProfielViewModel(jobcoach));
-            }
+            //    return View(new ProfielViewModel(jobcoach));
+            //}
 
             return View(new ProfielViewModel(gebruiker));
         }
@@ -74,7 +71,7 @@ namespace KairosWeb_Groep6.Controllers
                     else
                     {
                         // Jobcoach heeft gegevens gewijzigd
-                        Jobcoach jobcoach = _jobCoachRepository.GetById(model.GebruikerId);
+                        Gebruiker jobcoach = _gebruikerRepository.GetById(model.GebruikerId);
                         jobcoach.Emailadres = model.Email;
                         jobcoach.Organisatie.Naam = model.OrganisatieNaam;
                         jobcoach.Organisatie.Gemeente = model.Gemeente;
@@ -92,7 +89,7 @@ namespace KairosWeb_Groep6.Controllers
 
                         await _userManager.ChangeEmailAsync(user, model.Email, token);
 
-                        _jobCoachRepository.Save();
+                        _gebruikerRepository.Save();
                     }
 
                     TempData["message"] = "Uw profiel is succesvol gewijzigd.";

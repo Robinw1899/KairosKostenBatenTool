@@ -11,13 +11,6 @@ namespace KairosWeb_Groep6.Models.ManageViewModels
 {
     public class IndexViewModel
     {
-        /* public IList<UserLoginInfo> Logins { get; set; }
-
-        public string PhoneNumber { get; set; }
-
-        public bool TwoFactor { get; set; }
-
-        public bool BrowserRemembered { get; set; }*/
         public bool HasPassword { get; set; }
       
         [HiddenInput]
@@ -59,15 +52,16 @@ namespace KairosWeb_Groep6.Models.ManageViewModels
 
         }
 
-        public IndexViewModel(Jobcoach jobcoach, Organisatie organisatie)
+        public IndexViewModel(Gebruiker gebruiker)
         {
-            Naam = jobcoach.Naam;
-            Voornaam = jobcoach.Voornaam;
-            Email = jobcoach.Emailadres;
+            Naam = gebruiker.Naam;
+            Voornaam = gebruiker.Voornaam;
+            Email = gebruiker.Emailadres;
             // PathImage = jobcoach.PathImage == String.Empty? "":jobcoach.PathImage
 
-            if (organisatie != null)
+            if (gebruiker.Organisatie != null)
             {
+                Organisatie organisatie = gebruiker.Organisatie;
                 OrganisatieNaam = organisatie.Naam == String.Empty ? "" : organisatie.Naam;
                 StraatOrganisatie = organisatie.Straat == String.Empty ? "" : organisatie.Straat;
                 NrOrganisatie = organisatie.Nummer == 0 ? 0 : organisatie.Nummer;

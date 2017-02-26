@@ -56,22 +56,16 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
             Naam = gebruiker.Naam;
             Voornaam = gebruiker.Voornaam;
             Email = gebruiker.Emailadres;
-           // PathImage = jobcoach.PathImage == String.Empty? "":jobcoach.PathImage
-        }
-
-        public ProfielViewModel(Jobcoach jobcoach)
-        {
-            GebruikerId = jobcoach.GebruikerId;
-            Naam = jobcoach.Naam;
-            Voornaam = jobcoach.Voornaam;
-            Email = jobcoach.Emailadres;
             // PathImage = jobcoach.PathImage == String.Empty? "":jobcoach.PathImage
 
-            OrganisatieNaam = jobcoach.Naam;
-            StraatOrganisatie = jobcoach.Organisatie.Straat;
-            NrOrganisatie = jobcoach.Organisatie.Nummer;
-            Postcode = jobcoach.Organisatie.Postcode;
-            Gemeente = jobcoach.Organisatie.Gemeente;
+            if (gebruiker.Organisatie != null)
+            {
+                OrganisatieNaam = gebruiker.Organisatie.Naam;
+                StraatOrganisatie = gebruiker.Organisatie.Straat;
+                NrOrganisatie = gebruiker.Organisatie.Nummer;
+                Postcode = gebruiker.Organisatie.Postcode;
+                Gemeente = gebruiker.Organisatie.Gemeente;
+            }
         }
     }
 }

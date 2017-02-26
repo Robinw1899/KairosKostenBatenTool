@@ -60,16 +60,14 @@ namespace KairosWeb_Groep6.Controllers
                 return View("Error");
             }
             var gebruiker = _gebruikerRepository.GetByEmail(user.Email);
-            Jobcoach jobcoach = new Jobcoach(gebruiker.Naam,gebruiker.Voornaam,gebruiker.Emailadres,null);
-            var model = new IndexViewModel( jobcoach,jobcoach.Organisatie)
+            Gebruiker jobcoach = new Gebruiker(gebruiker.Naam,gebruiker.Voornaam,gebruiker.Emailadres,null);
+            var model = new IndexViewModel(jobcoach);
             
                 /*HasPassword = await _userManager.HasPasswordAsync(user),
                 PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)*/
-
-            ;
             return View(model);
         }
 

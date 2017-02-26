@@ -1,4 +1,6 @@
-﻿namespace KairosWeb_Groep6.Models.Domain
+﻿using System.Collections.Generic;
+
+namespace KairosWeb_Groep6.Models.Domain
 {
     public class Gebruiker
     {
@@ -14,6 +16,10 @@
 
         public bool AlAangemeld { get; set; }
 
+        public Organisatie Organisatie { get; set; }
+
+        public ICollection<Analyse> Analyses { get; private set; }
+
         public Gebruiker()
         {
             
@@ -26,6 +32,13 @@
             Emailadres = emailadres;
             IsAdmin = isAdmin;
             AlAangemeld = false;
+        }
+
+        public Gebruiker(string naam, string voornaam, string emailadres, Organisatie organisatie)
+            : this(naam, voornaam, emailadres, false)
+        {
+            Organisatie = organisatie;
+            Analyses = new List<Analyse>();
         }
     }
 }
