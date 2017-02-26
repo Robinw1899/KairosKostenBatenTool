@@ -32,11 +32,9 @@ namespace KairosWeb_Groep6.Controllers
             _gebruikerRepository = gebruikerRepository;
         }
 
-        [HttpGet]
-        [ValidateAntiForgeryToken]
         public IActionResult Index()
         {
-            Gebruiker gebruiker = _gebruikerRepository.GetBy(_userManager.GetUserAsync(User).Result.Email);
+            Gebruiker gebruiker = _gebruikerRepository.GetByEmail(_userManager.GetUserAsync(User).Result.Email);
 
             if (!gebruiker.IsAdmin)
             {
@@ -51,9 +49,8 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Index(ProfielViewModel model)
+        public async Task<IActionResult> SlaGegevensOp(ProfielViewModel model)
         {
             if (ModelState.IsValid)
             {

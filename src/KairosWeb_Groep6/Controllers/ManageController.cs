@@ -59,7 +59,7 @@ namespace KairosWeb_Groep6.Controllers
             {
                 return View("Error");
             }
-            var gebruiker = _gebruikerRepository.GetBy(user.Email);
+            var gebruiker = _gebruikerRepository.GetByEmail(user.Email);
             Jobcoach jobcoach = new Jobcoach(gebruiker.Naam,gebruiker.Voornaam,gebruiker.Emailadres,null);
             var model = new IndexViewModel( jobcoach,jobcoach.Organisatie)
             

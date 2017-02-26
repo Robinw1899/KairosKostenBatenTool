@@ -50,7 +50,9 @@ textarea {
     border-color: #E5E5E5;
 }
 
-.navbar-nav > li > a, .navbar-brand {
+.navbar-nav > li > a,
+.navbar-brand,
+.navbar-nav > li > button {
     color: #97C900 !important; 
     font-weight: bold !important;
 }

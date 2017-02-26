@@ -61,7 +61,7 @@ namespace KairosWeb_Groep6.Controllers
 
                 if (login.Succeeded)
                 {
-                    Gebruiker gebruiker = _gebruikerRepository.GetBy(model.Email);
+                    Gebruiker gebruiker = _gebruikerRepository.GetByEmail(model.Email);
                     gebruiker.AlAangemeld = true;
                     _gebruikerRepository.Save();
 
