@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using KairosWeb_Groep6.Data;
+using KairosWeb_Groep6.Data.Repositories;
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
@@ -61,6 +62,8 @@ namespace KairosWeb_Groep6
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddScoped<IJobcoachRepository, JobcoachRepository>();
+            services.AddScoped<IGebruikerRepository, GebruikerRepository>();
             services.Configure<AuthMessageSenderOptions>(Configuration);/*dit toegevoegd*/ 
         }
 
