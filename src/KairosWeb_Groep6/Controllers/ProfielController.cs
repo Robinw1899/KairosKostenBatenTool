@@ -38,7 +38,7 @@ namespace KairosWeb_Groep6.Controllers
 
             if (!gebruiker.IsAdmin)
             {
-                Jobcoach jobcoach = _jobCoachRepository.GetByEmail(_userManager.GetUserName(User));
+                Jobcoach jobcoach = gebruiker as Jobcoach;
                 if (jobcoach == null)
                     return NotFound();
 
