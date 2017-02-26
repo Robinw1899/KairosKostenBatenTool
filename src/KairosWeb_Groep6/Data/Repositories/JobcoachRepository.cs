@@ -25,14 +25,18 @@ namespace KairosWeb_Groep6.Data.Repositories
             return _jobcoaches.Include(j=>j.Organisatie).ToList(); //Hier moeten nog meer includes bij naarmate we andere kolommen hebben in de DB
         }
 
-        public Jobcoach GetById(string email)
-        {
-            return _jobcoaches.Include(j=>j.Organisatie).SingleOrDefault(b => b.JobcoachId == id);//include
-        }
-
         public Jobcoach GetByEmail(string email)
         {
-            return _jobcoaches.Include(j=>j.Organisatie).SingleOrDefault(b => b.Emailadres == email);//include
+            return _jobcoaches
+                .Include(j=>j.Organisatie)
+                .SingleOrDefault(b => b.Emailadres.Equals(email));
+        }
+
+        public Jobcoach GetById(int id)
+        {
+            return _jobcoaches
+                .Include(j => j.Organisatie)
+                .SingleOrDefault(b => b.GebruikerId == id);
         }
 
         public void RemoveJobcoach(Jobcoach jobcoach)
@@ -40,7 +44,7 @@ namespace KairosWeb_Groep6.Data.Repositories
             _jobcoaches.Remove(jobcoach);
         }
 
-        public void SaveChanges()
+        public void Save()
         {
             _dbContext.SaveChanges();
         }

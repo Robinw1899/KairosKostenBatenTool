@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +7,13 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
     public class ProfielViewModel
     {
         [HiddenInput]
-        public int JobcoachId { get; set; }
+        public int GebruikerId { get; set; }
 
         public string PathImage { get; set; }
 
         [Display(Name = "Naam")]
         public string Naam { get; set; }
+
         [Display(Name = "Voornaam")]
         public string Voornaam { get; set; }
 
@@ -29,17 +26,21 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
         /*info organisatie*/
         [Display(Name = "Naam")]
         public string OrganisatieNaam { get; set; }
+
         [Required]
         [Display(Name = "Straat")]
         public string StraatOrganisatie { get; set; }
+
         [Required]
         [Display(Name = "Nr")]
-        public int NrOrganisatie { get; set; }
+        public int? NrOrganisatie { get; set; }
+
         [Required]
         [Display(Name = "Postcode")]
         [DataType(DataType.PostalCode)]
         [Range(1000, 9999)]
-        public int Postcode { get; set; }
+        public int? Postcode { get; set; }
+
         [Required]
         [Display(Name = "Gemeente")]
         public string Gemeente { get; set; }
@@ -49,18 +50,28 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
 
         }
 
-        public ProfielViewModel(Jobcoach jobcoach, Organisatie organisatie)
+        public ProfielViewModel(Gebruiker gebruiker)
         {
+            GebruikerId = gebruiker.GebruikerId;
+            Naam = gebruiker.Naam;
+            Voornaam = gebruiker.Voornaam;
+            Email = gebruiker.Emailadres;
+           // PathImage = jobcoach.PathImage == String.Empty? "":jobcoach.PathImage
+        }
+
+        public ProfielViewModel(Jobcoach jobcoach)
+        {
+            GebruikerId = jobcoach.GebruikerId;
             Naam = jobcoach.Naam;
             Voornaam = jobcoach.Voornaam;
             Email = jobcoach.Emailadres;
-           // PathImage = jobcoach.PathImage == String.Empty? "":jobcoach.PathImage
+            // PathImage = jobcoach.PathImage == String.Empty? "":jobcoach.PathImage
 
-            OrganisatieNaam = organisatie.Naam;
-            StraatOrganisatie = organisatie.Straat;
-            NrOrganisatie = organisatie.Nummer;
-            Postcode = organisatie.Postcode;
-            Gemeente = organisatie.Gemeente;
+            OrganisatieNaam = jobcoach.Naam;
+            StraatOrganisatie = jobcoach.Organisatie.Straat;
+            NrOrganisatie = jobcoach.Organisatie.Nummer;
+            Postcode = jobcoach.Organisatie.Postcode;
+            Gemeente = jobcoach.Organisatie.Gemeente;
         }
     }
 }

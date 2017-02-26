@@ -21,10 +21,16 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .AsNoTracking();
         }
 
-        public Gebruiker GetBy(string email)
+        public Gebruiker GetByEmail(string email)
         {
             return _gebruikers
-                .FirstOrDefault(g => g.Emailadres.Equals(email));
+                .SingleOrDefault(g => g.Emailadres.Equals(email));
+        }
+
+        public Gebruiker GetById(int id)
+        {
+            return _gebruikers
+                .SingleOrDefault(g => g.GebruikerId == id);
         }
 
         public void Add(Gebruiker gebruiker)

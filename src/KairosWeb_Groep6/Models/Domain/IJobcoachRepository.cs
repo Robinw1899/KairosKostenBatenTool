@@ -9,6 +9,6 @@ namespace KairosWeb_Groep6.Models.Domain
         Jobcoach GetById(int id);
         Jobcoach GetByEmail(string email);
         IEnumerable<Jobcoach> GetAll();
-        void SaveChanges();
+        void Save();
     }
 }
