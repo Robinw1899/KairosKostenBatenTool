@@ -3,14 +3,16 @@
 @model ProfielViewModel
 
 @{
-    ViewData["Title"] = "Wijzig gegevens";
+    ViewData["title"] = "Wijzig gegevens";
 }
 
-<h2 class="col-md-offset-1">@ViewData["Title"]</h2>
+<h2 class="col-md-offset-1">@ViewData["title"]</h2>
 
 <form asp-controller="Profiel" asp-action="SlaGegevensOp" method="post" class="form-horizontal">
     <div class="col-md-offset-1">
         <div asp-validation-summary="All" class="text-danger"></div>
+        
+        <p>@Model.OrganisatieNaam</p>
 
         <h4>Informatie jobcoach</h4>
         <hr />
@@ -41,7 +43,7 @@
 
         <div class="form-group">
             <div class="col-md-10">
-                <a asp-controller="Manage" asp-action="ChangePassword">Wijzig wachtwoord</a> |
+                <a asp-controller="Manage" asp-action="ChangePassword">Wijzig wachtwoord</a>
             </div>
         </div>
 
@@ -90,7 +92,7 @@
 
         <div class="form-group">
             <div class="col-md-5 text-right" style="padding-right: 0">
-                <button type="submit" class="btn btn-info">@ViewData["Titel"]</button>
+                <button type="submit" class="btn btn-info">@ViewData["title"]</button>
             </div>
         </div>
     </div>
