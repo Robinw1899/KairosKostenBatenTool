@@ -7,8 +7,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using KairosWeb_Groep6.Models;
+using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.ManageViewModels;
 using KairosWeb_Groep6.Services;
+using Remotion.Linq.Parsing.Structure.ExpressionTreeProcessors;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -20,23 +22,25 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
-
+        private readonly IGebruikerRepository _gebruikerRepository;
         public ManageController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IEmailSender emailSender,
         ISmsSender smsSender,
-        ILoggerFactory loggerFactory)
+        ILoggerFactory loggerFactory,
+        IGebruikerRepository gebruikerRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
+            _gebruikerRepository = gebruikerRepo;
         }
 
         //
-        // GET: /Manage/Index
+        // GET: /Manage/Index dit is de edit main page
         [HttpGet]
         public async Task<IActionResult> Index(ManageMessageId? message = null)
         {
@@ -48,20 +52,24 @@ namespace KairosWeb_Groep6.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
-
+                
             var user = await GetCurrentUserAsync();
+            
             if (user == null)
             {
                 return View("Error");
             }
-            var model = new IndexViewModel
-            {
-                HasPassword = await _userManager.HasPasswordAsync(user),
+            var gebruiker = _gebruikerRepository.GetBy(user.Email);
+            Jobcoach jobcoach = new Jobcoach(gebruiker.Naam,gebruiker.Voornaam,gebruiker.Emailadres,null);
+            var model = new IndexViewModel( jobcoach,jobcoach.Organisatie)
+            
+                /*HasPassword = await _userManager.HasPasswordAsync(user),
                 PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
-                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
-            };
+                BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)*/
+
+            ;
             return View(model);
         }
 

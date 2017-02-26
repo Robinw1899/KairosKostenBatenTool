@@ -2,11 +2,12 @@
 
 namespace KairosWeb_Groep6.Models.Domain
 {
-    interface IJobcoachRepository
+    public interface IJobcoachRepository
     {
         void AddJobcoach(Jobcoach jobcoach);
         void RemoveJobcoach(Jobcoach jobcoach);
-        Jobcoach GetById(string email);
+        Jobcoach GetById(int id);
+        Jobcoach GetByEmail(string email);
         IEnumerable<Jobcoach> GetAll();
         void SaveChanges();
     }

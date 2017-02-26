@@ -22,13 +22,17 @@ namespace KairosWeb_Groep6.Data.Repositories
 
         public IEnumerable<Jobcoach> GetAll()
         {
-            return _jobcoaches.ToList(); //Hier moeten nog meer includes bij naarmate we andere kolommen hebben in de DB
+            return _jobcoaches.Include(j=>j.Organisatie).ToList(); //Hier moeten nog meer includes bij naarmate we andere kolommen hebben in de DB
         }
 
         public Jobcoach GetById(string email)
         {
-            return _jobcoaches
-                .SingleOrDefault(b => b.Emailadres == email);//include
+            return _jobcoaches.Include(j=>j.Organisatie).SingleOrDefault(b => b.JobcoachId == id);//include
+        }
+
+        public Jobcoach GetByEmail(string email)
+        {
+            return _jobcoaches.Include(j=>j.Organisatie).SingleOrDefault(b => b.Emailadres == email);//include
         }
 
         public void RemoveJobcoach(Jobcoach jobcoach)

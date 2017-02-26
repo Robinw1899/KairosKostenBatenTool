@@ -44,7 +44,8 @@ namespace KairosWeb_Groep6
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddDbContext<ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                           options.UseMySql(Configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
@@ -58,12 +59,14 @@ namespace KairosWeb_Groep6
                 .AddDefaultTokenProviders();
 
             services.AddMvc();
+            services.AddSession();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-
+            services.AddScoped<IJobcoachRepository, JobcoachRepository>();
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
+            services.Configure<AuthMessageSenderOptions>(Configuration);/*dit toegevoegd*/ 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,7 +91,9 @@ namespace KairosWeb_Groep6
             app.UseStaticFiles();
 
             app.UseIdentity();
-
+          
+            app.UseSession();
+          
             context.Database.EnsureDeleted();
 
             context.Database.EnsureCreated();

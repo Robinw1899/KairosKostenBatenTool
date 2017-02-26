@@ -12,16 +12,10 @@ namespace KairosWeb_Groep6.Data
         public DbSet<Gebruiker> Gebruikers { get; set; }
         public DbSet<Jobcoach> Jobcoaches { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var connectionString = @"Server=.\SQLEXPRESS;Database=Kairos;Integrated Security=True;";
-            optionsBuilder.UseSqlServer(connectionString);
-        }
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -102,7 +96,6 @@ namespace KairosWeb_Groep6.Data
 
             j.Ignore(t => t.Analyses);
             //j.HasMany(t => t.analyses).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
-
         }
     }
 }

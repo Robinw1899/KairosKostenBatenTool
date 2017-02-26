@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KairosWeb_Groep6.Models.AccountViewModels
+namespace KairosWeb_Groep6.Models.ProfielViewModels
 {
-    public class RegisterViewModel
+    public class ProfielViewModel
     {
-/*info jobcoach*/
-
         [HiddenInput]
         public int JobcoachId { get; set; }
+
+        public string PathImage { get; set; }
+
         [Display(Name = "Naam")]
         public string Naam { get; set; }
         [Display(Name = "Voornaam")]
@@ -43,16 +44,17 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
         [Display(Name = "Gemeente")]
         public string Gemeente { get; set; }
 
-        public RegisterViewModel()
+        public ProfielViewModel()
         {
-            
+
         }
 
-        public RegisterViewModel(Jobcoach jobcoach, Organisatie organisatie)
+        public ProfielViewModel(Jobcoach jobcoach, Organisatie organisatie)
         {
             Naam = jobcoach.Naam;
             Voornaam = jobcoach.Voornaam;
             Email = jobcoach.Emailadres;
+           // PathImage = jobcoach.PathImage == String.Empty? "":jobcoach.PathImage
 
             OrganisatieNaam = organisatie.Naam;
             StraatOrganisatie = organisatie.Straat;
@@ -60,19 +62,5 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
             Postcode = organisatie.Postcode;
             Gemeente = organisatie.Gemeente;
         }
-        /*
-                [Required]
-                [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
-                [DataType(DataType.Password)]
-                [Display(Name = "Password")]
-                public string Password { get; set; }
-
-                [DataType(DataType.Password)]
-                [Display(Name = "Confirm password")]
-                [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-                public string ConfirmPassword { get; set; }
-        */
     }
-
 }
-

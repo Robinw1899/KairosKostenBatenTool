@@ -1,15 +1,17 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.AccountViewModels;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebMatrix.WebData;
 
 namespace KairosWeb_Groep6.Controllers
 {
+    [Authorize]
     public class KairosController : Controller
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -68,6 +70,17 @@ namespace KairosWeb_Groep6.Controllers
             }
 
             return RedirectToAction(nameof(AccountController.Login), "Account");
+        }
+        
+        public IActionResult Opmerking()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Opmerking(OpmerkingViewModel opmerkingViewModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }
