@@ -73,14 +73,17 @@ a.navbar-brand {
 }*/
 
 input#Bericht {
+    /*Opmerking form*/
     width: 600px;
     height: 300px;
     max-width: none;
 }
 input#Onderwerp {
+    /*Opmerking form*/
     width: 600px;
     max-width: none;
 }
+
 form.formOpmerking.form-horizontal.call {
     width: 900px;
 }
