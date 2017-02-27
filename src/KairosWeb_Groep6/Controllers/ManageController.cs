@@ -234,6 +234,10 @@ namespace KairosWeb_Groep6.Controllers
                 var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                 if (result.Succeeded)
                 {
+                    Gebruiker gebruiker = _gebruikerRepository.GetByEmail(user.Email);
+                    gebruiker.Wachtwoord = model.NewPassword;
+                    _gebruikerRepository.Save();
+                    TempData["message"] = "Je wachtwoord is succesvol gewijzigd!";
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User changed their password successfully.");
                     return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
