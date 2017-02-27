@@ -38,7 +38,7 @@ namespace KairosWeb_Groep6.Data
             };
 
             Organisatie organisatie = new Organisatie("HoGent", "Arbeidstraat", 14, 9300, "Aalst");
-            Gebruiker gebruiker = new Gebruiker(naam, voornaam, email, organisatie) {AlAangemeld = true};
+            Gebruiker gebruiker = new Gebruiker(naam, voornaam, email, organisatie) {AlAangemeld = true, Wachtwoord = "kairos2017" };
             _gebruikerRepository.Add(gebruiker);
 
             await _userManager.CreateAsync(user, "kairos2017");
@@ -55,7 +55,7 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            gebruiker = new Gebruiker(naam, voornaam, email, false) { AlAangemeld = true };
+            gebruiker = new Gebruiker(naam, voornaam, email, false) { AlAangemeld = true, Wachtwoord = "kairos2017" };
             _gebruikerRepository.Add(gebruiker);
 
             await _userManager.CreateAsync(user, "kairos2017");
@@ -72,7 +72,7 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            gebruiker = new Gebruiker(naam, voornaam, email, false) { AlAangemeld = true };
+            gebruiker = new Gebruiker(naam, voornaam, email, false) { AlAangemeld = true, Wachtwoord = "kairos2017" };
             _gebruikerRepository.Add(gebruiker);
 
             await _userManager.CreateAsync(user, "kairos2017");

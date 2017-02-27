@@ -12,6 +12,8 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public string Emailadres { get; set; }
 
+        public string Wachtwoord { get; set; }
+
         public bool IsAdmin { get; set; }
 
         public bool AlAangemeld { get; set; }

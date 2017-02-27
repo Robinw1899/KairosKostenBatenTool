@@ -8,9 +8,10 @@ using KairosWeb_Groep6.Data;
 namespace KairosWeb_Groep6.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170227112152_UpdateTableGebruiker")]
+    partial class UpdateTableGebruiker
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752");

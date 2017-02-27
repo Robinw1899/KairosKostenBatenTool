@@ -79,6 +79,10 @@ namespace KairosWeb_Groep6.Data
             g.Property(t => t.AlAangemeld)
                 .IsRequired();
 
+            g.Property(t => t.Wachtwoord)
+                .IsRequired()
+                .HasMaxLength(16);
+
             g.HasOne(t => t.Organisatie)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
