@@ -68,9 +68,10 @@ a.navbar-brand {
     font-weight: bold;
 }
 
-footer {
+/*footer {
     color: #5bc0de;
-}
+}*/
+
 input#Bericht {
     width: 600px;
     height: 300px;

@@ -240,9 +240,11 @@ namespace KairosWeb_Groep6.Controllers
                     TempData["message"] = "Je wachtwoord is succesvol gewijzigd!";
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User changed their password successfully.");
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
+                    return RedirectToAction(nameof(ProfielController.Index), "Profiel");
                 }
-                AddErrors(result);
+
+                TempData["error"] = "Het opgegeven huidig wachtwoord is foutief, probeer opnieuw";
+                
                 return View(model);
             }
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
