@@ -14,6 +14,7 @@ using KairosWeb_Groep6.Data.Repositories;
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace KairosWeb_Groep6
 {
@@ -64,13 +65,14 @@ namespace KairosWeb_Groep6
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-            services.AddScoped<IJobcoachRepository, JobcoachRepository>();
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
             services.Configure<AuthMessageSenderOptions>(Configuration);/*dit toegevoegd*/ 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationDbContext context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
+            ILoggerFactory loggerFactory, ApplicationDbContext context, 
+            UserManager<ApplicationUser> userManager, IGebruikerRepository gebruikerRepository)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -106,6 +108,9 @@ namespace KairosWeb_Groep6
                     name: "default",
                     template: "{controller=Kairos}/{action=Index}/{id?}");
             });
+
+            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository);
+            initializer.InitializeData().Wait();
         }
     }
 }

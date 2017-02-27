@@ -71,7 +71,7 @@
         </div>
         <div class="form-group">
             <div class="col-md-5 text-right" style="padding-right: 0">
-                <button type="submit" class="btn btn-info">@ViewData["Titel"]</button>
+                <button type="submit" class="btn btn-info">@ViewData["Title"]</button>
             </div>
         </div>
     </div>
@@ -80,8 +80,8 @@
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
+
 <script>
     var body = document.getElementsByTagName("body")[0];
     body.style.backgroundImage = "url(/images/aanmelden_bg.jpg)";
-    //$("body").css("background-image", "url(/images/registreer_bg.jpg)");
 </script>

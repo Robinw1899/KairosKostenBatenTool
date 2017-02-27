@@ -50,7 +50,9 @@ textarea {
     border-color: #E5E5E5;
 }
 
-.navbar-nav > li > a, .navbar-brand {
+.navbar-nav > li > a,
+.navbar-brand,
+.navbar-nav > li > button {
     color: #97C900 !important; 
     font-weight: bold !important;
 }
@@ -66,18 +68,22 @@ a.navbar-brand {
     font-weight: bold;
 }
 
-footer {
+/*footer {
     color: #5bc0de;
-}
+}*/
+
 input#Bericht {
+    /*Opmerking form*/
     width: 600px;
     height: 300px;
     max-width: none;
 }
 input#Onderwerp {
+    /*Opmerking form*/
     width: 600px;
     max-width: none;
 }
+
 form.formOpmerking.form-horizontal.call {
     width: 900px;
 }

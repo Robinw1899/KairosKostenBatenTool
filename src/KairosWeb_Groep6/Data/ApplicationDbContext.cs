@@ -10,7 +10,6 @@ namespace KairosWeb_Groep6.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Gebruiker> Gebruikers { get; set; }
-        public DbSet<Jobcoach> Jobcoaches { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -22,7 +21,6 @@ namespace KairosWeb_Groep6.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<Gebruiker>(MapGebruiker);
-            builder.Entity<Jobcoach>(MapJobcoach);
             builder.Entity<Organisatie>(MapOrganisatie);
             builder.Ignore<Kost>();
             builder.Ignore<Baat>();
@@ -81,21 +79,15 @@ namespace KairosWeb_Groep6.Data
             g.Property(t => t.AlAangemeld)
                 .IsRequired();
 
-            g.HasDiscriminator<string>("Type")
-                .HasValue<Jobcoach>("Jobcoach");
-        }
-
-        private static void MapJobcoach(EntityTypeBuilder<Jobcoach> j)
-        {
-            j.ToTable("Jobcoach");
-
-            j.HasOne(t => t.Organisatie)
-                .WithMany()
+            g.Property(t => t.Wachtwoord)
                 .IsRequired()
+                .HasMaxLength(16);
+
+            g.HasOne(t => t.Organisatie)
+                .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            j.Ignore(t => t.Analyses);
-            //j.HasMany(t => t.analyses).WithOne().IsRequired().OnDelete(DeleteBehavior.Restrict);
+            g.Ignore(t => t.Analyses);
         }
     }
 }

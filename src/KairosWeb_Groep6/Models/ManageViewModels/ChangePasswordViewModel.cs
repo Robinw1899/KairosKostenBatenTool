@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace KairosWeb_Groep6.Models.ManageViewModels
 {
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Gelieve je huidig wachtwoord op te geven")]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Huidig wachtwoord")]
         public string OldPassword { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Gelieve een nieuw wachtwoord op te geven")]
+        [StringLength(16, ErrorMessage = "Het wachtwoord {0} moet tussen {2} en {1} karakters lang zijn.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Nieuw wachtwoord")]
         public string NewPassword { get; set; }
 
+        [Required(ErrorMessage = "Gelieve het nieuwe wachtwoord nog eens te bevestigen (laatste veld)")]
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Bevestig nieuw wachtwoord")]
+        [Compare("NewPassword", ErrorMessage = "Het nieuwe wachtwoord en het bevestig wachtwoord komen niet overeen.")]
         public string ConfirmPassword { get; set; }
     }
 }

@@ -18,13 +18,25 @@ namespace KairosWeb_Groep6.Data.Repositories
         public IEnumerable<Gebruiker> GetAll()
         {
             return _gebruikers
+                .Include(g => g.Organisatie)
+                //.Include(g => g.Analyses)
                 .AsNoTracking();
         }
 
-        public Gebruiker GetBy(string email)
+        public Gebruiker GetByEmail(string email)
         {
             return _gebruikers
-                .FirstOrDefault(g => g.Emailadres.Equals(email));
+                .Include(g => g.Organisatie)
+                //.Include(g => g.Analyses)
+                .SingleOrDefault(g => g.Emailadres.Equals(email));
+        }
+
+        public Gebruiker GetById(int id)
+        {
+            return _gebruikers
+                .Include(g => g.Organisatie)
+                //.Include(g => g.Analyses)
+                .SingleOrDefault(g => g.GebruikerId == id);
         }
 
         public void Add(Gebruiker gebruiker)

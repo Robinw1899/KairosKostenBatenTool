@@ -70,7 +70,7 @@ namespace KairosWeb_Groep6.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
-                    Gebruiker gebruiker = _gebruikerRepository.GetBy(model.Email);
+                    Gebruiker gebruiker = _gebruikerRepository.GetByEmail(model.Email);
 
                     if (gebruiker != null)
                     {
@@ -124,14 +124,13 @@ namespace KairosWeb_Groep6.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Naam = model.Naam,
+                    Voornaam = model.Voornaam};
                 var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
                 var result = await _userManager.CreateAsync(user, password);
-                Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
-                    model.NrOrganisatie, model.Postcode, model.Gemeente);
-                Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie);
-                _gebruikerRepository.Add(jobcoach);
-                _gebruikerRepository.Save();
 
                 if (result.Succeeded)
                 {
@@ -144,6 +143,13 @@ namespace KairosWeb_Groep6.Controllers
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     //_logger.LogInformation(3, "User created a new account with password.");
                     //return RedirectToLocal(returnUrl);
+
+                    Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
+                    model.NrOrganisatie, model.Postcode, model.Gemeente);
+                    Gebruiker jobcoach = new Gebruiker(model.Naam, model.Voornaam, model.Email, organisatie) {Wachtwoord = password};
+                    _gebruikerRepository.Add(jobcoach);
+                    _gebruikerRepository.Save();
+
                     return RedirectToAction(nameof(Login), "Account");
                 }
                 AddErrors(result);
@@ -152,8 +158,6 @@ namespace KairosWeb_Groep6.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-        
 
         //
         // POST: /Account/LogOff

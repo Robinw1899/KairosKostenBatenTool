@@ -16,7 +16,7 @@ namespace KairosWeb_Groep6.Filters
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             context.ActionArguments["gebruiker"] = context.HttpContext.User.Identity.IsAuthenticated
-                ? _gebruikerRepository.GetBy(context.HttpContext.User.Identity.Name)
+                ? _gebruikerRepository.GetByEmail(context.HttpContext.User.Identity.Name)
                 : null;
 
             base.OnActionExecuting(context);

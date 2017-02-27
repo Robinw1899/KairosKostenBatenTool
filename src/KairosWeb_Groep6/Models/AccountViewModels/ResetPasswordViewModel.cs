@@ -1,25 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace KairosWeb_Groep6.Models.AccountViewModels
 {
     public class ResetPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Emailadres is verplicht")]
         [EmailAddress]
+        [Display(Name = "Emailadres")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+        [StringLength(16, ErrorMessage = "Het {0} mag minstens {2} en maximuaal {1} tekens bevatten.", MinimumLength = 6)]
         [DataType(DataType.Password)]
+        [Display(Name = "Wachtwoord")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Bevestig wachtwoord")]
+        [Compare("Password", ErrorMessage = "Het wachtwoord en bevestig wachtwoord komen niet overeen.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

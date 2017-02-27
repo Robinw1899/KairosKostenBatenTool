@@ -14,6 +14,11 @@
 
         public string Gemeente { get; set; }
 
+        public Organisatie()
+        {
+            
+        }
+
         public Organisatie(string naam, string straat, int nummer, int postcode, string gemeente)
         {
             Naam = naam;

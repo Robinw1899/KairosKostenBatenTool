@@ -59,17 +59,15 @@ namespace KairosWeb_Groep6.Controllers
             {
                 return View("Error");
             }
-            var gebruiker = _gebruikerRepository.GetBy(user.Email);
-            Jobcoach jobcoach = new Jobcoach(gebruiker.Naam,gebruiker.Voornaam,gebruiker.Emailadres,null);
-            var model = new IndexViewModel( jobcoach,jobcoach.Organisatie)
+            var gebruiker = _gebruikerRepository.GetByEmail(user.Email);
+            Gebruiker jobcoach = new Gebruiker(gebruiker.Naam,gebruiker.Voornaam,gebruiker.Emailadres,null);
+            var model = new IndexViewModel(jobcoach);
             
                 /*HasPassword = await _userManager.HasPasswordAsync(user),
                 PhoneNumber = await _userManager.GetPhoneNumberAsync(user),
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)*/
-
-            ;
             return View(model);
         }
 
@@ -236,11 +234,17 @@ namespace KairosWeb_Groep6.Controllers
                 var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                 if (result.Succeeded)
                 {
+                    Gebruiker gebruiker = _gebruikerRepository.GetByEmail(user.Email);
+                    gebruiker.Wachtwoord = model.NewPassword;
+                    _gebruikerRepository.Save();
+                    TempData["message"] = "Je wachtwoord is succesvol gewijzigd!";
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User changed their password successfully.");
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.ChangePasswordSuccess });
+                    return RedirectToAction(nameof(ProfielController.Index), "Profiel");
                 }
-                AddErrors(result);
+
+                TempData["error"] = "Het opgegeven huidig wachtwoord is foutief, probeer opnieuw";
+                
                 return View(model);
             }
             return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
