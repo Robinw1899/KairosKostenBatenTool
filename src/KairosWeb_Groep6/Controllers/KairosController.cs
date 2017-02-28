@@ -7,7 +7,6 @@ using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebMatrix.WebData;
 
 namespace KairosWeb_Groep6.Controllers
 {

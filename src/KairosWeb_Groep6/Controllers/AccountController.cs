@@ -12,7 +12,6 @@ using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.AccountViewModels;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
-using WebMatrix.WebData;
 
 namespace KairosWeb_Groep6.Controllers
 {
