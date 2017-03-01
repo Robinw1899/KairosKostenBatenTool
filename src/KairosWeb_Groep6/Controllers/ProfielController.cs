@@ -47,7 +47,7 @@ namespace KairosWeb_Groep6.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SlaGegevensOp(ProfielViewModel model)
+        public async Task<IActionResult> Index(ProfielViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -94,7 +94,7 @@ namespace KairosWeb_Groep6.Controllers
 
                     TempData["message"] = "Uw profiel is succesvol gewijzigd.";
 
-                    return RedirectToAction(nameof(KairosController.Index), "Kairos");
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (Exception ex)
                 {

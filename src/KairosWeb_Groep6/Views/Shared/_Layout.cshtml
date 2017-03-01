@@ -35,11 +35,14 @@
                 </a>
             </div>
             <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
                         <li><a asp-area="" asp-controller="Kairos" asp-action="Index"><i class="fa fa-home fa-2x" aria-hidden="true"></i></a></li>
                         <li><a asp-area="" asp-controller="Kairos" asp-action="NieuweAnalyse"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></a></li>
                         <li><a asp-area="" asp-controller="Archief" asp-action="Index"><i class="fa fa-archive fa-2x" aria-hidden="true"></i></a></li>
-                    </ul>
+                    }
+                </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
