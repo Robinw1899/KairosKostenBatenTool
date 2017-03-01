@@ -91,12 +91,13 @@ namespace KairosWeb_Groep6.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Deze combinatie email en wachtwoord is ongeldig, probeer opnieuw.");
                     return View(model);
                 }
             }
 
             // If we got this far, something failed, redisplay form
+            ModelState.AddModelError(string.Empty, "Iets ging fout, probeer later opnieuw.");
             return View(model);
         }
 
