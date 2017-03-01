@@ -12,7 +12,6 @@ using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.AccountViewModels;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
-using WebMatrix.WebData;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -129,7 +128,8 @@ namespace KairosWeb_Groep6.Controllers
                     Email = model.Email,
                     Naam = model.Naam,
                     Voornaam = model.Voornaam};
-                var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
+                //var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
+                var password = "kairos2017";
                 var result = await _userManager.CreateAsync(user, password);
 
                 if (result.Succeeded)
@@ -167,6 +167,7 @@ namespace KairosWeb_Groep6.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
+            TempData["message"] = "Je bent succesvol uitgelogd!";
             return RedirectToAction(nameof(KairosController.Index), "Kairos");
         }
 
