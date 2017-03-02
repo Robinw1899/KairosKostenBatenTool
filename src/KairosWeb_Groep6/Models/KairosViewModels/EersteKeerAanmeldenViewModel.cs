@@ -8,7 +8,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         [Required]
         [Display(Name = "Wachtwoord")]
-        [StringLength(16, ErrorMessage = "Het wachtwoord {0} moet minstens {2} en mag maximum {1} karakters lang zijn.", MinimumLength = 6)]
+        [StringLength(16, ErrorMessage = "Het {0} moet minstens {2} en mag maximum {1} karakters lang zijn.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
