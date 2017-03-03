@@ -5,16 +5,17 @@ using System.Threading.Tasks;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
-    public class OpleidingsKost : KostOfBaat
+    public class HogerNiveauBaat:KostOfBaat
     {
         public ICollection<KolomWaarde> kolommen { get; set; }
-        public ICollection<Rij> waarden { get; set; }
         public Type type { get; set; }
+        public ICollection<Rij> waarden { get; set; }
 
-        public OpleidingsKost()
+        public HogerNiveauBaat()
         {
             kolommen = new List<KolomWaarde>();
             waarden = new List<Rij>();
+            type = Type.BAAT;
         }
 
         public double berekenTotaal()
@@ -23,6 +24,14 @@ namespace KairosWeb_Groep6.Models.Domain
         }
 
         public double getBedrag(int rijNr)
+        {
+            throw new NotImplementedException();
+        }
+        public double berekenTotaleLoonkostPerJaar(int rijNr)
+        {
+            throw new NotImplementedException();
+        }
+        public double berekenTotaleLoonkostPerJaarAlle()
         {
             throw new NotImplementedException();
         }

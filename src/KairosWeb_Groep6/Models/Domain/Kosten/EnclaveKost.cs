@@ -5,18 +5,19 @@ using System.Threading.Tasks;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
-    public class BegeleidingsKost : KostOfBaat
+    public class EnclaveKost : KostOfBaat
     {
         public ICollection<KolomWaarde> kolommen { get; set; }
         public ICollection<Rij> waarden { get; set; }
-
         public Type type { get; set; }
 
-        public BegeleidingsKost()
+        public EnclaveKost()
         {
             kolommen = new List<KolomWaarde>();
             waarden = new List<Rij>();
+            type = Type.KOST;
         }
+
         public double berekenTotaal()
         {
             throw new NotImplementedException();

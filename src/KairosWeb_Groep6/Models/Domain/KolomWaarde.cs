@@ -12,7 +12,7 @@ namespace KairosWeb_Groep6.Models.Domain
         JAARBEDRAG,
         UREN,
         BRUTTO_MAANDLOON_FULLTIME,
-        BRUTTO_MAANDLOON_BEGELEID,
+        BRUTTO_MAANDLOON_BEGELEIDING,
         BEDRAG,
         PROCENT_BESPARING,
         JAAR_OMZETVERLIES,

@@ -5,16 +5,17 @@ using System.Threading.Tasks;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
-    public class InfrastructuurKost : KostOfBaat
+    public class ExtraBesparing:KostOfBaat
     {
         public ICollection<KolomWaarde> kolommen { get; set; }
-        public ICollection<Rij> waarden { get; set; }
         public Type type { get; set; }
+        public ICollection<Rij> waarden { get; set; }
 
-        public InfrastructuurKost()
+        public ExtraBesparing()
         {
             kolommen = new List<KolomWaarde>();
             waarden = new List<Rij>();
+            type = Type.BAAT;
         }
 
         public double berekenTotaal()

@@ -15,6 +15,7 @@ namespace KairosWeb_Groep6.Models.Domain
         {
             kolommen = new List<KolomWaarde>();
             waarden = new List<Rij>();
+            type = Type.KOST;
         }
         public double berekenTotaal()
         {
