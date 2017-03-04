@@ -18,12 +18,12 @@ namespace KairosWeb_Groep6.Models.Domain
             waarden = new List<Rij>();
             type = Type.KOST;
         }
-        public double berekenTotaal()
+        public double BerekenTotaal()
         {
             throw new NotImplementedException();
         }
 
-        public double getBedrag(int rijNr)
+        public double GetBedrag(int rijNr)
         {
             throw new NotImplementedException();
         }

@@ -22,12 +22,12 @@ namespace KairosWeb_Groep6.Models.Domain
         {
             throw new NotImplementedException();    
         }
-        public double berekenTotaal()
+        public double BerekenTotaal()
         {
             throw new NotImplementedException();
         }
 
-        public double getBedrag(int rijNr)
+        public double GetBedrag(int rijNr)
         {
             throw new NotImplementedException();
         }

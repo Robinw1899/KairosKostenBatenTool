@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using KairosWeb_Groep6.Models.Domain.Kosten;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
@@ -8,6 +8,7 @@ namespace KairosWeb_Groep6.Models.Domain
      */
     public class Functie
     {
+        #region Properties
         public string Naam { get; set; }
 
         public double AantalUrenPerWeek { get; set; }
@@ -23,12 +24,16 @@ namespace KairosWeb_Groep6.Models.Domain
         public Doelgroep? Doelgroep { get; set; }
 
         public Type Type { get; set; }
+        #endregion
 
+        #region Constructors
         public Functie()
         {
             Type = Type.KOST;
         }
+        #endregion
 
+        #region Methods
         public double BerekenBrutoloonPerMaand()
         {
             // ((bruto maandloon/aantal uur voltijdse werkweek) * aantal uur dat medewerker werkt) + 35% werkgeversbijdrage
@@ -42,41 +47,37 @@ namespace KairosWeb_Groep6.Models.Domain
 
             return brutoloon;
         }
-        public double berekenGemiddeldeVOPPerMaand()
+        public double BerekenGemiddeldeVOPPerMaand()
         {
-            throw new NotImplementedException();
-        }
-        public double berekenDoelgroepVermindering()
-        {
-            throw new NotImplementedException();
-        }
-        public double berekenTotaleProductiviteitsPremieIBO()
-        {
-            throw new NotImplementedException();
-        }
-        public double berekenTotaleLoonkost(String naam)
-        {
-            throw new NotImplementedException();
-        }
-        public double berekenTotaleLoonkostAlleFuncties()
-        {
-            throw new NotImplementedException();
-        }
-        public double berekenTotalBrutoloonPerJaarAlleFuncties()
-        {
-            throw new NotImplementedException();
-        }
+            //(bruto maandloon incl werkgeverslasten – maandelijkse doelgroepvermindering) * percentage VOP premie
+            double gemiddeldeVOPPerMaand = 0;
 
-        //methoden interface KostOfBaat
+            double brutoloon = BerekenBrutoloonPerMaand();
+            double doelgroepvermindering = Doelgroep?.BerekenDoelgroepVermindering(brutoloon, AantalUrenPerWeek) ?? 0;
+            gemiddeldeVOPPerMaand = (brutoloon - doelgroepvermindering) * Ondersteuningspremie;
+
+            return gemiddeldeVOPPerMaand;
+        }
         
-        public double getBedrag(int rijNr)
+        public double BerekenTotaleLoonkost()
         {
-            throw new NotImplementedException();
-        }
+            //(bruto loon per maand incl werkgeversbijdragen – gemiddelde VOP premie per maand – doelgroepvermindering per maand) 
+            //* (13,92 – aantal maanden IBO) + totaalbedrag premie IBO
+            double loonkost = 0;
 
-        public double berekenTotaal()
-        {
-            throw new NotImplementedException();
+            double brutoloon = BerekenBrutoloonPerMaand();
+            double gemVOP = BerekenGemiddeldeVOPPerMaand();
+            double doelgroepvermindering = Doelgroep?.BerekenDoelgroepVermindering(brutoloon, AantalUrenPerWeek) ?? 0;
+            // linkerdeel van de berekening (voor de * )
+            double linkerfactor = brutoloon - gemVOP - doelgroepvermindering;
+
+            // rechterdeel van de berekening (na de *)
+            double rechterfactor = (13.92 - AantalMaandenIBO) + IBOPremie;
+
+            loonkost = linkerfactor * rechterfactor;
+
+            return loonkost;
         }
+        #endregion
     }
 }
