@@ -13,7 +13,7 @@
         #region Constructors
         public InfrastructuurKost()
         {
-            Type = Type.KOST;
+            Type = Type.Kost;
             Soort = Soort.InfrastructuurKost;
         }
         #endregion

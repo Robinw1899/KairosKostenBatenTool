@@ -2,9 +2,16 @@
 {
     public enum Soort
     {
+        /* SOORTEN KOSTEN */
         Loonkost,
         EnclaveKost,
         VoorbereidingsKost,
-        InfrastructuurKost
+        InfrastructuurKost,
+        GereedschapsKost,
+        OpleidingsKost,
+        BegeleidingsKost,
+        ExtraKost
+
+        /* SOORTEN BATEN */
     }
 }

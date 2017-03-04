@@ -7,13 +7,13 @@
         public Type Type { get; set; }
         public Soort Soort { get; set; }
         public string Beschrijving { get; set; }
-        public double Jaarbedrag { get; set; }
+        public double Bedrag { get; set; } // = kolom "jaarbedrag"
         #endregion
 
         #region Constructors
         public EnclaveKost()
         {
-            Type = Type.KOST;
+            Type = Type.Kost;
             Soort = Soort.EnclaveKost;
         }
         #endregion

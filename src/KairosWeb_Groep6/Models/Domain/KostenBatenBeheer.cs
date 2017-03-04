@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using KairosWeb_Groep6.Models.Domain.Kosten;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
@@ -9,47 +7,32 @@ namespace KairosWeb_Groep6.Models.Domain
     {
         private IDictionary<Soort, List<KostOfBaat>> KostenEnBaten { get; }
 
-        public List<Loonkost> Loonkosten
-        {
-            get
-            {
-                List<KostOfBaat> loonkosten = KostenEnBaten[Soort.Loonkost];
+        public List<KostOfBaat> Loonkosten => KostenEnBaten[Soort.Loonkost];
 
-                return loonkosten
-                    .Select(k => (Loonkost)k)
-                    .ToList();
-            }
-        }
+        public List<KostOfBaat> EnclaveKosten => KostenEnBaten[Soort.EnclaveKost];
 
-        public List<EnclaveKost> EnclaveKosten
-        {
-            get
-            {
-                List<KostOfBaat> enclavekosten = KostenEnBaten[Soort.EnclaveKost];
+        public List<KostOfBaat> VoorbereidingsKosten => KostenEnBaten[Soort.VoorbereidingsKost];
 
-                return enclavekosten
-                    .Select(k => (EnclaveKost)k)
-                    .ToList();
-            }
-        }
+        public List<KostOfBaat> InfrastructuurKosten => KostenEnBaten[Soort.InfrastructuurKost];
 
-        public List<VoorbereidingsKost> VoorbereidingsKosten
-        {
-            get
-            {
-                List<KostOfBaat> voorbereindskosten = KostenEnBaten[Soort.VoorbereidingsKost];
+        public List<KostOfBaat> GereedschapsKosten => KostenEnBaten[Soort.GereedschapsKost];
 
-                return voorbereindskosten
-                    .Select(k => (VoorbereidingsKost)k)
-                    .ToList();
-            }
-        }
+        public List<KostOfBaat> OpleidingsKosten => KostenEnBaten[Soort.OpleidingsKost];
 
-        //private IList<KostOfBaat> KostenEnBaten { get; set; }
+        public List<KostOfBaat> BegeleidingsKosten => KostenEnBaten[Soort.BegeleidingsKost];
 
         public KostenBatenBeheer()
         {
             KostenEnBaten = new Dictionary<Soort, List<KostOfBaat>>();
+        }
+    }
+
+    public static class Extesions
+    {
+        public static KostOfBaat GetBy(this List<KostOfBaat> lijst, int id)
+        {
+            return lijst
+                .SingleOrDefault(e => e.Id == id);
         }
     }
 }

@@ -7,11 +7,20 @@
     {
         #region Properties
         public int Id { get; set; }
-        public string Functie { get; set; }
+        public string Beschrijving { get; set; } // = kolom "functie"
 
         public double AantalUrenPerWeek { get; set; }
 
-        public double BrutoMaandloonFulltime { get; set; }
+        public double Bedrag // = kolom "totale loonkost eerste jaar"
+        {
+            get
+            {
+                return BerekenTotaleLoonkost();
+            }
+            set { } // setter wordt nooit gebruikt
+        }
+
+        private double BrutoMaandloonFulltime { get; set; }
 
         public double Ondersteuningspremie { get; set; }
 
@@ -24,12 +33,14 @@
         public Type Type { get; set; }
 
         public Soort Soort { get; set; }
+
+        
         #endregion
 
         #region Constructors
         public Loonkost()
         {
-            Type = Type.KOST;
+            Type = Type.Kost;
             Soort = Soort.Loonkost;
         }
         #endregion
