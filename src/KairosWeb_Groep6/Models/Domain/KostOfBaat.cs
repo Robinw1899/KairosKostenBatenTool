@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
-    interface KostOfBaat
+    public interface KostOfBaat
     {
-        double getBedrag(int rijNr);
-        double berekenTotaal();
-        Type type { get; set; }
+        double GetBedrag(int rijNr);
+        double BerekenTotaal();
+        Type Type { get; set; }
         ICollection<KolomWaarde> kolommen {get;set;}
         ICollection<Rij> waarden { get;set; }
-
     }
 }

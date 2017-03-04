@@ -6,29 +6,41 @@ namespace KairosWeb_Groep6.Models.Domain
     /**
      * Dit komt overeen met kost 1.1 van de Excel.
      */
-    public class Functie : KostOfBaat
+    public class Functie
     {
         public string Naam { get; set; }
+
         public double AantalUrenPerWeek { get; set; }
+
         public double BrutoMaandloonFulltime { get; set; }
+
         public double Ondersteuningspremie { get; set; }
+
+        public int AantalMaandenIBO { get; set; }
+
+        public double IBOPremie { get; set; }
+
         public Doelgroep? Doelgroep { get; set; }
-        //props interface
-        public ICollection<KolomWaarde> kolommen { get; set; }
-        public ICollection<Rij> waarden { get; set; }
-        public Type type { get; set; }
+
+        public Type Type { get; set; }
 
         public Functie()
         {
-            kolommen = new List<KolomWaarde>();
-            waarden = new List<Rij>();
-            type = Type.KOST;
+            Type = Type.KOST;
         }
 
-      
-        public double berekenBrutoloonPerMaand()
+        public double BerekenBrutoloonPerMaand()
         {
-            throw new NotImplementedException();
+            // ((bruto maandloon/aantal uur voltijdse werkweek) * aantal uur dat medewerker werkt) + 35% werkgeversbijdrage
+
+            // bereken brutoloon per week van de werkgever
+            double brutoloonPerWeekWerkgever = BrutoMaandloonFulltime / Werkgever.AantalWerkuren;
+            // bereken brutoloon werknemer
+            double brutoloonWerknemer = brutoloonPerWeekWerkgever * AantalUrenPerWeek;
+            // tel patronale bijdrage erbij
+            double brutoloon = brutoloonWerknemer * (1 + Werkgever.PatronaleBijdrage);
+
+            return brutoloon;
         }
         public double berekenGemiddeldeVOPPerMaand()
         {
