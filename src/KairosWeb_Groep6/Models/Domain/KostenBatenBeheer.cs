@@ -34,6 +34,12 @@ namespace KairosWeb_Groep6.Models.Domain
             return somAlleLoonkosten;
         }
 
+        public double GeefTotaalBrutoloonPerMaandAlleFuncties()
+        {
+            double totaal = Functies.Sum(f => f.BerekenBrutoloonPerMaand());
+            return totaal;
+        }
+
         public void VoegFunctieToe(Functie functie)
         {
             Functies.Add(functie);
