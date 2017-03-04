@@ -7,13 +7,13 @@ namespace KairosWeb_Groep6.Models.Domain
 {
     public class GereedschapsKost : KostOfBaat
     {
-        public ICollection<KolomWaarde> kolommen { get; set; }
+        public ICollection<KolomWaarde> Kolommen { get; set; }
         public ICollection<Rij> waarden { get; set; }
         public Type type { get; set; }
 
         public GereedschapsKost()
         {
-            kolommen = new List<KolomWaarde>();
+            Kolommen = new List<KolomWaarde>();
             waarden = new List<Rij>();
             type = Type.KOST;
         }

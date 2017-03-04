@@ -1,31 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace KairosWeb_Groep6.Models.Domain
+﻿namespace KairosWeb_Groep6.Models.Domain.Kosten
 {
     public class EnclaveKost : KostOfBaat
     {
-        public ICollection<KolomWaarde> kolommen { get; set; }
-        public ICollection<Rij> waarden { get; set; }
-        public Type type { get; set; }
+        #region Properties
+        public int Id { get; set; }
+        public Type Type { get; set; }
+        public Soort Soort { get; set; }
+        public string Beschrijving { get; set; }
+        public double Jaarbedrag { get; set; }
+        #endregion
 
+        #region Constructors
         public EnclaveKost()
         {
-            kolommen = new List<KolomWaarde>();
-            waarden = new List<Rij>();
-            type = Type.KOST;
+            Type = Type.KOST;
+            Soort = Soort.EnclaveKost;
         }
-
-        public double BerekenTotaal()
-        {
-            throw new NotImplementedException();
-        }
-
-        public double GetBedrag(int rijNr)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }

@@ -1,15 +1,13 @@
-﻿using System;
-using KairosWeb_Groep6.Models.Domain.Kosten;
-
-namespace KairosWeb_Groep6.Models.Domain
+﻿namespace KairosWeb_Groep6.Models.Domain.Kosten
 {
     /**
      * Dit komt overeen met kost 1.1 van de Excel.
      */
-    public class Functie
+    public class Loonkost : KostOfBaat
     {
         #region Properties
-        public string Naam { get; set; }
+        public int Id { get; set; }
+        public string Functie { get; set; }
 
         public double AantalUrenPerWeek { get; set; }
 
@@ -24,12 +22,15 @@ namespace KairosWeb_Groep6.Models.Domain
         public Doelgroep? Doelgroep { get; set; }
 
         public Type Type { get; set; }
+
+        public Soort Soort { get; set; }
         #endregion
 
         #region Constructors
-        public Functie()
+        public Loonkost()
         {
             Type = Type.KOST;
+            Soort = Soort.Loonkost;
         }
         #endregion
 
