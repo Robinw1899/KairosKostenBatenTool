@@ -1,31 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace KairosWeb_Groep6.Models.Domain
+﻿namespace KairosWeb_Groep6.Models.Domain.Kosten
 {
     public class InfrastructuurKost : KostOfBaat
     {
-        public ICollection<KolomWaarde> kolommen { get; set; }
-        public ICollection<Rij> waarden { get; set; }
-        public Type type { get; set; }
+        #region Properties
+        public int Id { get; set; }
+        public Soort Soort { get; set; }
+        public Type Type { get; set; }
+        public string Beschrijving { get; set; }
+        public double Bedrag { get; set; }
+        #endregion
 
+        #region Constructors
         public InfrastructuurKost()
         {
-            kolommen = new List<KolomWaarde>();
-            waarden = new List<Rij>();
-            type = Type.KOST;
+            Type = Type.Kost;
+            Soort = Soort.InfrastructuurKost;
         }
-
-        public double berekenTotaal()
-        {
-            throw new NotImplementedException();
-        }
-
-        public double getBedrag(int rijNr)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }

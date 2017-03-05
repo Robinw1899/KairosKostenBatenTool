@@ -7,23 +7,23 @@ namespace KairosWeb_Groep6.Models.Domain
 {
     public class Subsidie:KostOfBaat
     {
-        public ICollection<KolomWaarde> kolommen { get; set; }
+        public ICollection<KolomWaarde> Kolommen { get; set; }
         public Type type { get; set; }
         public ICollection<Rij> waarden { get; set; }
 
         public Subsidie()
         {
-            kolommen = new List<KolomWaarde>();
+            Kolommen = new List<KolomWaarde>();
             waarden = new List<Rij>();
-            type = Type.BAAT;
+            type = Type.Baat;
         }
 
-        public double berekenTotaal()
+        public double BerekenTotaal()
         {
             throw new NotImplementedException();
         }
 
-        public double getBedrag(int rijNr)
+        public double GetBedrag(int rijNr)
         {
             throw new NotImplementedException();
         }
