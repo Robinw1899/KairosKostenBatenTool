@@ -10,8 +10,17 @@
         GereedschapsKost,
         OpleidingsKost,
         BegeleidingsKost,
-        ExtraKost
-
+        ExtraKost,
+        
         /* SOORTEN BATEN */
+        MedewerkersZelfdeNiveau,
+        MedewerkersHogerNiveau,
+        UitzendkrachtBesparing,
+        ExtraOmzet,
+        ExtraProductiviteit,
+        OverurenBesparing,
+        ExterneInkoop,
+        Subsidie,
+        ExtraBesparing
     }
 }
