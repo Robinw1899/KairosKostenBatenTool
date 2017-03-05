@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
@@ -24,15 +23,6 @@ namespace KairosWeb_Groep6.Models.Domain
         public KostenBatenBeheer()
         {
             KostenEnBaten = new Dictionary<Soort, List<KostOfBaat>>();
-        }
-    }
-
-    public static class Extesions
-    {
-        public static KostOfBaat GetBy(this List<KostOfBaat> lijst, int id)
-        {
-            return lijst
-                .SingleOrDefault(e => e.Id == id);
         }
     }
 }
