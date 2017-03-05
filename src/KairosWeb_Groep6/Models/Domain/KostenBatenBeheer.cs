@@ -4,7 +4,7 @@ namespace KairosWeb_Groep6.Models.Domain
 {
     public class KostenBatenBeheer
     {
-        private IDictionary<Soort, List<KostOfBaat>> KostenEnBaten { get; }
+        public IDictionary<Soort, List<KostOfBaat>> KostenEnBaten { get; }
 
         public List<KostOfBaat> Loonkosten => KostenEnBaten[Soort.Loonkost];
 
