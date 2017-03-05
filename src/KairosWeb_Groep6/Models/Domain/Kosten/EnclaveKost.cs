@@ -1,21 +1,31 @@
-﻿namespace KairosWeb_Groep6.Models.Domain.Kosten
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace KairosWeb_Groep6.Models.Domain
 {
     public class EnclaveKost : KostOfBaat
     {
-        #region Properties
-        public int Id { get; set; }
-        public Type Type { get; set; }
-        public Soort Soort { get; set; }
-        public string Beschrijving { get; set; }
-        public double Bedrag { get; set; } // = kolom "jaarbedrag"
-        #endregion
+        public ICollection<KolomWaarde> kolommen { get; set; }
+        public ICollection<Rij> waarden { get; set; }
+        public Type type { get; set; }
 
-        #region Constructors
         public EnclaveKost()
         {
-            Type = Type.Kost;
-            Soort = Soort.EnclaveKost;
+            kolommen = new List<KolomWaarde>();
+            waarden = new List<Rij>();
+            type = Type.KOST;
         }
-        #endregion
+
+        public double berekenTotaal()
+        {
+            throw new NotImplementedException();
+        }
+
+        public double getBedrag(int rijNr)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

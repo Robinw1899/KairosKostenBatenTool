@@ -1,6 +1,5 @@
 ﻿using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
-using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -23,9 +22,11 @@ namespace KairosWeb_Groep6.Data
             base.OnModelCreating(builder);
             builder.Entity<Gebruiker>(MapGebruiker);
             builder.Entity<Organisatie>(MapOrganisatie);
+            builder.Ignore<Kost>();
+            builder.Ignore<Baat>();
             builder.Ignore<DomeinController>();
             builder.Ignore<Analyse>();
-            builder.Ignore<Loonkost>();
+            builder.Ignore<Functie>();
             builder.Ignore<Werkgever>();
         }
 

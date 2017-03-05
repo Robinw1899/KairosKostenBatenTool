@@ -1,24 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace KairosWeb_Groep6.Models.Domain.Kosten
+namespace KairosWeb_Groep6.Models.Domain
 {
     public class ExtraKost : KostOfBaat
     {
-        #region Properties
-        public int Id { get; set; }
-        public Type Type { get; set; }
-        public Soort Soort { get; set; }
-        public string Beschrijving { get; set; }
-        public double Bedrag { get; set; }
-        #endregion
+        public ICollection<KolomWaarde> kolommen { get; set; }
+        public ICollection<Rij> waarden { get; set; }
+        public Type type { get; set; }
 
-        #region Constructors
         public ExtraKost()
         {
-            Type = Type.Kost;
-            Soort = Soort.ExtraKost;
+            kolommen = new List<KolomWaarde>();
+            waarden = new List<Rij>();
+            type = Type.KOST;
         }
-        #endregion
+
+        public double berekenJaarbedrag(int rijNr)
+        {
+            throw new NotImplementedException();    
+        }
+        public double berekenTotaal()
+        {
+            throw new NotImplementedException();
+        }
+
+        public double getBedrag(int rijNr)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,17 +1,17 @@
-﻿namespace KairosWeb_Groep6.Models.Domain
-{
-    public interface KostOfBaat
-    {
-        int Id { get; set; }
-        Type Type { get; set; }
-        Soort Soort { get; set; }
-        string Beschrijving { get; set; }
-        double Bedrag { get; set; }
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-        //ICollection<KolomWaarde> Kolommen { get; set; }
-        //ICollection<Rij> Waarden { get; set; }
-        //double GetBedrag(int rijNr);
-        //double BerekenTotaal();
-        //void StelKolommenIn();
+namespace KairosWeb_Groep6.Models.Domain
+{
+    interface KostOfBaat
+    {
+        double getBedrag(int rijNr);
+        double berekenTotaal();
+        Type type { get; set; }
+        ICollection<KolomWaarde> kolommen {get;set;}
+        ICollection<Rij> waarden { get;set; }
+
     }
 }
