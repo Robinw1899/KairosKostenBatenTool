@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
     public class Rij
     {
-        public List<object> Waarden { get; private set; }
-
+        private List<Object> waarden;
         public Rij(int grootte)
         {
-            Waarden = new List<object>(grootte);
+            waarden = new List<Object>();
         }
     }
 }
