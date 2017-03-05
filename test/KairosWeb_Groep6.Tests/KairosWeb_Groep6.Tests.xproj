@@ -7,7 +7,7 @@
 
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>c07fd9a7-adfc-42a8-9333-cd6a631a7f3b</ProjectGuid>
+    <ProjectGuid>5726f6fc-a31d-4793-ae3f-8bfacef5c9e3</ProjectGuid>
     <RootNamespace>KairosWeb_Groep6.Tests</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
