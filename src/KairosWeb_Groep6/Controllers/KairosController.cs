@@ -81,5 +81,10 @@ namespace KairosWeb_Groep6.Controllers
         {
             throw new NotImplementedException();
         }
+
+        public IActionResult KeuzeNieuweAnalsye()//kiezen voor nieuwe of bestaande werkgever
+        {
+            return View();
+        }
     }
 }
