@@ -24,7 +24,7 @@ namespace KairosWeb_Groep6.Data
             builder.Entity<Organisatie>(MapOrganisatie);
             builder.Ignore<DomeinController>();
             builder.Ignore<Analyse>();
-            builder.Ignore<Werkgever>();
+            builder.Entity<Werkgever>();
         }
 
         private void MapOrganisatie(EntityTypeBuilder<Organisatie> o)
@@ -85,6 +85,37 @@ namespace KairosWeb_Groep6.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             g.Ignore(t => t.Analyses);
+        }
+
+        private void MapWerkgever(EntityTypeBuilder<Werkgever> w)
+        {
+            w.ToTable("Werkgever");
+
+            w.HasKey(t => t.WerkgeverId);
+
+            w.Property(t => t.Naam)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            w.Property(t => t.Straat)
+                .HasMaxLength(50);
+
+            w.Property(t => t.Nummer);
+
+            w.Property(t => t.Postcode)
+                .IsRequired();
+
+            w.Property(t => t.Gemeente)
+                .IsRequired();
+            /*w.Property(t=>t.AantalWerkuren)
+             * .IsRequired();
+             * 
+             * w.Property(t=>t.PatronaleBijdrage)
+             * .IsRequired();
+            */
+            w.HasMany(t => t.Analyses)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

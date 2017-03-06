@@ -15,16 +15,27 @@ namespace KairosWeb_Groep6.Data.Repositories
         public WerkgeverRepository(ApplicationDbContext _context)
         {
             _dbContext = _context;
-            _werkgevers = _context.Werkgevers;
+            //_werkgevers = _context.Werkgevers;
         }
         public IEnumerable<Werkgever> GetAll()
         {
-            return _werkgevers.AsNoTracking();
+            return _werkgevers
+                .Include(t=>t.Analyses)
+                .AsNoTracking();
         }
 
         public Werkgever GetByName(string naam)
         {
-            return _werkgevers.SingleOrDefault(w => w.Naam == naam);
+            return _werkgevers
+                .Include(t=>t.Analyses)
+                .SingleOrDefault(w => w.Naam == naam);
+        }
+
+        public Werkgever GetById(int id)
+        {
+            return _werkgevers
+                .Include(t => t.Analyses)
+                .SingleOrDefault(w => w.WerkgeverId == id);
         }
 
         public void Add(Werkgever werkgever)

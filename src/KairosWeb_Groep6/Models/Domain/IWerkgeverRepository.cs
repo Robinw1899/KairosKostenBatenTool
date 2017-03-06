@@ -9,7 +9,8 @@ namespace KairosWeb_Groep6.Models.Domain
     {
         //dit nog aan te vullen indien we nog extra zoekfuncties willen 
         IEnumerable<Werkgever> GetAll();
-        Werkgever GetByName(string naam);      
+        Werkgever GetByName(string naam);
+        Werkgever GetById(int id);
         void Add(Werkgever werkgever);
         void Remove(Werkgever werkgever);
         void Save();
