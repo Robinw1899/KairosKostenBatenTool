@@ -5,9 +5,20 @@
 <h2>@ViewData["Title"]</h2>
 <hr/>
 
+<form asp-controller="Kairos" asp-action="NieuweAnalyseBestaandeWerkgever" method="get" >
+<div class="form-inline">
+    <div class="form-group">
+        <label for="Naam"></label>
+        <select id="Naam" name="Naam" asp-items="@(ViewData["Namen"] as SelectList)" class="form-control">
+            <option value="">Kies Naam</option>
+        </select>
+    </div>
+</div>
+</form>
 
-
-
+<div id="WerkgeversTable">
+    @Html.Partial("_Werkgevers", Model);
+</div>
 
 
 

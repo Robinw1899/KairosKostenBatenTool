@@ -7,6 +7,7 @@ using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -85,8 +86,16 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult NieuweAnalyseBestaandeWerkgever()
         {
             WerkgeverViewModel model = new WerkgeverViewModel();
+            
             return View(model);
         }
+
+        public SelectList GetNamenWerkgevers()
+        {
+            return new SelectList(_categoryRepository.GetAll().OrderBy(g => g.Name),
+               nameof(Category.CategoryId), nameof(Category.Name), selectedValue);
+        }
+    }
 
        
       
