@@ -81,5 +81,14 @@ namespace KairosWeb_Groep6.Controllers
         {
             throw new NotImplementedException();
         }
+
+        public IActionResult NieuweAnalyseBestaandeWerkgever()
+        {
+            WerkgeverViewModel model = new WerkgeverViewModel();
+            return View(model);
+        }
+
+       
+      
     }
 }
