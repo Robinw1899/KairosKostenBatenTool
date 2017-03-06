@@ -5,15 +5,15 @@
 <h2>@ViewData["Title"]</h2>
 <hr/>
 
-<form asp-controller="Kairos" asp-action="NieuweAnalyseBestaandeWerkgever" method="get" >
-<div class="form-inline">
+<form asp-controller="Kairos" asp-action="NieuweAnalyseBestaandeWerkgever" method="get" >   
+    <div asp-validation-summary="All" class="text-danger"></div>  
     <div class="form-group">
-        <label for="Naam"></label>
-        <select id="Naam" name="Naam" asp-items="@(ViewData["Namen"] as SelectList)" class="form-control">
-            <option value="">Kies Naam</option>
-        </select>
-    </div>
-</div>
+        <label asp-for="Naam" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Naam" class="form-control" />
+            <span asp-validation-for="Naam" class="text-danger"></span>
+        </div>
+    </div>   
 </form>
 
 <div id="WerkgeversTable">
