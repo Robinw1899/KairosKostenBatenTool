@@ -83,6 +83,10 @@ input#Onderwerp {
 form.formOpmerking.form-horizontal.call {
     width: 900px;
 }
+.NieuweOfBestaandeWerkgeverButtons{
+    /*Buttons om te kiezen tussen Nieuwe of BsetaandeWerkgever*/
+    text-align: center;
+}
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {

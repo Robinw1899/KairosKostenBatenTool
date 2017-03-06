@@ -4,16 +4,12 @@
 
 <h3>@ViewData["title"]</h3>
 <hr />
-<form asp-controller="Kairos" asp-action="KeuzeNieuweAnalyse" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+<form asp-controller="Kairos" asp-action="NieuweOfBestaandeWerkgever" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
     <div class="col-md-12">
-        <div class="form-group">
-            <div>
-                <a asp-action="NieuweWerkgever" class="btn btn-info col-md-offset-3 col-md-6">Nieuwe werkgever</a>
-            </div>
-            <br><br><br>
-            <div>
-                <a asp-action="BestaandeWerkgever" class="btn btn-success col-md-offset-3 col-md-6">Bestaande werkgever</a>
-            </div>
+        <div class="btn-group-lg NieuweOfBestaandeWerkgeverButtons">
+            <a asp-action="NieuweWerkgever" class="btn btn-info">Nieuwe werkgever</a>
+            <a asp-action="BestaandeWerkgever" class="btn btn-success">Bestaande werkgever</a>
         </div>
-    </div>
+   </div>
+    <br><br><br>
 </form>
