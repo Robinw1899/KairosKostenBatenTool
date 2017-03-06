@@ -34,7 +34,8 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult NieuweAnalyse()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
+            return View(nameof();
         }
 
         public async Task<IActionResult> EersteKeerAanmelden()

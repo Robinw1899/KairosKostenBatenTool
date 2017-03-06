@@ -32,15 +32,15 @@ namespace KairosWeb_Groep6.Tests.Controllers
         private string FoutWachtwoord = "test2";
         private string Email = "thomas.ae@test.be";
         private string FouteEmail = "dimmy.m@test.be";
-        private Jobcoach _jobcoachThomas;
+        
 
         #region Controller
-
+        
         public KairosControllerTest()
         {
             _dbContext = new DummyApplicationDbContext();
             _gebruikerRepository = new Mock<IGebruikerRepository>();
-            _controller = new KairosController(new DummyGebruikerRepository(_dbContext));
+            
             //eens vragen            //_accountController = new AccountController(new UserManager<ApplicationUser>(), );
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
 
@@ -64,7 +64,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region 1steKeerAanmelden HttpGet
-
+        [Fact]
         public void EesteKeerAanmelden()
         {
 
@@ -73,11 +73,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region 1steKeerAanmelden HttpPost
-
+        [Fact]
         public void EersteKeerAanmdelden_WachtwoordVeranderdIndienSuccesvol()
         {
             Mock<AccountController> _accountController = new Mock<AccountController>();
-            _gebruikerRepository.Setup(m => m.GetBy(Email)).Returns(_dbContext.CoachThomas);
+            _gebruikerRepository.Setup(m => m.GetByEmail(Email)).Returns(_dbContext.CoachThomas);
             EersteKeerAanmeldenViewModel EersteKeerAanmeldenVM = new EersteKeerAanmeldenViewModel();
             EersteKeerAanmeldenVM.Password = Wachtwoord;
             EersteKeerAanmeldenVM.ConfirmPassword = Wachtwoord;
@@ -101,7 +101,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region NieuweAnalyse
-
+        [Fact]
         public void NieweAnalyse()
         {
             throw new NotImplementedException();
