@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using KairosWeb_Groep6.Models.Domain.Baten;
 
 namespace KairosWeb_Groep6.Models.Domain
