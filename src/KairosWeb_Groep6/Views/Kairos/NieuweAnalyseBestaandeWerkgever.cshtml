@@ -6,13 +6,11 @@
 <h2>@ViewData["Title"]</h2>
 <hr/>
 
-<form asp-controller="Kairos" asp-action="NieuweAnalyse" method="post" id="Naam" >   
-    <div asp-validation-summary="All" class="text-danger"></div>  
+<form asp-controller="Kairos" asp-action="NieuweAnalyse" method="post" id="formAdd" >       
     <div class="form-group">
         <label asp-for="Naam" class="col-md-2 control-label"></label>
         <div class="col-md-10">
-            <input asp-for="Naam" class="form-control" />
-            <span asp-validation-for="Naam" class="text-danger"></span>
+            <input id="NaamId" asp-for="Naam" class="form-control" />           
         </div>
     </div>   
 </form>

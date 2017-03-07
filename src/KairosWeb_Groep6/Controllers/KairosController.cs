@@ -87,7 +87,7 @@ namespace KairosWeb_Groep6.Controllers
             throw new NotImplementedException();
         }
 
-        public IActionResult NieuweAnalyseBestaandeWerkgever(String naam="")
+        public IActionResult NieuweAnalyseBestaandeWerkgever(string naam="")
         {
                       
             if (naam.Equals(""))
@@ -97,16 +97,20 @@ namespace KairosWeb_Groep6.Controllers
                ViewData["Werkgevers"] = _werkgeverRepository.GetByName(naam);
                
             }
-           /* if (IsAjaxRequest())
+            if (IsAjaxRequest())
                 return PartialView("_Werkgevers");
-            else*/
-           // {
+            else
+            {
                 WerkgeverViewModel model = new WerkgeverViewModel();
                 return View(model);
-           // }
+            }
+        }
+        private bool IsAjaxRequest()
+        {
+            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
 
-       
+
     }
 
 }
