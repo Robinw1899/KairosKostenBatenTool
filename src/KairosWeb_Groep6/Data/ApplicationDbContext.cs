@@ -24,7 +24,7 @@ namespace KairosWeb_Groep6.Data
             builder.Entity<Organisatie>(MapOrganisatie);
             builder.Ignore<DomeinController>();
             builder.Ignore<Analyse>();
-            builder.Entity<Werkgever>();
+            builder.Entity<Werkgever>(MapWerkgever);
         }
 
         private void MapOrganisatie(EntityTypeBuilder<Organisatie> o)
@@ -87,7 +87,7 @@ namespace KairosWeb_Groep6.Data
             g.Ignore(t => t.Analyses);
         }
 
-        private void MapWerkgever(EntityTypeBuilder<Werkgever> w)
+        private static void MapWerkgever(EntityTypeBuilder<Werkgever> w)
         {
             w.ToTable("Werkgever");
 
@@ -106,13 +106,12 @@ namespace KairosWeb_Groep6.Data
                 .IsRequired();
 
             w.Property(t => t.Gemeente)
+                .IsRequired();          
+            w.Property(t => Werkgever.AantalWerkuren)
                 .IsRequired();
-            /*w.Property(t=>t.AantalWerkuren)
-             * .IsRequired();
-             * 
-             * w.Property(t=>t.PatronaleBijdrage)
-             * .IsRequired();
-            */
+
+            w.Property(t => Werkgever.PatronaleBijdrage);
+
             w.HasMany(t => t.Analyses)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Restrict);
