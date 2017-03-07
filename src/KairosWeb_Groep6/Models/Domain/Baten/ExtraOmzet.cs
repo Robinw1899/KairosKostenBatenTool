@@ -8,11 +8,11 @@
         public Soort Soort { get; set; }
         public string Beschrijving { get; set; } // wordt niet gebruikt
         public double JaarbedragOmzetverlies { get; set; }
-        public double Besparing { get; set; } // = % --> kommagetal, bv. 10% = 0,1
+        public double Besparing { get; set; } // = % --> bv. 10%
 
         public double Bedrag
         {
-            get { return JaarbedragOmzetverlies * Besparing; }
+            get { return JaarbedragOmzetverlies * (Besparing / 100); }
             set { }
         }
 

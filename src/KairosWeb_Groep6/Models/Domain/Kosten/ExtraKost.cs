@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace KairosWeb_Groep6.Models.Domain.Kosten
+﻿namespace KairosWeb_Groep6.Models.Domain.Kosten
 {
     public class ExtraKost : KostOfBaat
     {
