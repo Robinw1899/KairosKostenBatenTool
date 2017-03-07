@@ -1,11 +1,12 @@
 ﻿@model KairosWeb_Groep6.Models.KairosViewModels.WerkgeverViewModel
+
 @{
     ViewData["Title"] = "Nieuwe analyse bestaande Werkgever";
 }
 <h2>@ViewData["Title"]</h2>
 <hr/>
 
-<form asp-controller="Kairos" asp-action="NieuweAnalyseBestaandeWerkgever" method="get" >   
+<form asp-controller="Kairos" asp-action="NieuweAnalyse" method="post" id="Naam" >   
     <div asp-validation-summary="All" class="text-danger"></div>  
     <div class="form-group">
         <label asp-for="Naam" class="col-md-2 control-label"></label>
@@ -17,7 +18,7 @@
 </form>
 
 <div id="WerkgeversTable">
-    @Html.Partial("_Werkgevers", Model);
+    @Html.Partial("_Werkgevers", ViewData["Werkgevers"]);
 </div>
 
 

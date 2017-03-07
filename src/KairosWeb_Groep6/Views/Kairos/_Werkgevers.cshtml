@@ -1,5 +1,14 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model System.Collections.Generic.IEnumerable<KairosWeb_Groep6.Models.Domain.Werkgever>
+
+<table class="table">
+    <tr>
+        <th>Naam</th>
+    </tr>
+    
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Naam</td>
+        </tr>
+    }
+</table>

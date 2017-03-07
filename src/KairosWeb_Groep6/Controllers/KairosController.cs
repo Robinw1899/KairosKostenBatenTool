@@ -87,14 +87,14 @@ namespace KairosWeb_Groep6.Controllers
             throw new NotImplementedException();
         }
 
-        public IActionResult NieuweAnalyseBestaandeWerkgever(String name="")
+        public IActionResult NieuweAnalyseBestaandeWerkgever(String naam="")
         {
                       
-            if (name.Equals(""))
+            if (naam.Equals(""))
                  ViewData["Werkgevers"] = _werkgeverRepository.GetAll();
             else
             {
-               ViewData["Werkgevers"] = _werkgeverRepository.GetByName(name);
+               ViewData["Werkgevers"] = _werkgeverRepository.GetByName(naam);
                
             }
            /* if (IsAjaxRequest())
