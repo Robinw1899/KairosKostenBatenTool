@@ -34,7 +34,8 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult NieuweAnalyse()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
+            return View(nameof(MedewerkerNiveauBaat));
         }
 
         public async Task<IActionResult> EersteKeerAanmelden()
@@ -81,5 +82,22 @@ namespace KairosWeb_Groep6.Controllers
         {
             throw new NotImplementedException();
         }
+        public IActionResult MedewerkerNiveauBaat()
+        {
+            return View();
+        }
+        public IActionResult UitzendKrachtBesparing()
+        {
+            return View();
+        }
+        public IActionResult ExtraOmzet()
+        {
+            return View();
+        }
+        public IActionResult ExtraProductiviteit()
+        {
+            return View();
+        }
+
     }
 }
