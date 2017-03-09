@@ -86,16 +86,14 @@ namespace KairosWeb_Groep6.Controllers
         {
             throw new NotImplementedException();
         }
-
+        //dit wordt opgeroepen als je op de knop BestaandeWerkgever drukt bij de methode NieuweOfBestaandeWerkgever
         public IActionResult NieuweAnalyseBestaandeWerkgever(string naam="")
-        {
-                      
+        {           
             if (naam.Equals(""))
                  ViewData["Werkgevers"] = _werkgeverRepository.GetAll();
             else
             {
-               ViewData["Werkgevers"] = _werkgeverRepository.GetByName(naam);
-               
+               ViewData["Werkgevers"] = _werkgeverRepository.GetByName(naam);               
             }
             if (IsAjaxRequest())
                 return PartialView("_Werkgevers");

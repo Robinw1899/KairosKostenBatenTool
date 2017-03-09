@@ -3,6 +3,11 @@
 <table class="table">
     <tr>
         <th>Naam</th>
+        <th>Gemeente</th>
+        <th>Straat en Nummer</th>
+        <th></th>
+        
+        
     </tr>
     
     @foreach (var item in Model)
@@ -11,8 +16,11 @@
             <td>@item.Naam</td>
             <!-- foto van Werkgever -->
             <td>@item.Gemeente</td>
-            <td>@item.Straat</td>
-            <td>@item.Nummer</td>
+            <td>@item.Straat @item.Nummer</td>
+            <td>
+                <a asp-controller="Kairos" asp-action="NieuweAnalyse" asp-route="@item.WerkgeverId">Nieuwe Analyse</a>
+            </td>
+           
         </tr>
     }
 </table>
