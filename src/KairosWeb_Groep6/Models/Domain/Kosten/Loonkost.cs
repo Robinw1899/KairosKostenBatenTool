@@ -86,8 +86,16 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
             return true;
         }
 
-        private bool ControleerGegevensIBOAanwezig()
+        private bool ControleerAlleGegevensAanwezig()
         {
+            if (!ControleerGegevensBrutoloonAanwezig())
+            {
+                return false;
+            }
+            if (!ControleerGegevensGemiddeldeVOPAanwezig())
+            {
+                return false;
+            }
             if (AantalMaandenIBO <= 0)
             {
                 return false;
@@ -140,7 +148,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
         
         public double BerekenTotaleLoonkost()
         {
-            if (ControleerGegevensIBOAanwezig())
+            if (ControleerAlleGegevensAanwezig())
             {
                 // de rest wordt gecontroleerd in de andere methoden
                 //(bruto loon per maand incl werkgeversbijdragen – gemiddelde VOP premie per maand – doelgroepvermindering per maand) 
