@@ -36,7 +36,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         }
 
         [Fact]
-        public void TestBerekenBrutoloonPerMaand_GegevenOntbreekt_ThrowsIllegalStateException()
+        public void TestBerekenBrutoloonPerMaand_GegevenOntbreekt_Returns0()
         {
             // Werkgever.AantalWerkuren ontbreekt (standaard 0)
             Werkgever.AantalWerkuren = 0;
@@ -46,11 +46,11 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 AantalUrenPerWeek = 23
             };
 
-            Assert.Throws<InvalidOperationException>(() => _loonkost.BerekenBrutoloonPerMaand());
+            Assert.Equal(0, _loonkost.BerekenBrutoloonPerMaand());
         }
 
         [Fact]
-        public void TestBerekenBrutoloonPerMaand_GegevenGelijkAan0_ThrowsIllegalStateException()
+        public void TestBerekenBrutoloonPerMaand_GegevenGelijkAan0_Returns0()
         {
             Werkgever.AantalWerkuren = 37;
             _loonkost = new Loonkost
@@ -59,7 +59,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 AantalUrenPerWeek = 0
             };
 
-            Assert.Throws<InvalidOperationException>(() => _loonkost.BerekenBrutoloonPerMaand());
+            Assert.Equal(0, _loonkost.BerekenBrutoloonPerMaand());
         }
 
         [Theory]
@@ -84,7 +84,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         }
 
         [Fact]
-        public void TestBerekenGemiddeldeVOPPerMaand_GegevenOntbreekt_ThrowsIllegalStateException()
+        public void TestBerekenGemiddeldeVOPPerMaand_GegevenOntbreekt_Returns0()
         {
             // doelgroep ontbreekt
             Werkgever.AantalWerkuren = 37;
@@ -94,11 +94,11 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 AantalUrenPerWeek = 23
             };
 
-            Assert.Throws<InvalidOperationException>(() => _loonkost.BerekenGemiddeldeVOPPerMaand());
+            Assert.Equal(0,_loonkost.BerekenGemiddeldeVOPPerMaand());
         }
 
         [Fact]
-        public void TestBerekenGemiddeldeVOPPerMaand_DoelgroepNull_ThrowsIllegalStateException()
+        public void TestBerekenGemiddeldeVOPPerMaand_DoelgroepNull_Returns0()
         {
             Werkgever.AantalWerkuren = 37;
             _loonkost = new Loonkost
@@ -109,7 +109,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Ondersteuningspremie = 0.3D
             };
 
-            Assert.Throws<InvalidOperationException>(() => _loonkost.BerekenGemiddeldeVOPPerMaand());
+            Assert.Equal(0, _loonkost.BerekenGemiddeldeVOPPerMaand());
         }
 
         [Theory]
@@ -136,7 +136,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         }
 
         [Fact]
-        public void TestBerekenTotaleLoonkost_GegevenOntbreekt_ThrowsIllegalStateException()
+        public void TestBerekenTotaleLoonkost_GegevenOntbreekt_Returns0()
         {
             // IBOPremie en AantalMaandenIBO ontbreken
             Werkgever.AantalWerkuren = 37;
@@ -148,11 +148,11 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Ondersteuningspremie = 0.20D
             };
 
-            Assert.Throws<InvalidOperationException>(() => _loonkost.BerekenTotaleLoonkost());
+            Assert.Equal(0, _loonkost.BerekenTotaleLoonkost());
         }
 
         [Fact]
-        public void TestBerekenTotaleLoonkost_DoelgroepNull_ThrowsIllegalStateException()
+        public void TestBerekenTotaleLoonkost_DoelgroepNull_Returns0()
         {
             Werkgever.AantalWerkuren = 37;
             _loonkost = new Loonkost
@@ -165,7 +165,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 IBOPremie = 0D
             };
 
-            Assert.Throws<InvalidOperationException>(() => _loonkost.BerekenGemiddeldeVOPPerMaand());
+            Assert.Equal(0, _loonkost.BerekenGemiddeldeVOPPerMaand());
         }
 
         [Fact]
