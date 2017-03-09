@@ -22,10 +22,8 @@ namespace KairosWeb_Groep6.Data
             base.OnModelCreating(builder);
             builder.Entity<Gebruiker>(MapGebruiker);
             builder.Entity<Organisatie>(MapOrganisatie);
-            
             builder.Ignore<DomeinController>();
             builder.Ignore<Analyse>();
-            builder.Ignore<Functie>();
             builder.Ignore<Werkgever>();
         }
 

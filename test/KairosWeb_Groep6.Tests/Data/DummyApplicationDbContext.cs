@@ -1,56 +1,133 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using KairosWeb_Groep6.Models.Domain;
-using Microsoft.EntityFrameworkCore;
+using KairosWeb_Groep6.Models.Domain.Baten;
+using KairosWeb_Groep6.Models.Domain.Kosten;
+using Microsoft.DotNet.ProjectModel.FileSystemGlobbing.Internal.PathSegments;
 
 namespace KairosWeb_Groep6.Tests.Data
 {
-    public class DummyApplicationDbContext : DbContext
+    public class DummyApplicationDbContext
     {
-        
-        public IEnumerable<Jobcoach> Jobcoaches { get; set; }
-        public IEnumerable<Organisatie> Organisaties { get; set; }
-        public IEnumerable<Werkgever> Werkgevers { get; set; }
-        public IEnumerable<Functie> Functies { get; set; }
-        public Jobcoach CoachDimmy { get; set; }
-        public Jobcoach CoachThomas { get; set; }
-        public Jobcoach CoachRobin { get; set; }
-        public Werkgever WerkgeverUgent { get; set; }
-        public Werkgever WerkgeverErasmus { get; set; }
-       
-        /*public Doelgroep Doelgroep1 { get; set; }
-        public Doelgroep Doelgroep2 { get; set; }*/
-        public Functie FunctieArbeider { get; set; }
-        public Functie FunctieBediende { get; set; }
+        public IEnumerable<Gebruiker> Gebruikers { get; set; }
 
-        public Organisatie OrganisatieHoGent { get; set; }
-        public Organisatie OrganisatieColruyt { get; set; }
+        public Gebruiker Dimmy { get; set; }
+
+        public Gebruiker Thomas { get; set; }
+
+        public Gebruiker Robin { get; set; }
+
+        public Organisatie HoGent { get; set; }
+
+        public Organisatie Colruyt { get; set; }
+
+        public Loonkost Poetsvrouw { get; set; }
+
+        public Loonkost Secretaresse { get; set; }
+
+        public Loonkost Postbode { get; set; }
+
+        public List<Loonkost> Loonkosten { get; set; }
+
+        public List<ExtraKost> ExtraKosten { get; set; }
+
+        public List<MedewerkerNiveauBaat> MedewerkerNiveauBaten { get; set; }
+
+        public List<Subsidie> Subsidies { get; set; }
 
         public DummyApplicationDbContext()
         {
-            OrganisatieHoGent = new Organisatie("HoGent", "Arbeidstraat", 10, 9300, "Aalst");
-            OrganisatieColruyt = new Organisatie("Colruyt", "Weggevoerdenstraat", 55, 9404, "Ninove");
-            Organisaties = new[] { OrganisatieHoGent, OrganisatieColruyt };
+            MaakOrganisaties();
+            MaakGebruikers();
+            MaakLoonkosten();
+            MaakExtraKosten();
+            MaakMedewerkerNiveauBaten();
+            MaakSubsidies();
+        }
 
+        private void MaakOrganisaties()
+        {
+            HoGent = new Organisatie("HoGent", "Arbeidstraat", 10, 9300, "Aalst");
+            Colruyt = new Organisatie("Colruyt", "Weggevoerdenstraat", 55, 9404, "Ninove");
+        }
 
-            CoachThomas = new Jobcoach("Aelbrecht", "Thomas", "thomas.aelbrecht@gmail.com", OrganisatieHoGent);
-            CoachThomas.JobcoachId = 1;
-            CoachRobin = new Jobcoach("Coppens", "Robin", "robbin.coppens@gmail.com", OrganisatieHoGent);
-            CoachRobin.JobcoachId = 2;
-            CoachDimmy = new Jobcoach("Maenhout", "Dimmy", "dimmy.maenhout@test.be", OrganisatieColruyt);
-            CoachDimmy.JobcoachId = 3;
-            Jobcoaches = new[] { CoachThomas, CoachRobin, CoachDimmy};
+        private void MaakGebruikers()
+        {
+            Thomas = new Gebruiker("Aelbrecht", "Thomas", "thomas.aelbrecht@gmail.com", HoGent) { GebruikerId = 1 };
+            Robin = new Gebruiker("Coppens", "Robin", "robbin.coppens@gmail.com", HoGent) { GebruikerId = 2 };
+            Dimmy = new Gebruiker("Maenhout", "Dimmy", "dimmy.maenhout@test.be", Colruyt) { GebruikerId = 3 };
 
-            WerkgeverUgent = new Werkgever("UGent", "Capucienenlaan", 20, 9300, "Aalst", 20);   
-            WerkgeverErasmus = new Werkgever("Erasmus","Erasmusstraat", 25, 9450, "Denderhoutem", 30, 10);//patronale bijdrage nog eens verifieren
-            Werkgevers = new Werkgever[] {WerkgeverUgent, WerkgeverErasmus};
+            Gebruikers = new List<Gebruiker>
+            {
+                Thomas,
+                Robin,
+                Dimmy
+            };
+        }
 
-            FunctieArbeider = new Functie("Arbeider", 40, 2100.00, 500.00, Doelgroep.LaaggeschooldTot25);
-            FunctieBediende = new Functie("Bediende", 23, 2500.00, 1000.00, Doelgroep.MiddengeschooldTot25);
-            //Functies = new Functie[FunctieArbeider, FunctieBediende]; hier zit nog een fout in!
+        private void MaakLoonkosten()
+        {
+            Poetsvrouw = new Loonkost
+            {
+                Id = 1,
+                BrutoMaandloonFulltime = 1800,
+                AantalUrenPerWeek = 37,
+                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Ondersteuningspremie = 0.20D,
+                AantalMaandenIBO = 2,
+                IBOPremie = 564.0D
+            };
 
+            Secretaresse = new Loonkost
+            {
+                Id = 2,
+                BrutoMaandloonFulltime = 2200,
+                AantalUrenPerWeek = 23,
+                Doelgroep = Doelgroep.MiddengeschooldTot25,
+                Ondersteuningspremie = 0.20D,
+                AantalMaandenIBO = 2,
+                IBOPremie = 564.0D
+            };
+
+            Postbode = new Loonkost
+            {
+                Id = 3,
+                BrutoMaandloonFulltime = 1900,
+                AantalUrenPerWeek = 35,
+                Doelgroep = Doelgroep.Tussen55En60,
+                Ondersteuningspremie = 0.20D,
+                AantalMaandenIBO = 2,
+                IBOPremie = 564.0D
+            };
+
+            Loonkosten = new List<Loonkost>
+            {
+                Poetsvrouw,
+                Secretaresse,
+                Postbode
+            };
+        }
+
+        private void MaakExtraKosten()
+        {
+            ExtraKosten = new List<ExtraKost>();
+            ExtraKosten.Add(new ExtraKost { Id = 1, Bedrag = 150, Beschrijving = "Stagekosten" });
+            ExtraKosten.Add(new ExtraKost { Id = 2, Bedrag = 1000, Beschrijving = "Uitrusting" });
+            ExtraKosten.Add(new ExtraKost { Id = 3, Bedrag = 400, Beschrijving = "Boeken en ander studiemateriaal" });
+        }
+
+        private void MaakMedewerkerNiveauBaten()
+        {
+            MedewerkerNiveauBaten = new List<MedewerkerNiveauBaat>();
+            MedewerkerNiveauBaten.Add(new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau) { Id = 1, Uren = 35, BrutoMaandloonFulltime = 2300});
+            MedewerkerNiveauBaten.Add(new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau) { Id = 2, Uren = 30, BrutoMaandloonFulltime = 2000});
+            MedewerkerNiveauBaten.Add(new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau) { Id = 3, Uren = 37, BrutoMaandloonFulltime = 3250});
+        }
+
+        private void MaakSubsidies()
+        {
+            Subsidies = new List<Subsidie>();
+            Subsidies.Add(new Subsidie { Id = 1, Bedrag = 200 });
+            Subsidies.Add(new Subsidie { Id = 2, Bedrag = 1500 });
         }
     }
 }

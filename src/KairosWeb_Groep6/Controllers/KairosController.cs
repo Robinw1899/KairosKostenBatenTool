@@ -35,7 +35,7 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult NieuweAnalyse()
         {
             //throw new System.NotImplementedException();
-            return View(nameof(NieuweWerkgever));
+            return View(nameof(NieuweOfBestaandeWerkgever));
         }
 
         public async Task<IActionResult> EersteKeerAanmelden()
@@ -82,7 +82,8 @@ namespace KairosWeb_Groep6.Controllers
         {
             throw new NotImplementedException();
         }
-        public IActionResult NieuweWerkgever()
+        
+        public IActionResult NieuweOfBestaandeWerkgever()//kiezen voor nieuwe of bestaande werkgever
         {
             return View();
         }

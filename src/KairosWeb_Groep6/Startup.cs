@@ -66,7 +66,6 @@ namespace KairosWeb_Groep6
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
-            services.Configure<AuthMessageSenderOptions>(Configuration);/*dit toegevoegd*/ 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

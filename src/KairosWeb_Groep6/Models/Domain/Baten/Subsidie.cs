@@ -1,35 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace KairosWeb_Groep6.Models.Domain
+﻿namespace KairosWeb_Groep6.Models.Domain.Baten
 {
-    public class Subsidie:KostOfBaat
-    {
-        public ICollection<KolomWaarde> kolommen { get; set; }
-        public Type type { get; set; }
-        public ICollection<Rij> waarden { get; set; }
-
+    public class Subsidie : KostOfBaat
+    {               
+        //Beschrijving wordt niet gebruikt
+        #region Constructors
         public Subsidie()
         {
-            kolommen = new List<KolomWaarde>();
-            waarden = new List<Rij>();
-            type = Type.BAAT;
+            Type = Type.Baat;
+            Soort = Soort.Subsidie;
         }
-
-        public double berekenTotaal()
-        {
-            throw new NotImplementedException();
-        }
-
-        public double getBedrag(int rijNr)
-        {
-            throw new NotImplementedException();
-        }
-        public double getSubsidies()
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }
