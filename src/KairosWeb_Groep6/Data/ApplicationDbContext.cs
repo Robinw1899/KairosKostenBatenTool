@@ -11,7 +11,10 @@ namespace KairosWeb_Groep6.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Gebruiker> Gebruikers { get; set; }
+
         public DbSet<Werkgever> Werkgevers { get; set; }
+
+        public DbSet<Analyse> Analyses { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -24,8 +27,8 @@ namespace KairosWeb_Groep6.Data
             base.OnModelCreating(builder);
             builder.Entity<Gebruiker>(MapGebruiker);
             builder.Entity<Organisatie>(MapOrganisatie);
-            builder.Ignore<DomeinController>();
-            builder.Ignore<Analyse>();
+            //builder.Ignore<DomeinController>();
+            //builder.Ignore<Analyse>();
             builder.Entity<Werkgever>(MapWerkgever);
         }
 

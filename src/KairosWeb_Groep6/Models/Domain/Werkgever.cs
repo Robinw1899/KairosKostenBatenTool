@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NuGet.Common;
 
 namespace KairosWeb_Groep6.Models.Domain
 {

@@ -8,6 +8,11 @@
         public string Beschrijving { get; set; }
         public virtual double Bedrag { get; set; }
 
+        protected KostOfBaat()
+        {
+            
+        }
+
         //ICollection<KolomWaarde> Kolommen { get; set; }
         //ICollection<Rij> Waarden { get; set; }
         //double GetBedrag(int rijNr);

@@ -1,0 +1,39 @@
+﻿@using KairosWeb_Groep6.Models.KairosViewModels.Baten
+@model IEnumerable<MedewerkerNiveauBaatViewModel>
+
+<table class="table table-bordered table-condensed table-responsive">
+    <tr>
+        <th>Uren</th>
+        <th>Bruto maandloon fulltime</th>
+        <th>Totale loonkost per jaar (incl. patronale bijdragen en vakantiegeld)</th>
+        <th class="empty-th"></th>
+    </tr>
+    @if (Model == null || !Model.Any()) // als de lijst leeg is
+    {
+        <tr>
+            <td colspan="4" class="alert alert-info">
+                Er zijn nog geen gegevens ingevuld.
+                Start met het invullen door op de <i class="fa fa-plus" aria-hidden="true"></i> rechtsonder 
+                de tabel te klikken.
+            </td>
+        </tr>
+    }
+    else
+    {
+        foreach (MedewerkerNiveauBaatViewModel baat in Model)
+        {
+            <tr>
+                <td>@baat.Uren</td>
+                <td>@baat.BrutoMaandloonFulltime.ToString("C")</td>
+                <td>@baat.Bedrag.ToString("C")</td>
+                <td>
+                    <div class="options">
+                        <a asp-action="Bewerk" asp-route-id="@baat.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a asp-action="Verwijder" asp-route-id="@baat.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    </div>
+                </td>
+            </tr>
+        }
+    }
+</table>
+
