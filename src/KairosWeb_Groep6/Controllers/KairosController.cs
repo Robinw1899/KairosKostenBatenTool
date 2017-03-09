@@ -105,10 +105,12 @@ namespace KairosWeb_Groep6.Controllers
                 return View(model);
             }
         }
+
         private bool IsAjaxRequest()
         {
             return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
-        
+        }
+
         public IActionResult NieuweOfBestaandeWerkgever()//kiezen voor nieuwe of bestaande werkgever
         {
             return View();
