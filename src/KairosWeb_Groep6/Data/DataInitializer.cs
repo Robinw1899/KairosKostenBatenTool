@@ -88,7 +88,7 @@ namespace KairosWeb_Groep6.Data
 
             string naamOrg = "VAB";
             string straat = "Capucienelaan";
-            string nummer = "65";
+            int nummer = 65;
             int postcode = 9300;
             string gemeente = "Aalst";
             int aantalWerkuren = 35;
@@ -100,7 +100,7 @@ namespace KairosWeb_Groep6.Data
 
             naamOrg = "VAB";
             straat = "Capucienelaan";
-            nummer = "65";
+            nummer = 65;
             postcode = 9300;
             gemeente = "Aalst";
             aantalWerkuren = 35;

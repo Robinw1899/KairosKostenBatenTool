@@ -68,7 +68,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         public void EersteKeerAanmdelden_WachtwoordVeranderdIndienSuccesvol()
         {
             Mock<AccountController> _accountController = new Mock<AccountController>();
-            _gebruikerRepository.Setup(m => m.GetByEmail(Email)).Returns(_dbContext.CoachThomas);
+            _gebruikerRepository.Setup(m => m.GetByEmail(Email)).Returns(_dbContext.Thomas);
             EersteKeerAanmeldenViewModel EersteKeerAanmeldenVM = new EersteKeerAanmeldenViewModel();
             EersteKeerAanmeldenVM.Password = Wachtwoord;
             EersteKeerAanmeldenVM.ConfirmPassword = Wachtwoord;

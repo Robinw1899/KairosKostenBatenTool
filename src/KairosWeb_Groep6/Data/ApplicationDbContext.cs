@@ -110,10 +110,10 @@ namespace KairosWeb_Groep6.Data
 
             w.Property(t => t.Gemeente)
                 .IsRequired();          
-            w.Property(t => Werkgever.AantalWerkuren)
-                .IsRequired();
+            //w.Property(t => Werkgever.AantalWerkuren)
+            //    .IsRequired();
 
-            w.Property(t => Werkgever.PatronaleBijdrage);
+            //w.Property(t => Werkgever.PatronaleBijdrage);
 
             w.HasMany(t => t.Analyses)
                 .WithOne()
