@@ -9,12 +9,12 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
     public class Loonkost : KostOfBaat
     {
         #region Properties
-        public int Id { get; set; }
-        public string Beschrijving { get; set; } // = kolom "functie"
+       
+        //Beschrijving = kolom "functie"
 
         public double AantalUrenPerWeek { get; set; }
 
-        public double Bedrag // = kolom "totale loonkost eerste jaar"
+        public override double Bedrag // = kolom "totale loonkost eerste jaar"
         {
             get
             {
@@ -33,11 +33,6 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
 
         public Doelgroep? Doelgroep { get; set; }
 
-        public Type Type { get; set; }
-
-        public Soort Soort { get; set; }
-
-        
         #endregion
 
         #region Constructors

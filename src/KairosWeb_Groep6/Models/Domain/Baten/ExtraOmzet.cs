@@ -2,15 +2,12 @@
 {
     public class ExtraOmzet : KostOfBaat
     {
-        #region Properties
-        public int Id { get; set; }
-        public Type Type { get; set; }
-        public Soort Soort { get; set; }
-        public string Beschrijving { get; set; } // wordt niet gebruikt
+        #region Properties 
+        //Beschrijving wordt niet gebruikt      
         public double JaarbedragOmzetverlies { get; set; }
         public double Besparing { get; set; } // = % --> bv. 10%
 
-        public double Bedrag
+        public override double Bedrag
         {
             get { return JaarbedragOmzetverlies * (Besparing / 100); }
             set { }
