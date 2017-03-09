@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace KairosWeb_Groep6.Models.Domain.Baten
+﻿namespace KairosWeb_Groep6.Models.Domain.Baten
 {
     public class UitzendKrachtBesparing : KostOfBaat
     {

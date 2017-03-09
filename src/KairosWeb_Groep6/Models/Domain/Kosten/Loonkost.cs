@@ -1,4 +1,7 @@
-﻿namespace KairosWeb_Groep6.Models.Domain.Kosten
+﻿using System;
+using KairosWeb_Groep6.Models.Domain.Extensions;
+
+namespace KairosWeb_Groep6.Models.Domain.Kosten
 {
     /**
      * Dit komt overeen met kost 1.1 van de Excel.
@@ -20,7 +23,7 @@
             set { } // setter wordt nooit gebruikt
         }
 
-        private double BrutoMaandloonFulltime { get; set; }
+        public double BrutoMaandloonFulltime { get; set; }
 
         public double Ondersteuningspremie { get; set; }
 
@@ -45,50 +48,125 @@
         }
         #endregion
 
+        #region Controleermethoden
+        private bool ControleerGegevensBrutoloonAanwezig()
+        {
+            // als een gegeven niet aanwezig is, wordt een InvalidOperationException gegooid
+            // controleer of de gegevens in Werkgever aanwezig zijn
+            if (Werkgever.AantalWerkuren == 0)
+            {
+                return false;
+            }
+
+            if (Werkgever.PatronaleBijdrage <= 0)
+            {
+                return false;
+            }
+
+            if (BrutoMaandloonFulltime <= 0)
+            {
+                return false;
+            }
+
+            if (AantalUrenPerWeek <= 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ControleerGegevensGemiddeldeVOPAanwezig()
+        {
+            if (Doelgroep == null)
+            {
+                return false;
+            }
+
+            if (Ondersteuningspremie < 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ControleerGegevensIBOAanwezig()
+        {
+            if (AantalMaandenIBO <= 0)
+            {
+                return false;
+            }
+
+            if (IBOPremie <= 0)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        #endregion
+
         #region Methods
         public double BerekenBrutoloonPerMaand()
         {
             // ((bruto maandloon/aantal uur voltijdse werkweek) * aantal uur dat medewerker werkt) + 35% werkgeversbijdrage
+            if (ControleerGegevensBrutoloonAanwezig())
+            {
 
-            // bereken brutoloon per week van de werkgever
-            double brutoloonPerWeekWerkgever = BrutoMaandloonFulltime / Werkgever.AantalWerkuren;
-            // bereken brutoloon werknemer
-            double brutoloonWerknemer = brutoloonPerWeekWerkgever * AantalUrenPerWeek;
-            // tel patronale bijdrage erbij
-            double brutoloon = brutoloonWerknemer * (1 + Werkgever.PatronaleBijdrage);
+                // bereken brutoloon per week van de werkgever
+                double brutoloonPerWeekWerkgever = BrutoMaandloonFulltime / Werkgever.AantalWerkuren;
+                // bereken brutoloon werknemer
+                double brutoloonWerknemer = brutoloonPerWeekWerkgever * AantalUrenPerWeek;
+                // tel patronale bijdrage erbij
+                double brutoloon = brutoloonWerknemer * (1 + Werkgever.PatronaleBijdrage);
 
-            return brutoloon;
+                return brutoloon;
+            }
+
+            return 0; // return 0 indien gegeven ontbreekt
         }
+
         public double BerekenGemiddeldeVOPPerMaand()
         {
             //(bruto maandloon incl werkgeverslasten – maandelijkse doelgroepvermindering) * percentage VOP premie
-            double gemiddeldeVOPPerMaand = 0;
 
-            double brutoloon = BerekenBrutoloonPerMaand();
-            double doelgroepvermindering = Doelgroep?.BerekenDoelgroepVermindering(brutoloon, AantalUrenPerWeek) ?? 0;
-            gemiddeldeVOPPerMaand = (brutoloon - doelgroepvermindering) * Ondersteuningspremie;
+            if (ControleerGegevensGemiddeldeVOPAanwezig())
+            {
+                double brutoloon = BerekenBrutoloonPerMaand();
+                double doelgroepvermindering = Doelgroep?.BerekenDoelgroepVermindering(BrutoMaandloonFulltime, AantalUrenPerWeek) ?? 0;
+                double gemiddeldeVOPPerMaand = (brutoloon - doelgroepvermindering) * Ondersteuningspremie;
 
-            return gemiddeldeVOPPerMaand;
+                return gemiddeldeVOPPerMaand;
+            }
+
+            return 0; // return 0 indien gegeven ontbreekt
         }
         
         public double BerekenTotaleLoonkost()
         {
-            //(bruto loon per maand incl werkgeversbijdragen – gemiddelde VOP premie per maand – doelgroepvermindering per maand) 
-            //* (13,92 – aantal maanden IBO) + totaalbedrag premie IBO
-            double loonkost = 0;
+            if (ControleerGegevensIBOAanwezig())
+            {
+                // de rest wordt gecontroleerd in de andere methoden
+                //(bruto loon per maand incl werkgeversbijdragen – gemiddelde VOP premie per maand – doelgroepvermindering per maand) 
+                //* (13,92 – aantal maanden IBO) + totaalbedrag premie IBO
 
-            double brutoloon = BerekenBrutoloonPerMaand();
-            double gemVOP = BerekenGemiddeldeVOPPerMaand();
-            double doelgroepvermindering = Doelgroep?.BerekenDoelgroepVermindering(brutoloon, AantalUrenPerWeek) ?? 0;
-            // linkerdeel van de berekening (voor de * )
-            double linkerfactor = brutoloon - gemVOP - doelgroepvermindering;
+                double brutoloon = BerekenBrutoloonPerMaand();
+                double gemVOP = BerekenGemiddeldeVOPPerMaand();
+                double doelgroepvermindering =
+                    Doelgroep?.BerekenDoelgroepVermindering(BrutoMaandloonFulltime, AantalUrenPerWeek) ?? 0;
+                // linkerdeel van de berekening (voor de * )
+                double linkerfactor = brutoloon - gemVOP - doelgroepvermindering;
 
-            // rechterdeel van de berekening (na de *)
-            double rechterfactor = (13.92 - AantalMaandenIBO) + IBOPremie;
+                // rechterdeel van de berekening (na de *)
+                double rechterfactor = 13.92 - AantalMaandenIBO;
 
-            loonkost = linkerfactor * rechterfactor;
+                double loonkost = (linkerfactor * rechterfactor) + IBOPremie;
 
-            return loonkost;
+                return loonkost;
+            }
+
+            return 0; // return 0 indien gegeven ontbreekt
         }
         #endregion
     }
