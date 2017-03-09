@@ -1,5 +1,6 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NuGet.Common;
 
 namespace KairosWeb_Groep6.Models.Domain
@@ -13,13 +14,20 @@ namespace KairosWeb_Groep6.Models.Domain
         public int Postcode { get; set; }
         public string Gemeente { get; set; }
         public static int AantalWerkuren { get; set; }
+
         public static double PatronaleBijdrage { get; set; } = 0.35D;
         public IEnumerable<Analyse> Analyses { get; set; }
 
-        public Werkgever(string naam, string straat, string nummer, int postcode, string gemeente, int aantalWerkuren)
-            : this(naam, straat, nummer, postcode, gemeente, aantalWerkuren, 35.0)
-        {
+        public Werkgever()
 
+        {
+            
+        }
+
+        public Werkgever(string naam, string straat, int nummer, int postcode, string gemeente, int aantalWerkuren)
+            : this(naam, straat, nummer, postcode, gemeente, aantalWerkuren, 0.35D)
+        {
+            
         }
 
         public Werkgever(string naam, string straat, string nummer, int postcode, string gemeente, int aantalWerkuren, double patronaleBijdrage)

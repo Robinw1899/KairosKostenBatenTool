@@ -1,12 +1,12 @@
 ﻿namespace KairosWeb_Groep6.Models.Domain
 {
-    public interface KostOfBaat
+    public abstract class KostOfBaat
     {
-        int Id { get; set; }
-        Type Type { get; set; }
-        Soort Soort { get; set; }
-        string Beschrijving { get; set; }
-        double Bedrag { get; set; }
+        public int Id { get; set; }
+        public Type Type { get; set; }
+        public Soort Soort { get; set; }
+        public string Beschrijving { get; set; }
+        public virtual double Bedrag { get; set; }
 
         //ICollection<KolomWaarde> Kolommen { get; set; }
         //ICollection<Rij> Waarden { get; set; }

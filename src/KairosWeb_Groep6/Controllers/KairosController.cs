@@ -39,7 +39,8 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult NieuweAnalyse()
         {
-            throw new System.NotImplementedException();
+            //throw new System.NotImplementedException();
+            return View(nameof(NieuweOfBestaandeWerkgever));
         }
 
         public async Task<IActionResult> EersteKeerAanmelden()
@@ -86,6 +87,7 @@ namespace KairosWeb_Groep6.Controllers
         {
             throw new NotImplementedException();
         }
+
         //dit wordt opgeroepen als je op de knop BestaandeWerkgever drukt bij de methode NieuweAnalyse
         public IActionResult NieuweAnalyseBestaandeWerkgever(string naam="")
         {           
@@ -106,6 +108,10 @@ namespace KairosWeb_Groep6.Controllers
         private bool IsAjaxRequest()
         {
             return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+        
+        public IActionResult NieuweOfBestaandeWerkgever()//kiezen voor nieuwe of bestaande werkgever
+        {
+            return View();
         }
     }
 
