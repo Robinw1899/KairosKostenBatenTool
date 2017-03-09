@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.AccountViewModels;
@@ -7,6 +8,7 @@ using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -16,15 +18,18 @@ namespace KairosWeb_Groep6.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IGebruikerRepository _gebruikerRepository;
+        private readonly IWerkgeverRepository _werkgeverRepository;
 
         public KairosController(
             SignInManager<ApplicationUser> signInManager, 
             UserManager<ApplicationUser> userManager,
-            IGebruikerRepository gebruikerRepository)
+            IGebruikerRepository gebruikerRepository,
+            IWerkgeverRepository werkgeverRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _gebruikerRepository = gebruikerRepository;
+            _werkgeverRepository = werkgeverRepository;
         }
 
         public IActionResult Index()
@@ -82,10 +87,33 @@ namespace KairosWeb_Groep6.Controllers
         {
             throw new NotImplementedException();
         }
+
+        //dit wordt opgeroepen als je op de knop BestaandeWerkgever drukt bij de methode NieuweAnalyse
+        public IActionResult NieuweAnalyseBestaandeWerkgever(string naam="")
+        {           
+            if (naam.Equals(""))
+                 ViewData["Werkgevers"] = _werkgeverRepository.GetAll();
+            else
+            {
+               ViewData["Werkgevers"] = _werkgeverRepository.GetByName(naam);               
+            }
+            if (IsAjaxRequest())
+                return PartialView("_Werkgevers");
+            else
+            {
+                WerkgeverViewModel model = new WerkgeverViewModel();
+                return View(model);
+            }
+        }
+        private bool IsAjaxRequest()
+        {
+            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
         
         public IActionResult NieuweOfBestaandeWerkgever()//kiezen voor nieuwe of bestaande werkgever
         {
             return View();
         }
     }
+
 }
+

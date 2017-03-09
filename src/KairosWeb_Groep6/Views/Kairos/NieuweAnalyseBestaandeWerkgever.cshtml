@@ -1,0 +1,25 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.WerkgeverViewModel
+
+@{
+    ViewData["Title"] = "Nieuwe analyse bestaande Werkgever";
+}
+<h2>@ViewData["Title"]</h2>
+<hr/>
+
+<form asp-controller="Kairos" asp-action="NieuweAnalyse" method="post" id="formAdd" >       
+    <div class="form-group">
+        <label asp-for="Naam" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input id="NaamId" asp-for="Naam" class="form-control" />           
+        </div>
+    </div>   
+</form>
+
+<div id="WerkgeversTable">
+    @Html.Partial("_Werkgevers", ViewData["Werkgevers"]);
+</div>
+
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

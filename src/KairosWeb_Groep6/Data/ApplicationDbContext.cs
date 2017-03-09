@@ -1,4 +1,5 @@
-﻿using KairosWeb_Groep6.Models;
+﻿
+using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ namespace KairosWeb_Groep6.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Gebruiker> Gebruikers { get; set; }
+        public DbSet<Werkgever> Werkgevers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -24,7 +26,7 @@ namespace KairosWeb_Groep6.Data
             builder.Entity<Organisatie>(MapOrganisatie);
             builder.Ignore<DomeinController>();
             builder.Ignore<Analyse>();
-            builder.Ignore<Werkgever>();
+            builder.Entity<Werkgever>(MapWerkgever);
         }
 
         private void MapOrganisatie(EntityTypeBuilder<Organisatie> o)
@@ -85,6 +87,37 @@ namespace KairosWeb_Groep6.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             g.Ignore(t => t.Analyses);
+        }
+
+        private static void MapWerkgever(EntityTypeBuilder<Werkgever> w)
+        {
+            w.ToTable("Werkgever");
+
+            w.HasKey(t => t.WerkgeverId);
+
+            w.Property(t => t.Naam)
+                .HasMaxLength(50)
+                .IsRequired();
+
+            w.Property(t => t.Straat)
+                .HasMaxLength(50);
+
+            w.Property(t => t.Nummer)
+                .HasMaxLength(5);
+
+            w.Property(t => t.Postcode)
+                .IsRequired();
+
+            w.Property(t => t.Gemeente)
+                .IsRequired();          
+            w.Property(t => Werkgever.AantalWerkuren)
+                .IsRequired();
+
+            w.Property(t => Werkgever.PatronaleBijdrage);
+
+            w.HasMany(t => t.Analyses)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

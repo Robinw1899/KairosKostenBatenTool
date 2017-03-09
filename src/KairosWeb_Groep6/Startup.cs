@@ -66,12 +66,14 @@ namespace KairosWeb_Groep6
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
+            services.AddScoped<IWerkgeverRepository, WerkgeverRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
             ILoggerFactory loggerFactory, ApplicationDbContext context, 
-            UserManager<ApplicationUser> userManager, IGebruikerRepository gebruikerRepository)
+            UserManager<ApplicationUser> userManager, IGebruikerRepository gebruikerRepository,
+            IWerkgeverRepository werkgeverRepository)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -108,7 +110,7 @@ namespace KairosWeb_Groep6
                     template: "{controller=Kairos}/{action=Index}/{id?}");
             });
 
-            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository);
+            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,werkgeverRepository);
             initializer.InitializeData().Wait();
         }
     }
