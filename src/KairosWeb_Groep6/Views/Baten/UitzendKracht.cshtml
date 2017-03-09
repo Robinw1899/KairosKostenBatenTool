@@ -1,0 +1,73 @@
+﻿@model KairosWeb_Groep6.Models.BatenViewModels.UitzendKrachtBesparingViewModel
+@{
+    ViewData["Title"] = "Uitzendkracht besparing";
+}
+
+<h2 class="col-md-offset-1 ">@ViewData["Title"]</h2>
+
+<ul id="icons-h4">
+    <a asp-action="Opslaan"><i class="fa fa-floppy-o"></i></a>
+    <a asp-action="Bewerken"><i class="fa fa-pencil"></i></a>
+</ul>
+
+
+<!--Controller en actie nog veranderen-->
+<form asp-controller="Baten" asp-action="NieuweAnalyse" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+    <div class="col-md-offset-1">
+        <hr />
+        <!--Tabs-->
+        <div>
+            @Html.Partial("_Tabs");
+        </div>
+        <!--einde tabs-->
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div>
+            <div id="tabel">
+                <!--Tabel-->
+                @Html.Partial("_TabelUitzendKracht", Model);
+
+                <!--einde tabel-->
+            </div>
+            <!--buttons - + -->
+
+            <div class="form-group buttonsMinPlus">
+                <button><li class="fa fa-minus-square"></li></button>
+                <button id="btnPlus"><li class="fa fa-plus-square"></li></button>
+            </div>
+            <!--einde buttons - + -->
+        </div>
+        <!--begin div inputForm-->
+        <div id="inputForm">
+            <div class="form-group">
+                <label asp-for="Beschrijving" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Beschrijving" class="form-control" />
+                    <span asp-validation-for="Beschrijving" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Beschrijving" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Bedrag" class="form-control" />
+                    <span asp-validation-for="Bedrag" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!--buttons ann/add-->
+            <div class="col-md-12">
+                <div class="form-group col-md-12">
+                    <div class="col-md-offset-3 col-md-8 text-right">
+                        <div>
+                            <a asp-action="Index" class="btn btn-default">Annuleer</a>
+                            <a asp-action="Opslaan" class="btn btn-primary">Voeg toe</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--einde div inputForm-->
+    </div>
+</form>
+<script>
+        $("#baten").addClass("active");
+</script>
