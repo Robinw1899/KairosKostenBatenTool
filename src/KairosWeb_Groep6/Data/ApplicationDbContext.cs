@@ -1,4 +1,5 @@
-﻿using KairosWeb_Groep6.Models;
+﻿
+using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ namespace KairosWeb_Groep6.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Gebruiker> Gebruikers { get; set; }
+        public DbSet<Werkgever> Werkgevers { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -100,7 +102,8 @@ namespace KairosWeb_Groep6.Data
             w.Property(t => t.Straat)
                 .HasMaxLength(50);
 
-            w.Property(t => t.Nummer);
+            w.Property(t => t.Nummer)
+                .HasMaxLength(5);
 
             w.Property(t => t.Postcode)
                 .IsRequired();

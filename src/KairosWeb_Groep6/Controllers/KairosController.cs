@@ -86,7 +86,7 @@ namespace KairosWeb_Groep6.Controllers
         {
             throw new NotImplementedException();
         }
-        //dit wordt opgeroepen als je op de knop BestaandeWerkgever drukt bij de methode NieuweOfBestaandeWerkgever
+        //dit wordt opgeroepen als je op de knop BestaandeWerkgever drukt bij de methode NieuweAnalyse
         public IActionResult NieuweAnalyseBestaandeWerkgever(string naam="")
         {           
             if (naam.Equals(""))
@@ -107,8 +107,6 @@ namespace KairosWeb_Groep6.Controllers
         {
             return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
-
-
     }
 
 }

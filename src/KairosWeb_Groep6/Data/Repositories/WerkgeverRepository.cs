@@ -15,7 +15,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public WerkgeverRepository(ApplicationDbContext _context)
         {
             _dbContext = _context;
-            //_werkgevers = _context.Werkgevers;
+            _werkgevers = _context.Werkgevers;
         }
         public IEnumerable<Werkgever> GetAll()
         {

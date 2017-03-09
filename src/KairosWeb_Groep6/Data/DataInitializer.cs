@@ -10,17 +10,24 @@ namespace KairosWeb_Groep6.Data
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IGebruikerRepository _gebruikerRepository;
+        private readonly IWerkgeverRepository _werkgeverRepository;
 
-        public DataInitializer(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, IGebruikerRepository gebruikerRepository)
+        public DataInitializer(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, IGebruikerRepository gebruikerRepository,IWerkgeverRepository werkgeverRepository)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _gebruikerRepository = gebruikerRepository;
+            _werkgeverRepository = werkgeverRepository;
         }
 
         public async Task InitializeData()
         {
-            await InitializeUsers();
+            _dbContext.Database.EnsureDeleted();
+            if (_dbContext.Database.EnsureCreated())
+            {
+                await InitializeUsers();
+            }
+            _dbContext.SaveChanges();
         }
 
         private async Task InitializeUsers()
@@ -78,6 +85,32 @@ namespace KairosWeb_Groep6.Data
             await _userManager.CreateAsync(user, "kairos2017");
 
             _gebruikerRepository.Save();
+
+            string naamOrg = "VAB";
+            string straat = "Capucienelaan";
+            string nummer = "65";
+            int postcode = 9300;
+            string gemeente = "Aalst";
+            int aantalWerkuren = 35;
+            double patronaleBijdrage = 0;
+            
+            Werkgever werkgever
+                = new Werkgever(naamOrg,straat,nummer,postcode,gemeente,aantalWerkuren,patronaleBijdrage);
+             _werkgeverRepository.Add(werkgever);
+
+            naamOrg = "VAB";
+            straat = "Capucienelaan";
+            nummer = "65";
+            postcode = 9300;
+            gemeente = "Aalst";
+            aantalWerkuren = 35;
+            patronaleBijdrage = 0;
+
+            werkgever 
+                = new Werkgever(naamOrg, straat, nummer, postcode, gemeente, aantalWerkuren, patronaleBijdrage);
+            _werkgeverRepository.Add(werkgever);
+
+            _werkgeverRepository.Save();
         }
     }
 }

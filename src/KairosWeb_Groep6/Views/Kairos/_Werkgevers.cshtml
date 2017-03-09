@@ -14,10 +14,10 @@
     {
         <tr>
             <td>@item.Naam</td>
-            <!-- foto van Werkgever -->
             <td>@item.Gemeente</td>
             <td>@item.Straat @item.Nummer</td>
             <td>
+                <!--Deze action moet normaal naar de navigatie gaan voor baten-->
                 <a asp-controller="Kairos" asp-action="NieuweAnalyse" asp-route="@item.WerkgeverId">Nieuwe Analyse</a>
             </td>
            
