@@ -99,5 +99,13 @@ namespace KairosWeb_Groep6.Controllers
             return View();
         }
 
+        public IActionResult Oplsaan()
+        {
+             throw new NotImplementedException();
+        }
+        public IActionResult Bewerken()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -6,8 +6,8 @@
 <h2 class="col-md-offset-1 ">@ViewData["Title"]</h2>
 
 <ul id="icons-h4">
-    <a asp-action="opslaan"><i class="fa fa-floppy-o"></i></a>
-    <a asp-action="bewerken"><i class="fa fa-pencil"></i></a>
+    <a asp-action="Opslaan"><i class="fa fa-floppy-o"></i></a>
+    <a asp-action="Bewerken"><i class="fa fa-pencil"></i></a>
 </ul>
 
 <!--Controller en actie nog veranderen-->
@@ -17,12 +17,7 @@
         <hr />
         <!--Tabs-->
         <div>
-            <ul class="nav nav-tabs tabsWerkgeverKostenBatenResultaat">
-                <li><a href="#">Werkgever</a></li>
-                <li><a href="#">Kosten</a></li>
-                <li class="active"><a href="#">Baten</a></li>
-                <li><a href="#">Resultaat</a></li>
-            </ul>
+            @Html.Partial("_Tabs");
         </div>
         <!--einde tabs-->
         
@@ -77,3 +72,6 @@
         </div><!--Einde div inputForm-->
     </div>
 </form>
+<script>
+        $("#baten").addClass("active");
+</script>

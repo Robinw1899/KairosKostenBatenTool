@@ -14,16 +14,10 @@
 <!--Controller en actie nog veranderen-->
 <form asp-controller="Kairos" asp-action="NieuweAnalyse" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
     <div class="col-md-offset-1">
-        
         <hr />
         <!--Tabs-->
         <div>
-            <ul class="nav nav-tabs tabsWerkgeverKostenBatenResultaat">
-                <li ><a href="#">Werkgever</a></li>
-                <li><a href="#">Kosten</a></li>
-                <li class="active"><a href="#">Baten</a></li>
-                <li><a href="#">Resultaat</a></li>
-            </ul>
+            @Html.Partial("_Tabs");
         </div>
         <!--einde tabs-->
         <div asp-validation-summary="All" class="text-danger"></div>
@@ -74,3 +68,6 @@
         <!--einde div inputForm-->
     </div>
 </form>
+<script>
+        $("#baten").addClass("active");
+</script>
