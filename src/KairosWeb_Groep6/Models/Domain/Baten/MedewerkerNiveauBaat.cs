@@ -3,12 +3,9 @@
     public class MedewerkerNiveauBaat : KostOfBaat
     {
         #region Properties
-        public int Id { get; set; }
-        public Type Type { get; set; }
-        public Soort Soort { get; set; }
-        public string Beschrijving { get; set; } // wordt niet gebruikt!
+        //Beschrijving wordt niet gebruikt!
 
-        public double Bedrag
+        public override double Bedrag
         {
             get
             {
