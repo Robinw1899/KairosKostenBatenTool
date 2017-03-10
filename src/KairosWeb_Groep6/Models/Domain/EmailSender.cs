@@ -1,5 +1,4 @@
-﻿using System;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MimeKit;
 
 namespace KairosWeb_Groep6.Models.Domain
