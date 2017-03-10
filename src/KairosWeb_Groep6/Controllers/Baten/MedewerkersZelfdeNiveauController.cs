@@ -1,19 +1,21 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
-using KairosWeb_Groep6.Models.KairosViewModels.Baten;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
     [ServiceFilter(typeof(AnalyseFilter))]
-    public class MedewerkerHogerNiveauController : Controller
+    public class MedewerkersZelfdeNiveauController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
 
-        public MedewerkerHogerNiveauController(IAnalyseRepository analyseRepository)
+        public MedewerkersZelfdeNiveauController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
@@ -47,7 +49,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     BrutoMaandloonFulltime = model.BrutoMaandloonFulltime
                 };
 
-                analyse.MedewerkersHogerNiveauBaat.Add(baat);
+                analyse.MedewerkersZelfdeNiveauBaat.Add(baat);
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -63,7 +65,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
+            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat
                                                 .SingleOrDefault(b => b.Id == id);
 
             MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
@@ -86,7 +88,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, MedewerkerNiveauIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
+            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat
                                                  .SingleOrDefault(b => b.Id == model.Id);
 
             if (ModelState.IsValid && baat != null)
@@ -112,11 +114,13 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
+            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat
                                                  .SingleOrDefault(b => b.Id == id);
-
-            analyse.MedewerkersHogerNiveauBaat.Remove(baat);
-            _analyseRepository.Save();
+            if (baat != null)
+            {
+                analyse.MedewerkersZelfdeNiveauBaat.Remove(baat);
+                _analyseRepository.Save();
+            }
 
             MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
@@ -128,10 +132,10 @@ namespace KairosWeb_Groep6.Controllers.Baten
         {
             MedewerkerNiveauIndexViewModel model = new MedewerkerNiveauIndexViewModel
             {
-                Type = Models.Domain.Type.Baat,
-                Soort = Soort.MedewerkersHogerNiveau,
+                Type = Type.Baat,
+                Soort = Soort.MedewerkersZelfdeNiveau,
                 ViewModels = analyse
-                                .MedewerkersHogerNiveauBaat
+                                .MedewerkersZelfdeNiveauBaat
                                 .Select(m => new MedewerkerNiveauBaatViewModel(m))
             };
 
@@ -145,12 +149,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         private void PlaatsTotaalInViewData(Analyse analyse)
         {
-            if (analyse.MedewerkersHogerNiveauBaat.Count == 0)
+            if (analyse.MedewerkersZelfdeNiveauBaat.Count == 0)
             {
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = analyse.MedewerkersHogerNiveauBaat
+            double totaal = analyse.MedewerkersZelfdeNiveauBaat
                                     .Sum(t => t.Bedrag);
 
             ViewData["totaal"] = totaal.ToString("C");

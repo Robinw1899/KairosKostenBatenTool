@@ -2,18 +2,17 @@
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
-using KairosWeb_Groep6.Models.KairosViewModels.Baten;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
     [ServiceFilter(typeof(AnalyseFilter))]
-    public class UitzendKrachtBesparingController : Controller
+    public class UitzendKrachtBesparingenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
 
-        public UitzendKrachtBesparingController(IAnalyseRepository analyseRepository)
+        public UitzendKrachtBesparingenController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
