@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -23,9 +22,7 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
-        private readonly IJobcoachRepository _gebruikerRepository;
-
-       
+        private readonly IJobcoachRepository _jobcoachRepository;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -33,14 +30,14 @@ namespace KairosWeb_Groep6.Controllers
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            IJobcoachRepository gebruikerRepository)
+            IJobcoachRepository jobcoachRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
-            _gebruikerRepository = gebruikerRepository;
+            _jobcoachRepository = jobcoachRepository;
         }
 
         //
@@ -69,7 +66,7 @@ namespace KairosWeb_Groep6.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
-                    Jobcoach gebruiker = _gebruikerRepository.GetByEmail(model.Email);
+                    Jobcoach gebruiker = _jobcoachRepository.GetByEmail(model.Email);
 
                     if (gebruiker != null)
                     {
@@ -124,13 +121,16 @@ namespace KairosWeb_Groep6.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser {
+                var user = new ApplicationUser
+                {
                     UserName = model.Email,
                     Email = model.Email,
                     Naam = model.Naam,
-                    Voornaam = model.Voornaam};
-                //var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
-                var password = "kairos2017";
+                    Voornaam = model.Voornaam
+                };
+                
+                var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
+                //var password = "kairos2017";
                 var result = await _userManager.CreateAsync(user, password);
 
                 if (result.Succeeded)
@@ -146,10 +146,16 @@ namespace KairosWeb_Groep6.Controllers
                     //return RedirectToLocal(returnUrl);
 
                     Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
-                    model.NrOrganisatie, model.Postcode, model.Gemeente);
-                    Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie) {Wachtwoord = password};
-                    _gebruikerRepository.Add(jobcoach);
-                    _gebruikerRepository.Save();
+                        model.NrOrganisatie, model.Postcode, model.Gemeente);
+                    Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie)
+                    {
+                        Wachtwoord = password
+                    };
+                    _jobcoachRepository.Add(jobcoach);
+                    _jobcoachRepository.Save();
+
+                    string naamVoorEmail = model.Voornaam + " " + model.Naam;
+                    EmailSender.SendRegisterMailWithPassword(naamVoorEmail, model.Email, password);
 
                     return RedirectToAction(nameof(Login), "Account");
                 }
@@ -298,7 +304,7 @@ namespace KairosWeb_Groep6.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByNameAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -310,7 +316,21 @@ namespace KairosWeb_Groep6.Controllers
                 //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                 //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                 //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-                //return View("ForgotPasswordConfirmation");
+
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                Random random = new Random();
+                var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
+
+                await _userManager.ResetPasswordAsync(user, token, password);
+                var jobcoach = _jobcoachRepository.GetByEmail(user.Email);
+                jobcoach.AlAangemeld = false;
+                _jobcoachRepository.Save();
+
+                string name = jobcoach.Voornaam + " " + jobcoach.Naam;
+                EmailSender.SendForgotPasswordMail(name, jobcoach.Emailadres, password);
+
+                return View("ForgotPasswordConfirmation");
             }
 
             // If we got this far, something failed, redisplay form
