@@ -3,17 +3,17 @@ using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten;
-using KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels;
+using KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
     [ServiceFilter(typeof(AnalyseFilter))]
-    public class MedewerkerHogerNiveauController : Controller
+    public class UitzendKrachtBesparingController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
 
-        public MedewerkerHogerNiveauController(IAnalyseRepository analyseRepository)
+        public UitzendKrachtBesparingController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
@@ -30,23 +30,22 @@ namespace KairosWeb_Groep6.Controllers.Baten
             return View(model);
         }
 
-        [HttpPost]
         public IActionResult VoegToe(Analyse analyse, IndexViewModel model)
         {
             if (ModelState.IsValid)
             {
                 // de baat bestaat reeds:
-                MedewerkerNiveauBaat baat = new MedewerkerNiveauBaat
+                UitzendKrachtBesparing baat = new UitzendKrachtBesparing
                 {
                     //Id = model.Id,
                     Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
-                    Uren = model.Uren,
-                    BrutoMaandloonFulltime = model.BrutoMaandloonFulltime
+                    Beschrijving = model.Beschrijving,
+                    Bedrag = model.Bedrag
                 };
 
-                analyse.MedewerkersHogerNiveauBaat.Add(baat);
+                analyse.UitzendKrachtBesparingen.Add(baat);
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -58,37 +57,36 @@ namespace KairosWeb_Groep6.Controllers.Baten
         }
 
         public IActionResult Bewerk(Analyse analyse, int id)
-        {// id is het id van de baat die moet bewerkt wordens
-            MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
-                                                .SingleOrDefault(b => b.Id == id);
+        {
+            UitzendKrachtBesparing baat = analyse.UitzendKrachtBesparingen
+                                                    .SingleOrDefault(u => u.Id == id);
 
             IndexViewModel model = MaakModel(analyse);
 
-            // parameters voor formulier instellen
+            // gegevens analyse die bewerkt wordt invullen:
             model.Id = id;
             model.Type = baat.Type;
             model.Soort = baat.Soort;
-            model.Uren = baat.Uren;
-            model.BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
+            model.Beschrijving = baat.Beschrijving;
+            model.Bedrag = baat.Bedrag;
 
             return View("Index", model);
         }
 
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, IndexViewModel model)
-        {// id is het id van de baat die moet bewerkt worden
+        {
             if (ModelState.IsValid)
             {
-                MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
-                                                 .SingleOrDefault(b => b.Id == model.Id);
+                UitzendKrachtBesparing baat = analyse.UitzendKrachtBesparingen
+                                                .SingleOrDefault(b => b.Id == model.Id);
 
-                // parameters voor formulier instellen
+                // baat updaten
                 baat.Id = model.Id;
                 baat.Type = model.Type;
                 baat.Soort = model.Soort;
-                baat.Uren = model.Uren;
-                baat.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
-                _analyseRepository.Save();
+                baat.Beschrijving = model.Beschrijving;
+                baat.Bedrag = model.Bedrag;
 
                 model = MaakModel(analyse);
 
@@ -99,11 +97,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
         }
 
         public IActionResult Verwijder(Analyse analyse, int id)
-        {// id is het id van de baat die moet verwijderd worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
-                                                 .SingleOrDefault(b => b.Id == id);
+        {
+            UitzendKrachtBesparing baat = analyse.UitzendKrachtBesparingen
+                                                    .SingleOrDefault(u => u.Id == id);
 
-            analyse.MedewerkersHogerNiveauBaat.Remove(baat);
+            analyse.UitzendKrachtBesparingen.Remove(baat);
+            // hier moet nog extra komen wnr db werkt
             _analyseRepository.Save();
 
             IndexViewModel model = MaakModel(analyse);
@@ -111,23 +110,23 @@ namespace KairosWeb_Groep6.Controllers.Baten
             return View("Index", model);
         }
 
+        private bool IsAjaxRequest()
+        {
+            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+        }
+
         private IndexViewModel MaakModel(Analyse analyse)
         {
             IndexViewModel model = new IndexViewModel
             {
-                Type = Models.Domain.Type.Baat,
-                Soort = Soort.MedewerkersHogerNiveau,
+                Type = Type.Baat,
+                Soort = Soort.MedewerkersZelfdeNiveau,
                 ViewModels = analyse
-                                .MedewerkersHogerNiveauBaat
-                                .Select(m => new MedewerkerNiveauBaatViewModel(m))
+                                .UitzendKrachtBesparingen
+                                .Select(m => new UitzendKrachtBesparingViewModel(m))
             };
 
             return model;
-        }
-
-        private bool IsAjaxRequest()
-        {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
     }
 }

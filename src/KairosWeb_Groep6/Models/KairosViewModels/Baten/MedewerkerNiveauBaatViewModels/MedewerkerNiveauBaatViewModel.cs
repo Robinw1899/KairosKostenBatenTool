@@ -4,7 +4,7 @@ using KairosWeb_Groep6.Models.Domain.Baten;
 using Microsoft.AspNetCore.Mvc;
 using Type = KairosWeb_Groep6.Models.Domain.Type;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
+namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels
 {
     public class MedewerkerNiveauBaatViewModel
     {
