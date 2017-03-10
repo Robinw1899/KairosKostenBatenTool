@@ -11,7 +11,7 @@ namespace KairosWeb_Groep6.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Gebruiker> Gebruikers { get; set; }
+        public DbSet<Jobcoach> Gebruikers { get; set; }
 
         public DbSet<Werkgever> Werkgevers { get; set; }
 
@@ -26,10 +26,9 @@ namespace KairosWeb_Groep6.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Gebruiker>(MapGebruiker);
+            builder.Entity<Jobcoach>(MapGebruiker);
             builder.Entity<Organisatie>(MapOrganisatie);
-            //builder.Ignore<DomeinController>();
-            //builder.Ignore<Analyse>();
+            builder.Ignore<DomeinController>();
             builder.Entity<Werkgever>(MapWerkgever);
             builder.Entity<Analyse>(MapAnalyse);
         }
@@ -41,6 +40,14 @@ namespace KairosWeb_Groep6.Data
             a.HasKey(t => t.AnalyseId);
 
             a.HasMany(t => t.MedewerkersZelfdeNiveauBaat)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            a.HasMany(t => t.MedewerkersHogerNiveauBaat)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            a.HasMany(t => t.UitzendKrachtBesparingen)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
         }
@@ -70,39 +77,36 @@ namespace KairosWeb_Groep6.Data
                 .IsRequired();
         }
 
-        private static void MapGebruiker(EntityTypeBuilder<Gebruiker> g)
+        private static void MapGebruiker(EntityTypeBuilder<Jobcoach> j)
         {
-            g.ToTable("Gebruiker");
+            j.ToTable("Jobcoach");
 
-            g.HasKey(t => t.GebruikerId);
+            j.HasKey(t => t.JobcoachId);
 
-            g.Property(t => t.Naam)
+            j.Property(t => t.Naam)
                 .HasMaxLength(50)
                 .IsRequired();
 
-            g.Property(t => t.Voornaam)
+            j.Property(t => t.Voornaam)
                 .HasMaxLength(50)
                 .IsRequired();
 
-            g.Property(t => t.Emailadres)
+            j.Property(t => t.Emailadres)
                 .HasMaxLength(100)
                 .IsRequired();
 
-            g.Property(t => t.IsAdmin)
+            j.Property(t => t.AlAangemeld)
                 .IsRequired();
 
-            g.Property(t => t.AlAangemeld)
-                .IsRequired();
-
-            g.Property(t => t.Wachtwoord)
+            j.Property(t => t.Wachtwoord)
                 .IsRequired()
                 .HasMaxLength(16);
 
-            g.HasOne(t => t.Organisatie)
+            j.HasOne(t => t.Organisatie)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            g.Ignore(t => t.Analyses);
+            j.Ignore(t => t.Analyses);
         }
 
         private static void MapWerkgever(EntityTypeBuilder<Werkgever> w)

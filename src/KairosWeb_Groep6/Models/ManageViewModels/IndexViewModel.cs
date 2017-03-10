@@ -52,7 +52,7 @@ namespace KairosWeb_Groep6.Models.ManageViewModels
 
         }
 
-        public IndexViewModel(Gebruiker gebruiker)
+        public IndexViewModel(Jobcoach gebruiker)
         {
             Naam = gebruiker.Naam;
             Voornaam = gebruiker.Voornaam;

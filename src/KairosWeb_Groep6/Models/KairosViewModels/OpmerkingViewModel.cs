@@ -25,7 +25,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
             
         }
 
-        public OpmerkingViewModel(Gebruiker gebruiker, string onderwerp, string bericht)
+        public OpmerkingViewModel(Jobcoach gebruiker, string onderwerp, string bericht)
         {
             Email = gebruiker.Emailadres;
             Onderwerp = onderwerp;

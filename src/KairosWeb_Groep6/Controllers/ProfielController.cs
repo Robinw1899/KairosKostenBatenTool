@@ -19,11 +19,11 @@ namespace KairosWeb_Groep6.Controllers
     public class ProfielController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IGebruikerRepository _gebruikerRepository;
+        private readonly IJobcoachRepository _gebruikerRepository;
 
         public ProfielController(
             UserManager<ApplicationUser> userManager, 
-            IGebruikerRepository gebruikerRepository)
+            IJobcoachRepository gebruikerRepository)
         {
             _userManager = userManager;
             _gebruikerRepository = gebruikerRepository;
@@ -31,7 +31,7 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult Index()
         {
-            Gebruiker gebruiker = _gebruikerRepository.GetByEmail(_userManager.GetUserAsync(User).Result.Email);
+            Jobcoach gebruiker = _gebruikerRepository.GetByEmail(_userManager.GetUserAsync(User).Result.Email);
 
             //if (!gebruiker.IsAdmin)
             //{
@@ -56,7 +56,7 @@ namespace KairosWeb_Groep6.Controllers
                     if (model.OrganisatieNaam == null)
                     {
                         // Admin heeft gegevens gewijzigd
-                        Gebruiker gebruiker = _gebruikerRepository.GetById(model.GebruikerId);
+                        Jobcoach gebruiker = _gebruikerRepository.GetById(model.GebruikerId);
                         gebruiker.Naam = model.Naam;
                         gebruiker.Voornaam = model.Voornaam;
                         gebruiker.Emailadres = model.Email;
@@ -71,7 +71,7 @@ namespace KairosWeb_Groep6.Controllers
                     else
                     {
                         // Jobcoach heeft gegevens gewijzigd
-                        Gebruiker jobcoach = _gebruikerRepository.GetById(model.GebruikerId);
+                        Jobcoach jobcoach = _gebruikerRepository.GetById(model.GebruikerId);
                         jobcoach.Emailadres = model.Email;
                         jobcoach.Organisatie.Naam = model.OrganisatieNaam;
                         jobcoach.Organisatie.Gemeente = model.Gemeente;

@@ -2,19 +2,18 @@
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Kosten;
-using Microsoft.DotNet.ProjectModel.FileSystemGlobbing.Internal.PathSegments;
 
 namespace KairosWeb_Groep6.Tests.Data
 {
     public class DummyApplicationDbContext
     {
-        public IEnumerable<Gebruiker> Gebruikers { get; set; }
+        public IEnumerable<Jobcoach> Gebruikers { get; set; }
 
-        public Gebruiker Dimmy { get; set; }
+        public Jobcoach Dimmy { get; set; }
 
-        public Gebruiker Thomas { get; set; }
+        public Jobcoach Thomas { get; set; }
 
-        public Gebruiker Robin { get; set; }
+        public Jobcoach Robin { get; set; }
 
         public Organisatie HoGent { get; set; }
 
@@ -52,11 +51,11 @@ namespace KairosWeb_Groep6.Tests.Data
 
         private void MaakGebruikers()
         {
-            Thomas = new Gebruiker("Aelbrecht", "Thomas", "thomas.aelbrecht@gmail.com", HoGent) { GebruikerId = 1 };
-            Robin = new Gebruiker("Coppens", "Robin", "robbin.coppens@gmail.com", HoGent) { GebruikerId = 2 };
-            Dimmy = new Gebruiker("Maenhout", "Dimmy", "dimmy.maenhout@test.be", Colruyt) { GebruikerId = 3 };
+            Thomas = new Jobcoach("Aelbrecht", "Thomas", "thomas.aelbrecht@gmail.com", HoGent) { JobcoachId = 1 };
+            Robin = new Jobcoach("Coppens", "Robin", "robbin.coppens@gmail.com", HoGent) { JobcoachId = 2 };
+            Dimmy = new Jobcoach("Maenhout", "Dimmy", "dimmy.maenhout@test.be", Colruyt) { JobcoachId = 3 };
 
-            Gebruikers = new List<Gebruiker>
+            Gebruikers = new List<Jobcoach>
             {
                 Thomas,
                 Robin,

@@ -2,9 +2,9 @@
 
 namespace KairosWeb_Groep6.Models.Domain
 {
-    public class Gebruiker
+    public class Jobcoach
     {
-        public int GebruikerId { get; set; }
+        public int JobcoachId { get; set; }
 
         public string Naam { get; set; }
 
@@ -14,30 +14,27 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public string Wachtwoord { get; set; }
 
-        public bool IsAdmin { get; set; }
-
         public bool AlAangemeld { get; set; }
 
         public Organisatie Organisatie { get; set; }
 
         public ICollection<Analyse> Analyses { get; private set; }
 
-        public Gebruiker()
+        public Jobcoach()
         {
             
         }
 
-        public Gebruiker(string naam, string voornaam, string emailadres, bool isAdmin)
+        public Jobcoach(string naam, string voornaam, string emailadres)
         {
             Naam = naam;
             Voornaam = voornaam;
             Emailadres = emailadres;
-            IsAdmin = isAdmin;
             AlAangemeld = false;
         }
 
-        public Gebruiker(string naam, string voornaam, string emailadres, Organisatie organisatie)
-            : this(naam, voornaam, emailadres, false)
+        public Jobcoach(string naam, string voornaam, string emailadres, Organisatie organisatie)
+            : this(naam, voornaam, emailadres)
         {
             Organisatie = organisatie;
             Analyses = new List<Analyse>();
