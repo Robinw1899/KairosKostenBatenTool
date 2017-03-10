@@ -53,9 +53,9 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
 
         }
 
-        public ProfielViewModel(Gebruiker gebruiker)
+        public ProfielViewModel(Jobcoach gebruiker)
         {
-            GebruikerId = gebruiker.GebruikerId;
+            GebruikerId = gebruiker.JobcoachId;
             Naam = gebruiker.Naam;
             Voornaam = gebruiker.Voornaam;
             Email = gebruiker.Emailadres;

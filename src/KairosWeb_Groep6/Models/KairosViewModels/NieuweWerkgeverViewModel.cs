@@ -60,7 +60,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         }
 
-        public NieuweWerkgeverViewModel(Werkgever werkgever, Gebruiker gebruiker, string naamAfdeling)
+        public NieuweWerkgeverViewModel(Werkgever werkgever, Jobcoach gebruiker, string naamAfdeling)
         {
             Naam = gebruiker.Naam;
             Voornaam = gebruiker.Voornaam;

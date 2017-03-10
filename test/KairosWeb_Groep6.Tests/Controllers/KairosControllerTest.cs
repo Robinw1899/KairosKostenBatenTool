@@ -12,7 +12,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
     public class KairosControllerTest
     {
         private readonly KairosController _controller;
-        private readonly Mock<IGebruikerRepository> _gebruikerRepository;
+        private readonly Mock<IJobcoachRepository> _jobcoachRepository;
 
         private readonly DummyApplicationDbContext _dbContext;
 
@@ -30,7 +30,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         public KairosControllerTest()
         {
             _dbContext = new DummyApplicationDbContext();
-            _gebruikerRepository = new Mock<IGebruikerRepository>();
+            _jobcoachRepository = new Mock<IJobcoachRepository>();
             
             //eens vragen            //_accountController = new AccountController(new UserManager<ApplicationUser>(), );
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
@@ -68,14 +68,14 @@ namespace KairosWeb_Groep6.Tests.Controllers
         public void EersteKeerAanmdelden_WachtwoordVeranderdIndienSuccesvol()
         {
             Mock<AccountController> _accountController = new Mock<AccountController>();
-            _gebruikerRepository.Setup(m => m.GetByEmail(Email)).Returns(_dbContext.Thomas);
+            _jobcoachRepository.Setup(m => m.GetByEmail(Email)).Returns(_dbContext.Thomas);
             EersteKeerAanmeldenViewModel EersteKeerAanmeldenVM = new EersteKeerAanmeldenViewModel();
             EersteKeerAanmeldenVM.Password = Wachtwoord;
             EersteKeerAanmeldenVM.ConfirmPassword = Wachtwoord;
             
             Assert.Equal(Wachtwoord, EersteKeerAanmeldenVM.Password);
             Assert.Equal(Wachtwoord, EersteKeerAanmeldenVM.ConfirmPassword);
-            _gebruikerRepository.Verify(m => m.Save(), Times.Once);
+            _jobcoachRepository.Verify(m => m.Save(), Times.Once);
 
         }
 

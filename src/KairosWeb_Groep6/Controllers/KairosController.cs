@@ -1,14 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using KairosWeb_Groep6.Models;
-using KairosWeb_Groep6.Models.AccountViewModels;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -17,13 +14,13 @@ namespace KairosWeb_Groep6.Controllers
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IGebruikerRepository _gebruikerRepository;
+        private readonly IJobcoachRepository _gebruikerRepository;
         private readonly IWerkgeverRepository _werkgeverRepository;
 
         public KairosController(
             SignInManager<ApplicationUser> signInManager, 
             UserManager<ApplicationUser> userManager,
-            IGebruikerRepository gebruikerRepository,
+            IJobcoachRepository gebruikerRepository,
             IWerkgeverRepository werkgeverRepository)
         {
             _userManager = userManager;
@@ -66,7 +63,7 @@ namespace KairosWeb_Groep6.Controllers
 
                 if (login.Succeeded)
                 {
-                    Gebruiker gebruiker = _gebruikerRepository.GetByEmail(model.Email);
+                    Jobcoach gebruiker = _gebruikerRepository.GetByEmail(model.Email);
                     gebruiker.AlAangemeld = true;
                     _gebruikerRepository.Save();
 

@@ -22,14 +22,14 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
-        private readonly IGebruikerRepository _gebruikerRepository;
+        private readonly IJobcoachRepository _gebruikerRepository;
         public ManageController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IEmailSender emailSender,
         ISmsSender smsSender,
         ILoggerFactory loggerFactory,
-        IGebruikerRepository gebruikerRepo)
+        IJobcoachRepository gebruikerRepo)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -60,7 +60,7 @@ namespace KairosWeb_Groep6.Controllers
                 return View("Error");
             }
             var gebruiker = _gebruikerRepository.GetByEmail(user.Email);
-            Gebruiker jobcoach = new Gebruiker(gebruiker.Naam,gebruiker.Voornaam,gebruiker.Emailadres,null);
+            Jobcoach jobcoach = new Jobcoach(gebruiker.Naam,gebruiker.Voornaam,gebruiker.Emailadres,null);
             var model = new IndexViewModel(jobcoach);
             
                 /*HasPassword = await _userManager.HasPasswordAsync(user),
@@ -234,7 +234,7 @@ namespace KairosWeb_Groep6.Controllers
                 var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                 if (result.Succeeded)
                 {
-                    Gebruiker gebruiker = _gebruikerRepository.GetByEmail(user.Email);
+                    Jobcoach gebruiker = _gebruikerRepository.GetByEmail(user.Email);
                     gebruiker.Wachtwoord = model.NewPassword;
                     _gebruikerRepository.Save();
                     TempData["message"] = "Je wachtwoord is succesvol gewijzigd!";

@@ -23,7 +23,7 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
-        private readonly IGebruikerRepository _gebruikerRepository;
+        private readonly IJobcoachRepository _gebruikerRepository;
 
        
 
@@ -33,7 +33,7 @@ namespace KairosWeb_Groep6.Controllers
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            IGebruikerRepository gebruikerRepository)
+            IJobcoachRepository gebruikerRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -69,7 +69,7 @@ namespace KairosWeb_Groep6.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
-                    Gebruiker gebruiker = _gebruikerRepository.GetByEmail(model.Email);
+                    Jobcoach gebruiker = _gebruikerRepository.GetByEmail(model.Email);
 
                     if (gebruiker != null)
                     {
@@ -147,7 +147,7 @@ namespace KairosWeb_Groep6.Controllers
 
                     Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
                     model.NrOrganisatie, model.Postcode, model.Gemeente);
-                    Gebruiker jobcoach = new Gebruiker(model.Naam, model.Voornaam, model.Email, organisatie) {Wachtwoord = password};
+                    Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie) {Wachtwoord = password};
                     _gebruikerRepository.Add(jobcoach);
                     _gebruikerRepository.Save();
 

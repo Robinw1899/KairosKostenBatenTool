@@ -51,7 +51,7 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
             
         }
 
-        public RegisterViewModel(Gebruiker gebruiker)
+        public RegisterViewModel(Jobcoach gebruiker)
         {
             Naam = gebruiker.Naam;
             Voornaam = gebruiker.Voornaam;

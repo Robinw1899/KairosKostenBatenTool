@@ -9,10 +9,10 @@ namespace KairosWeb_Groep6.Data
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IGebruikerRepository _gebruikerRepository;
+        private readonly IJobcoachRepository _gebruikerRepository;
         private readonly IWerkgeverRepository _werkgeverRepository;
 
-        public DataInitializer(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, IGebruikerRepository gebruikerRepository,IWerkgeverRepository werkgeverRepository)
+        public DataInitializer(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, IJobcoachRepository gebruikerRepository,IWerkgeverRepository werkgeverRepository)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -45,7 +45,7 @@ namespace KairosWeb_Groep6.Data
             };
 
             Organisatie organisatie = new Organisatie("HoGent", "Arbeidstraat", 14, 9300, "Aalst");
-            Gebruiker gebruiker = new Gebruiker(naam, voornaam, email, organisatie) {AlAangemeld = true, Wachtwoord = "kairos2017" };
+            Jobcoach gebruiker = new Jobcoach(naam, voornaam, email, organisatie) {AlAangemeld = true, Wachtwoord = "kairos2017" };
             _gebruikerRepository.Add(gebruiker);
 
             await _userManager.CreateAsync(user, "kairos2017");
@@ -62,7 +62,7 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            gebruiker = new Gebruiker(naam, voornaam, email, false) { AlAangemeld = true, Wachtwoord = "kairos2017" };
+            gebruiker = new Jobcoach(naam, voornaam, email) { AlAangemeld = true, Wachtwoord = "kairos2017" };
             _gebruikerRepository.Add(gebruiker);
 
             await _userManager.CreateAsync(user, "kairos2017");
@@ -79,7 +79,7 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            gebruiker = new Gebruiker(naam, voornaam, email, false) { AlAangemeld = true, Wachtwoord = "kairos2017" };
+            gebruiker = new Jobcoach(naam, voornaam, email) { AlAangemeld = true, Wachtwoord = "kairos2017" };
             _gebruikerRepository.Add(gebruiker);
 
             await _userManager.CreateAsync(user, "kairos2017");
