@@ -1,4 +1,6 @@
-﻿namespace KairosWeb_Groep6.Models.Domain.Baten
+﻿using Newtonsoft.Json;
+
+namespace KairosWeb_Groep6.Models.Domain.Baten
 {
     public class MedewerkerNiveauBaat : KostOfBaat
     {
@@ -13,13 +15,23 @@
             }
             set { }
         } // returned berekening
+
+        [JsonProperty]
         public double Uren { get; set; }
+
+        [JsonProperty]
         public double BrutoMaandloonFulltime { get; set; }
         #endregion
 
         #region Constructors
 
         public MedewerkerNiveauBaat()
+        {
+            
+        }
+
+        [JsonConstructor]
+        public MedewerkerNiveauBaat(bool forJsonOnly)
         {
             
         }

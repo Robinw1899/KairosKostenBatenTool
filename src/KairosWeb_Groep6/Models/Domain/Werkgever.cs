@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using NuGet.Common;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
@@ -10,7 +7,7 @@ namespace KairosWeb_Groep6.Models.Domain
         public int WerkgeverId { get; set; }
         public string Naam { get; set; }
         public string Straat { get; set; }
-        public string Nummer { get; set; }
+        public int Nummer { get; set; }
         public int Postcode { get; set; }
         public string Gemeente { get; set; }
         public static int AantalWerkuren { get; set; }
@@ -30,7 +27,7 @@ namespace KairosWeb_Groep6.Models.Domain
             
         }
 
-        public Werkgever(string naam, string straat, string nummer, int postcode, string gemeente, int aantalWerkuren, double patronaleBijdrage)
+        public Werkgever(string naam, string straat, int nummer, int postcode, string gemeente, int aantalWerkuren, double patronaleBijdrage)
         {
             Naam = naam;
             Straat = straat;

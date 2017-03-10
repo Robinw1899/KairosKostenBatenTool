@@ -4,6 +4,7 @@
     background-image: url(../images/dashboard_bg.jpg);
     background-attachment: fixed;
     background-position: top left;
+    font-family: 'Asap', Cambria, sans-serif;
 }
 
 /* Wrapping element */
@@ -86,6 +87,29 @@ form.formOpmerking.form-horizontal.call {
 .NieuweOfBestaandeWerkgeverButtons{
     /*Buttons om te kiezen tussen Nieuwe of BsetaandeWerkgever*/
     text-align: center;
+}
+
+.addOption {
+    overflow: auto;
+    padding: 10px;
+}
+
+.addOption a {
+    float: right;
+    margin: 0 15px;
+}
+
+.options {
+    text-align: center;
+}
+
+/*Ervoor zorgen dat de opties rechts in de tabel verschijnen en verdwijnen:*/
+tr .options i {
+    opacity: 0;
+}
+
+tr:hover .options  i {
+    opacity: 1;
 }
 
 /* Hide/rearrange for smaller screens */

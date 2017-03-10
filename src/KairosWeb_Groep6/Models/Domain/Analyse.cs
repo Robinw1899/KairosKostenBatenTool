@@ -1,67 +1,61 @@
-﻿    using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Net.Http.Headers;
+using KairosWeb_Groep6.Models.Domain.Baten;
+using KairosWeb_Groep6.Models.Domain.Kosten;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
     public class Analyse
     {
+        public int AnalyseId { get; set; }
+
         public Werkgever Werkgever { get; set; }
-        public IDictionary<Soort, List<KostOfBaat>> KostenEnBaten { get; }
 
         #region Kosten
-        public List<KostOfBaat> Loonkosten => KostenEnBaten[Soort.Loonkost];
+        public List<Loonkost> Loonkosten { get; set; } = new List<Loonkost>();
 
-        public List<KostOfBaat> EnclaveKosten => KostenEnBaten[Soort.EnclaveKost];
+        public List<EnclaveKost> EnclaveKosten { get; set; } = new List<EnclaveKost>();
 
-        public List<KostOfBaat> VoorbereidingsKosten => KostenEnBaten[Soort.VoorbereidingsKost];
+        public List<VoorbereidingsKost> VoorbereidingsKosten { get; set; } = new List<VoorbereidingsKost>();
 
-        public List<KostOfBaat> InfrastructuurKosten => KostenEnBaten[Soort.InfrastructuurKost];
+        public List<InfrastructuurKost> InfrastructuurKosten { get; set; } = new List<InfrastructuurKost>();
 
-        public List<KostOfBaat> GereedschapsKosten => KostenEnBaten[Soort.GereedschapsKost];
+        public List<GereedschapsKost> GereedschapsKosten { get; set; } = new List<GereedschapsKost>();
 
-        public List<KostOfBaat> OpleidingsKosten => KostenEnBaten[Soort.OpleidingsKost];
+        public List<OpleidingsKost> OpleidingsKosten { get; set; } = new List<OpleidingsKost>();
 
-        public List<KostOfBaat> BegeleidingsKosten => KostenEnBaten[Soort.BegeleidingsKost];
+        public List<BegeleidingsKost> BegeleidingsKosten { get; set; } = new List<BegeleidingsKost>();
         #endregion
 
         #region Baten
-        public List<KostOfBaat> MedewerkersZelfdeNiveauBaat => KostenEnBaten[Soort.MedewerkersZelfdeNiveau];
+        public List<MedewerkerNiveauBaat> MedewerkersZelfdeNiveauBaat { get; set; } = new List<MedewerkerNiveauBaat>();
 
-        public List<KostOfBaat> MedewerkersHogerNiveauBaat => KostenEnBaten[Soort.MedewerkersHogerNiveau];
+        public List<MedewerkerNiveauBaat> MedewerkersHogerNiveauBaat { get; set; } = new List<MedewerkerNiveauBaat>();
 
-        public List<KostOfBaat> UitzendKrachtBesparingen => KostenEnBaten[Soort.UitzendkrachtBesparing];
+        public List<UitzendKrachtBesparing> UitzendKrachtBesparingen { get; set; } = new List<UitzendKrachtBesparing>();
 
-        public List<KostOfBaat> ExtraOmzet => KostenEnBaten[Soort.ExtraOmzet];
+        public ExtraOmzet ExtraOmzet { get; set; }
 
-        public List<KostOfBaat> ExtraProductiviteit => KostenEnBaten[Soort.ExtraProductiviteit];
+        public ExtraProductiviteit ExtraProductiviteit { get; set; }
 
-        public List<KostOfBaat> OverurenBesparing => KostenEnBaten[Soort.OverurenBesparing];
+        public OverurenBesparing OverurenBesparing { get; set; }
 
-        public List<KostOfBaat> ExterneInkopen => KostenEnBaten[Soort.ExterneInkoop];
+        public List<ExterneInkoop> ExterneInkopen { get; set; } = new List<ExterneInkoop>();
 
-        public List<KostOfBaat> Subsidies => KostenEnBaten[Soort.Subsidie];
+        public List<Subsidie> Subsidies { get; set; } = new List<Subsidie>();
 
-        public List<KostOfBaat> ExtraBesparingen => KostenEnBaten[Soort.ExtraBesparing];
+        public List<ExtraBesparing> ExtraBesparingen { get; set; } = new List<ExtraBesparing>();
         #endregion
 
         #region Constructors
         public Analyse()
         {
-            KostenEnBaten = new Dictionary<Soort, List<KostOfBaat>>();
+            
         }
         #endregion
 
         #region Methods
 
-        public void VoegKostOfBaatToe(Soort soort, KostOfBaat kostOfBaat)
-        {
-            List<KostOfBaat> lijst = KostenEnBaten[soort];
-            lijst.Add(kostOfBaat);
-        }
-        public void VerwijderKostOfBaatToe(Soort soort, KostOfBaat kostOfBaat)
-        {
-            List<KostOfBaat> lijst = KostenEnBaten[soort];
-            lijst.Remove(kostOfBaat);
-        }
         #endregion
     }
 }
