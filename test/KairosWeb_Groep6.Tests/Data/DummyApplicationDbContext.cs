@@ -129,5 +129,29 @@ namespace KairosWeb_Groep6.Tests.Data
             Subsidies.Add(new Subsidie { Id = 1, Bedrag = 200 });
             Subsidies.Add(new Subsidie { Id = 2, Bedrag = 1500 });
         }
+
+        public List<MedewerkerNiveauBaat> GeefMedewerkerNiveauBaten()
+        {
+            List<MedewerkerNiveauBaat> baten = new List<MedewerkerNiveauBaat>
+            {
+                new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau) {Id = 1, Uren = 23, Bedrag = 2500},
+                new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau) {Id = 2, Uren = 37, Bedrag = 3500},
+                new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau) {Id = 3, Uren = 28, Bedrag = 2750}
+            };
+
+            return baten;
+        }
+
+        public List<UitzendKrachtBesparing> GeefUitzendKrachtBesparingen()
+        {
+            List<UitzendKrachtBesparing> baten = new List<UitzendKrachtBesparing>
+            {
+                new UitzendKrachtBesparing() {Id = 1, Beschrijving = "Tuinier", Bedrag = 2500},
+                new UitzendKrachtBesparing() {Id = 2, Beschrijving = "Klusjesman", Bedrag = 3500},
+                new UitzendKrachtBesparing() {Id = 3, Beschrijving = "WC-madam", Bedrag = 2750}
+            };
+
+            return baten;
+        }
     }
 }

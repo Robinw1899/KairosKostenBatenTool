@@ -20,7 +20,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Index(Analyse analyse)
         {
-            IndexViewModel model = MaakModel(analyse);
+            UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);
 
             if (IsAjaxRequest())
             {
@@ -30,7 +30,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             return View(model);
         }
 
-        public IActionResult VoegToe(Analyse analyse, IndexViewModel model)
+        public IActionResult VoegToe(Analyse analyse, UitzendKrachtBesparingIndexViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -61,26 +61,29 @@ namespace KairosWeb_Groep6.Controllers.Baten
             UitzendKrachtBesparing baat = analyse.UitzendKrachtBesparingen
                                                     .SingleOrDefault(u => u.Id == id);
 
-            IndexViewModel model = MaakModel(analyse);
+            UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);
 
-            // gegevens analyse die bewerkt wordt invullen:
-            model.Id = id;
-            model.Type = baat.Type;
-            model.Soort = baat.Soort;
-            model.Beschrijving = baat.Beschrijving;
-            model.Bedrag = baat.Bedrag;
+            if (baat != null)
+            {
+                // gegevens analyse die bewerkt wordt invullen:
+                model.Id = id;
+                model.Type = baat.Type;
+                model.Soort = baat.Soort;
+                model.Beschrijving = baat.Beschrijving;
+                model.Bedrag = baat.Bedrag;
+            }
 
             return View("Index", model);
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, IndexViewModel model)
+        public IActionResult Bewerk(Analyse analyse, UitzendKrachtBesparingIndexViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                UitzendKrachtBesparing baat = analyse.UitzendKrachtBesparingen
+            UitzendKrachtBesparing baat = analyse.UitzendKrachtBesparingen
                                                 .SingleOrDefault(b => b.Id == model.Id);
 
+            if (ModelState.IsValid && baat != null)
+            {
                 // baat updaten
                 baat.Id = model.Id;
                 baat.Type = model.Type;
@@ -105,7 +108,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             // hier moet nog extra komen wnr db werkt
             _analyseRepository.Save();
 
-            IndexViewModel model = MaakModel(analyse);
+            UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);
 
             return View("Index", model);
         }
@@ -115,9 +118,9 @@ namespace KairosWeb_Groep6.Controllers.Baten
             return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
 
-        private IndexViewModel MaakModel(Analyse analyse)
+        private UitzendKrachtBesparingIndexViewModel MaakModel(Analyse analyse)
         {
-            IndexViewModel model = new IndexViewModel
+            UitzendKrachtBesparingIndexViewModel model = new UitzendKrachtBesparingIndexViewModel
             {
                 Type = Type.Baat,
                 Soort = Soort.MedewerkersZelfdeNiveau,

@@ -69,7 +69,7 @@ namespace KairosWeb_Groep6
             services.AddScoped<AnalyseFilter>();
             services.AddScoped<IGebruikerRepository, GebruikerRepository>();
             services.AddScoped<IWerkgeverRepository, WerkgeverRepository>();
-            services.AddScoped<IAnalyseRepository, AnalyseRepository>();
+            services.AddScoped<AnalyseRepository, AnalyseRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -25,7 +25,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         private string FouteEmail = "dimmy.m@test.be";
         
 
-        #region Controller
+        #region Constructor
         
         public KairosControllerTest()
         {
@@ -55,7 +55,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region 1steKeerAanmelden HttpGet
-        [Fact]
+        [Fact(Skip = "Not implemented yet")]
         public void EesteKeerAanmelden()
         {
 
@@ -64,7 +64,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region 1steKeerAanmelden HttpPost
-        [Fact]
+        [Fact(Skip = "Not implemented yet")]
         public void EersteKeerAanmdelden_WachtwoordVeranderdIndienSuccesvol()
         {
             Mock<AccountController> _accountController = new Mock<AccountController>();
@@ -83,7 +83,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
         #region Index
 
-        [Fact]
+        [Fact(Skip = "Not implemented yet")]
         public void Index_()
         {
             throw new NotImplementedException();
@@ -92,7 +92,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region NieuweAnalyse
-        [Fact]
+        [Fact(Skip = "Not implemented yet")]
         public void NieweAnalyse()
         {
             throw new NotImplementedException();

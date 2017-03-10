@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels
 {
-    public class IndexViewModel
+    public class MedewerkerNiveauIndexViewModel
     {
         [HiddenInput]
         public int Id { get; set; }

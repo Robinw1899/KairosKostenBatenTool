@@ -23,7 +23,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         public void TestGetBy_GeenGevonden_ReturnsNull()
         {
             List<KostOfBaat> loonkosten = new List<KostOfBaat>(_dbContext.Loonkosten);
-            KostOfBaat kostOfBaat = loonkosten.GetBy(0);
+            KostOfBaat kostOfBaat = KostOfBaatExtensions.GetBy(loonkosten, 0);
             Assert.Null(kostOfBaat);
         }
 
@@ -32,9 +32,10 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         public void TestGetBy_Loonkosten()
         {
             List<KostOfBaat> loonkosten = new List<KostOfBaat>(_dbContext.Loonkosten);
-            KostOfBaat kostOfBaat = loonkosten.GetBy(2);
+            KostOfBaat kostOfBaat = KostOfBaatExtensions.GetBy(loonkosten, 2);
+
             // omzetten naar de juiste klasse:
-            Loonkost loonkost = (Loonkost) kostOfBaat;
+            Loonkost loonkost = (Loonkost)kostOfBaat;
             Assert.Equal(_dbContext.Secretaresse, loonkost);
         }
 
@@ -42,8 +43,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         public void TestGeefTotaal_Loonkosten()
         {
             List<KostOfBaat> loonkosten = new List<KostOfBaat>(_dbContext.Loonkosten);
+
             // totaal van alle loonkosten:
-            double totaal = loonkosten.GeefTotaal();
+            double totaal = KostOfBaatExtensions.GeefTotaal(loonkosten);
             totaal = Math.Round(totaal, 2);
 
             Assert.Equal(57837.13, totaal);
@@ -55,7 +57,8 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         public void TestGetBy_ExtaKosten()
         {
             List<KostOfBaat>  extraKosten = new List<KostOfBaat>(_dbContext.ExtraKosten);
-            KostOfBaat kostOfBaat = extraKosten.GetBy(3);
+            KostOfBaat kostOfBaat = KostOfBaatExtensions.GetBy(extraKosten, 3);
+
             // omzetten naar de juiste klasse:
             ExtraKost extrakost = (ExtraKost)kostOfBaat;
 
@@ -67,8 +70,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         public void TestGeefTotaal_ExtaKosten()
         {
             List<KostOfBaat>  extraKosten = new List<KostOfBaat>(_dbContext.ExtraKosten);
+
             // totaal van alle loonkosten:
-            double totaal = extraKosten.GeefTotaal();
+            double totaal = KostOfBaatExtensions.GeefTotaal(extraKosten);
             totaal = Math.Round(totaal, 2);
  
             Assert.Equal(1550.00, totaal);
@@ -80,7 +84,8 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         public void TestGetBy_MedewerkerNiveauBaat()
         {
             List<KostOfBaat> medewerkerNiveauBaten = new List<KostOfBaat>(_dbContext.MedewerkerNiveauBaten);
-            KostOfBaat kostOfBaat = medewerkerNiveauBaten.GetBy(1);
+            KostOfBaat kostOfBaat = KostOfBaatExtensions.GetBy(medewerkerNiveauBaten, 1);
+
             // omzetten naar de juiste klasse:
             MedewerkerNiveauBaat baat = (MedewerkerNiveauBaat)kostOfBaat;
 
@@ -92,7 +97,8 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         public void TestBedragReturnsBerekening_MedewerkerNiveauBaat()
         {
             List<KostOfBaat>  medewerkerNiveauBaten = new List<KostOfBaat>(_dbContext.MedewerkerNiveauBaten);
-            KostOfBaat kostOfBaat = medewerkerNiveauBaten.GetBy(1);
+            KostOfBaat kostOfBaat = KostOfBaatExtensions.GetBy(medewerkerNiveauBaten, 1);
+
             // omzetten naar de juiste klasse:
             MedewerkerNiveauBaat baat = (MedewerkerNiveauBaat)kostOfBaat;
             double bedrag = Math.Round(baat.Bedrag, 2);
@@ -104,7 +110,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         {
             List<KostOfBaat>  medewerkerNiveauBaten = new List<KostOfBaat>(_dbContext.MedewerkerNiveauBaten);
             // totaal van alle loonkosten:
-            double totaal = medewerkerNiveauBaten.GeefTotaal();
+
+
+            double totaal = KostOfBaatExtensions.GeefTotaal(medewerkerNiveauBaten);
             totaal = Math.Round(totaal, 2);
 
             Assert.Equal(132432.81, totaal);
@@ -116,7 +124,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         public void TestGetBy_Subsidie()
         {
             List<KostOfBaat> subsidies = new List<KostOfBaat>(_dbContext.Subsidies);
-            KostOfBaat kostOfBaat = subsidies.GetBy(2);
+            KostOfBaat kostOfBaat = KostOfBaatExtensions.GetBy(subsidies, 2);
             // omzetten naar de juiste klasse:
             Subsidie subsidie = (Subsidie)kostOfBaat;
 
@@ -128,7 +136,8 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         {
             List<KostOfBaat> subsidies = new List<KostOfBaat>(_dbContext.Subsidies);
             // totaal van alle loonkosten:
-            double totaal = subsidies.GeefTotaal();
+
+            double totaal = KostOfBaatExtensions.GeefTotaal(subsidies);
             totaal = Math.Round(totaal, 2);
 
             Assert.Equal(1700.00, totaal);

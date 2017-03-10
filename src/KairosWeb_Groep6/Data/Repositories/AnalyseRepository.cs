@@ -10,6 +10,11 @@ namespace KairosWeb_Groep6.Data.Repositories
         private readonly ApplicationDbContext _dbContext;
         private readonly DbSet<Analyse> _analyses;
 
+        public AnalyseRepository()
+        {
+            // enkel voor Mock
+        }
+
         public AnalyseRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
