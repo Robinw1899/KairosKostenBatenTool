@@ -24,6 +24,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
             if (IsAjaxRequest())
             {
+                PlaatsTotaalInViewData(analyse);
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
@@ -50,9 +51,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
+                PlaatsTotaalInViewData(analyse);
 
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
+
+            PlaatsTotaalInViewData(analyse);
 
             return RedirectToAction("Index", model);
         }
@@ -74,6 +78,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model.BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
             }
 
+            PlaatsTotaalInViewData(analyse);
+
             return View("Index", model);
         }
 
@@ -94,9 +100,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
+                PlaatsTotaalInViewData(analyse);
 
                 return RedirectToAction("Index", model);
             }
+
+            PlaatsTotaalInViewData(analyse);
 
             return View("Index", model);
         }
@@ -110,6 +119,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             _analyseRepository.Save();
 
             MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
+            PlaatsTotaalInViewData(analyse);
 
             return View("Index", model);
         }
@@ -131,6 +141,19 @@ namespace KairosWeb_Groep6.Controllers.Baten
         private bool IsAjaxRequest()
         {
             return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+        }
+
+        private void PlaatsTotaalInViewData(Analyse analyse)
+        {
+            if (analyse.MedewerkersHogerNiveauBaat.Count == 0)
+            {
+                ViewData["totaal"] = 0;
+            }
+
+            double totaal = analyse.MedewerkersHogerNiveauBaat
+                                    .Sum(t => t.Bedrag);
+
+            ViewData["totaal"] = totaal.ToString("C");
         }
     }
 }

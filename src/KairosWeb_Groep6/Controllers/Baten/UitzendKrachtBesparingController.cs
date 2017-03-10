@@ -24,6 +24,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
             if (IsAjaxRequest())
             {
+                PlaatsTotaalInViewData(analyse);
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
@@ -49,9 +50,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
+                PlaatsTotaalInViewData(analyse);
 
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
+
+            PlaatsTotaalInViewData(analyse);
 
             return RedirectToAction("Index", model);
         }
@@ -73,6 +77,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model.Bedrag = baat.Bedrag;
             }
 
+            PlaatsTotaalInViewData(analyse);
+
             return View("Index", model);
         }
 
@@ -92,9 +98,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 baat.Bedrag = model.Bedrag;
 
                 model = MaakModel(analyse);
+                PlaatsTotaalInViewData(analyse);
 
                 return RedirectToAction("Index", model);
             }
+
+            PlaatsTotaalInViewData(analyse);
 
             return View("Index", model);
         }
@@ -109,6 +118,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             _analyseRepository.Save();
 
             UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);
+            PlaatsTotaalInViewData(analyse);
 
             return View("Index", model);
         }
@@ -130,6 +140,19 @@ namespace KairosWeb_Groep6.Controllers.Baten
             };
 
             return model;
+        }
+
+        private void PlaatsTotaalInViewData(Analyse analyse)
+        {
+            if (analyse.UitzendKrachtBesparingen.Count == 0)
+            {
+                ViewData["totaal"] = 0;
+            }
+
+            double totaal = analyse.UitzendKrachtBesparingen
+                                    .Sum(t => t.Bedrag);
+
+            ViewData["totaal"] = totaal.ToString("C");
         }
     }
 }

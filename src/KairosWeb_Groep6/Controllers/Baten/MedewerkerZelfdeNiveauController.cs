@@ -1,9 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
@@ -23,6 +26,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
             if (IsAjaxRequest())
             {
+                PlaatsTotaalInViewData(analyse);
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
@@ -49,30 +53,14 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
+                PlaatsTotaalInViewData(analyse);
 
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
+            PlaatsTotaalInViewData(analyse);
+
             return RedirectToAction("Index", model);
-        }
-
-        private MedewerkerNiveauIndexViewModel MaakModel(Analyse analyse)
-        {
-            MedewerkerNiveauIndexViewModel model = new MedewerkerNiveauIndexViewModel
-            {
-                Type = Type.Baat,
-                Soort = Soort.MedewerkersZelfdeNiveau,
-                ViewModels = analyse
-                                .MedewerkersZelfdeNiveauBaat
-                                .Select(m => new MedewerkerNiveauBaatViewModel(m))
-            };
-
-            return model;
-        }
-
-        private bool IsAjaxRequest()
-        {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
 
         public IActionResult Bewerk(Analyse analyse, int id)
@@ -91,6 +79,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model.Uren = baat.Uren;
                 model.BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
             }
+
+            PlaatsTotaalInViewData(analyse);
 
             return View("Index", model);
         }
@@ -112,9 +102,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
+                PlaatsTotaalInViewData(analyse);
 
                 return RedirectToAction("Index", model);
             }
+
+            PlaatsTotaalInViewData(analyse);
 
             return View("Index", model);
         }
@@ -130,8 +123,41 @@ namespace KairosWeb_Groep6.Controllers.Baten
             }
 
             MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
+            PlaatsTotaalInViewData(analyse);
 
             return View("Index", model);
+        }
+
+        private MedewerkerNiveauIndexViewModel MaakModel(Analyse analyse)
+        {
+            MedewerkerNiveauIndexViewModel model = new MedewerkerNiveauIndexViewModel
+            {
+                Type = Type.Baat,
+                Soort = Soort.MedewerkersZelfdeNiveau,
+                ViewModels = analyse
+                                .MedewerkersZelfdeNiveauBaat
+                                .Select(m => new MedewerkerNiveauBaatViewModel(m))
+            };
+
+            return model;
+        }
+
+        private bool IsAjaxRequest()
+        {
+            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+        }
+
+        private void PlaatsTotaalInViewData(Analyse analyse)
+        {
+            if (analyse.MedewerkersZelfdeNiveauBaat.Count == 0)
+            {
+                ViewData["totaal"] = 0;
+            }
+
+            double totaal = analyse.MedewerkersZelfdeNiveauBaat
+                                    .Sum(t => t.Bedrag);
+
+            ViewData["totaal"] = totaal.ToString("C");
         }
     }
 }
