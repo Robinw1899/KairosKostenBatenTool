@@ -20,7 +20,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Index(Analyse analyse)
         {
-            IndexViewModel model = MaakModel(analyse);
+            MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
 
             if (IsAjaxRequest())
             {
@@ -31,7 +31,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         }
 
         [HttpPost]
-        public IActionResult VoegToe(Analyse analyse, IndexViewModel model)
+        public IActionResult VoegToe(Analyse analyse, MedewerkerNiveauIndexViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -62,26 +62,29 @@ namespace KairosWeb_Groep6.Controllers.Baten
             MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
                                                 .SingleOrDefault(b => b.Id == id);
 
-            IndexViewModel model = MaakModel(analyse);
+            MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
 
-            // parameters voor formulier instellen
-            model.Id = id;
-            model.Type = baat.Type;
-            model.Soort = baat.Soort;
-            model.Uren = baat.Uren;
-            model.BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
+            if (baat != null)
+            {
+                // parameters voor formulier instellen
+                model.Id = id;
+                model.Type = baat.Type;
+                model.Soort = baat.Soort;
+                model.Uren = baat.Uren;
+                model.BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
+            }
 
             return View("Index", model);
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, IndexViewModel model)
+        public IActionResult Bewerk(Analyse analyse, MedewerkerNiveauIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            if (ModelState.IsValid)
-            {
-                MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
+            MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
                                                  .SingleOrDefault(b => b.Id == model.Id);
 
+            if (ModelState.IsValid && baat != null)
+            {
                 // parameters voor formulier instellen
                 baat.Id = model.Id;
                 baat.Type = model.Type;
@@ -106,14 +109,14 @@ namespace KairosWeb_Groep6.Controllers.Baten
             analyse.MedewerkersHogerNiveauBaat.Remove(baat);
             _analyseRepository.Save();
 
-            IndexViewModel model = MaakModel(analyse);
+            MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
 
             return View("Index", model);
         }
 
-        private IndexViewModel MaakModel(Analyse analyse)
+        private MedewerkerNiveauIndexViewModel MaakModel(Analyse analyse)
         {
-            IndexViewModel model = new IndexViewModel
+            MedewerkerNiveauIndexViewModel model = new MedewerkerNiveauIndexViewModel
             {
                 Type = Models.Domain.Type.Baat,
                 Soort = Soort.MedewerkersHogerNiveau,

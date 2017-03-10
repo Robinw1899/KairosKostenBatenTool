@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingViewModels
 {
-    public class IndexViewModel
+    public class UitzendKrachtBesparingIndexViewModel
     {
         [HiddenInput]
         public int Id { get; set; }
