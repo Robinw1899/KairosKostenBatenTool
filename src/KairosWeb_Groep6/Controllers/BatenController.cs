@@ -11,17 +11,17 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult MedewerkerZelfdeNiveau()
         {
-            return RedirectToAction("Index", "MedewerkerZelfdeNiveau");
+            return RedirectToAction("Index", "MedewerkersZelfdeNiveau");
         }
 
         public IActionResult MedewerkerHogerNiveau()
         {
-            return RedirectToAction("Index", "MedewerkerHogerNiveau");
+            return RedirectToAction("Index", "MedewerkersHogerNiveau");
         }
 
         public IActionResult UitzendKrachtBesparingen()
         {
-            return RedirectToAction("Index", "UitzendKrachtBesparing");
+            return RedirectToAction("Index", "UitzendKrachtBesparingen");
         }
 
         public IActionResult ExtraOmzet()
@@ -36,22 +36,22 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult OverurenBesparingen()
         {
-            return RedirectToAction("Index", "OverurenBesparing");
+            return RedirectToAction("Index", "OverurenBesparingen");
         }
 
         public IActionResult ExterneInkopen()
         {
-            return RedirectToAction("Index", "ExterneInkoop");
+            return RedirectToAction("Index", "ExterneInkopen");
         }
 
         public IActionResult Subsidies()
         {
-            return RedirectToAction("Index", "Subsidie");
+            return RedirectToAction("Index", "Subsidies");
         }
 
         public IActionResult ExtraBesparingen()
         {
-            return RedirectToAction("Index", "ExtraBesparing");
+            return RedirectToAction("Index", "ExtraBesparingen");
         }
     }
 }

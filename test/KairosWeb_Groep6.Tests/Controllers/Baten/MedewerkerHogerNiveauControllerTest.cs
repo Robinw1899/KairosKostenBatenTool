@@ -12,7 +12,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
 {
     public class MedewerkerHogerNiveauControllerTest
     {
-        private readonly MedewerkerHogerNiveauController _controller;
+        private readonly MedewerkersHogerNiveauController _controller;
         private readonly Analyse _analyse;
         private readonly Mock<AnalyseRepository> _analyseRepo;
         private readonly DummyApplicationDbContext _dbContext;
@@ -21,7 +21,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         {
             _dbContext = new DummyApplicationDbContext();
             _analyseRepo = new Mock<AnalyseRepository>();
-            _controller = new MedewerkerHogerNiveauController(_analyseRepo.Object);
+            _controller = new MedewerkersHogerNiveauController(_analyseRepo.Object);
             _analyse = new Analyse {MedewerkersHogerNiveauBaat = _dbContext.GeefMedewerkerNiveauBaten()};
 
         }
