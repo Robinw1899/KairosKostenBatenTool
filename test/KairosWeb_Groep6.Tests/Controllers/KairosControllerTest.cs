@@ -1,11 +1,11 @@
 ﻿using System;
 using KairosWeb_Groep6.Controllers;
-using KairosWeb_Groep6.Tests.Data;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using Xunit;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
+using KairosWeb_Groep6.Tests.Data;
 
 namespace KairosWeb_Groep6.Tests.Controllers
 {
