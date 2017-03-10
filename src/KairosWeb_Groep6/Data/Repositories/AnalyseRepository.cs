@@ -60,7 +60,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.Subsidies)
                 .Include(a => a.UitzendKrachtBesparingen)
                 .Include(a => a.VoorbereidingsKosten)
-                .SingleOrDefault(a => a.Id == id);
+                .SingleOrDefault(a => a.AnalyseId == id);
         }
 
         public void Add(Analyse analyse)

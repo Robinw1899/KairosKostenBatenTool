@@ -1,11 +1,22 @@
-﻿namespace KairosWeb_Groep6.Models.Domain
+﻿using Newtonsoft.Json;
+
+namespace KairosWeb_Groep6.Models.Domain
 {
-    public abstract class KostOfBaat
+    public class KostOfBaat
     {
+        [JsonProperty]
         public int Id { get; set; }
+
+        [JsonProperty]
         public Type Type { get; set; }
+
+        [JsonProperty]
         public Soort Soort { get; set; }
+
+        [JsonProperty]
         public string Beschrijving { get; set; }
+
+        [JsonProperty]
         public virtual double Bedrag { get; set; }
 
         protected KostOfBaat()
@@ -13,10 +24,10 @@
             
         }
 
-        //ICollection<KolomWaarde> Kolommen { get; set; }
-        //ICollection<Rij> Waarden { get; set; }
-        //double GetBedrag(int rijNr);
-        //double BerekenTotaal();
-        //void StelKolommenIn();
+        [JsonConstructor]
+        protected KostOfBaat(bool forJsonOnly)
+        {
+            
+        }
     }
 }

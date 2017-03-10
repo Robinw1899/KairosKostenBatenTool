@@ -2,7 +2,6 @@
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
-using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -78,8 +77,9 @@ namespace KairosWeb_Groep6.Controllers.Baten
         }
 
         public IActionResult Bewerk(Analyse analyse, int id)
-        {// id is het id van de baat die moet bewerkt worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat.GetBy(id);
+        {// id is het id van de baat die moet bewerkt wordens
+            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat
+                                                .SingleOrDefault(b => b.Id == id);
 
             IndexViewModel model = MaakModel(analyse);
 
@@ -96,7 +96,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, IndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat.GetBy(model.Id);
+            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat
+                                                 .SingleOrDefault(b => b.Id == model.Id);
 
             // parameters voor formulier instellen
             baat.Id = model.Id;
@@ -104,6 +105,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             baat.Soort = model.Soort;
             baat.Uren = model.Uren;
             baat.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
+            _analyseRepository.Save();
 
             model = MaakModel(analyse);
 
@@ -112,8 +114,11 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            MedewerkerNiveauBaat baat = (MedewerkerNiveauBaat)analyse.MedewerkersZelfdeNiveauBaat.GetBy(id);
+            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat
+                                                 .SingleOrDefault(b => b.Id == id);
+
             analyse.MedewerkersZelfdeNiveauBaat.Remove(baat);
+            _analyseRepository.Save();
 
             IndexViewModel model = MaakModel(analyse);
 

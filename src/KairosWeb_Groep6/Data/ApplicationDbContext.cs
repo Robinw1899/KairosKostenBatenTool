@@ -1,6 +1,7 @@
 ﻿
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
+using KairosWeb_Groep6.Models.Domain.Baten;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -30,9 +31,21 @@ namespace KairosWeb_Groep6.Data
             //builder.Ignore<DomeinController>();
             //builder.Ignore<Analyse>();
             builder.Entity<Werkgever>(MapWerkgever);
+            builder.Entity<Analyse>(MapAnalyse);
         }
 
-        private void MapOrganisatie(EntityTypeBuilder<Organisatie> o)
+        private static void MapAnalyse(EntityTypeBuilder<Analyse> a)
+        {
+            a.ToTable("Analyse");
+
+            a.HasKey(t => t.AnalyseId);
+
+            a.HasMany(t => t.MedewerkersZelfdeNiveauBaat)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+
+        private static void MapOrganisatie(EntityTypeBuilder<Organisatie> o)
         {
             o.ToTable("Organisatie");
 
@@ -57,7 +70,7 @@ namespace KairosWeb_Groep6.Data
                 .IsRequired();
         }
 
-        private void MapGebruiker(EntityTypeBuilder<Gebruiker> g)
+        private static void MapGebruiker(EntityTypeBuilder<Gebruiker> g)
         {
             g.ToTable("Gebruiker");
 

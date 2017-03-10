@@ -7,7 +7,7 @@ namespace KairosWeb_Groep6.Models.Domain
 {
     public class Analyse
     {
-        public int Id { get; set; }
+        public int AnalyseId { get; set; }
 
         public Werkgever Werkgever { get; set; }
 
