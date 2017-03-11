@@ -37,7 +37,7 @@ namespace KairosWeb_Groep6.Models.Domain
         {
             var message = CreateBaseMessage();
             //message.To.Add(new MailboxAddress("Bart Moens", "bart@werkgeversbenadering.be"));
-            message.To.Add(new MailboxAddress("Bart Moens", "thomasaelbrecht@live.com"));
+            message.To.Add(new MailboxAddress("Bart Moens", "bart@werkgeversbenadering.be"));
             message.Subject = "Melding Kairos: " + subject;
 
             // instellen dat Bart Moens kan antwoorden op deze mail om te mailen met de jobcoach:
