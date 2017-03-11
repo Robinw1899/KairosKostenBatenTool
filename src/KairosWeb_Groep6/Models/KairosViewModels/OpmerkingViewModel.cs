@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using KairosWeb_Groep6.Models.Domain;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels
 {
@@ -16,18 +10,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         [Required]
         [DataType(DataType.Text)]
         public string Bericht { get; set; }
-        [HiddenInput]
-        [DataType(DataType.EmailAddress)]
-        public string Email { get; set; }
 
         public OpmerkingViewModel()
         {
             
         }
 
-        public OpmerkingViewModel(Jobcoach gebruiker, string onderwerp, string bericht)
+        public OpmerkingViewModel(string onderwerp, string bericht)
         {
-            Email = gebruiker.Emailadres;
             Onderwerp = onderwerp;
             Bericht = bericht;
         }

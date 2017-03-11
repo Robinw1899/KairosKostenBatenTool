@@ -40,6 +40,11 @@ textarea {
     padding-left: 0.5em;
 }
 
+.btn-info {
+    background-color: #97C900 !important;
+    border-color: #97C900 !important;
+}
+
 /* Make .svg files in the carousel display properly in older browsers */
 .carousel-inner .item img[src$=".svg"]
 {
@@ -69,7 +74,7 @@ a.navbar-brand {
     font-weight: bold;
 }
 
-input#Bericht {
+textarea#Bericht {
     /*Opmerking form*/
     width: 600px;
     height: 300px;
