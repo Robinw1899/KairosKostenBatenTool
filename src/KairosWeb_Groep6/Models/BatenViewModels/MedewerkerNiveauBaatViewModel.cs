@@ -1,5 +1,6 @@
 ﻿using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,8 +11,11 @@ namespace KairosWeb_Groep6.Models.BatenViewModels
 {
     public class MedewerkerNiveauBaatViewModel : IEnumerable
     {
+        [HiddenInput]
         public int Id { get; set; }
+        [HiddenInput]
         public Domain.Type Type { get; set; }
+        [HiddenInput]
         public Soort Soort { get; set; }
         public string Beschrijving { get; set; }
         public double Uren { get; set; }
