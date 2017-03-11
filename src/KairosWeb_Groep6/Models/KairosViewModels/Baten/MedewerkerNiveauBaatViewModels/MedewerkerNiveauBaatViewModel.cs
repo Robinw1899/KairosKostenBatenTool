@@ -19,6 +19,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatVie
 
         //public string Beschrijving { get; set; }
 
+        //[RegularExpression(@"\d*,?\d*", ErrorMessage = "{0} mag enkel een getal zijn, geen tekst.")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het aantal uur op te geven.")]
         public double Uren { get; set; }
 
