@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
 using System.Threading.Tasks;
 using KairosWeb_Groep6.Models;
-using KairosWeb_Groep6.Models.AccountViewModels;
 using KairosWeb_Groep6.Models.Domain;
-using KairosWeb_Groep6.Models.ManageViewModels;
 using KairosWeb_Groep6.Models.ProfielViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -16,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Controllers
 {
+    [Authorize]
     public class ProfielController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

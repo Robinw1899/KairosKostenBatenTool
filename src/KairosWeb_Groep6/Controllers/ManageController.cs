@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +8,6 @@ using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.ManageViewModels;
 using KairosWeb_Groep6.Services;
-using Remotion.Linq.Parsing.Structure.ExpressionTreeProcessors;
 
 namespace KairosWeb_Groep6.Controllers
 {

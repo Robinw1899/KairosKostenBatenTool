@@ -3,37 +3,39 @@
 @{
     ViewData["title"] = "Contact opnemen met een administrator";
 }
+<div class="row">
+    <div class="page-header">
+        <h3>@ViewData["title"]</h3>
+    </div>
 
-<h3>@ViewData["title"]</h3>
-<hr />
-<p>Vul een onderwerp en bericht in.</p>
-<p><b>OPGELET! Druk NIET op enter in het tekstveld van het bericht, anders wordt je bericht meteen verzonden.</b></p>
+    <p>Vul een onderwerp en bericht in.</p>
+    <p><b>OPGELET! Druk NIET op enter in het tekstveld van het bericht, anders wordt je bericht meteen verzonden.</b></p>
 
-<form asp-controller="Kairos" asp-action="Opmerking" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="formOpmerking form-horizontal">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Onderwerp" class="col-md-4 control-label"></label>
-        <div class="col-md-8">
-            <input asp-for="Onderwerp" class="form-control" placeholder="Onderwerp opmerking" />
-            <span asp-validation-for="Onderwerp" class="text-danger"></span>
+    <form asp-controller="Kairos" asp-action="Opmerking" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="formOpmerking form-horizontal">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Onderwerp" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Onderwerp" class="form-control" placeholder="Onderwerp opmerking" />
+                <span asp-validation-for="Onderwerp" class="text-danger"></span>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Bericht" class="col-md-4 control-label"></label>
-        <div class="col-md-8">
-            <textarea asp-for="Bericht" class="form-control" placeholder="Typ je bericht hier... Druk NIET op enter (zie hierboven)!">
-            </textarea>
-            <span asp-validation-for="Bericht" class="text-danger"></span>
-</div>
-    </div>
-    <div class="col-md-12">
-        <div class="form-group col-md-12">
-            <div class="col-md-offset-3 col-md-8 text-right">
-                <div>
-                    <a asp-action="Index" class="btn btn-default">Annuleer</a>
-                    <button class="btn btn-primary" type="submit">Verzenden</button>
+        <div class="form-group">
+            <label asp-for="Bericht" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <textarea asp-for="Bericht" class="form-control" placeholder="Typ je bericht hier... Druk NIET op enter (zie hierboven)!"></textarea>
+                <span asp-validation-for="Bericht" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group col-md-12">
+                <div class="col-md-offset-3 col-md-8 text-right">
+                    <div>
+                        <a asp-action="Index" class="btn btn-default">Annuleer</a>
+                        <button class="btn btn-primary" type="submit">Verzenden</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>

@@ -2,14 +2,18 @@
     ViewData["title"] = "Nieuwe Analyse";
 }
 
-<h3>@ViewData["title"]</h3>
-<hr />
-<form asp-controller="Kairos" asp-action="NieuweOfBestaandeWerkgever" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-    <div class="col-md-12">
-        <div class="btn-group-lg NieuweOfBestaandeWerkgeverButtons">
-            <a asp-controller="Kairos" asp-action="NieuweWerkgever" class="btn btn-info">Nieuwe werkgever</a>
-            <a asp-controller="Kairos" asp-action="BestaandeWerkgever" class="btn btn-success">Bestaande werkgever</a>
+<div class="page-header">
+    <h3>@ViewData["title"]</h3>
+</div>
+
+<div class="row">
+    <form asp-controller="Kairos" asp-action="NieuweOfBestaandeWerkgever" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+        <div class="col-md-12">
+            <div class="btn-group-lg NieuweOfBestaandeWerkgeverButtons">
+                <a asp-controller="Kairos" asp-action="NieuweWerkgever" class="btn btn-info">Nieuwe werkgever</a>
+                <a asp-controller="Kairos" asp-action="BestaandeWerkgever" class="btn btn-success">Bestaande werkgever</a>
+            </div>
         </div>
-   </div>
-    <br><br><br>
-</form>
+        <br><br><br>
+    </form>
+</div>
