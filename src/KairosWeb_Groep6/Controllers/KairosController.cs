@@ -67,7 +67,7 @@ namespace KairosWeb_Groep6.Controllers
                     gebruiker.AlAangemeld = true;
                     _gebruikerRepository.Save();
 
-                    return RedirectToAction(nameof(KairosController.Index), "Kairos");
+                    return RedirectToAction(nameof(Index), "Kairos");
                 }
             }
 
@@ -76,13 +76,44 @@ namespace KairosWeb_Groep6.Controllers
         
         public IActionResult Opmerking()
         {
-            return View();
+            // return de view met een OpmerkingViewModel met een leeg onderwerp en leeg bericht
+            return View(new OpmerkingViewModel("", ""));
         }
 
         [HttpPost]
-        public IActionResult Opmerking(OpmerkingViewModel opmerkingViewModel)
+        public async Task<IActionResult> Opmerking(OpmerkingViewModel model)
         {
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // de ingelogde jobcoach ophalen
+                    var user = await _userManager.GetUserAsync(User);
+
+                    // gegevens jobcoach ophalen
+                    string nameJobcoach = user.Voornaam + " " + user.Naam;
+                    string emailJobcoach = user.Email;
+
+                    // mail verzenden
+                    EmailSender.SendMailAdmin(nameJobcoach, emailJobcoach, model.Onderwerp, model.Bericht);
+
+                    // als we hier komen, is alles gelukt
+                    TempData["message"] =
+                        "Je vraag/opmerking is succesvol verzonden naar administrator. Deze zal zo snel mogelijk contact opnemen met jou.";
+                    
+                    return RedirectToAction(nameof(Index), "Kairos");
+                }
+                catch (Exception)
+                {
+                    // er is iets fout gelopen, ga verder en toon de pagina opnieuw
+                    TempData["error"] = "Er is onverwacht iets fout gelopen, onze excuses voor het ongemak! " +
+                                        "Probeer het later opnieuw.";
+                }
+                
+            }
+
+            // als we hier komen, is er iets mislukt, we tonen de pagina opnieuw
+            return View(model);
         }
 
         //dit wordt opgeroepen als je op de knop BestaandeWerkgever drukt bij de methode NieuweAnalyse

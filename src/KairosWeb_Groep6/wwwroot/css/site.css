@@ -69,7 +69,7 @@ a.navbar-brand {
     font-weight: bold;
 }
 
-input#Bericht {
+textarea#Bericht {
     /*Opmerking form*/
     width: 600px;
     height: 300px;
