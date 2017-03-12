@@ -131,35 +131,46 @@ namespace KairosWeb_Groep6.Controllers
                 
                 var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
                 //var password = "kairos2017";
-                var result = await _userManager.CreateAsync(user, password);
 
-                if (result.Succeeded)
+                var possibleUser = await _userManager.FindByEmailAsync(model.Email);
+
+                if (possibleUser != null)
                 {
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                    //await _signInManager.SignInAsync(user, isPersistent: false);
-                    //_logger.LogInformation(3, "User created a new account with password.");
-                    //return RedirectToLocal(returnUrl);
-
-                    Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
-                        model.NrOrganisatie, model.Postcode, model.Gemeente);
-                    Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie)
-                    {
-                        Wachtwoord = password
-                    };
-                    _jobcoachRepository.Add(jobcoach);
-                    _jobcoachRepository.Save();
-
-                    string naamVoorEmail = model.Voornaam + " " + model.Naam;
-                    EmailSender.SendRegisterMailWithPassword(naamVoorEmail, model.Email, password);
-
-                    return RedirectToAction(nameof(Login), "Account");
+                    ModelState.AddModelError("", "Er is al een gebruiker geregistreerd met dit emailadres");
                 }
-                AddErrors(result);
+                else
+                {
+                    var result = await _userManager.CreateAsync(user, password);
+
+                    if (result.Succeeded)
+                    {
+                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
+                        // Send an email with this link
+                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                        //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                        //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+                        //await _signInManager.SignInAsync(user, isPersistent: false);
+                        //_logger.LogInformation(3, "User created a new account with password.");
+                        //return RedirectToLocal(returnUrl);
+
+                        Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
+                            model.NrOrganisatie, model.Postcode, model.Gemeente);
+                        Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie)
+                        {
+                            Wachtwoord = password
+                        };
+                        _jobcoachRepository.Add(jobcoach);
+                        _jobcoachRepository.Save();
+
+                        string naamVoorEmail = model.Voornaam + " " + model.Naam;
+                        EmailSender.SendRegisterMailWithPassword(naamVoorEmail, model.Email, password);
+
+                        return RedirectToAction(nameof(Login), "Account");
+                    }
+
+                    AddErrors(result);
+                }
             }
 
             // If we got this far, something failed, redisplay form
