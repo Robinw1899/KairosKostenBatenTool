@@ -85,6 +85,13 @@ input#Onderwerp {
     width: 600px;
     max-width: none;
 }
+.buttonsMinPlus {
+    align-items: right;
+}
+#icons-h4 {
+    text-align: right;
+    display: inline-block;
+}
 
 form.formOpmerking.form-horizontal.call {
     width: 900px;

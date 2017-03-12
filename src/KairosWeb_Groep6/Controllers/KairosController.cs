@@ -36,7 +36,6 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult NieuweAnalyse()
         {
-            //throw new System.NotImplementedException();
             return View(nameof(NieuweOfBestaandeWerkgever));
         }
 
@@ -142,6 +141,31 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult NieuweOfBestaandeWerkgever()//kiezen voor nieuwe of bestaande werkgever
         {
             return View();
+        }
+        public IActionResult MedewerkerNiveauBaat()
+        {
+            return View();
+        }
+        public IActionResult UitzendKrachtBesparing()
+        {
+            return View();
+        }
+        public IActionResult ExtraOmzet()
+        {
+            return View();
+        }
+        public IActionResult ExtraProductiviteit()
+        {
+            return View();
+        }
+
+        public IActionResult Oplsaan()
+        {
+             throw new NotImplementedException();
+        }
+        public IActionResult Bewerken()
+        {
+            throw new NotImplementedException();
         }
     }
 

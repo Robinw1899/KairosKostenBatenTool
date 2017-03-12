@@ -1,4 +1,5 @@
 ﻿/// <autosync enabled="true" />
+/// <reference path="js/formvisible_invisible.js" />
 /// <reference path="js/site.js" />
 /// <reference path="js/werkgevers.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />
