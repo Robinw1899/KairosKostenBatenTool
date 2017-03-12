@@ -1,0 +1,91 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingViewModels.UitzendKrachtBesparingIndexViewModel
+@{
+    ViewData["title"] = "Besparing op uitzendkrachten";
+    var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
+    ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
+}
+
+<div>
+    <div class="page-header">
+        <h3>@ViewData["title"]</h3>
+    </div>
+
+
+    <p>Welke besparing denkt de werkgever jaarlijks te kunnen maken op uitzendkrachten?</p>
+
+    <!--Partial view navigatie komt hier-->
+
+    <div id="data">
+        @{
+            Html.RenderPartial("_OverzichtTabel", Model.ViewModels);
+        }
+    </div>
+
+    <div class="addOption">
+        <a class="btn btn-success" id="openForm"><i class="fa fa-plus" aria-hidden="true"></i></a>
+    </div>
+
+    <form asp-action="@action" id="form" style="display: none" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <!--3 hidden inputs om het id, soort en type op te slaan-->
+        <input asp-for="Id" />
+        <input asp-for="Type" />
+        <input asp-for="Soort" />
+
+        <div class="row col-md-offset-2">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-font" aria-hidden="true"></i>
+                    </span>
+                    <input asp-for="Beschrijving" class="form-control" placeholder="Beschrijving" id="beschrijving">
+                </div>
+                <span asp-validation-for="Beschrijving" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-eur" aria-hidden="true"></i>
+                    </span>
+                    <input asp-for="Bedrag" class="form-control"
+                           placeholder="Bedrag" id="bedrag">
+                </div>
+                <span asp-validation-for="Bedrag" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
+        <div class="row col-md-offset-2">
+            <div class="col-md-8 text-right">
+                <a class="btn btn-default" id="closeForm">Annuleer</a>
+                <button type="submit" class="btn btn-info" style="margin-left: 15px">@ViewData["action"]</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    <script>
+        if (@Model.Bedrag > 0) {
+            toonFormulier();
+        } else {
+            $("#beschrijving").val("");
+            $("#bedrag").val("");
+        }
+
+        $("#form").submit(function () {
+            $.post(this.action,
+                $(this).serialize(),
+                function (data) {
+                    $("#data").html(data);
+                    $("#beschrijving").val("");
+                    $("#bedrag").val("");
+                    //verbergFormulier();
+                });
+
+            return false;
+        });
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

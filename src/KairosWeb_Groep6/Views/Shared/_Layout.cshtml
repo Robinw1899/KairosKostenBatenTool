@@ -11,6 +11,9 @@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/css/font-awesome.css" />
+        <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+        @RenderSection("styles", false)
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -18,6 +21,9 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/font-awesome.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Asap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+        @RenderSection("styles", false)
     </environment>
 </head>
 <body>

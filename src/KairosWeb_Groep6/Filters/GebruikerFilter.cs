@@ -6,9 +6,9 @@ namespace KairosWeb_Groep6.Filters
 {
     public class GebruikerFilter : ActionFilterAttribute
     {
-        private readonly IGebruikerRepository _gebruikerRepository;
+        private readonly IJobcoachRepository _gebruikerRepository;
 
-        public GebruikerFilter(IGebruikerRepository repo)
+        public GebruikerFilter(IJobcoachRepository repo)
         {
             _gebruikerRepository = repo;
         }

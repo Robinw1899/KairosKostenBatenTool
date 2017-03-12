@@ -15,7 +15,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public ICollection<Analyse> Analyses { get; private set; }
 
-        public GebruikerViewModel(Gebruiker gebruiker)
+        public GebruikerViewModel(Jobcoach gebruiker)
         {
             Naam = gebruiker.Naam;
             Voornaam = gebruiker.Voornaam;

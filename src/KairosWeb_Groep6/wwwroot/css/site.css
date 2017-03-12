@@ -4,6 +4,7 @@
     background-image: url(../images/dashboard_bg.jpg);
     background-attachment: fixed;
     background-position: top left;
+    font-family: 'Asap', Cambria, sans-serif;
 }
 
 /* Wrapping element */
@@ -39,6 +40,11 @@ textarea {
     padding-left: 0.5em;
 }
 
+.btn-info {
+    background-color: #97C900 !important;
+    border-color: #97C900 !important;
+}
+
 /* Make .svg files in the carousel display properly in older browsers */
 .carousel-inner .item img[src$=".svg"]
 {
@@ -68,7 +74,7 @@ a.navbar-brand {
     font-weight: bold;
 }
 
-input#Bericht {
+textarea#Bericht {
     /*Opmerking form*/
     width: 600px;
     height: 300px;
@@ -89,6 +95,40 @@ input#Onderwerp {
 
 form.formOpmerking.form-horizontal.call {
     width: 900px;
+}
+.NieuweOfBestaandeWerkgeverButtons{
+    /*Buttons om te kiezen tussen Nieuwe of BsetaandeWerkgever*/
+    text-align: center;
+}
+
+.addOption {
+    overflow: auto;
+    padding: 10px;
+}
+
+.addOption a {
+    float: right;
+    margin: 0 15px;
+}
+
+.options {
+    text-align: center;
+}
+
+/*Ervoor zorgen dat de opties rechts in de tabel verschijnen en verdwijnen:*/
+tr .options i,
+li .options i {
+    opacity: 0;
+}
+
+tr:hover .options i,
+li:hover .options i {
+    opacity: 1;
+}
+
+.tooltip-inner {
+    max-width: 450px;
+    width: 450px;
 }
 
 /* Hide/rearrange for smaller screens */

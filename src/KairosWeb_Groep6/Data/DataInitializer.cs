@@ -9,18 +9,25 @@ namespace KairosWeb_Groep6.Data
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IGebruikerRepository _gebruikerRepository;
+        private readonly IJobcoachRepository _gebruikerRepository;
+        private readonly IWerkgeverRepository _werkgeverRepository;
 
-        public DataInitializer(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, IGebruikerRepository gebruikerRepository)
+        public DataInitializer(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, IJobcoachRepository gebruikerRepository,IWerkgeverRepository werkgeverRepository)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _gebruikerRepository = gebruikerRepository;
+            _werkgeverRepository = werkgeverRepository;
         }
 
         public async Task InitializeData()
         {
-            await InitializeUsers();
+            _dbContext.Database.EnsureDeleted();
+            if (_dbContext.Database.EnsureCreated())
+            {
+                await InitializeUsers();
+            }
+            _dbContext.SaveChanges();
         }
 
         private async Task InitializeUsers()
@@ -38,8 +45,8 @@ namespace KairosWeb_Groep6.Data
             };
 
             Organisatie organisatie = new Organisatie("HoGent", "Arbeidstraat", 14, 9300, "Aalst");
-            Gebruiker gebruiker = new Gebruiker(naam, voornaam, email, organisatie) {AlAangemeld = true, Wachtwoord = "kairos2017" };
-            _gebruikerRepository.Add(gebruiker);
+            Jobcoach jobcoach = new Jobcoach(naam, voornaam, email, organisatie) { AlAangemeld = true, Wachtwoord = "kairos2017" };
+            _gebruikerRepository.Add(jobcoach);
 
             await _userManager.CreateAsync(user, "kairos2017");
 
@@ -55,8 +62,8 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            gebruiker = new Gebruiker(naam, voornaam, email, false) { AlAangemeld = true, Wachtwoord = "kairos2017" };
-            _gebruikerRepository.Add(gebruiker);
+            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true, Wachtwoord = "kairos2017" };
+            _gebruikerRepository.Add(jobcoach);
 
             await _userManager.CreateAsync(user, "kairos2017");
 
@@ -72,12 +79,36 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            gebruiker = new Gebruiker(naam, voornaam, email, false) { AlAangemeld = true, Wachtwoord = "kairos2017" };
-            _gebruikerRepository.Add(gebruiker);
+            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true, Wachtwoord = "kairos2017" };
+            _gebruikerRepository.Add(jobcoach);
 
             await _userManager.CreateAsync(user, "kairos2017");
 
             _gebruikerRepository.Save();
+
+            string naamOrg = "VAB";
+            string straat = "Capucienelaan";
+            int nummer = 65;
+            int postcode = 9300;
+            string gemeente = "Aalst";
+            int aantalWerkuren = 35;
+            
+            Werkgever werkgever
+                = new Werkgever(naamOrg,straat,nummer,postcode,gemeente,aantalWerkuren);
+             _werkgeverRepository.Add(werkgever);
+
+            naamOrg = "VAB";
+            straat = "Capucienelaan";
+            nummer = 65;
+            postcode = 9300;
+            gemeente = "Aalst";
+            aantalWerkuren = 35;
+
+            werkgever 
+                = new Werkgever(naamOrg, straat, nummer, postcode, gemeente, aantalWerkuren);
+            _werkgeverRepository.Add(werkgever);
+
+            _werkgeverRepository.Save();
         }
     }
 }

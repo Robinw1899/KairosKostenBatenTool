@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using KairosWeb_Groep6.Data;
 using KairosWeb_Groep6.Data.Repositories;
+using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
@@ -65,13 +66,17 @@ namespace KairosWeb_Groep6
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-            services.AddScoped<IGebruikerRepository, GebruikerRepository>();
+            services.AddScoped<AnalyseFilter>();
+            services.AddScoped<IJobcoachRepository, JobcoachRepository>();
+            services.AddScoped<IWerkgeverRepository, WerkgeverRepository>();
+            services.AddScoped<IAnalyseRepository, AnalyseRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
             ILoggerFactory loggerFactory, ApplicationDbContext context, 
-            UserManager<ApplicationUser> userManager, IGebruikerRepository gebruikerRepository)
+            UserManager<ApplicationUser> userManager, IJobcoachRepository gebruikerRepository,
+            IWerkgeverRepository werkgeverRepository)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -108,7 +113,7 @@ namespace KairosWeb_Groep6
                     template: "{controller=Kairos}/{action=Index}/{id?}");
             });
 
-            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository);
+            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,werkgeverRepository);
             initializer.InitializeData().Wait();
         }
     }
