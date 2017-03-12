@@ -1,0 +1,68 @@
+﻿@model KairosWeb_Groep6.Models.BatenViewModels.ExtraOmzetViewModel
+@{
+    ViewData["Title"] = "Extra omzet";
+}
+
+<h2 class="col-md-offset-1 ">@ViewData["Title"]</h2>
+
+<ul id="icons-h4">
+    <a asp-action="Opslaan"><i class="fa fa-floppy-o"></i></a>
+    <a asp-action="Bewerken"><i class="fa fa-pencil"></i></a>
+</ul>
+
+<!--Controller en actie nog veranderen-->
+<form asp-controller="Baten" asp-action="NieuweAnalyse" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+    <div class="col-md-offset-1">
+
+        <hr />
+        <!--Tabs-->
+        <div id="tabs">
+            @Html.Partial("_Tabs");
+        </div>
+        <!--einde tabs-->
+
+        <div>
+            <div id="tabel">
+                <!--Tabel-->
+                @Html.Partial("_TabelExtraOmzet", Model);
+                <!--einde tabel-->
+            </div>
+            <!--buttons - + -->
+            <div class="form-group buttonsMinPlus">
+                <button><li class="fa fa-minus-square"></li></button>
+                <button id="btnPlus"><li class="fa fa-plus-square"></li></button>
+            </div>
+            <!--einde buttons - + -->
+        </div>
+        <!--begin div inputForm-->
+        <div id="inputForm">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="Id" type="hidden" />
+                <input asp-for="Soort" type="hidden" />
+                <input asp-for="Type" type="hidden" />
+                <label asp-for="JaarbedragOmzetverlies" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="JaarbedragOmzetverlies" class="form-control" />
+                    <span asp-validation-for="JaarbedragOmzetverlies" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!--buttons an/add-->
+            <div class="col-md-12">
+                <div class="form-group col-md-12">
+                    <div class="col-md-offset-3 col-md-8 text-right">
+                        <div>
+                            <a asp-action="Index" class="btn btn-default">Annuleer</a>
+                            <button class="btn btn-primary" type="submit">Voeg toe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--einde div inputForm-->
+    </div>
+</form>
+<script>
+        $("#baten").addClass("active");
+</script>

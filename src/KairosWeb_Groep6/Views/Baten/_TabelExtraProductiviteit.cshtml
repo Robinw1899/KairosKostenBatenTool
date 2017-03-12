@@ -1,0 +1,25 @@
+﻿@model  IEnumerable<KairosWeb_Groep6.Models.BatenViewModels.ExtraProductiviteitViewModel>
+
+@*@if (!Model.Any())
+    {
+        <tr>
+            <th>Jaarbedrag</th>
+        </tr>
+        <tr>
+            <td>-</td>
+        </tr>
+    }*@
+<table class="table table-striped table-condensed table-bordered">
+    <tr>
+        <th>Jaarbedrag</th>
+    </tr>
+    <tr>
+        <td>-</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Bedrag</td>
+        </tr>
+    }
+</table>

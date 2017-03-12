@@ -1,0 +1,22 @@
+﻿@model IEnumerable<KairosWeb_Groep6.Models.BatenViewModels.ExtraBesparingViewModel>
+@*@if (!Model.Any())
+    {
+        <tr>
+            <th>Jaarbedrag omzetverlies</th>
+        </tr>
+        <tr>
+            <td>-</td>
+        </tr>
+    }*@
+<table class="table table-striped table-condensed table-bordered">
+    <tr>
+        <th>Jaarbedrag omzetverlies</th>
+
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Bedrag</td>
+        </tr>
+    }
+</table>
