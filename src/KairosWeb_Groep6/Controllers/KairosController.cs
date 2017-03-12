@@ -121,34 +121,6 @@ namespace KairosWeb_Groep6.Controllers
             return View(model);
         }
         #endregion
-
-        //dit wordt opgeroepen als je op de knop BestaandeWerkgever drukt bij de methode NieuweAnalyse
-        public IActionResult NieuweAnalyseBestaandeWerkgever(string naam = "")
-        {
-            if (naam.Equals(""))
-                ViewData["Werkgevers"] = _werkgeverRepository.GetAll();
-            else
-            {
-                ViewData["Werkgevers"] = _werkgeverRepository.GetByName(naam);
-            }
-            if (IsAjaxRequest())
-                return PartialView("_Werkgevers");
-            else
-            {
-                WerkgeverViewModel model = new WerkgeverViewModel();
-                return View(model);
-            }
-        }
-
-        private bool IsAjaxRequest()
-        {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
-        }
-
-        public IActionResult NieuweOfBestaandeWerkgever() //kiezen voor nieuwe of bestaande werkgever
-        {
-            return View();
-        }
     }
 }
 
