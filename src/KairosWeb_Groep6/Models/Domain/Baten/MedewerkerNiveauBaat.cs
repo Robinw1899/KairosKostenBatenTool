@@ -52,7 +52,7 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
             if (ControleerAlleGegevensAanwezig())
             {
                 double verhoudingUren = Uren / Werkgever.AantalWerkuren;
-                double loonMetPatronaleBijdrag = (verhoudingUren * BrutoMaandloonFulltime) * (1 + Werkgever.PatronaleBijdrage);
+                double loonMetPatronaleBijdrag = (verhoudingUren * BrutoMaandloonFulltime) * (1 + (Werkgever.PatronaleBijdrage / 100));
                 return loonMetPatronaleBijdrag * 13.92;
             }
 

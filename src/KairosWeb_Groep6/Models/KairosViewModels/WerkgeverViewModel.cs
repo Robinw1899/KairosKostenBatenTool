@@ -35,7 +35,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         public double GemiddeldAantalWerkUrenPerWeek { get; set; }
 
         [Display(Name = "Patronale bijdrage")]
-        [Required(ErrorMessage = "Gelieve de patronale bijdrage in te vullen")]
+        [Range(0, 100, ErrorMessage = "De patronale bijdrage moet liggen tussen 0 en 100 (grenzen inbegrepen)")]
         public double PatronaleBijdrage { get; set; }
 
         public WerkgeverViewModel()

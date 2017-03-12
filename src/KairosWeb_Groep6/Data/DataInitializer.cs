@@ -100,30 +100,6 @@ namespace KairosWeb_Groep6.Data
             await _userManager.CreateAsync(user, "kairos2017");
 
             _gebruikerRepository.Save();
-
-            string naamOrg = "VAB";
-            string straat = "Capucienelaan";
-            int nummer = 65;
-            int postcode = 9300;
-            string gemeente = "Aalst";
-            int aantalWerkuren = 35;
-            
-            Werkgever werkgever
-                = new Werkgever(naamOrg,straat,nummer,postcode,gemeente,aantalWerkuren);
-             _werkgeverRepository.Add(werkgever);
-
-            naamOrg = "VAB";
-            straat = "Capucienelaan";
-            nummer = 65;
-            postcode = 9300;
-            gemeente = "Aalst";
-            aantalWerkuren = 35;
-
-            werkgever 
-                = new Werkgever(naamOrg, straat, nummer, postcode, gemeente, aantalWerkuren);
-            _werkgeverRepository.Add(werkgever);
-
-            _werkgeverRepository.Save();
         }
     }
 }

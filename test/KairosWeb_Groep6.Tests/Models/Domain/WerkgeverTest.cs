@@ -9,8 +9,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
         [Fact]
         public void TestConstructorStandaardWaarden()
         {
-            double patronaleBijdrage = Math.Round(Werkgever.PatronaleBijdrage, 2);
-            Assert.Equal(0.35, patronaleBijdrage);
+            Assert.Equal(35, Werkgever.PatronaleBijdrage);
         }
     }
 }
