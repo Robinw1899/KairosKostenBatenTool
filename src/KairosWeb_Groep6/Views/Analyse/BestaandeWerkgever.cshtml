@@ -1,28 +1,43 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.WerkgeverViewModel
-
-@{
-    ViewData["Title"] = "Nieuwe analyse bestaande Werkgever";
+﻿@{
+    ViewData["Title"] = "Bestaande Werkgever";
 }
 <div class="page-header">
     <h3>@ViewData["Title"]</h3>
 </div>
 
-<div>
-    <form asp-controller="Kairos" asp-action="NieuweAnalyse" method="post" id="formAdd">
+<div class="row">
+    <form asp-controller="Analyse" asp-action="BestaandeWerkgever" method="post" id="form">
         <div class="form-group">
-            <label asp-for="Naam" class="col-md-2 control-label"></label>
+            <label for="naam" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input id="NaamId" asp-for="Naam" class="form-control" />
+                <input type="text" id="naam" name="naam" class="form-control" />
             </div>
         </div>
     </form>
+</div>
 
-    <div id="WerkgeversTable">
-        @Html.Partial("_Werkgevers", ViewData["Werkgevers"]);
-    </div>
+<br />
+
+<div class="row" id="data">
+        
 </div>
 
 
+
 @section Scripts {
+    <script>
+        $("#form").submit(function () {
+            $.post(this.action,
+                $(this).serialize(),
+                function (data) {
+                    $("#data").html(data);
+                });
+
+            return false;
+        });
+
+        $("#werkgever").addClass("active");
+    </script>
+
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

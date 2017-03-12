@@ -12,7 +12,11 @@ namespace KairosWeb_Groep6.Data
         private readonly IJobcoachRepository _gebruikerRepository;
         private readonly IWerkgeverRepository _werkgeverRepository;
 
-        public DataInitializer(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, IJobcoachRepository gebruikerRepository,IWerkgeverRepository werkgeverRepository)
+        public DataInitializer(
+            ApplicationDbContext dbContext,
+            UserManager<ApplicationUser> userManager, 
+            IJobcoachRepository gebruikerRepository,
+            IWerkgeverRepository werkgeverRepository)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -25,6 +29,17 @@ namespace KairosWeb_Groep6.Data
             _dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated())
             {
+                Werkgever werkgever = new Werkgever("VDAB", "Vooruitgangstraat", 1, 9300, "Aalst", 37);
+                _werkgeverRepository.Add(werkgever);
+
+                werkgever = new Werkgever("ALDI", "Leo Duboistraat", 20, 9280, "Lebbeke", 37);
+                _werkgeverRepository.Add(werkgever);
+
+                werkgever = new Werkgever("Coolblue", "Medialaan", 1, 1000, "Brussel", 35);
+                _werkgeverRepository.Add(werkgever);
+
+                _werkgeverRepository.Save();
+
                 await InitializeUsers();
             }
             _dbContext.SaveChanges();

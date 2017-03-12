@@ -134,10 +134,6 @@ namespace KairosWeb_Groep6.Data
             //    .IsRequired();
 
             //w.Property(t => Werkgever.PatronaleBijdrage);
-
-            w.HasMany(t => t.Analyses)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
