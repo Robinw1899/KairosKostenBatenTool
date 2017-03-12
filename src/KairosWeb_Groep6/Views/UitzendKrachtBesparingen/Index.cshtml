@@ -6,14 +6,15 @@
 }
 
 <div>
+    <div>
+        @Html.Partial("_Tabs")
+    </div>
+
     <div class="page-header">
         <h3>@ViewData["title"]</h3>
     </div>
 
-
     <p>Welke besparing denkt de werkgever jaarlijks te kunnen maken op uitzendkrachten?</p>
-
-    <!--Partial view navigatie komt hier-->
 
     <div id="data">
         @{
@@ -28,9 +29,9 @@
     <form asp-action="@action" id="form" style="display: none" method="post">
         <div asp-validation-summary="All" class="text-danger"></div>
         <!--3 hidden inputs om het id, soort en type op te slaan-->
-        <input asp-for="Id" />
-        <input asp-for="Type" />
-        <input asp-for="Soort" />
+        <input asp-for="Id"/>
+        <input asp-for="Type"/>
+        <input asp-for="Soort"/>
 
         <div class="row col-md-offset-2">
             <div class="col-md-4">
@@ -53,7 +54,7 @@
                 <span asp-validation-for="Bedrag" class="text-danger"></span>
             </div>
         </div>
-        <br />
+        <br/>
 
         <div class="row col-md-offset-2">
             <div class="col-md-8 text-right">
@@ -85,6 +86,8 @@
 
             return false;
         });
+
+        $("#baten").addClass("active");
     </script>
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

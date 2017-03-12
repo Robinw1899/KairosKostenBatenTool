@@ -50,22 +50,22 @@ namespace KairosWeb_Groep6.Data
 
             await _userManager.CreateAsync(user, "kairos2017");
 
-            voornaam = "Robin";
-            naam = "Coppens";
-            email = "robin.coppens.w1899@student.hogent.be";
+            //voornaam = "Robin";
+            //naam = "Coppens";
+            //email = "robin.coppens.w1899@student.hogent.be";
 
-            user = new ApplicationUser
-            {
-                UserName = email,
-                Naam = naam,
-                Voornaam = voornaam,
-                Email = email
-            };
+            //user = new ApplicationUser
+            //{
+            //    UserName = email,
+            //    Naam = naam,
+            //    Voornaam = voornaam,
+            //    Email = email
+            //};
 
-            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true, Wachtwoord = "kairos2017" };
-            _gebruikerRepository.Add(jobcoach);
+            //jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true, Wachtwoord = "kairos2017" };
+            //_gebruikerRepository.Add(jobcoach);
 
-            await _userManager.CreateAsync(user, "kairos2017");
+            //await _userManager.CreateAsync(user, "kairos2017");
 
             voornaam = "Dimmy";
             naam = "Maenhout";

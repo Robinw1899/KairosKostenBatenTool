@@ -1,6 +1,6 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels.MedewerkerNiveauIndexViewModel
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels.ExterneInkopenIndexViewModel
 @{
-    ViewData["title"] = "Medewerkers op zelfde niveau vervangen";
+    ViewData["Title"] = "Externe inkopen";
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
     ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
 }
@@ -14,7 +14,13 @@
         <h3>@ViewData["title"]</h3>
     </div>
 
-    <p>Zullen er (deels) medewerkers op hetzelfde niveau als de nieuwe medewerker vervangen worden?</p>
+    <p>
+        Welke zaken koopt de werkgever vandaag extern in? Op welke kan worden bespaard door de inzet van mensen
+        met een grote afstand tot de arbeidsmarkt? Denk hierbij aan bijvoorbeeld uitbesteedde productie, schoonmaak,
+        groendienst, enz. Hoeveel betaalt de werkgever vandaag jaarlijks aan het uitbesteden van werk?
+        Wat zijn de transportkosten van eventueel uitbesteedde zaken? Wat zijn de logistieke handlingskosten van
+        eventueel uitbesteedde zaken? Hoeveel denkt de werkgever te kunnen besparen?
+    </p>
 
     <div id="data">
         @{
@@ -23,39 +29,43 @@
     </div>
 
     <div class="addOption">
-        <a class="btn btn-success" id="openForm"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        <a class="btn btn-success" id="openForm">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
     </div>
 
-    <form asp-action="@action" id="form" style="display: none" method="post">
+    <!--begin div inputForm-->
+    <form asp-action="@action" id="form" method="post" style="display: none;" class="form-horizontal">
         <div asp-validation-summary="All" class="text-danger"></div>
-        <!--3 hidden inputs om het id, soort en type op te slaan-->
+
         <input asp-for="Id"/>
-        <input asp-for="Type"/>
         <input asp-for="Soort"/>
+        <input asp-for="Type"/>
 
         <div class="row col-md-offset-2">
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <i class="fa fa-font" aria-hidden="true"></i>
                     </span>
-                    <input asp-for="Uren" class="form-control" placeholder="Uren" id="uren">
+                    <input asp-for="Beschrijving" class="form-control" placeholder="Beschrijving" id="beschrijving"/>
                 </div>
-                <span asp-validation-for="Uren" class="text-danger"></span>
+                <span asp-validation-for="Beschrijving" class="text-danger"></span>
             </div>
+
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
-                    <input asp-for="BrutoMaandloonFulltime" class="form-control"
-                           placeholder="Bruto maandloon (fulltime)" id="brutoloon">
+                    <input asp-for="Bedrag" class="form-control" id="bedrag" placeholder="Bedrag"/>
                 </div>
-                <span asp-validation-for="BrutoMaandloonFulltime" class="text-danger"></span>
+                <span asp-validation-for="Bedrag" class="text-danger"></span>
             </div>
         </div>
         <br/>
 
+        <!--buttons an/add-->
         <div class="row col-md-offset-2">
             <div class="col-md-8 text-right">
                 <a class="btn btn-default" id="closeForm">Annuleer</a>
@@ -67,27 +77,27 @@
 
 @section scripts{
     <script>
-        if (@Model.Uren !== 0 && @Model.BrutoMaandloonFulltime !== 0) {
+        if (@Model.Bedrag > 0) {
             toonFormulier();
         } else {
-            $("#uren").val("");
-            $("#brutoloon").val("");
+            $("#beschrijving").val("");
+            $("#bedrag").val("");
         }
 
-        $("#form").submit(function () {
+        $("#form").submit(function() {
             $.post(this.action,
                 $(this).serialize(),
-                function (data) {
+                function(data) {
                     $("#data").html(data);
-                    $("#uren").val("");
-                    $("#brutoloon").val("");
-                    //verbergFormulier();
+                    $("#beschrijving").val("");
+                    $("#bedrag").val("");
                 });
 
             return false;
         });
 
         $("#baten").addClass("active");
+
     </script>
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

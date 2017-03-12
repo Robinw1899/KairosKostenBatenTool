@@ -1,6 +1,7 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels.MedewerkerNiveauIndexViewModel
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraBesparingViewModels.ExtraBesparingIndexViewModel
+
 @{
-    ViewData["title"] = "Medewerkers op zelfde niveau vervangen";
+    ViewData["Title"] = "Andere besparingen";
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
     ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
 }
@@ -14,7 +15,7 @@
         <h3>@ViewData["title"]</h3>
     </div>
 
-    <p>Zullen er (deels) medewerkers op hetzelfde niveau als de nieuwe medewerker vervangen worden?</p>
+    <p>Aan welke besparingen kan er nog meer gedacht worden? Vul de bedragen in per jaar</p>
 
     <div id="data">
         @{
@@ -37,21 +38,21 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <i class="fa fa-font" aria-hidden="true"></i>
                     </span>
-                    <input asp-for="Uren" class="form-control" placeholder="Uren" id="uren">
+                    <input asp-for="Beschrijving" class="form-control" placeholder="Beschrijving" id="beschrijving">
                 </div>
-                <span asp-validation-for="Uren" class="text-danger"></span>
+                <span asp-validation-for="Beschrijving" class="text-danger"></span>
             </div>
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
-                    <input asp-for="BrutoMaandloonFulltime" class="form-control"
-                           placeholder="Bruto maandloon (fulltime)" id="brutoloon">
+                    <input asp-for="Bedrag" class="form-control"
+                           placeholder="Bedrag" id="bedrag">
                 </div>
-                <span asp-validation-for="BrutoMaandloonFulltime" class="text-danger"></span>
+                <span asp-validation-for="Bedrag" class="text-danger"></span>
             </div>
         </div>
         <br/>
@@ -67,11 +68,11 @@
 
 @section scripts{
     <script>
-        if (@Model.Uren !== 0 && @Model.BrutoMaandloonFulltime !== 0) {
+        if (@Model.Bedrag > 0) {
             toonFormulier();
         } else {
-            $("#uren").val("");
-            $("#brutoloon").val("");
+            $("#beschrijving").val("");
+            $("#bedrag").val("");
         }
 
         $("#form").submit(function () {
@@ -79,8 +80,8 @@
                 $(this).serialize(),
                 function (data) {
                     $("#data").html(data);
-                    $("#uren").val("");
-                    $("#brutoloon").val("");
+                    $("#beschrijving").val("");
+                    $("#bedrag").val("");
                     //verbergFormulier();
                 });
 

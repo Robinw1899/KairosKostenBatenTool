@@ -1,0 +1,60 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.SubsidieViewModel
+@{
+    ViewData["title"] = "Subsidie";
+}
+
+<div>
+    <div>
+        @Html.Partial("_Tabs")
+    </div>
+
+    <div class="page-header">
+        <h3>@ViewData["title"]</h3>
+    </div>
+
+    <p>
+        Welk bedrag krijgt de werkgever aan subsidie voor eventuele aanpassingen aan de werkomgeving?
+    </p>
+
+    <form asp-controller="Subsidie" asp-action="Opslaan" id="form" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <!--3 hidden inputs om het id, soort en type op te slaan-->
+        <input asp-for="Id"/>
+        <input asp-for="Type"/>
+        <input asp-for="Soort"/>
+
+        <div class="row col-md-offset-2">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-euro" aria-hidden="true"></i>
+                    </span>
+                    <input asp-for="Bedrag" class="form-control" placeholder="Bedrag" id="jaarbedrag">
+                </div>
+                <span asp-validation-for="Bedrag" class="text-danger"></span>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row col-md-offset-2">
+            <div class="col-md-4 text-right">
+                <a asp-controller="Baten" asp-action="Index" class="btn btn-default">Annuleer</a>
+                <button type="submit" class="btn btn-info" style="margin-left: 15px">Opslaan</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    <script>
+        if (@Model.Bedrag !== 0) {
+            toonFormulier();
+        } else {
+            $("#jaarbedrag").val("");
+        }
+
+        $("#baten").addClass("active");
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

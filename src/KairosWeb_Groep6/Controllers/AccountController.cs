@@ -166,6 +166,9 @@ namespace KairosWeb_Groep6.Controllers
                         string naamVoorEmail = model.Voornaam + " " + model.Naam;
                         EmailSender.SendRegisterMailWithPassword(naamVoorEmail, model.Email, password);
 
+                        TempData["message"] =
+                            "Je bent succesvol geregistreerd. Kijk snel je mail na voor je tijdelijk wachtwoord!";
+
                         return RedirectToAction(nameof(Login), "Account");
                     }
 

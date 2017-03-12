@@ -2,33 +2,33 @@
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
-using KairosWeb_Groep6.Models.KairosViewModels.Baten;
+using KairosWeb_Groep6.Models.KairosViewModels.Baten.OverurenBesparingViewModels;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
     [ServiceFilter(typeof(AnalyseFilter))]
-    public class ExtraProductiviteitController : Controller
+    public class OverurenBesparingController : Controller
     {
-
         private readonly IAnalyseRepository _analyseRepository;
 
-        public ExtraProductiviteitController(IAnalyseRepository analyseRepository)
+        public OverurenBesparingController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
 
         public IActionResult Index(Analyse analyse)
         {
-            var model = MaakModel(analyse);
+            OverurenBesparingIndexViewModel model = MaakModel(analyse);
 
             return View(model);
         }
-        public IActionResult Opslaan(Analyse analyse, ExtraProductiviteitViewModel model)
+
+        public IActionResult Opslaan(Analyse analyse, OverurenBesparingIndexViewModel model)
         {
             if (ModelState.IsValid)
             {
                 // de baat bestaat reeds:
-                ExtraProductiviteit baat = new ExtraProductiviteit
+                OverurenBesparing baat = new OverurenBesparing
                 {
                     //Id = model.Id,
                     Id = 1,
@@ -37,25 +37,25 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     Bedrag = model.Bedrag
                 };
 
-                analyse.ExtraProductiviteit = baat;
+                analyse.OverurenBesparing = baat;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
 
-                TempData["message"] = "Het bedrag is succesvol opgeslagen.";
+                TempData["message"] = "De waarden zijn succesvol opgeslagen.";
             }
 
             return RedirectToAction("Index", model);
         }
 
-        private ExtraProductiviteitViewModel MaakModel(Analyse analyse)
+        private OverurenBesparingIndexViewModel MaakModel(Analyse analyse)
         {
-            if (analyse.ExtraProductiviteit == null)
+            if (analyse.OverurenBesparing == null)
             {
-                analyse.ExtraProductiviteit = new ExtraProductiviteit();
+                analyse.OverurenBesparing = new OverurenBesparing();
             }
-           
-            return new ExtraProductiviteitViewModel(analyse.ExtraProductiviteit);
+
+            return new OverurenBesparingIndexViewModel(analyse.OverurenBesparing);
         }
     }
 }

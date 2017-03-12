@@ -7,28 +7,29 @@ using KairosWeb_Groep6.Models.KairosViewModels.Baten;
 namespace KairosWeb_Groep6.Controllers.Baten
 {
     [ServiceFilter(typeof(AnalyseFilter))]
-    public class ExtraProductiviteitController : Controller
+    public class SubsidieController : Controller
     {
-
         private readonly IAnalyseRepository _analyseRepository;
 
-        public ExtraProductiviteitController(IAnalyseRepository analyseRepository)
+        public SubsidieController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
 
         public IActionResult Index(Analyse analyse)
         {
-            var model = MaakModel(analyse);
+            SubsidieViewModel model = MaakModel(analyse);
 
             return View(model);
         }
-        public IActionResult Opslaan(Analyse analyse, ExtraProductiviteitViewModel model)
+
+        [HttpPost]
+        public IActionResult Opslaan(Analyse analyse, SubsidieViewModel model)
         {
             if (ModelState.IsValid)
             {
                 // de baat bestaat reeds:
-                ExtraProductiviteit baat = new ExtraProductiviteit
+                Subsidie baat = new Subsidie
                 {
                     //Id = model.Id,
                     Id = 1,
@@ -37,25 +38,25 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     Bedrag = model.Bedrag
                 };
 
-                analyse.ExtraProductiviteit = baat;
+                analyse.Subsidie = baat;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
 
-                TempData["message"] = "Het bedrag is succesvol opgeslagen.";
+                TempData["message"] = "De waard is succesvol opgeslagen.";
             }
 
-            return RedirectToAction("Index", model);
+            return View("Index", model);
         }
 
-        private ExtraProductiviteitViewModel MaakModel(Analyse analyse)
+        private SubsidieViewModel MaakModel(Analyse analyse)
         {
-            if (analyse.ExtraProductiviteit == null)
+            if (analyse.Subsidie == null)
             {
-                analyse.ExtraProductiviteit = new ExtraProductiviteit();
+                analyse.Subsidie = new Subsidie();
             }
-           
-            return new ExtraProductiviteitViewModel(analyse.ExtraProductiviteit);
+
+            return new SubsidieViewModel(analyse.Subsidie);
         }
     }
 }

@@ -36,17 +36,17 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult OverurenBesparingen()
         {
-            return RedirectToAction("Index", "OverurenBesparingen");
+            return RedirectToAction("Index", "OverurenBesparing");
         }
 
         public IActionResult ExterneInkopen()
         {
-            return RedirectToAction("Index", "ExterneInkopen");
+            return RedirectToAction("Index", "Subsidie");
         }
 
         public IActionResult Subsidies()
         {
-            return RedirectToAction("Index", "Subsidies");
+            return RedirectToAction("Index", "Subsidie");
         }
 
         public IActionResult ExtraBesparingen()

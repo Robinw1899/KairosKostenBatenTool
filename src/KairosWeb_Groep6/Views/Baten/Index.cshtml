@@ -2,6 +2,10 @@
     ViewData["title"] = "Baten";
 }
 
+<div>
+    @Html.Partial("_Tabs")
+</div>
+
 <div class="page-header">
     <h3>@ViewData["title"]</h3>
 </div>
@@ -70,7 +74,7 @@
             <a asp-controller="Baten" asp-action="Subsidies"
                data-toggle="tooltip" data-placement="bottom"
                title="Welk bedrag krijgt de werkgever aan subsidie voor eventuele aanpassingen aan de werkomgeving?">
-                Subsidies
+                Subsidie
             </a>
         </li>
         <li>

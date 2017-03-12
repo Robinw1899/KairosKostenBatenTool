@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
-using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Type = KairosWeb_Groep6.Models.Domain.Type;
@@ -55,6 +53,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
+                TempData["message"] = "De waarden zijn succesvol toegevoegd.";
+
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
@@ -104,6 +104,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
+                TempData["message"] = "De waarden zijn succesvol opgeslagen.";
+
                 return RedirectToAction("Index", model);
             }
 
@@ -124,6 +126,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
             MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
+
+            TempData["message"] = "De waarden zijn succesvol verwijderd.";
 
             return View("Index", model);
         }

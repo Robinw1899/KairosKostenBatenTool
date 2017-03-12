@@ -51,6 +51,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
+                TempData["message"] = $"{model.Beschrijving} is succesvol toegevoegd.";
+
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
@@ -99,6 +101,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
+                TempData["message"] = $"{model.Beschrijving} is succesvol opgeslagen.";
+
                 return RedirectToAction("Index", model);
             }
 
@@ -119,6 +123,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
             UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
+            TempData["message"] = $"{model.Beschrijving} is succesvol verwijderd.";
+
             return View("Index", model);
         }
 
@@ -132,7 +138,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             UitzendKrachtBesparingIndexViewModel model = new UitzendKrachtBesparingIndexViewModel
             {
                 Type = Type.Baat,
-                Soort = Soort.MedewerkersZelfdeNiveau,
+                Soort = Soort.UitzendkrachtBesparing,
                 ViewModels = analyse
                                 .UitzendKrachtBesparingen
                                 .Select(m => new UitzendKrachtBesparingViewModel(m))

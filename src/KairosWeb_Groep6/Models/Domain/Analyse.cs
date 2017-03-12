@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net.Http.Headers;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 
@@ -42,7 +41,7 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public List<ExterneInkoop> ExterneInkopen { get; set; } = new List<ExterneInkoop>();
 
-        public List<Subsidie> Subsidies { get; set; } = new List<Subsidie>();
+        public Subsidie Subsidie { get; set; }
 
         public List<ExtraBesparing> ExtraBesparingen { get; set; } = new List<ExtraBesparing>();
         #endregion

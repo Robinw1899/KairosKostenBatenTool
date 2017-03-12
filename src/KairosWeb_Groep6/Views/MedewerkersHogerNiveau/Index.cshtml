@@ -6,13 +6,15 @@
 }
 
 <div>
+    <div>
+        @Html.Partial("_Tabs")
+    </div>
+
     <div class="page-header">
         <h3>@ViewData["title"]</h3>
     </div>
 
     <p>Zullen er (deels) medewerkers op een hoger niveau als de nieuwe medewerker vervangen worden?</p>
-
-    <!--Partial view navigatie komt hier-->
 
     <div id="data">
         @{
@@ -84,6 +86,8 @@
 
             return false;
         });
+
+        $("#baten").addClass("active");
     </script>
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

@@ -38,7 +38,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.MedewerkersZelfdeNiveauBaat)
                 .Include(a => a.OpleidingsKosten)
                 .Include(a => a.OverurenBesparing)
-                .Include(a => a.Subsidies)
+                .Include(a => a.Subsidie)
                 .Include(a => a.UitzendKrachtBesparingen)
                 .Include(a => a.VoorbereidingsKosten)
                 .AsNoTracking()
@@ -62,7 +62,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.MedewerkersZelfdeNiveauBaat)
                 .Include(a => a.OpleidingsKosten)
                 .Include(a => a.OverurenBesparing)
-                .Include(a => a.Subsidies)
+                .Include(a => a.Subsidie)
                 .Include(a => a.UitzendKrachtBesparingen)
                 .Include(a => a.VoorbereidingsKosten)
                 .SingleOrDefault(a => a.AnalyseId == id);

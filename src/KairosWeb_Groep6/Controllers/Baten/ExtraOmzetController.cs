@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+using KairosWeb_Groep6.Models.KairosViewModels.Baten;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
@@ -21,55 +16,47 @@ namespace KairosWeb_Groep6.Controllers.Baten
         {
             _analyseRepository = analyseRepository;
         }
-        // GET: /<controller>/
-        public IActionResult Index()
+
+        public IActionResult Index(Analyse analyse)
         {
-            return View();
+            ExtraOmzetViewModel model = MaakModel(analyse);
+
+            return View(model);
         }
-        public IActionResult VoegToe(Analyse analyse, ExtraOmzetIndexViewModel model /*UitzendKrachtBesparingIndexViewModel model*/)
+
+        public IActionResult Opslaan(Analyse analyse, ExtraOmzetViewModel model)
         {
             if (ModelState.IsValid)
             {
-                // de baat bestaat reeds:
                 ExtraOmzet baat = new ExtraOmzet
                 {
                     //Id = model.Id,
                     Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
-                    Beschrijving = model.Beschrijving,
-                    Bedrag = model.Bedrag
+                    JaarbedragOmzetverlies = model.JaarbedragOmzetverlies,
+                    Besparing = model.Besparing
                 };
 
-                analyse.ExtraOmzet.Add(baat);
+                analyse.ExtraOmzet = baat;
                 _analyseRepository.Save();
 
-                /*model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);*/
+                model = MaakModel(analyse);
 
-                return PartialView("_OverzichtTabel", model.ViewModels);
+                TempData["message"] = "De waarden zijn succesvol opgeslagen.";
             }
 
-            /* PlaatsTotaalInViewData(analyse);*/
-
-            return RedirectToAction("Index", model);
+            return View("Index", model);
         }
-        private ExtraOmzetIndexViewModel MaakModel(Analyse analyse)
+
+        private ExtraOmzetViewModel MaakModel(Analyse analyse)
         {
-            ExtraOmzetIndexViewModel model = new ExtraOmzetIndexViewModel
+            if (analyse.ExtraOmzet == null)
             {
-                Type = Models.Domain.Type.Baat,
-                Soort = Soort.MedewerkersHogerNiveau,
-                ViewModels = analyse
-                                .MedewerkersHogerNiveauBaat
-                                .Select(m => new ExtraOmzetViewModel(m))
-            };
+                analyse.ExtraOmzet = new ExtraOmzet();
+            }
 
-            return model;
-        }
-        private bool IsAjaxRequest()
-        {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            return new ExtraOmzetViewModel(analyse.ExtraOmzet);
         }
     }
 }

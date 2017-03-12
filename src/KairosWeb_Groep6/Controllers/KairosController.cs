@@ -18,7 +18,7 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IWerkgeverRepository _werkgeverRepository;
 
         public KairosController(
-            SignInManager<ApplicationUser> signInManager, 
+            SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             IJobcoachRepository gebruikerRepository,
             IWerkgeverRepository werkgeverRepository)
@@ -32,11 +32,6 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult Index()
         {
             return View();
-        }
-
-        public IActionResult NieuweAnalyse()
-        {
-            return View(nameof(NieuweOfBestaandeWerkgever));
         }
 
         public async Task<IActionResult> EersteKeerAanmelden()
@@ -58,7 +53,8 @@ namespace KairosWeb_Groep6.Controllers
             if (paswoordResetten.Succeeded)
             {
                 await _signInManager.SignOutAsync();
-                var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
+                var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false,
+                    lockoutOnFailure: false);
 
                 if (login.Succeeded)
                 {
@@ -72,7 +68,7 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction(nameof(AccountController.Login), "Account");
         }
-        
+
         public IActionResult Opmerking()
         {
             // return de view met een OpmerkingViewModel met een leeg onderwerp en leeg bericht
@@ -99,7 +95,7 @@ namespace KairosWeb_Groep6.Controllers
                     // als we hier komen, is alles gelukt
                     TempData["message"] =
                         "Je vraag/opmerking is succesvol verzonden naar administrator. Deze zal zo snel mogelijk contact opnemen met jou.";
-                    
+
                     return RedirectToAction(nameof(Index), "Kairos");
                 }
                 catch (Exception)
@@ -108,7 +104,7 @@ namespace KairosWeb_Groep6.Controllers
                     TempData["error"] = "Er is onverwacht iets fout gelopen, onze excuses voor het ongemak! " +
                                         "Probeer het later opnieuw.";
                 }
-                
+
             }
 
             // als we hier komen, is er iets mislukt, we tonen de pagina opnieuw
@@ -116,13 +112,13 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         //dit wordt opgeroepen als je op de knop BestaandeWerkgever drukt bij de methode NieuweAnalyse
-        public IActionResult NieuweAnalyseBestaandeWerkgever(string naam="")
-        {           
+        public IActionResult NieuweAnalyseBestaandeWerkgever(string naam = "")
+        {
             if (naam.Equals(""))
-                 ViewData["Werkgevers"] = _werkgeverRepository.GetAll();
+                ViewData["Werkgevers"] = _werkgeverRepository.GetAll();
             else
             {
-               ViewData["Werkgevers"] = _werkgeverRepository.GetByName(naam);               
+                ViewData["Werkgevers"] = _werkgeverRepository.GetByName(naam);
             }
             if (IsAjaxRequest())
                 return PartialView("_Werkgevers");
@@ -138,36 +134,10 @@ namespace KairosWeb_Groep6.Controllers
             return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
 
-        public IActionResult NieuweOfBestaandeWerkgever()//kiezen voor nieuwe of bestaande werkgever
+        public IActionResult NieuweOfBestaandeWerkgever() //kiezen voor nieuwe of bestaande werkgever
         {
             return View();
-        }
-        public IActionResult MedewerkerNiveauBaat()
-        {
-            return View();
-        }
-        public IActionResult UitzendKrachtBesparing()
-        {
-            return View();
-        }
-        public IActionResult ExtraOmzet()
-        {
-            return View();
-        }
-        public IActionResult ExtraProductiviteit()
-        {
-            return View();
-        }
-
-        public IActionResult Oplsaan()
-        {
-             throw new NotImplementedException();
-        }
-        public IActionResult Bewerken()
-        {
-            throw new NotImplementedException();
         }
     }
-
 }
 

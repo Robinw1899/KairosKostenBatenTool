@@ -45,7 +45,7 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <li><a asp-area="" asp-controller="Kairos" asp-action="Index"><i class="fa fa-home fa-2x" aria-hidden="true"></i></a></li>
-                        <li><a asp-area="" asp-controller="Kairos" asp-action="NieuweAnalyse"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></a></li>
+                        <li><a asp-area="" asp-controller="Analyse" asp-action="NieuweAnalyse"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></a></li>
                         <li><a asp-area="" asp-controller="Archief" asp-action="Index"><i class="fa fa-archive fa-2x" aria-hidden="true"></i></a></li>
                     }
                 </ul>
@@ -56,11 +56,11 @@
     <div class="container body-content">
         @if (TempData["message"] != null)
         {
-            <div class="alert alert-success">@TempData["message"]</div>
+            <div class="alert alert-success animated slideInDown">@TempData["message"]</div>
         }
         @if (TempData["error"] != null)
         {
-            <div class="alert alert-warning">@TempData["error"]</div>
+            <div class="alert alert-warning animated rubberBand">@TempData["error"]</div>
         }
         @RenderBody()
         <hr />

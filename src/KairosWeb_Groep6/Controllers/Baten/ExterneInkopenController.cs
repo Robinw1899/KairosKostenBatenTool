@@ -1,25 +1,25 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
-using KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels;
-using Microsoft.AspNetCore.Mvc;
+using KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
     [ServiceFilter(typeof(AnalyseFilter))]
-    public class MedewerkersHogerNiveauController : Controller
+    public class ExterneInkopenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
 
-        public MedewerkersHogerNiveauController(IAnalyseRepository analyseRepository)
+        public ExterneInkopenController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
 
         public IActionResult Index(Analyse analyse)
         {
-            MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
+            ExterneInkopenIndexViewModel model = MaakModel(analyse);
 
             if (IsAjaxRequest())
             {
@@ -30,44 +30,43 @@ namespace KairosWeb_Groep6.Controllers.Baten
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult VoegToe(Analyse analyse, MedewerkerNiveauIndexViewModel model)
+        public IActionResult VoegToe(Analyse analyse, ExterneInkopenIndexViewModel model)
         {
             if (ModelState.IsValid)
             {
                 // de baat bestaat reeds:
-                MedewerkerNiveauBaat baat = new MedewerkerNiveauBaat
+                ExterneInkoop baat = new ExterneInkoop
                 {
                     //Id = model.Id,
                     Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
-                    Uren = model.Uren,
-                    BrutoMaandloonFulltime = model.BrutoMaandloonFulltime
+                    Beschrijving = model.Beschrijving,
+                    Bedrag = model.Bedrag
                 };
 
-                analyse.MedewerkersHogerNiveauBaat.Add(baat);
+                analyse.ExterneInkopen.Add(baat);
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = "De waarden zijn succesvol toegevoegd.";
+                TempData["message"] = $"{model.Beschrijving} is succesvol opgeslagen.";
 
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
-            PlaatsTotaalInViewData(analyse);
+           /* PlaatsTotaalInViewData(analyse);*/
 
             return RedirectToAction("Index", model);
         }
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
+            ExterneInkoop baat = analyse.ExterneInkopen
                                                 .SingleOrDefault(b => b.Id == id);
 
-            MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
+            ExterneInkopenIndexViewModel model = MaakModel(analyse);
 
             if (baat != null)
             {
@@ -75,8 +74,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model.Id = id;
                 model.Type = baat.Type;
                 model.Soort = baat.Soort;
-                model.Uren = baat.Uren;
-                model.BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
+                model.Beschrijving = baat.Beschrijving;
+                model.Bedrag = baat.Bedrag;
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -85,9 +84,9 @@ namespace KairosWeb_Groep6.Controllers.Baten
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, MedewerkerNiveauIndexViewModel model)
+        public IActionResult Bewerk(Analyse analyse, ExterneInkopenIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
+            ExterneInkoop baat = analyse.ExterneInkopen
                                                  .SingleOrDefault(b => b.Id == model.Id);
 
             if (ModelState.IsValid && baat != null)
@@ -96,14 +95,15 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 baat.Id = model.Id;
                 baat.Type = model.Type;
                 baat.Soort = model.Soort;
-                baat.Uren = model.Uren;
-                baat.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
+                baat.Beschrijving = model.Beschrijving;
+                baat.Bedrag = model.Bedrag;
+
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = "De waarden zijn succesvol opgeslagen.";
+                TempData["message"] = $"{model.Beschrijving} is succesvol opgeslagen.";
 
                 return RedirectToAction("Index", model);
             }
@@ -115,29 +115,31 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
+            ExterneInkoop baat = analyse.ExterneInkopen
                                                  .SingleOrDefault(b => b.Id == id);
+            if (baat != null)
+            {
+                analyse.ExterneInkopen.Remove(baat);
+                _analyseRepository.Save();
+            }
 
-            analyse.MedewerkersHogerNiveauBaat.Remove(baat);
-            _analyseRepository.Save();
-
-            MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
+            ExterneInkopenIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = "De waarden zijn succesvol verwijderd.";
+            TempData["message"] = $"{model.Beschrijving} is succesvol verwijderd.";
 
             return View("Index", model);
         }
 
-        private MedewerkerNiveauIndexViewModel MaakModel(Analyse analyse)
+        private ExterneInkopenIndexViewModel MaakModel(Analyse analyse)
         {
-            MedewerkerNiveauIndexViewModel model = new MedewerkerNiveauIndexViewModel
+            ExterneInkopenIndexViewModel model = new ExterneInkopenIndexViewModel
             {
                 Type = Type.Baat,
-                Soort = Soort.MedewerkersHogerNiveau,
+                Soort = Soort.ExterneInkoop,
                 ViewModels = analyse
-                                .MedewerkersHogerNiveauBaat
-                                .Select(m => new MedewerkerNiveauBaatViewModel(m))
+                                .ExterneInkopen
+                                .Select(m => new ExterneInkoopViewModel(m))
             };
 
             return model;
@@ -150,12 +152,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         private void PlaatsTotaalInViewData(Analyse analyse)
         {
-            if (analyse.MedewerkersHogerNiveauBaat.Count == 0)
+            if (analyse.ExterneInkopen.Count == 0)
             {
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = analyse.MedewerkersHogerNiveauBaat
+            double totaal = analyse.ExterneInkopen
                                     .Sum(t => t.Bedrag);
 
             ViewData["totaal"] = totaal.ToString("C");

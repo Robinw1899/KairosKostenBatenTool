@@ -93,6 +93,28 @@ input#Onderwerp {
     display: inline-block;
 }
 
+.nav-tabs > li {
+    float:none;
+    display:inline-block;
+    *display:inline;
+    zoom:1;
+}
+
+.nav-tabs {
+    text-align:center;
+}
+
+.nav-analyse {
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+.nav-analyse .active a {
+    background-color: #97c900 !important;
+}
+
 form.formOpmerking.form-horizontal.call {
     width: 900px;
 }
