@@ -38,6 +38,9 @@
         <div id="inputForm">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
+                <input asp-for="Id" type="hidden" />
+                <input asp-for="Soort" type="hidden" />
+                <input asp-for="Type" type="hidden" />
                 <label asp-for="Uren" class="col-md-2 control-label"></label>
                 <div class="col-md-10">
                     <input asp-for="Uren" class="form-control" />
