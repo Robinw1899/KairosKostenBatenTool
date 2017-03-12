@@ -1,4 +1,4 @@
-﻿using KairosWeb_Groep6.Models.KairosViewModels;
+﻿using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +7,19 @@ namespace KairosWeb_Groep6.Controllers
     [Authorize]
     public class AnalyseController : Controller
     {
+        #region Properties
+
+        private readonly IWerkgeverRepository _werkgeverRepository;
+        #endregion
+
+        #region Constructors
+
+        public AnalyseController(IWerkgeverRepository werkgeverRepository)
+        {
+            _werkgeverRepository = werkgeverRepository;
+        }
+        #endregion
+
         public IActionResult Index()
         {
             return RedirectToAction("Index", "Baten");
@@ -40,15 +53,15 @@ namespace KairosWeb_Groep6.Controllers
                 return PartialView("_Werkgevers");
             else
             {
-                WerkgeverViewModel model = new WerkgeverViewModel();
-                return View(model);
+                //WerkgeverViewModel model = new WerkgeverViewModel();
+                return View();
             }
         }
 
         [HttpPost]
         public IActionResult BestaandeWerkgever(int id)
         {
-            
+            return View();
         }
 
         private bool IsAjaxRequest()

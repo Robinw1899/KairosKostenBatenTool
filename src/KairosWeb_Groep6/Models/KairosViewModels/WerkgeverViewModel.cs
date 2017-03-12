@@ -1,37 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KairosWeb_Groep6.Models.Domain;
+﻿using KairosWeb_Groep6.Models.Domain;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels
 {
-    public class WerkgeverViewModel
+    public class NieuweWerkgeverViewModel
     {
-        public string Naam { get; set; }
-        public string Straat { get; set; }
-        public int Nummer { get; set; }
-        public int Postcode { get; set; }
-        public string Gemeente { get; set; }
-        public static int AantalWerkuren { get; set; }
-        public static double PatronaleBijdrage { get; set; } = 0.35D;
+        [HiddenInput]
+        public int WerkgeverId { get; set; }
 
-        public WerkgeverViewModel()
+        [Display(Name = "Naam")]
+        [Required(ErrorMessage = "Gelieve de naam van de organisatie op te geven")]
+        public string OrganisatieNaam { get; set; }
+
+        [Display(Name = "Straat")]
+        public string StraatOrganisatie { get; set; } // niet verplicht: zie UC + backlog
+
+        [Display(Name = "Nummer")]
+        public int NrOrganisatie { get; set; } // niet verplicht: zie UC + backlog
+
+        [Display(Name = "Postcode")]
+        [DataType(DataType.PostalCode)]
+        [Required(ErrorMessage = "Gelieve de postcode van de organisatie op te geven")]
+        [Range(1000, 9999, ErrorMessage = "De postcode moet liggen tussen 1000 en 9999 (grenzen inbegrepen)")]
+        public int Postcode { get; set; }
+
+        [Display(Name = "Gemeente")]
+        [Required(ErrorMessage = "Gelieve de gemeente van de organisatie op te geven")]
+        public string Gemeente { get; set; }
+
+        [Display(Name = "Gemiddeld aantal uren per week")]
+        [Required(ErrorMessage = "Gelieve een gemiddeld aantal werkuren per week op te geven")]
+        public double GemiddeldAantalWerkUrenPerWeek { get; set; }
+
+        [Display(Name = "Patronale bijdrage")]
+        [Required(ErrorMessage = "Gelieve de patronale bijdrage in te vullen")]
+        public double PatronaleBijdrage { get; set; }
+
+        public NieuweWerkgeverViewModel()
         {
-            
+
         }
-        public WerkgeverViewModel(Werkgever werkgever)
+
+        public NieuweWerkgeverViewModel(Werkgever werkgever)
         {
-            Naam = werkgever.Naam;
-            Straat = werkgever.Straat;
-            Nummer = werkgever.Nummer;
+            OrganisatieNaam = werkgever.Naam;
+            StraatOrganisatie = werkgever.Straat;
+            NrOrganisatie = werkgever.Nummer;
             Postcode = werkgever.Postcode;
             Gemeente = werkgever.Gemeente;
-            AantalWerkuren = Werkgever.AantalWerkuren;
-            PatronaleBijdrage = Werkgever.PatronaleBijdrage;
-        }
 
+            GemiddeldAantalWerkUrenPerWeek = Werkgever.AantalWerkuren;
+            PatronaleBijdrage = Werkgever.PatronaleBijdrage;  
+        }
     }
 }
-
-

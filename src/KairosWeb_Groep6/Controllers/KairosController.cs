@@ -18,21 +18,17 @@ namespace KairosWeb_Groep6.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
 
         private readonly IJobcoachRepository _gebruikerRepository;
-
-        private readonly IWerkgeverRepository _werkgeverRepository;
         #endregion
 
         #region Constructors
         public KairosController(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
-            IJobcoachRepository gebruikerRepository,
-            IWerkgeverRepository werkgeverRepository)
+            IJobcoachRepository gebruikerRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _gebruikerRepository = gebruikerRepository;
-            _werkgeverRepository = werkgeverRepository;
         }
         #endregion
 

@@ -1,19 +1,22 @@
-using System.Collections.Generic;
-
 namespace KairosWeb_Groep6.Models.Domain
 {
     public class Werkgever
     {
         public int WerkgeverId { get; set; }
+
         public string Naam { get; set; }
+
         public string Straat { get; set; }
+
         public int Nummer { get; set; }
+
         public int Postcode { get; set; }
+
         public string Gemeente { get; set; }
+
         public static int AantalWerkuren { get; set; }
 
         public static double PatronaleBijdrage { get; set; } = 0.35D;
-        public IEnumerable<Analyse> Analyses { get; set; }
 
         public Werkgever()
 
