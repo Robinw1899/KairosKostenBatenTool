@@ -12,11 +12,17 @@ namespace KairosWeb_Groep6.Controllers
     [Authorize]
     public class KairosController : Controller
     {
+        #region Properties
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IJobcoachRepository _gebruikerRepository;
-        private readonly IWerkgeverRepository _werkgeverRepository;
 
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        private readonly IJobcoachRepository _gebruikerRepository;
+
+        private readonly IWerkgeverRepository _werkgeverRepository;
+        #endregion
+
+        #region Constructors
         public KairosController(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
@@ -28,12 +34,14 @@ namespace KairosWeb_Groep6.Controllers
             _gebruikerRepository = gebruikerRepository;
             _werkgeverRepository = werkgeverRepository;
         }
+        #endregion
 
         public IActionResult Index()
         {
             return View();
         }
 
+        #region Eerste keer aanmelden       
         public async Task<IActionResult> EersteKeerAanmelden()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
@@ -68,7 +76,9 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction(nameof(AccountController.Login), "Account");
         }
+        #endregion
 
+        #region Opmerking
         public IActionResult Opmerking()
         {
             // return de view met een OpmerkingViewModel met een leeg onderwerp en leeg bericht
@@ -110,6 +120,7 @@ namespace KairosWeb_Groep6.Controllers
             // als we hier komen, is er iets mislukt, we tonen de pagina opnieuw
             return View(model);
         }
+        #endregion
 
         //dit wordt opgeroepen als je op de knop BestaandeWerkgever drukt bij de methode NieuweAnalyse
         public IActionResult NieuweAnalyseBestaandeWerkgever(string naam = "")

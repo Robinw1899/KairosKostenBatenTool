@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Controllers
 {
+    [Authorize]
     public class AnalyseController : Controller
     {
         public IActionResult Index()
@@ -10,6 +12,17 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         public IActionResult NieuweAnalyse()
+        {
+            return View();
+        }
+
+        public IActionResult NieuweWerkgever()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult NieuweWerkgever(int id)
         {
             return View();
         }
