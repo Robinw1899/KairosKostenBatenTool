@@ -9,26 +9,24 @@ else
 {
     <table class="table animated fadeInDown">
         <tr>
+            <th></th>
             <th>Naam</th>
             <th>Adres</th>
-            <th></th>
-        
-        
         </tr>
     
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Naam</td>
-                <td>@item.Straat @item.Nummer, @item.Postcode @item.Gemeente</td>
                 <td>
                     <div class="options">
                         <!--Deze action moet normaal naar de navigatie gaan voor baten-->
                         <a asp-controller="Analyse" asp-action="SelecteerBestaandeWerkgever" asp-route-id="@item.WerkgeverId">
                             <i class="fa fa-check" aria-hidden="true"></i>
                         </a>
-                    </div>  
+                    </div>
                 </td>
+                <td>@item.Naam</td>
+                <td>@item.Straat @item.Nummer, @item.Postcode @item.Gemeente</td>
             </tr>
         }
     </table>
