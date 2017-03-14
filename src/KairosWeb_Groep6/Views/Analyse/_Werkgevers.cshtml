@@ -1,26 +1,33 @@
-﻿@model System.Collections.Generic.IEnumerable<KairosWeb_Groep6.Models.Domain.Werkgever>
+﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.WerkgeverViewModel>
 
-<table class="table">
-    <tr>
-        <th>Naam</th>
-        <th>Gemeente</th>
-        <th>Straat en Nummer</th>
-        <th></th>
-        
-        
-    </tr>
-    
-    @foreach (var item in Model)
-    {
+
+@if (!Model.Any())
+{
+    <p class="alert alert-info animated shake">Er zijn geen werkgevers gevonden. Probeer een andere zoekterm of maak een nieuwe werkgever aan.</p>
+}
+else
+{
+    <table class="table animated fadeInDown">
         <tr>
-            <td>@item.Naam</td>
-            <td>@item.Gemeente</td>
-            <td>@item.Straat @item.Nummer</td>
-            <td>
-                <!--Deze action moet normaal naar de navigatie gaan voor baten-->
-                <a asp-controller="Kairos" asp-action="NieuweAnalyse" asp-route="@item.WerkgeverId">Nieuwe Analyse</a>
-            </td>
-           
+            <th></th>
+            <th>Naam</th>
+            <th>Adres</th>
         </tr>
-    }
-</table>
+    
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="options">
+                        <!--Deze action moet normaal naar de navigatie gaan voor baten-->
+                        <a asp-controller="Analyse" asp-action="SelecteerBestaandeWerkgever" asp-route-id="@item.WerkgeverId">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </td>
+                <td>@item.Naam</td>
+                <td>@item.Straat @item.Nummer, @item.Postcode @item.Gemeente</td>
+            </tr>
+        }
+    </table>
+}

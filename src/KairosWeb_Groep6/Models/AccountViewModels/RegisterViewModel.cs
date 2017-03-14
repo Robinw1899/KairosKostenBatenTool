@@ -33,6 +33,7 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
         public string StraatOrganisatie { get; set; }
 
         [Required(ErrorMessage = "Het huisnummer van de organisatie is verplicht")]
+        [Range(0, int.MaxValue, ErrorMessage = "Gelieve een positief getal op te geven voor het nummer")]
         [Display(Name = "Nr")]
         public int NrOrganisatie { get; set; }
 

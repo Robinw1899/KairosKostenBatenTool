@@ -122,8 +122,8 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
                 // bereken brutoloon werknemer
                 double brutoloonWerknemer = brutoloonPerWeekWerkgever * AantalUrenPerWeek;
                 // tel patronale bijdrage erbij
-                double brutoloon = brutoloonWerknemer * (1 + Werkgever.PatronaleBijdrage);
-
+                double brutoloon = brutoloonWerknemer * (1 + (Werkgever.PatronaleBijdrage / 100));
+                
                 return brutoloon;
             }
 

@@ -36,8 +36,8 @@ namespace KairosWeb_Groep6.Models.Domain
         public static void SendMailAdmin(string nameJobcoach, string emailJobcoach, string subject, string body)
         {
             var message = CreateBaseMessage();
-            //message.To.Add(new MailboxAddress("Bart Moens", "bart@werkgeversbenadering.be"));
             message.To.Add(new MailboxAddress("Bart Moens", "bart@werkgeversbenadering.be"));
+            //message.To.Add(new MailboxAddress("Bart Moens", "thomasaelbrecht@live.com"));
             message.Subject = "Melding Kairos: " + subject;
 
             // instellen dat Bart Moens kan antwoorden op deze mail om te mailen met de jobcoach:
@@ -60,21 +60,21 @@ namespace KairosWeb_Groep6.Models.Domain
             return message;
         }
 
-        private static void SendMail(MimeMessage message)
+        private static async void SendMail(MimeMessage message)
         {
             using (var client = new SmtpClient())
             {
-                client.Connect("smtp.gmail.com", 465, true);
+                await client.ConnectAsync("smtp.gmail.com", 465, true);
 
                 // Note: since we don't have an OAuth2 token, disable
                 // the XOAUTH2 authentication mechanism.
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
 
                 // Note: only needed if the SMTP server requires authentication
-                client.Authenticate("kairos.opportunit@gmail.com", "kairos2017");
+                await client.AuthenticateAsync("kairos.opportunit@gmail.com", "kairos2017");
 
-                client.Send(message);
-                client.Disconnect(true);
+                await client.SendAsync(message);
+                await client.DisconnectAsync(true);
             }
         }
 

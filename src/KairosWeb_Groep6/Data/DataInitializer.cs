@@ -12,7 +12,11 @@ namespace KairosWeb_Groep6.Data
         private readonly IJobcoachRepository _gebruikerRepository;
         private readonly IWerkgeverRepository _werkgeverRepository;
 
-        public DataInitializer(ApplicationDbContext dbContext, UserManager<ApplicationUser> userManager, IJobcoachRepository gebruikerRepository,IWerkgeverRepository werkgeverRepository)
+        public DataInitializer(
+            ApplicationDbContext dbContext,
+            UserManager<ApplicationUser> userManager, 
+            IJobcoachRepository gebruikerRepository,
+            IWerkgeverRepository werkgeverRepository)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -25,6 +29,17 @@ namespace KairosWeb_Groep6.Data
             _dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated())
             {
+                Werkgever werkgever = new Werkgever("VDAB", "Vooruitgangstraat", 1, 9300, "Aalst", 37);
+                _werkgeverRepository.Add(werkgever);
+
+                werkgever = new Werkgever("ALDI", "Leo Duboistraat", 20, 9280, "Lebbeke", 37);
+                _werkgeverRepository.Add(werkgever);
+
+                werkgever = new Werkgever("Coolblue", "Medialaan", 1, 1000, "Brussel", 35);
+                _werkgeverRepository.Add(werkgever);
+
+                _werkgeverRepository.Save();
+
                 await InitializeUsers();
             }
             _dbContext.SaveChanges();
@@ -85,30 +100,6 @@ namespace KairosWeb_Groep6.Data
             await _userManager.CreateAsync(user, "kairos2017");
 
             _gebruikerRepository.Save();
-
-            string naamOrg = "VAB";
-            string straat = "Capucienelaan";
-            int nummer = 65;
-            int postcode = 9300;
-            string gemeente = "Aalst";
-            int aantalWerkuren = 35;
-            
-            Werkgever werkgever
-                = new Werkgever(naamOrg,straat,nummer,postcode,gemeente,aantalWerkuren);
-             _werkgeverRepository.Add(werkgever);
-
-            naamOrg = "VAB";
-            straat = "Capucienelaan";
-            nummer = 65;
-            postcode = 9300;
-            gemeente = "Aalst";
-            aantalWerkuren = 35;
-
-            werkgever 
-                = new Werkgever(naamOrg, straat, nummer, postcode, gemeente, aantalWerkuren);
-            _werkgeverRepository.Add(werkgever);
-
-            _werkgeverRepository.Save();
         }
     }
 }

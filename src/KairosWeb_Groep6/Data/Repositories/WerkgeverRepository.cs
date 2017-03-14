@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,21 +18,19 @@ namespace KairosWeb_Groep6.Data.Repositories
         public IEnumerable<Werkgever> GetAll()
         {
             return _werkgevers
-                .Include(t=>t.Analyses)
                 .AsNoTracking();
         }
 
-        public Werkgever GetByName(string naam)
+        public IEnumerable<Werkgever> GetByName(string naam)
         {
             return _werkgevers
-                .Include(t=>t.Analyses)
-                .SingleOrDefault(w => w.Naam == naam);
+                .Where(w => w.Naam.Contains(naam))
+                .ToList();
         }
 
         public Werkgever GetById(int id)
         {
             return _werkgevers
-                .Include(t => t.Analyses)
                 .SingleOrDefault(w => w.WerkgeverId == id);
         }
 
