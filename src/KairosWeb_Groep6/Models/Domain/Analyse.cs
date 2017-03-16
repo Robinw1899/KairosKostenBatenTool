@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using KairosWeb_Groep6.Models.Domain.Baten;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Newtonsoft.Json;
 
@@ -68,7 +69,7 @@ namespace KairosWeb_Groep6.Models.Domain
         #region Constructors
         public Analyse()
         {
-            
+            KostOfBaatExtensions.GeefTotaal(Loonkosten);
         }
         #endregion
 
