@@ -52,8 +52,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
-
-                TempData["message"] = "De waarden zijn succesvol toegevoegd.";
+              
 
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
