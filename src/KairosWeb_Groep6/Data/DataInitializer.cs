@@ -40,7 +40,7 @@ namespace KairosWeb_Groep6.Data
 
                 _werkgeverRepository.Save();
 
-                await InitializeUsers();
+              //  await InitializeUsers();
             }
             _dbContext.SaveChanges();
         }
