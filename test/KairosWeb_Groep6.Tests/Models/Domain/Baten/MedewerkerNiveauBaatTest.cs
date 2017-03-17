@@ -10,7 +10,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
     {
         private MedewerkerNiveauBaat _baat;
 
-        private int patronaleBijdrage = 35;
+        private double patronaleBijdrage = 35;
 
         #region Zelfde niveau
         [Fact]
@@ -58,13 +58,12 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
         }
 
         [Fact]
-        public void TestBedragThrowsInvalidOperationException_LagerNiveau
-            (int werkuren, int uren, double brutoloon, double expected)
+        public void TestBedragThrowsInvalidOperationException_LagerNiveau()
         {
                _baat = new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
             {
-                Uren = uren,
-                BrutoMaandloonFulltime = brutoloon
+                Uren = 25,
+                BrutoMaandloonFulltime = 3000
             };
 
             Assert.Throws<InvalidOperationException>(() => _baat.Bedrag);
@@ -117,13 +116,12 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
         }
 
         [Fact]
-        public void TestBedragThrowsInvalidOperationException_HogerNiveau
-            (int werkuren, int uren, double brutoloon, double expected)
+        public void TestBedragThrowsInvalidOperationException_HogerNiveau()
         {
             _baat = new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
             {
-                Uren = uren,
-                BrutoMaandloonFulltime = brutoloon
+                Uren = 23,
+                BrutoMaandloonFulltime = 2300
             };
 
             Assert.Throws<InvalidOperationException>(() => _baat.Bedrag);

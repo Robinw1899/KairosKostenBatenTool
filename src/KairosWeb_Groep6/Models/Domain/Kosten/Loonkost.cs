@@ -44,7 +44,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
         #endregion
 
         #region Controleermethoden
-        private bool ControleerGegevensBrutoloonAanwezig(int aantalWerkuren, int patronaleBijdrage)
+        private bool ControleerGegevensBrutoloonAanwezig(int aantalWerkuren, double patronaleBijdrage)
         {
             // als een gegeven niet aanwezig is, wordt een InvalidOperationException gegooid
             // controleer of de gegevens in Werkgever aanwezig zijn
@@ -86,7 +86,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
             return true;
         }
 
-        private bool ControleerAlleGegevensAanwezig(int aantalWerkuren, int patronaleBijdrage)
+        private bool ControleerAlleGegevensAanwezig(int aantalWerkuren, double patronaleBijdrage)
         {
             if (!ControleerGegevensBrutoloonAanwezig(aantalWerkuren, patronaleBijdrage))
             {
@@ -111,7 +111,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
         #endregion
 
         #region Methods
-        public double BerekenBrutoloonPerMaand(int aantalWerkuren, int patronaleBijdrage)
+        public double BerekenBrutoloonPerMaand(int aantalWerkuren, double patronaleBijdrage)
         {
             // ((bruto maandloon/aantal uur voltijdse werkweek) * aantal uur dat medewerker werkt) + 35% werkgeversbijdrage
             if (ControleerGegevensBrutoloonAanwezig(aantalWerkuren, patronaleBijdrage))
@@ -122,7 +122,8 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
                 // bereken brutoloon werknemer
                 double brutoloonWerknemer = brutoloonPerWeekWerkgever * AantalUrenPerWeek;
                 // tel patronale bijdrage erbij
-                double brutoloon = brutoloonWerknemer * (1 + (patronaleBijdrage / 100));
+                double procentPatronaleBijdrage = 1 + (patronaleBijdrage / 100);
+                double brutoloon = brutoloonWerknemer * procentPatronaleBijdrage;
                 
                 return brutoloon;
             }
@@ -130,7 +131,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
             return 0; // return 0 indien gegeven ontbreekt
         }
 
-        public double BerekenGemiddeldeVOPPerMaand(int aantalWerkuren, int patronaleBijdrage)
+        public double BerekenGemiddeldeVOPPerMaand(int aantalWerkuren, double patronaleBijdrage)
         {
             //(bruto maandloon incl werkgeverslasten – maandelijkse doelgroepvermindering) * percentage VOP premie
 
@@ -146,7 +147,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
             return 0; // return 0 indien gegeven ontbreekt
         }
         
-        public double BerekenTotaleLoonkost(int aantalWerkuren, int patronaleBijdrage)
+        public double BerekenTotaleLoonkost(int aantalWerkuren, double patronaleBijdrage)
         {
             if (ControleerAlleGegevensAanwezig(aantalWerkuren, patronaleBijdrage))
             {

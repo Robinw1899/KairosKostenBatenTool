@@ -12,9 +12,12 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
     {
         private readonly List<Loonkost> _loonkosten;
 
+        private int aantalWerkuren = 37;
+
+        private double patronaleBijdrage = 35;
+
         public LoonkostExtensionsTest()
         {
-            Werkgever.AantalWerkuren = 37;
             DummyApplicationDbContext dbContext = new DummyApplicationDbContext();
             _loonkosten = dbContext.Loonkosten;
         }
@@ -22,7 +25,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [Fact]
         public void TestGeefTotaalBrutoloonPerMaandAlleLoonkosten_ReturnsBrutoloonAlleFuncties()
         {
-            double totaal = _loonkosten.GeefTotaalBrutolonenPerJaarAlleLoonkosten();
+            double totaal = LoonkostExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(_loonkosten, aantalWerkuren, patronaleBijdrage);
             totaal = Math.Round(totaal, 2);
             Assert.Equal(80430.81, totaal);
         }

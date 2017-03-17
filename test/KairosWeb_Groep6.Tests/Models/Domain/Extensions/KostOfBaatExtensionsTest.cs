@@ -15,7 +15,6 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
 
         public KostOfBaatExtensionsTest()
         {
-            Werkgever.AantalWerkuren = 37;
             _dbContext = new DummyApplicationDbContext();
         }
 
@@ -40,15 +39,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         }
 
         [Fact]
-        public void TestGeefTotaal_Loonkosten()
+        public void TestGeefTotaalThrowsException_Loonkosten()
         {
-            List<KostOfBaat> loonkosten = new List<KostOfBaat>(_dbContext.Loonkosten);
-
-            // totaal van alle loonkosten:
-            double totaal = KostOfBaatExtensions.GeefTotaal(loonkosten);
-            totaal = Math.Round(totaal, 2);
-
-            Assert.Equal(57837.13, totaal);
+            Assert.Throws<InvalidOperationException>(() => KostOfBaatExtensions.GeefTotaal(_dbContext.Loonkosten));
         }
         #endregion
 
@@ -94,28 +87,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         }
 
         [Fact]
-        public void TestBedragReturnsBerekening_MedewerkerNiveauBaat()
+        public void TestGeefTotaalThrowsException_MedewerkerNiveauBaat()
         {
-            List<KostOfBaat>  medewerkerNiveauBaten = new List<KostOfBaat>(_dbContext.MedewerkerNiveauBaten);
-            KostOfBaat kostOfBaat = KostOfBaatExtensions.GetBy(medewerkerNiveauBaten, 1);
-
-            // omzetten naar de juiste klasse:
-            MedewerkerNiveauBaat baat = (MedewerkerNiveauBaat)kostOfBaat;
-            double bedrag = Math.Round(baat.Bedrag, 2);
-            Assert.Equal(40885.30, bedrag);
-        }
-
-        [Fact]
-        public void TestGeefTotaal_MedewerkerNiveauBaat()
-        {
-            List<KostOfBaat>  medewerkerNiveauBaten = new List<KostOfBaat>(_dbContext.MedewerkerNiveauBaten);
-            // totaal van alle loonkosten:
-
-
-            double totaal = KostOfBaatExtensions.GeefTotaal(medewerkerNiveauBaten);
-            totaal = Math.Round(totaal, 2);
-
-            Assert.Equal(132432.81, totaal);
+            Assert.Throws<InvalidOperationException>(() => KostOfBaatExtensions.GeefTotaal(_dbContext.MedewerkerNiveauBaten));
         }
         #endregion
 

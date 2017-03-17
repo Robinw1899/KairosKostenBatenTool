@@ -48,7 +48,7 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
 
         #region Methods
 
-        public double BerekenTotaleLoonkostPerJaar(int aantalWerkuren, int patronaleBijdrage)
+        public double BerekenTotaleLoonkostPerJaar(int aantalWerkuren, double patronaleBijdrage)
         {
             if (ControleerAlleGegevensAanwezig(aantalWerkuren, patronaleBijdrage))
             {
@@ -60,7 +60,7 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
             return 0; // als een gegeven ontbreekt, wordt 0 gereturned
         }
 
-        private bool ControleerAlleGegevensAanwezig(int aantalWerkuren, int patronaleBijdrage)
+        private bool ControleerAlleGegevensAanwezig(int aantalWerkuren, double patronaleBijdrage)
         {
             if (aantalWerkuren <= 0)
             {

@@ -6,7 +6,7 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
     public static class DoelgroepExtensions
     {
         public static double BerekenDoelgroepVermindering(this Doelgroep doelgroep, double brutoloon,
-                                                        double aantalUrenPerWeek, int aantalWerkuren, int patronaleBijdrage)
+                                                        double aantalUrenPerWeek, int aantalWerkuren, double patronaleBijdrage)
         {
             ControleerGegevensOntbreken(brutoloon, aantalUrenPerWeek, aantalWerkuren, patronaleBijdrage);
             double minBrutoloon = GetMinBrutoLoon(doelgroep);
@@ -24,7 +24,7 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
             return doelgroepvermindering;
         }
 
-        private static void ControleerGegevensOntbreken(double brutoloon, double aantalUrenPerWeek, int aantalWerkuren, int patronaleBijdrage)
+        private static void ControleerGegevensOntbreken(double brutoloon, double aantalUrenPerWeek, int aantalWerkuren, double patronaleBijdrage)
         {
             if (aantalWerkuren == 0)
             {
