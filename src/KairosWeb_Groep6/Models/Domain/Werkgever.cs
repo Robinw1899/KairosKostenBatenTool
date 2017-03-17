@@ -4,6 +4,8 @@ namespace KairosWeb_Groep6.Models.Domain
     {
         public int WerkgeverId { get; set; }
 
+        public string Departement { get; set; }
+
         public string Naam { get; set; }
 
         public string Straat { get; set; }
@@ -14,9 +16,9 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public string Gemeente { get; set; }
 
-        public static int AantalWerkuren { get; set; }
+        public int AantalWerkuren { get; set; }
 
-        public static int PatronaleBijdrage { get; set; } = 35;
+        public int PatronaleBijdrage { get; set; } = 35;
 
         public Werkgever()
 
