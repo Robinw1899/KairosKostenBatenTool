@@ -73,7 +73,13 @@ a.navbar-brand {
     max-width: 100px;
 }
 .intro {
-    font-weight: bold;
+    display: inline;
+    background-color: #FFFFFF;
+    padding: 30px;
+    float: left;
+    margin-right: 50px;
+    max-width: 60%;
+    border-radius: 3px;
 }
 
 textarea#Bericht {

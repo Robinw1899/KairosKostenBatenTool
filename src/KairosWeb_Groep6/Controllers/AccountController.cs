@@ -47,7 +47,7 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult Login(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            ViewData["Actie"] = "Aanmelden"; // nodig om de partials niet te laden
+            TempData["Actie"] = "Aanmelden"; // nodig om de partials niet te laden
             return View();
         }
 

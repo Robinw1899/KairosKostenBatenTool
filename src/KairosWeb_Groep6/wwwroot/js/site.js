@@ -1,26 +1,61 @@
-﻿// Button "Annuleer" bij elk formulier onder een tabel
-// verbergt het formulier
-$("#closeForm").click(function(event) {
-    verbergFormulier();
-});
+﻿var siteView = {
+    init: function () {
+        // Button "Annuleer" bij elk formulier onder een tabel
+        // verbergt het formulier
+        $("#closeForm").click(function (event) {
+            siteView.verbergFormulier();
+        });
 
-// Button "+" onder elke tabel toont het formulier
-$("#openForm").click(function(event) {
-    toonFormulier();
-});
+        // Button "+" onder elke tabel toont het formulier
+        $("#openForm").click(function (event) {
+            siteView.toonFormulier();
+        });
 
-function verbergFormulier() {
-    $("#form").hide(500);
+        // verberg de intro bij het klikken op de x
+        $("#verbergIntro").click(function (event) {
+            siteView.verbergIntro();
+        });
+
+        // toon de intro opnieuw
+        $("#toonIntro").click(function (event) {
+            siteView.toonIntro();
+        });
+
+        siteView.controleerOfIntroGetoondMoetWorden();
+    },
+    verbergFormulier: function() {
+        $("#form").hide(500);
+    },
+
+    toonFormulier: function () {
+        $("#form").show(500);
+    },
+    controleerOfIntroGetoondMoetWorden: function () {
+        if (localStorage != null) {
+            var value = localStorage.getItem("intro");
+
+            if (value === "verborgen") {
+                siteView.verbergIntro();
+            }
+        }
+    },
+    verbergIntro: function () {
+        $(".intro").hide(500);
+
+        if (localStorage != null) {
+            localStorage.setItem("intro", "verborgen");
+        }
+    },
+
+    toonIntro: function () {
+        $(".intro").show(500);
+
+        if (localStorage != null) {
+            localStorage.setItem("intro", "");
+        }
+    }
 };
 
-function toonFormulier() {
-    console.log("Geklikt!");
-    $("#form").show(500);
-};
-
-// js om de buttons in de laatste kolom te tonen of verbergen
-//$("tr").hover(function (event) { // function when mouse on row
-//    console.log(this);
-//    var options = $(this).getElementsByClassName("options")[0];
-//    $(options).show(500);
-//});
+$(document).ready(function() {
+    siteView.init();
+});

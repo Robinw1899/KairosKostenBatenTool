@@ -27,7 +27,7 @@
     </environment>
 </head>
 <body>
-@if (!ViewData["Actie"].Equals("Aanmelden"))
+@if (TempData["Actie"] == null)
 {
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -67,7 +67,7 @@
     }
     @RenderBody()
     
-    @if (!ViewData["Actie"].Equals("Aanmelden"))
+    @if (TempData["Actie"] == null)
     {
         <hr />
         <footer>
