@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace KairosWeb_Groep6.Models.Domain.Baten
 {
@@ -11,7 +12,7 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
         {
             get
             {
-                return BerekenTotaleLoonkostPerJaar();
+                throw new InvalidOperationException("Het bedrag wordt gegegen door de methode BerekenTotaleLoonkost()");
             }
             set { }
         } // returned berekening
@@ -47,26 +48,26 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
 
         #region Methods
 
-        public double BerekenTotaleLoonkostPerJaar()
+        public double BerekenTotaleLoonkostPerJaar(int aantalWerkuren, double patronaleBijdrage)
         {
-            if (ControleerAlleGegevensAanwezig())
+            if (ControleerAlleGegevensAanwezig(aantalWerkuren, patronaleBijdrage))
             {
-                double verhoudingUren = Uren / Werkgever.AantalWerkuren;
-                double loonMetPatronaleBijdrag = (verhoudingUren * BrutoMaandloonFulltime) * (1 + (Werkgever.PatronaleBijdrage / 100));
+                double verhoudingUren = Uren / aantalWerkuren;
+                double loonMetPatronaleBijdrag = (verhoudingUren * BrutoMaandloonFulltime) * (1 + (patronaleBijdrage / 100));
                 return loonMetPatronaleBijdrag * 13.92;
             }
 
             return 0; // als een gegeven ontbreekt, wordt 0 gereturned
         }
 
-        private bool ControleerAlleGegevensAanwezig()
+        private bool ControleerAlleGegevensAanwezig(int aantalWerkuren, double patronaleBijdrage)
         {
-            if (Werkgever.AantalWerkuren <= 0)
+            if (aantalWerkuren <= 0)
             {
                 return false;
             }
 
-            if (Werkgever.PatronaleBijdrage <= 0)
+            if (patronaleBijdrage <= 0)
             {
                 return false;
             }

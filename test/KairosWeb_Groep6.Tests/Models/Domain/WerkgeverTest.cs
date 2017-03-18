@@ -9,7 +9,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
         [Fact]
         public void TestConstructorStandaardWaarden()
         {
-            Assert.Equal(35, Werkgever.PatronaleBijdrage);
+            Werkgever werkgever = new Werkgever();
+
+            Assert.Equal(35, werkgever.PatronaleBijdrage);
         }
     }
 }

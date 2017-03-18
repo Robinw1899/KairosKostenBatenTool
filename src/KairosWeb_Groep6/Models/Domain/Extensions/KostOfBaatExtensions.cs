@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using KairosWeb_Groep6.Models.Domain.Baten;
+using KairosWeb_Groep6.Models.Domain.Kosten;
 
 namespace KairosWeb_Groep6.Models.Domain.Extensions
 {
     public static class KostOfBaatExtensions
     {
-        public static KostOfBaat GetBy(List<KostOfBaat> lijst, int id)
+        public static T GetBy<T>(List<T> lijst, int id) where T : KostOfBaat
         {
             return lijst
                 .SingleOrDefault(e => e.Id == id);
@@ -13,6 +16,16 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
 
         public static double GeefTotaal<T>(List<T> lijst) where T : KostOfBaat
         {
+            if (typeof(T) == typeof(Loonkost))
+            {
+                throw new InvalidOperationException("Deze methode is niet voor de klasse Loonkost");
+            }
+
+            if (typeof(T) == typeof(MedewerkerNiveauBaat))
+            {
+                throw new InvalidOperationException("Deze methode is niet voor de klasse MedewerkerNiveauBaat");
+            }
+
             return lijst
                 .Sum(v => v.Bedrag);
         }

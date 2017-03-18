@@ -9,6 +9,10 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         [HiddenInput]
         public int WerkgeverId { get; set; }
 
+        [Display(Name = "Departement")]
+        [Required(ErrorMessage = "Gelieve het departement op te geven")]
+        public string Departement { get; set; }
+
         [Display(Name = "Naam")]
         [Required(ErrorMessage = "Gelieve de naam van de organisatie op te geven")]
         public string Naam { get; set; }
@@ -32,7 +36,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         [Display(Name = "Gemiddeld aantal uren per week")]
         [Required(ErrorMessage = "Gelieve een gemiddeld aantal werkuren per week op te geven")]
-        public double GemiddeldAantalWerkUrenPerWeek { get; set; }
+        public double AantalWerkuren { get; set; }
 
         [Display(Name = "Patronale bijdrage")]
         [Range(0, 100, ErrorMessage = "De patronale bijdrage moet liggen tussen 0 en 100 (grenzen inbegrepen)")]
@@ -52,8 +56,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
             Postcode = werkgever.Postcode;
             Gemeente = werkgever.Gemeente;
 
-            GemiddeldAantalWerkUrenPerWeek = Werkgever.AantalWerkuren;
-            PatronaleBijdrage = Werkgever.PatronaleBijdrage;  
+            AantalWerkuren = AantalWerkuren;
+            PatronaleBijdrage = PatronaleBijdrage;  
         }
     }
 }

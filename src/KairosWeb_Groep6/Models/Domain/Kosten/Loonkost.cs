@@ -18,7 +18,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
         {
             get
             {
-                return BerekenTotaleLoonkost();
+                throw new InvalidOperationException("Het bedrag wordt gegegen door de methode BerekenTotaleLoonkost()");
             }
             set { } // setter wordt nooit gebruikt
         }
@@ -44,16 +44,16 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
         #endregion
 
         #region Controleermethoden
-        private bool ControleerGegevensBrutoloonAanwezig()
+        private bool ControleerGegevensBrutoloonAanwezig(int aantalWerkuren, double patronaleBijdrage)
         {
             // als een gegeven niet aanwezig is, wordt een InvalidOperationException gegooid
             // controleer of de gegevens in Werkgever aanwezig zijn
-            if (Werkgever.AantalWerkuren == 0)
+            if (aantalWerkuren == 0)
             {
                 return false;
             }
 
-            if (Werkgever.PatronaleBijdrage <= 0)
+            if (patronaleBijdrage <= 0)
             {
                 return false;
             }
@@ -86,9 +86,9 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
             return true;
         }
 
-        private bool ControleerAlleGegevensAanwezig()
+        private bool ControleerAlleGegevensAanwezig(int aantalWerkuren, double patronaleBijdrage)
         {
-            if (!ControleerGegevensBrutoloonAanwezig())
+            if (!ControleerGegevensBrutoloonAanwezig(aantalWerkuren, patronaleBijdrage))
             {
                 return false;
             }
@@ -111,18 +111,19 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
         #endregion
 
         #region Methods
-        public double BerekenBrutoloonPerMaand()
+        public double BerekenBrutoloonPerMaand(int aantalWerkuren, double patronaleBijdrage)
         {
             // ((bruto maandloon/aantal uur voltijdse werkweek) * aantal uur dat medewerker werkt) + 35% werkgeversbijdrage
-            if (ControleerGegevensBrutoloonAanwezig())
+            if (ControleerGegevensBrutoloonAanwezig(aantalWerkuren, patronaleBijdrage))
             {
 
                 // bereken brutoloon per week van de werkgever
-                double brutoloonPerWeekWerkgever = BrutoMaandloonFulltime / Werkgever.AantalWerkuren;
+                double brutoloonPerWeekWerkgever = BrutoMaandloonFulltime / aantalWerkuren;
                 // bereken brutoloon werknemer
                 double brutoloonWerknemer = brutoloonPerWeekWerkgever * AantalUrenPerWeek;
                 // tel patronale bijdrage erbij
-                double brutoloon = brutoloonWerknemer * (1 + (Werkgever.PatronaleBijdrage / 100));
+                double procentPatronaleBijdrage = 1 + (patronaleBijdrage / 100);
+                double brutoloon = brutoloonWerknemer * procentPatronaleBijdrage;
                 
                 return brutoloon;
             }
@@ -130,14 +131,14 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
             return 0; // return 0 indien gegeven ontbreekt
         }
 
-        public double BerekenGemiddeldeVOPPerMaand()
+        public double BerekenGemiddeldeVOPPerMaand(int aantalWerkuren, double patronaleBijdrage)
         {
             //(bruto maandloon incl werkgeverslasten – maandelijkse doelgroepvermindering) * percentage VOP premie
 
             if (ControleerGegevensGemiddeldeVOPAanwezig())
             {
-                double brutoloon = BerekenBrutoloonPerMaand();
-                double doelgroepvermindering = Doelgroep?.BerekenDoelgroepVermindering(BrutoMaandloonFulltime, AantalUrenPerWeek) ?? 0;
+                double brutoloon = BerekenBrutoloonPerMaand(aantalWerkuren, patronaleBijdrage);
+                double doelgroepvermindering = Doelgroep?.BerekenDoelgroepVermindering(BrutoMaandloonFulltime, AantalUrenPerWeek, aantalWerkuren, patronaleBijdrage) ?? 0;
                 double gemiddeldeVOPPerMaand = (brutoloon - doelgroepvermindering) * Ondersteuningspremie;
 
                 return gemiddeldeVOPPerMaand;
@@ -146,18 +147,18 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
             return 0; // return 0 indien gegeven ontbreekt
         }
         
-        public double BerekenTotaleLoonkost()
+        public double BerekenTotaleLoonkost(int aantalWerkuren, double patronaleBijdrage)
         {
-            if (ControleerAlleGegevensAanwezig())
+            if (ControleerAlleGegevensAanwezig(aantalWerkuren, patronaleBijdrage))
             {
                 // de rest wordt gecontroleerd in de andere methoden
                 //(bruto loon per maand incl werkgeversbijdragen – gemiddelde VOP premie per maand – doelgroepvermindering per maand) 
                 //* (13,92 – aantal maanden IBO) + totaalbedrag premie IBO
 
-                double brutoloon = BerekenBrutoloonPerMaand();
-                double gemVOP = BerekenGemiddeldeVOPPerMaand();
+                double brutoloon = BerekenBrutoloonPerMaand(aantalWerkuren, patronaleBijdrage);
+                double gemVOP = BerekenGemiddeldeVOPPerMaand(aantalWerkuren, patronaleBijdrage);
                 double doelgroepvermindering =
-                    Doelgroep?.BerekenDoelgroepVermindering(BrutoMaandloonFulltime, AantalUrenPerWeek) ?? 0;
+                    Doelgroep?.BerekenDoelgroepVermindering(BrutoMaandloonFulltime, AantalUrenPerWeek, aantalWerkuren, patronaleBijdrage) ?? 0;
                 // linkerdeel van de berekening (voor de * )
                 double linkerfactor = brutoloon - gemVOP - doelgroepvermindering;
 

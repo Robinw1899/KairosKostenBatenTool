@@ -6,9 +6,9 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
     public static class DoelgroepExtensions
     {
         public static double BerekenDoelgroepVermindering(this Doelgroep doelgroep, double brutoloon,
-                                                        double aantalUrenPerWeek)
+                                                        double aantalUrenPerWeek, int aantalWerkuren, double patronaleBijdrage)
         {
-            ControleerGegevensOntbreken(brutoloon, aantalUrenPerWeek);
+            ControleerGegevensOntbreken(brutoloon, aantalUrenPerWeek, aantalWerkuren, patronaleBijdrage);
             double minBrutoloon = GetMinBrutoLoon(doelgroep);
 
             // ALS bruto maandloon < minBrutoloon:
@@ -17,21 +17,21 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
 
             if (brutoloon < minBrutoloon)
             {
-                double verminderingPerUurWerkweek = (double)doelgroep / Werkgever.AantalWerkuren;
+                double verminderingPerUurWerkweek = (double)doelgroep / aantalWerkuren;
                 doelgroepvermindering = (verminderingPerUurWerkweek * aantalUrenPerWeek) / 4;
             }
 
             return doelgroepvermindering;
         }
 
-        private static void ControleerGegevensOntbreken(double brutoloon, double aantalUrenPerWeek)
+        private static void ControleerGegevensOntbreken(double brutoloon, double aantalUrenPerWeek, int aantalWerkuren, double patronaleBijdrage)
         {
-            if (Werkgever.AantalWerkuren == 0)
+            if (aantalWerkuren == 0)
             {
                 throw new InvalidOperationException("Gelieve het aantal werkuren per week in te vullen bij de werkgever.");
             }
 
-            if (Werkgever.PatronaleBijdrage <= 0)
+            if (patronaleBijdrage <= 0)
             {
                 throw new InvalidOperationException("Gelieve de patronale bijdrage in te vullen bij de werkgever.");
             }
