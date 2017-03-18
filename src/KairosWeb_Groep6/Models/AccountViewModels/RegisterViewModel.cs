@@ -20,7 +20,7 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
         [Required(ErrorMessage = "Emailadres is verplicht")]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Emailadres")]
-        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}", ErrorMessage = "Email adres is niet gelding")]
+        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}", ErrorMessage = "Een email addres moet bestaan uit een '@' gevolgd door een '.'")]
         public string Email { get; set; }
 
         /*info organisatie*/
