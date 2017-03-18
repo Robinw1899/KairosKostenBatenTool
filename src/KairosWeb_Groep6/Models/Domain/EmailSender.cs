@@ -123,7 +123,7 @@ namespace KairosWeb_Groep6.Models.Domain
                 <p>Na de eerste keer aanmelden wordt je een nieuw wachtwoord gevraagd, het onderstaande wachtwoord is dus slechts eenmalig geldig.</p>"
 
             + string.Format(
-                @"<p>Je registreerde met <strong>{0}</strong> als email. Hiermee dien je steeds in te loggen.</p>
+                @"<p>Je registreerde met <strong>{0}</strong> als email. Hiermee dien je steeds aan te melden.</p>
                 <p>Je tijdelijk wachtwoord is <strong>{1}</strong>.</p>", email, password)
             +
                 @"<p>Bij vragen of problemen, mag je steeds mailen naar <a href='mailto:bart@werkgeversbenadering.be'>bart@werkgeversbenadering.be</a></p>

@@ -188,7 +188,7 @@ namespace KairosWeb_Groep6.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            TempData["message"] = "Je bent succesvol uitgelogd!";
+            TempData["message"] = "Je bent succesvol afgemeld!";
             return RedirectToAction(nameof(KairosController.Index), "Kairos");
         }
 
