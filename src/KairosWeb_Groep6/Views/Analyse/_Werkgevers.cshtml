@@ -12,6 +12,7 @@ else
             <th></th>
             <th>Naam</th>
             <th>Adres</th>
+            <th>Departement</th>
         </tr>
     
         @foreach (var item in Model)
@@ -27,6 +28,7 @@ else
                 </td>
                 <td>@item.Naam</td>
                 <td>@item.Straat @item.Nummer, @item.Postcode @item.Gemeente</td>
+                <td>@item.Departement</td>
             </tr>
         }
     </table>
