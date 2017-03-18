@@ -47,6 +47,7 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult Login(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            ViewData["Actie"] = "Aanmelden"; // nodig om de partials niet te laden
             return View();
         }
 
@@ -58,6 +59,7 @@ namespace KairosWeb_Groep6.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
