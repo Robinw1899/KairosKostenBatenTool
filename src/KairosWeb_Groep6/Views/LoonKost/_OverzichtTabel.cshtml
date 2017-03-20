@@ -1,0 +1,57 @@
+﻿@using System.Threading.Tasks
+@using KairosWeb_Groep6.Models.KairosViewModels.Kosten
+@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonkostViewModel>
+
+<table class="table table-bordered table-condensed table-responsive">
+    <tr>
+        <th>Functie</th>
+        <th></th>
+        <th>Brutomaandloon (fulltime)</th>
+        <th>Doelgroep</th>
+        <th>Vlaamse ondersteuningspremie</th>
+        <th>Aantal maanden IBO</th>
+        <th>Totale productiviteitspremie IBO</th>
+        <th class="empty-th"></th>
+    </tr>
+    @if (Model == null || !Model.Any()) // als de lijst leeg is
+    {
+        <tr>
+            <td colspan="4" class="alert alert-info">
+                Er zijn nog geen gegevens ingevuld.
+                Start met het invullen door op de <i class="fa fa-plus" aria-hidden="true"></i> rechtsonder
+                de tabel te klikken.
+            </td>
+        </tr>
+    }
+    else
+    {
+        foreach (LoonkostViewModel Kost in Model)
+        {
+            <tr>
+                <td>@Kost.</td>
+                <td>@Kost.AantalUrenPerWeek</td>
+                <td>@Kost.BrutoMaandloonFulltime</td>
+                <td>@Kost.Doelgroep</td>
+                <td>@Kost.Ondersteuningspremie</td>
+                <td>@Kost.AantalMaandenIBO</td>
+                <td>@Kost.</td><!--Totale productiviteitspremie IBO-->
+                <td>
+                    <div class="options">
+                        <a asp-action="Bewerk" asp-route-id="@Kost.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a asp-action="Verwijder" asp-route-id="@Kost.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    </div>
+                </td>
+            </tr>
+        }
+
+        <tr class="alert alert-success">
+            <td colspan="2" class="text-right">
+                Totaal:
+            </td>
+            <td colspan="2">
+                @(ViewData["totaal"])
+            </td>
+        </tr>
+    }
+</table>
+
