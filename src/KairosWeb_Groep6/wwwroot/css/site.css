@@ -21,7 +21,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
 }
 
 /* Carousel */
@@ -73,7 +73,7 @@ a.navbar-brand {
     max-width: 100px;
 }
 .intro {
-    display: inline;
+    display: none;
     background-color: #FFFFFF;
     padding: 30px;
     float: left;

@@ -21,6 +21,10 @@
             siteView.toonIntro();
         });
 
+        $("#logoToonIntro").click(function (event) {
+            siteView.toonIntro();
+        });
+
         siteView.controleerOfIntroGetoondMoetWorden();
     },
     verbergFormulier: function() {
@@ -34,8 +38,8 @@
         if (localStorage != null) {
             var value = localStorage.getItem("intro");
 
-            if (value === "verborgen") {
-                siteView.verbergIntro();
+            if (value !== "verborgen") {
+                siteView.toonIntro();
             }
         }
     },

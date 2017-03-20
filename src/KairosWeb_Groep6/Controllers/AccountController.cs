@@ -107,6 +107,7 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            TempData["Actie"] = "Registreer";
             return View();
         }
 
