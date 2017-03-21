@@ -3,85 +3,101 @@
     ViewData["Title"] = "Registreer";
 }
 
-<h2 class="col-md-offset-1">@ViewData["Title"]</h2>
-
-<form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-    <div class="col-md-offset-1">
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <h4>Informatie jobcoach</h4>
-        <hr />
-        <div class="form-group">
-            <label asp-for="Naam" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Naam" class="form-control" />
-                <span asp-validation-for="Naam" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Voornaam" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Voornaam" class="form-control" />
-                <span asp-validation-for="Voornaam" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Email" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-        </div>
-
-        <h4>Informatie organisatie</h4>
-        <hr />
-        <div class="form-group">
-            <label asp-for="OrganisatieNaam" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="OrganisatieNaam" class="form-control" />
-                <span asp-validation-for="OrganisatieNaam" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="StraatOrganisatie" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="StraatOrganisatie" class="form-control" />
-                <span asp-validation-for="StraatOrganisatie" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="NrOrganisatie" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="NrOrganisatie" class="form-control" />
-                <span asp-validation-for="NrOrganisatie" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Postcode" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Postcode" class="form-control" />
-                <span asp-validation-for="Postcode" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Gemeente" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Gemeente" class="form-control" />
-                <span asp-validation-for="Gemeente" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-5 text-right" style="padding-right: 0">
-                <button type="submit" class="btn btn-info">@ViewData["Title"]</button>
-            </div>
-        </div>
+<div class="box-login center-block">
+    <!--LOGIN FORM-->
+    <div class="thumbnail">
+        <img src="/images/logo's/kairos_icon_green.png" alt="Logo Kairos" />
     </div>
-</form>
 
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+        <h2 class="">@ViewData["Title"]</h2>
+        <div class="">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <h4>Informatie jobcoach</h4>
+            <hr />
+            
+            <div class="row form-group">
+                <div class="col-md-6">
+                    <input asp-for="Naam" class="form-control" placeholder="Naam" />
+                    <span asp-validation-for="Naam" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <input asp-for="Voornaam" class="form-control" placeholder="Voornaam" />
+                    <span asp-validation-for="Voornaam" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <input asp-for="Email" class="form-control" placeholder="Email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <h4>Informatie organisatie</h4>
+            <hr />
+            
+            <div class="row form-group">
+                <div class="col-md-12">
+                    <input asp-for="OrganisatieNaam" class="form-control" placeholder="Naam organisatie" />
+                    <span asp-validation-for="OrganisatieNaam" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="row form-group">
+                <div class="col-md-10">
+                    <input asp-for="StraatOrganisatie" class="form-control" placeholder="Straat" onfocus="geolocate()" id="route" />
+                    <span asp-validation-for="StraatOrganisatie" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                    <input asp-for="NrOrganisatie" class="form-control" placeholder="Nr" id="street_number" />
+                    <span asp-validation-for="NrOrganisatie" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="row form-group">
+                <div class="col-md-3">
+                    <input asp-for="Postcode" class="form-control" placeholder="Postcode" id="postal_code" />
+                    <span asp-validation-for="Postcode" class="text-danger"></span>
+                </div>
+                <div class="col-md-9">
+                    <input asp-for="Gemeente" class="form-control" placeholder="Gemeente" id="locality" />
+                    <span asp-validation-for="Gemeente" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-12 text-right">
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-default" style="margin-right: 15px;">Annuleer</a>
+                    <button type="submit" class="btn btn-info">@ViewData["Title"]</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="/css/login.css" />
+    <style>
+        .body-content {
+            background: none;
+        }
+        .box-login {
+            width: 50%;
+            max-width:50%;
+        }
+    </style>
 }
 
-<script>
-    var body = document.getElementsByTagName("body")[0];
-    body.style.backgroundImage = "url(/images/aanmelden_bg.jpg)";
-</script>
+@section Scripts {
+    <script>
+        var body = document.getElementsByTagName("body")[0];
+        body.style.backgroundImage = "url(/images/aanmelden_bg.jpg)";
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0YY1oWU_ag0hCNWp-Tzn36DoEWVNJz-s&libraries=places&callback=initAutocomplete"
+        async defer></script>
+    
+    <script src="/js/maps.js"></script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

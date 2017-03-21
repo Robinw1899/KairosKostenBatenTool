@@ -2,6 +2,7 @@
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -154,8 +155,13 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = analyse.MedewerkersHogerNiveauBaat
-                                    .Sum(t => t.Bedrag);
+            //double totaal = analyse.MedewerkersHogerNiveauBaat
+            //                        .Sum(t => t.Bedrag);
+
+            double totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                analyse.MedewerkersHogerNiveauBaat,
+                analyse.Werkgever.AantalWerkuren,
+                analyse.Werkgever.PatronaleBijdrage);
 
             ViewData["totaal"] = totaal.ToString("C");
         }

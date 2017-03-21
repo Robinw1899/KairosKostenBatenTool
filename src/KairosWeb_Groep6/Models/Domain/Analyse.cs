@@ -69,7 +69,7 @@ namespace KairosWeb_Groep6.Models.Domain
         #region Constructors
         public Analyse()
         {
-            KostOfBaatExtensions.GeefTotaal(Loonkosten);
+            
         }
         #endregion
 

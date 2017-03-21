@@ -21,7 +21,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
 }
 
 /* Carousel */
@@ -73,7 +73,13 @@ a.navbar-brand {
     max-width: 100px;
 }
 .intro {
-    font-weight: bold;
+    display: none;
+    background-color: #FFFFFF;
+    padding: 30px;
+    float: left;
+    margin-right: 50px;
+    max-width: 60%;
+    border-radius: 3px;
 }
 
 textarea#Bericht {
@@ -156,6 +162,10 @@ li:hover .options i {
 .tooltip-inner {
     max-width: 450px;
     width: 450px;
+}
+
+.noPadding {
+    padding: 0;
 }
 
 /* Hide/rearrange for smaller screens */
