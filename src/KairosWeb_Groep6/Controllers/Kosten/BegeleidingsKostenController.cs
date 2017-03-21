@@ -1,27 +1,26 @@
 ﻿using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
-using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
-using KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels;
+using KairosWeb_Groep6.Models.Domain.Kosten;
+using KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Type = KairosWeb_Groep6.Models.Domain.Type;
 
-namespace KairosWeb_Groep6.Controllers.Baten
+namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [ServiceFilter(typeof(AnalyseFilter))]
-    public class MedewerkersZelfdeNiveauController : Controller
+    public class BegeleidingsKostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
 
-        public MedewerkersZelfdeNiveauController(IAnalyseRepository analyseRepository)
+        public BegeleidingsKostenController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
 
         public IActionResult Index(Analyse analyse)
         {
-            MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
+            BegeleidingsKostenIndexViewModel model = MaakModel(analyse);
 
             if (IsAjaxRequest())
             {
@@ -29,31 +28,31 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
+            PlaatsTotaalInViewData(analyse);
+
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult VoegToe(Analyse analyse, MedewerkerNiveauIndexViewModel model)
+        public IActionResult VoegToe(Analyse analyse, BegeleidingsKostenIndexViewModel model)
         {
             if (ModelState.IsValid)
             {
                 // de baat bestaat reeds:
-                MedewerkerNiveauBaat baat = new MedewerkerNiveauBaat
+                BegeleidingsKost kost = new BegeleidingsKost
                 {
                     //Id = model.Id,
                     Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     Uren = model.Uren,
-                    BrutoMaandloonFulltime = model.BrutoMaandloonFulltime
+                    BrutoMaandloonBegeleider = model.BrutoMaandloonBegeleider
                 };
 
-                analyse.MedewerkersZelfdeNiveauBaat.Add(baat);
+                analyse.BegeleidingsKosten.Add(kost);
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
-              
 
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
@@ -63,21 +62,27 @@ namespace KairosWeb_Groep6.Controllers.Baten
             return RedirectToAction("Index", model);
         }
 
+        [HttpGet]
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat
+            BegeleidingsKost kost = analyse.BegeleidingsKosten
                                                 .SingleOrDefault(b => b.Id == id);
 
-            MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
+            BegeleidingsKostenIndexViewModel model = MaakModel(analyse);
 
-            if (baat != null)
+            if (kost != null)
             {
                 // parameters voor formulier instellen
                 model.Id = id;
-                model.Type = baat.Type;
-                model.Soort = baat.Soort;
-                model.Uren = baat.Uren;
-                model.BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
+                model.Type = kost.Type;
+                model.Soort = kost.Soort;
+                model.Uren = kost.Uren;
+                model.BrutoMaandloonBegeleider = kost.BrutoMaandloonBegeleider;
+                model.ViewModels = analyse.BegeleidingsKosten
+                    .Select(m => new BegeleidingsKostViewModel(m)
+                    {
+                        Bedrag = m.GeefJaarbedrag(analyse.Werkgever.PatronaleBijdrage)
+                    });
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -86,25 +91,24 @@ namespace KairosWeb_Groep6.Controllers.Baten
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, MedewerkerNiveauIndexViewModel model)
+        public IActionResult Bewerk(Analyse analyse, BegeleidingsKostenIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat
+            BegeleidingsKost kost = analyse.BegeleidingsKosten
                                                  .SingleOrDefault(b => b.Id == model.Id);
 
-            if (ModelState.IsValid && baat != null)
+            if (ModelState.IsValid && kost != null)
             {
                 // parameters voor formulier instellen
-                baat.Id = model.Id;
-                baat.Type = model.Type;
-                baat.Soort = model.Soort;
-                baat.Uren = model.Uren;
-                baat.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
+                kost.Id = model.Id;
+                kost.Type = model.Type;
+                kost.Soort = model.Soort;
+                kost.Uren = model.Uren;
+                kost.BrutoMaandloonBegeleider = model.BrutoMaandloonBegeleider;
+
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
-
-                TempData["message"] = "De waarden zijn succesvol opgeslagen.";
 
                 return RedirectToAction("Index", model);
             }
@@ -116,35 +120,41 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat
+            BegeleidingsKost baat = analyse.BegeleidingsKosten
                                                  .SingleOrDefault(b => b.Id == id);
             if (baat != null)
             {
-                analyse.MedewerkersZelfdeNiveauBaat.Remove(baat);
+                analyse.BegeleidingsKosten.Remove(baat);
                 _analyseRepository.Save();
             }
 
-            MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
+            BegeleidingsKostenIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = "De waarden zijn succesvol verwijderd.";
+            TempData["message"] = "De kost is succesvol verwijderd.";
 
             return View("Index", model);
         }
 
-        private MedewerkerNiveauIndexViewModel MaakModel(Analyse analyse)
+        public IActionResult Info()
         {
-            MedewerkerNiveauIndexViewModel model = new MedewerkerNiveauIndexViewModel
+            // Deze methode toont een pagina met de tabel van tabblad 4 van de Excel
+            // = de toelichting van de begeleidingskosten
+            return View();
+        }
+
+        private BegeleidingsKostenIndexViewModel MaakModel(Analyse analyse)
+        {
+            BegeleidingsKostenIndexViewModel model = new BegeleidingsKostenIndexViewModel
             {
                 Type = Type.Baat,
-                Soort = Soort.MedewerkersZelfdeNiveau,
+                Soort = Soort.BegeleidingsKost,
                 ViewModels = analyse
-                                .MedewerkersZelfdeNiveauBaat
-                                .Select(m => new MedewerkerNiveauBaatViewModel(m)
-                    {
-                        Bedrag = m.BerekenTotaleLoonkostPerJaar(analyse.Werkgever.AantalWerkuren, 
-                                                                analyse.Werkgever.PatronaleBijdrage)
-                    })
+                                .BegeleidingsKosten
+                                .Select(m => new BegeleidingsKostViewModel(m)
+                                                {
+                                                    Bedrag = m.GeefJaarbedrag(analyse.Werkgever.PatronaleBijdrage)
+                                                })
             };
 
             return model;
@@ -157,15 +167,13 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         private void PlaatsTotaalInViewData(Analyse analyse)
         {
-            if (analyse.MedewerkersZelfdeNiveauBaat.Count == 0)
+            if (analyse.BegeleidingsKosten.Count == 0)
             {
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
-                analyse.MedewerkersZelfdeNiveauBaat,
-                analyse.Werkgever.AantalWerkuren,
-                analyse.Werkgever.PatronaleBijdrage);
+            double totaal = BegeleidingsKostExtensions.GeefTotaal(analyse.BegeleidingsKosten, 
+                                                                    analyse.Werkgever.PatronaleBijdrage);
 
             ViewData["totaal"] = totaal.ToString("C");
         }

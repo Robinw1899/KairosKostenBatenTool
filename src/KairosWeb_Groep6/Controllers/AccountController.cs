@@ -91,6 +91,7 @@ namespace KairosWeb_Groep6.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Deze combinatie email en wachtwoord is ongeldig, probeer opnieuw.");
+                    TempData["Actie"] = "Aanmelden"; // nodig om de partials niet te laden
                     return View(model);
                 }
             }
@@ -140,6 +141,7 @@ namespace KairosWeb_Groep6.Controllers
                 if (possibleUser != null)
                 {
                     ModelState.AddModelError("", "Er is al een gebruiker geregistreerd met dit emailadres");
+                    TempData["Actie"] = "Registreer";
                 }
                 else
                 {
@@ -175,6 +177,7 @@ namespace KairosWeb_Groep6.Controllers
                         return RedirectToAction(nameof(Login), "Account");
                     }
 
+                    TempData["Actie"] = "Registreer";
                     AddErrors(result);
                 }
             }

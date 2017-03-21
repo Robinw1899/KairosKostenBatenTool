@@ -10,10 +10,7 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
 
         public override double Bedrag
         {
-            get
-            {
-                throw new InvalidOperationException("Het bedrag wordt gegegen door de methode BerekenTotaleLoonkost()");
-            }
+            get { return 0; }
             set { }
         } // returned berekening
 

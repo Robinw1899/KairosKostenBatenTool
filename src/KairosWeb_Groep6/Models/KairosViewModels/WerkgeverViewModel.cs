@@ -56,8 +56,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
             Postcode = werkgever.Postcode;
             Gemeente = werkgever.Gemeente;
 
-            AantalWerkuren = AantalWerkuren;
-            PatronaleBijdrage = PatronaleBijdrage;  
+            AantalWerkuren = werkgever.AantalWerkuren;
+            PatronaleBijdrage = werkgever.PatronaleBijdrage;  
         }
     }
 }

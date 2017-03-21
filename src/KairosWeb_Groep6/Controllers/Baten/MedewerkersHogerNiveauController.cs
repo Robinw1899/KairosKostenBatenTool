@@ -137,7 +137,11 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 Soort = Soort.MedewerkersHogerNiveau,
                 ViewModels = analyse
                                 .MedewerkersHogerNiveauBaat
-                                .Select(m => new MedewerkerNiveauBaatViewModel(m))
+                                .Select(m => new MedewerkerNiveauBaatViewModel(m)
+                                {
+                                    Bedrag = m.BerekenTotaleLoonkostPerJaar(analyse.Werkgever.AantalWerkuren,
+                                                                analyse.Werkgever.PatronaleBijdrage)
+                                })
             };
 
             return model;
@@ -154,9 +158,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 ViewData["totaal"] = 0;
             }
-
-            //double totaal = analyse.MedewerkersHogerNiveauBaat
-            //                        .Sum(t => t.Bedrag);
 
             double totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
                 analyse.MedewerkersHogerNiveauBaat,
