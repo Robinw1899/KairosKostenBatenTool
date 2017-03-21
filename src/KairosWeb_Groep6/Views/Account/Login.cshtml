@@ -53,15 +53,19 @@
             </div>
 
             <div asp-validation-summary="All" class="text-danger"></div>
-
+            
             <div class="row form-group">
-                <input asp-for="Email" placeholder="Emailadres" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <div class="col-md-12 noPadding">
+                    <input asp-for="Email" class="form-control" placeholder="Emailadres" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
             </div>
 
             <div class="row form-group">
-                <input asp-for="Password" placeholder="Wachtwoord" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+                <div class="col-md-12 noPadding">
+                    <input asp-for="Password" class="form-control" placeholder="Wachtwoord" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
             </div>
 
             <div class="row">
