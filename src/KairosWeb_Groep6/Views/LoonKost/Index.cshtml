@@ -35,11 +35,11 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <i class="fa fa-clock-o" aria-hidden="true"></i><!--symbool moet nog veranderd worden!-->
+                        <i class="fa fa-info-circle" aria-hidden="true"></i><!--symbool moet nog veranderd worden!-->
                     </span>
-                    <input asp-for="Doelgroep" class="form-control" placeholder="Functie" id="functie"><!--moet asp for moet nog veranderd worden-->
+                    <input asp-for="Beschrijving" class="form-control" placeholder="Functie" id="functie"><!--moet asp for moet nog veranderd worden-->
                 </div>
-                <span asp-validation-for="Doelgroep" class="text-danger"></span>
+                <span asp-validation-for="Beschrijving" class="text-danger"></span>
             </div>
             <div class="col-md-4">
                 <div class="input-group">
@@ -64,7 +64,7 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <i class="fa fa-eur" aria-hidden="true"></i>
+                        <i class="fa fa-group" aria-hidden="true"></i>
                     </span>
                     <input asp-for="Doelgroep" class="form-control"
                            placeholder="Doelgroep" id="#doelgroep">
@@ -115,7 +115,7 @@
 
 @section scripts{
     <script>
-        if (@Model.AantalUrenPerWeek !== 0 && @Model.BrutoMaandloonFulltime !== 0 && @Model.Ondersteuningspremie !== 0
+        if ( @Model.Beschrijving !== empty && @Model.AantalUrenPerWeek !== 0 && @Model.BrutoMaandloonFulltime !== 0 && @Model.Ondersteuningspremie !== 0
             && @Model.Doelgroep !== empty && @Model.AantalMaandenIBO !== 0 && @Model.Bedrag !== 0) {
             toonFormulier();
         } else {

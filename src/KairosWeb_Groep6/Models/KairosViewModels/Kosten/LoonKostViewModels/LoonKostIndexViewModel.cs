@@ -9,6 +9,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
     public class LoonKostIndexViewModel
     {
         public int Id { get; set; }//dit toegevoegd
+        public String Beschrijving { get; set; }
         public double AantalUrenPerWeek { get; set; }
 
         public double Bedrag // = kolom "totale loonkost eerste jaar"
@@ -38,7 +39,10 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
 
         public LoonKostIndexViewModel(Loonkost loon)
         {
+            Id = loon.Id;
+            Beschrijving = loon.Beschrijving;
             AantalUrenPerWeek = loon.AantalUrenPerWeek;
+
             Bedrag = loon.Bedrag;
             BrutoMaandloonFulltime = loon.BrutoMaandloonFulltime;
             Ondersteuningspremie = loon.Ondersteuningspremie;
