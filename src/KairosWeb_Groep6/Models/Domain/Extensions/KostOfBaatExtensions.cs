@@ -26,6 +26,11 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
                 throw new InvalidOperationException("Deze methode is niet voor de klasse MedewerkerNiveauBaat");
             }
 
+            if (typeof(T) == typeof(BegeleidingsKost))
+            {
+                throw new InvalidOperationException("Deze methode is niet voor de klasse BegeleidingsKost");
+            }
+
             return lijst
                 .Sum(v => v.Bedrag);
         }
