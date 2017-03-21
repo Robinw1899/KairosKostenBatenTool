@@ -16,10 +16,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
 
         public override double Bedrag // = kolom "totale loonkost eerste jaar"
         {
-            get
-            {
-                throw new InvalidOperationException("Het bedrag wordt gegegen door de methode BerekenTotaleLoonkost()");
-            }
+            get { return 0; }
             set { } // setter wordt nooit gebruikt
         }
 

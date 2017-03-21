@@ -12,10 +12,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
 
         public override double Bedrag
         {
-            get
-            {
-                throw new InvalidOperationException("Deze methode is niet voor de klasse BegeleidingsKost");
-            }
+            get { return 0; }
             set { }
         }
 

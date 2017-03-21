@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using KairosWeb_Groep6.Models.Domain.Baten;
-using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Newtonsoft.Json;
 
@@ -12,7 +11,7 @@ namespace KairosWeb_Groep6.Models.Domain
         public int AnalyseId { get; set; }
 
         [JsonProperty]
-        public Werkgever Werkgever { get; set; }
+        public Werkgever Werkgever { get; set; } = new Werkgever();
 
         #region Kosten
         [JsonProperty]

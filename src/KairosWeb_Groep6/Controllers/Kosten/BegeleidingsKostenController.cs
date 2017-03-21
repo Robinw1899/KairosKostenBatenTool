@@ -77,6 +77,11 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Soort = kost.Soort;
                 model.Uren = kost.Uren;
                 model.BrutoMaandloonBegeleider = kost.BrutoMaandloonBegeleider;
+                model.ViewModels = analyse.BegeleidingsKosten
+                    .Select(m => new BegeleidingsKostViewModel(m)
+                    {
+                        Bedrag = m.GeefJaarbedrag(analyse.Werkgever.PatronaleBijdrage)
+                    });
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -140,7 +145,10 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 Soort = Soort.BegeleidingsKost,
                 ViewModels = analyse
                                 .BegeleidingsKosten
-                                .Select(m => new BegeleidingsKostViewModel(m))
+                                .Select(m => new BegeleidingsKostViewModel(m)
+                                                {
+                                                    Bedrag = m.GeefJaarbedrag(analyse.Werkgever.PatronaleBijdrage)
+                                                })
             };
 
             return model;
