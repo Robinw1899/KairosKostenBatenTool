@@ -93,9 +93,10 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, LoonKostIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            LoonKostIndexViewModel kost = analyse.Loonkosten
-                                                 .SingleOrDefault(b => b.Id == model.Id);
+            Loonkost kost = analyse.Loonkosten
+                                             .SingleOrDefault(b => b.Id == model.Id);
 
+           
             if (ModelState.IsValid && kost != null)
             {
                 // parameters voor formulier instellen
@@ -107,16 +108,12 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Ondersteuningspremie = kost.Ondersteuningspremie;
                 model.AantalMaandenIBO = kost.AantalMaandenIBO;
                 model.Bedrag = kost.Bedrag;
-                _analyseRepository.Save();
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = "De waarden zijn succesvol opgeslagen.";
-
                 return RedirectToAction("Index", model);
             }
-
             PlaatsTotaalInViewData(analyse);
 
             return View("Index", model);
@@ -124,7 +121,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            LoonkostViewModel kost = analyse.Loonkosten
+            Loonkost kost = analyse.Loonkosten
                                                  .SingleOrDefault(k => k.Id == id);
             if (kost != null)
             {
