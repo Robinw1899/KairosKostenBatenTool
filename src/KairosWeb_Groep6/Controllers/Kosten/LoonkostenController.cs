@@ -1,26 +1,26 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
-using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
-    public class LoonKostController : Controller
+    public class LoonkostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
 
-        public LoonKostController(IAnalyseRepository analyseRepository)
+        public LoonkostenController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
         // GET: /<controller>/
         public IActionResult Index(Analyse analyse)
         {
-            LoonKostIndexViewModel model = MaakModel(analyse);
+            LoonkostenIndexViewModel model = MaakModel(analyse);
 
             if (IsAjaxRequest())
             {
@@ -34,7 +34,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         }
 
         [HttpPost]
-        public IActionResult VoegToe(Analyse analyse, LoonKostIndexViewModel model)
+        public IActionResult VoegToe(Analyse analyse, LoonkostenIndexViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -44,12 +44,12 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     //Id = model.Id,
                     Id = 1,
                     //functie moet nog toegevoegd worden
+                    Beschrijving = model.Beschrijving,
                     AantalUrenPerWeek = model.AantalUrenPerWeek,
                     BrutoMaandloonFulltime = model.BrutoMaandloonFulltime,
                     Doelgroep = model.Doelgroep,
                     Ondersteuningspremie = model.Ondersteuningspremie,
                     AantalMaandenIBO = model.AantalMaandenIBO,
-                    Bedrag = model.Bedrag
                 };
 
                 analyse.Loonkosten.Add(kost);
@@ -72,7 +72,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             Loonkost kost = analyse.Loonkosten
                                               .SingleOrDefault(b => b.Id == id);
 
-            LoonKostIndexViewModel model = MaakModel(analyse);
+            LoonkostenIndexViewModel model = MaakModel(analyse);
 
             if (kost != null)
             {
@@ -84,7 +84,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Doelgroep = kost.Doelgroep;
                 model.Ondersteuningspremie = kost.Ondersteuningspremie;
                 model.AantalMaandenIBO = kost.AantalMaandenIBO;
-                model.Bedrag = kost.Bedrag;
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -93,7 +92,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, LoonKostIndexViewModel model)
+        public IActionResult Bewerk(Analyse analyse, LoonkostenIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
             Loonkost kost = analyse.Loonkosten
                                              .SingleOrDefault(b => b.Id == model.Id);
@@ -109,7 +108,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Doelgroep = kost.Doelgroep;
                 model.Ondersteuningspremie = kost.Ondersteuningspremie;
                 model.AantalMaandenIBO = kost.AantalMaandenIBO;
-                model.Bedrag = kost.Bedrag;
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
@@ -131,19 +129,27 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
             }
 
-            LoonKostIndexViewModel model = MaakModel(analyse);
+            LoonkostenIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
             TempData["message"] = "De waarden zijn succesvol verwijderd.";
 
             return View("Index", model);
         }
-        private LoonKostIndexViewModel MaakModel(Analyse analyse)
+        private LoonkostenIndexViewModel MaakModel(Analyse analyse)
         {
-            LoonKostIndexViewModel model = new LoonKostIndexViewModel()
+            Array values = Enum.GetValues(typeof(Doelgroep));
+            IList<Doelgroep> doelgroepen = new List<Doelgroep>();
+
+            foreach (Doelgroep value in values)
             {
-                //Type = Type.Baat,
-                //Soort = Soort.MedewerkersZelfdeNiveau,
+                doelgroepen.Add(value);
+            }
+
+            LoonkostenIndexViewModel model = new LoonkostenIndexViewModel(doelgroepen , Doelgroep.Andere)
+            {
+                Type = Type.Baat,
+                Soort = Soort.Loonkost,
                 ViewModels = analyse
                                 .Loonkosten
                                 .Select(m => new LoonkostViewModel(m))
@@ -164,10 +170,10 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = analyse.Loonkosten
-                                    .Sum(t => t.Bedrag);
+            //double totaal = analyse.Loonkosten
+            //                        .Sum(t => t.Bedrag);
 
-            ViewData["totaal"] = totaal.ToString("C");
+            //ViewData["totaal"] = totaal.ToString("C");
         }
     }
 }

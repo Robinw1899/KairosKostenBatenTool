@@ -1,4 +1,5 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels.LoonKostIndexViewModel
+﻿@using KairosWeb_Groep6.Models.Domain.Kosten
+@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels.LoonkostenIndexViewModel
 @{
     ViewData["title"] = "Loonkost";
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
@@ -30,12 +31,14 @@
         <div asp-validation-summary="All" class="text-danger"></div>
         <!--3 hidden inputs om het id, soort en type op te slaan-->
         <input asp-for="Id" />
+        <input asp-for="Type" />
+        <input asp-for="Soort" />
        
         <div class="row col-md-offset-2">
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <i class="fa fa-info-circle" aria-hidden="true"></i><!--symbool moet nog veranderd worden!-->
+                        <i class="fa fa-font" aria-hidden="true"></i><!--symbool moet nog veranderd worden!-->
                     </span>
                     <input asp-for="Beschrijving" class="form-control" placeholder="Functie" id="functie"><!--moet asp for moet nog veranderd worden-->
                 </div>
@@ -63,11 +66,9 @@
             </div>
             <div class="col-md-4">
                 <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="fa fa-group" aria-hidden="true"></i>
-                    </span>
-                    <input asp-for="Doelgroep" class="form-control"
-                           placeholder="Doelgroep" id="#doelgroep">
+                    <select  asp-for="Doelgroep" asp-items="@(Html.GetEnumSelectList<Doelgroep>())" class="form-control">
+                    <option value="">-- selecteer een doelgroep --</option>
+                    </select>
                 </div>
                 <span asp-validation-for="Doelgroep" class="text-danger"></span>
             </div>
@@ -115,8 +116,8 @@
 
 @section scripts{
     <script>
-        if ( @Model.Beschrijving !== empty && @Model.AantalUrenPerWeek !== 0 && @Model.BrutoMaandloonFulltime !== 0 && @Model.Ondersteuningspremie !== 0
-            && @Model.Doelgroep !== empty && @Model.AantalMaandenIBO !== 0 && @Model.Bedrag !== 0) {
+        if (@Model.AantalUrenPerWeek !== 0 && @Model.BrutoMaandloonFulltime !== 0 && @Model.Ondersteuningspremie !== 0
+            && @Model.Doelgroep !== null && @Model.AantalMaandenIBO !== 0 && @Model.Bedrag !== 0) {
             toonFormulier();
         } else {
             $("#functie").val("");
@@ -144,7 +145,7 @@
             return false;
         });
 
-        $("#Kosten").addClass("active");
+        $("#kosten").addClass("active");
     </script>
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

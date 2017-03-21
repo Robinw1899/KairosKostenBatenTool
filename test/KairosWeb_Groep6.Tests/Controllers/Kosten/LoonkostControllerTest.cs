@@ -15,14 +15,14 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
 {
     public class LoonkostControllerTest
     {
-        private readonly LoonKostController _controller;
+        private readonly LoonkostenController _controller;
         private readonly Analyse _analyse;
         private readonly Mock<AnalyseRepository> _analyseRepository;
         private readonly DummyApplicationDbContext _dbContext;
 
         public LoonkostControllerTest()
         {
-            _controller = new LoonKostController(_analyseRepository.Object);
+            _controller = new LoonkostenController(_analyseRepository.Object);
             _analyse = new Analyse { Loonkost = _dbContext.GeefLoonkosten()};
             _analyseRepository = new Mock<AnalyseRepository>();
             _dbContext = new DummyApplicationDbContext();
@@ -33,7 +33,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         {
             var result = _controller.Index(_analyse) as ViewResult;
 
-            LoonKostIndexViewModel model = result?.Model as LoonKostIndexViewModel;
+            LoonkostenIndexViewModel model = result?.Model as LoonkostenIndexViewModel;
             Assert.Equal(3, model?.ViewModels.Count());
         }
     }

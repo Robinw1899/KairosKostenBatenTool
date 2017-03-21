@@ -1,48 +1,72 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
 {
-    public class LoonKostIndexViewModel
+    public class LoonkostenIndexViewModel
     {
         [HiddenInput]
-        public int Id { get; set; }//dit toegevoegd
+        public int Id { get; set; }
+
+        [HiddenInput]
+        public Type Type { get; set; }
+
+        [HiddenInput]
+        public Soort Soort { get; set; }
+
+        [Display(Name = "Functie")]
         [Required(ErrorMessage = "Gelieve een (korte) beschrijving van de functie op te geven.")]
-        public String Beschrijving { get; set; }
+        public string Beschrijving { get; set; }
+
         [Required(ErrorMessage = "Gelieve een het aantal uren per week op te geven.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het aantal uur")]
         public double AantalUrenPerWeek { get; set; }
 
-        public double Bedrag // = kolom "totale loonkost eerste jaar"
-        {
-            get
-            {
-                return BerekenTotaleLoonkost();
-            }
-            set { } // setter wordt nooit gebruikt
-        }
         [Required(ErrorMessage = "Gelieve het bruto maandloon (fulltime) op te geven.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het bruto maandloon")]
         public double BrutoMaandloonFulltime { get; set; }
+
         [Required(ErrorMessage = "Gelieve de ondersteuningspremie in te vullen.")]
         public double Ondersteuningspremie { get; set; }
+
         [Required(ErrorMessage = "Gelieve het aantal maanden IBO in te vullen.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het aantal maanden IBO")]
         public int AantalMaandenIBO { get; set; }
+
         [Required(ErrorMessage = "Gelieve de IBO premie in te vullen.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor de IBO premie")]
         public double IBOPremie { get; set; }
+
         [Required(ErrorMessage = "Gelieve een doelgroep op te geven.")]
         public Doelgroep? Doelgroep { get; set; }
+
+        public double Bedrag { get; set; }
+
         public IEnumerable<LoonkostViewModel> ViewModels { get; internal set; }
 
-        public LoonKostIndexViewModel()
+        public SelectList Doelgroepen { get; set; }
+
+        public LoonkostenIndexViewModel()
         {
 
         }
 
-        public LoonKostIndexViewModel(Loonkost loon)
+        public LoonkostenIndexViewModel(IEnumerable<Doelgroep> doelgroepen, Doelgroep? geselecteerd)
+        {
+            Doelgroepen = new SelectList(
+                doelgroepen,
+                nameof(Doelgroep),
+                nameof(Doelgroep),
+                geselecteerd);
+        }
+
+        public LoonkostenIndexViewModel(Loonkost loon, IEnumerable<Doelgroep> doelgroepen)
+            :this(doelgroepen, loon.Doelgroep)
         {
             Id = loon.Id;
             Beschrijving = loon.Beschrijving;
@@ -54,7 +78,6 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
             AantalMaandenIBO = loon.AantalMaandenIBO;
             IBOPremie = loon.IBOPremie;
             Doelgroep = loon.Doelgroep;
-
         }
     }
 }

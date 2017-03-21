@@ -11,7 +11,6 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.OpleidingsKosten
     public class OpleidingsKostViewModel
     {
         [Required]
-        []
         public int Id { get; set; }
         [Required]
         public Domain.Type Type { get; set; }
