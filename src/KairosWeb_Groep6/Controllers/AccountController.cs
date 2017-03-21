@@ -91,6 +91,7 @@ namespace KairosWeb_Groep6.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Deze combinatie email en wachtwoord is ongeldig, probeer opnieuw.");
+                    TempData["Actie"] = "Aanmelden"; // nodig om de partials niet te laden
                     return View(model);
                 }
             }
