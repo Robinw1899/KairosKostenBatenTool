@@ -141,6 +141,7 @@ namespace KairosWeb_Groep6.Controllers
                 if (possibleUser != null)
                 {
                     ModelState.AddModelError("", "Er is al een gebruiker geregistreerd met dit emailadres");
+                    TempData["Actie"] = "Registreer";
                 }
                 else
                 {
@@ -176,6 +177,7 @@ namespace KairosWeb_Groep6.Controllers
                         return RedirectToAction(nameof(Login), "Account");
                     }
 
+                    TempData["Actie"] = "Registreer";
                     AddErrors(result);
                 }
             }
