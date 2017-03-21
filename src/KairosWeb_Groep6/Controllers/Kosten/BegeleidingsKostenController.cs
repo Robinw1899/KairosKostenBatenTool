@@ -136,6 +136,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             return View("Index", model);
         }
 
+        public IActionResult Info()
+        {
+            // Deze methode toont een pagina met de tabel van tabblad 4 van de Excel
+            // = de toelichting van de begeleidingskosten
+            return View();
+        }
+
         private BegeleidingsKostenIndexViewModel MaakModel(Analyse analyse)
         {
             BegeleidingsKostenIndexViewModel model = new BegeleidingsKostenIndexViewModel
