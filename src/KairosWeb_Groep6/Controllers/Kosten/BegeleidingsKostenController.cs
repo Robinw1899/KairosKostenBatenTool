@@ -28,6 +28,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
+            PlaatsTotaalInViewData(analyse);
+
             return View(model);
         }
 
@@ -52,16 +54,15 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = "De kost is succesvol opgeslagen.";
-
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
-            /* PlaatsTotaalInViewData(analyse);*/
+            PlaatsTotaalInViewData(analyse);
 
             return RedirectToAction("Index", model);
         }
 
+        [HttpGet]
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
             BegeleidingsKost kost = analyse.BegeleidingsKosten
@@ -108,8 +109,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
-
-                TempData["message"] = "De kost is succesvol opgeslagen.";
 
                 return RedirectToAction("Index", model);
             }
