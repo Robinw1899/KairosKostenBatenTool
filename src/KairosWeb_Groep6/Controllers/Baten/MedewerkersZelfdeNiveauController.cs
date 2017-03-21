@@ -158,9 +158,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 ViewData["totaal"] = 0;
             }
 
-            //double totaal = analyse.MedewerkersZelfdeNiveauBaat
-            //                        .Sum(t => t.Bedrag);
-
             double totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
                 analyse.MedewerkersZelfdeNiveauBaat,
                 analyse.Werkgever.AantalWerkuren,
