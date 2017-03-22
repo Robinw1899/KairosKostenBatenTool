@@ -41,7 +41,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             if (ModelState.IsValid)
             {
-                // de baat bestaat reeds:
                 ExtraKost kost = new ExtraKost
                 {
                     Type = model.Type,

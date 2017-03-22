@@ -30,8 +30,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 // de baat bestaat reeds:
                 ExtraProductiviteit baat = new ExtraProductiviteit
                 {
-                    //Id = model.Id,
-                    Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     Bedrag = model.Bedrag

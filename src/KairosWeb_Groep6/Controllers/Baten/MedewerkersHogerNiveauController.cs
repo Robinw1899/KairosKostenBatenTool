@@ -39,8 +39,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 // de baat bestaat reeds:
                 MedewerkerNiveauBaat baat = new MedewerkerNiveauBaat
                 {
-                    //Id = model.Id,
-                    Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     Uren = model.Uren,
