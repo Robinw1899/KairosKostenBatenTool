@@ -1,0 +1,45 @@
+﻿@using KairosWeb_Groep6.Models.KairosViewModels.Kosten.GereedschapsKostenViewModels
+@model IEnumerable<GereedschapsKostenViewModel>
+
+<table class="table table-bordered table-condensed table-responsive">
+    <tr>
+        <th>Beschrijving</th>
+        <th>Bedrag</th>
+        <th></th>
+    </tr>
+    @if (Model == null || !Model.Any()) // als de lijst leeg is
+    {
+        <tr>
+            <td colspan="3" class="alert alert-info">
+                Er zijn nog geen gegevens ingevuld.
+                Start met het invullen door op de <i class="fa fa-plus" aria-hidden="true"></i> rechtsonder
+                de tabel te klikken.
+            </td>
+        </tr>
+    }
+    else
+    {
+        foreach (GereedschapsKostenViewModel kost in Model)
+        {
+            <tr>
+                <td>@kost.Beschrijving</td>
+                <td>@kost.Bedrag.ToString("C")</td>
+                <td>
+                    <div class="options">
+                        <a asp-action="Bewerk" asp-route-id="@kost.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a asp-action="Verwijder" asp-route-id="@kost.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                    </div>
+                </td>
+            </tr>
+        }
+
+        <tr class="alert alert-success">
+            <td class="text-right">
+                Totaal:
+            </td>
+            <td colspan="2">
+                @(ViewData["totaal"])
+            </td>
+        </tr>
+    }
+</table>
