@@ -153,56 +153,5 @@ namespace KairosWeb_Groep6.Tests.Data
 
             return baten;
         }
-
-        public List<Loonkost> GeefLoonkosten()
-        {
-            List<Loonkost> kosten = new List<Loonkost>();
-            {
-                Poetsvrouw = new Loonkost
-                {
-                    Id = 1,
-                    BrutoMaandloonFulltime = 1800,
-                    AantalUrenPerWeek = 37,
-                    Doelgroep = Doelgroep.LaaggeschooldTot25,
-                    Ondersteuningspremie = 0.20D,
-                    AantalMaandenIBO = 2,
-                    IBOPremie = 564.0D
-                };
-
-                Secretaresse = new Loonkost
-                {
-                    Id = 2,
-                    BrutoMaandloonFulltime = 2200,
-                    AantalUrenPerWeek = 23,
-                    Doelgroep = Doelgroep.MiddengeschooldTot25,
-                    Ondersteuningspremie = 0.20D,
-                    AantalMaandenIBO = 2,
-                    IBOPremie = 564.0D
-                };
-
-                Postbode = new Loonkost
-                {
-                    Id = 3,
-                    BrutoMaandloonFulltime = 1900,
-                    AantalUrenPerWeek = 35,
-                    Doelgroep = Doelgroep.Tussen55En60,
-                    Ondersteuningspremie = 0.20D,
-                    AantalMaandenIBO = 2,
-                    IBOPremie = 564.0D
-                };
-
-                /*Loonkosten = new List<Loonkost>
-                {
-                    Poetsvrouw,
-                    Secretaresse,
-                    Postbode
-                };*/
-
-                kosten.Add(Poetsvrouw);
-                kosten.Add(Secretaresse);
-                kosten.Add(Postbode);
-                return kosten;
-            }
-        }
     }
 }
