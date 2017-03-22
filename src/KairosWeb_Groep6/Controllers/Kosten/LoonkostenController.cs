@@ -14,7 +14,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
-    [ValidateAntiForgeryToken]
     public class LoonkostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
@@ -159,7 +158,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
             LoonkostenIndexViewModel model = new LoonkostenIndexViewModel(doelgroepen , Doelgroep.Andere)
             {
-                Type = Type.Baat,
+                Type = Type.Kost,
                 Soort = Soort.Loonkost,
                 ViewModels = analyse
                                 .Loonkosten

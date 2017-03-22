@@ -33,6 +33,9 @@ namespace KairosWeb_Groep6.Models.Domain
 
         [JsonProperty]
         public List<BegeleidingsKost> BegeleidingsKosten { get; set; } = new List<BegeleidingsKost>();
+
+        [JsonProperty]
+        public List<ExtraKost> ExtraKosten { get; set; } = new List<ExtraKost>();
         #endregion
 
         #region Baten

@@ -60,6 +60,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.GereedschapsKosten)
                 .Include(a => a.InfrastructuurKosten)
                 .Include(a => a.Loonkosten)
+                .Include(a => a.ExtraKosten)
                 .Include(a => a.MedewerkersHogerNiveauBaat)
                 .Include(a => a.MedewerkersZelfdeNiveauBaat)
                 .Include(a => a.OpleidingsKosten)
