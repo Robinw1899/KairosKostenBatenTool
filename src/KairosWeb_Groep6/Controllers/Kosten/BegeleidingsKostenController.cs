@@ -11,7 +11,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
-    [ValidateAntiForgeryToken]
     public class BegeleidingsKostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
@@ -43,8 +42,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 // de baat bestaat reeds:
                 BegeleidingsKost kost = new BegeleidingsKost
                 {
-                    //Id = model.Id,
-                    Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     Uren = model.Uren,
@@ -65,7 +62,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             return RedirectToAction("Index", model);
         }
 
-        [HttpGet]
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
             BegeleidingsKost kost = analyse.BegeleidingsKosten

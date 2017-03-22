@@ -14,7 +14,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
-    [ValidateAntiForgeryToken]
     public class LoonkostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
