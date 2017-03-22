@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
+    [Authorize]
+    [ServiceFilter(typeof(AnalyseFilter))]
+    [ValidateAntiForgeryToken]
     public class LoonkostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
@@ -20,6 +26,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId);
+
             LoonkostenIndexViewModel model = MaakModel(analyse);
 
             if (IsAjaxRequest())
@@ -36,20 +44,19 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         [HttpPost]
         public IActionResult VoegToe(Analyse analyse, LoonkostenIndexViewModel model)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId);
+
             if (ModelState.IsValid)
             {
-                // de baat bestaat reeds:
                 Loonkost kost = new Loonkost
                 {
-                    //Id = model.Id,
-                    Id = 1,
-                    //functie moet nog toegevoegd worden
                     Beschrijving = model.Beschrijving,
                     AantalUrenPerWeek = model.AantalUrenPerWeek,
                     BrutoMaandloonFulltime = model.BrutoMaandloonFulltime,
                     Doelgroep = model.Doelgroep,
                     Ondersteuningspremie = model.Ondersteuningspremie,
                     AantalMaandenIBO = model.AantalMaandenIBO,
+                    IBOPremie = model.IBOPremie
                 };
 
                 analyse.Loonkosten.Add(kost);
@@ -57,7 +64,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
-
 
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
@@ -69,6 +75,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
+            analyse = _analyseRepository.GetById(analyse.AnalyseId);
+
             Loonkost kost = analyse.Loonkosten
                                               .SingleOrDefault(b => b.Id == id);
 
@@ -93,7 +101,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, LoonkostenIndexViewModel model)
-        {// id is het id van de baat die moet bewerkt worden
+        {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId);
+
             Loonkost kost = analyse.Loonkosten
                                              .SingleOrDefault(b => b.Id == model.Id);
 
@@ -121,6 +131,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
+            analyse = _analyseRepository.GetById(analyse.AnalyseId);
             Loonkost kost = analyse.Loonkosten
                                                  .SingleOrDefault(k => k.Id == id);
             if (kost != null)
@@ -152,7 +163,10 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 Soort = Soort.Loonkost,
                 ViewModels = analyse
                                 .Loonkosten
-                                .Select(m => new LoonkostViewModel(m))
+                                .Select(m => new LoonkostViewModel(m)
+                    {
+                        Bedrag = m.BerekenTotaleLoonkost(analyse.Departement.Werkgever.AantalWerkuren, analyse.Departement.Werkgever.PatronaleBijdrage)
+                    })
             };
 
             return model;
@@ -170,10 +184,16 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 ViewData["totaal"] = 0;
             }
 
-            //double totaal = analyse.Loonkosten
-            //                        .Sum(t => t.Bedrag);
 
-            //ViewData["totaal"] = totaal.ToString("C");
+            double totaal = LoonkostExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                analyse.Loonkosten, analyse.Departement.Werkgever.AantalWerkuren, analyse.Departement.Werkgever.PatronaleBijdrage);
+
+            ViewData["totaalBrutolonen"] = totaal.ToString("C");
+
+            totaal = LoonkostExtensions.GeefTotaalAlleLoonkosten(
+                 analyse.Loonkosten, analyse.Departement.Werkgever.AantalWerkuren, analyse.Departement.Werkgever.PatronaleBijdrage);
+
+            ViewData["totaalLoonkosten"] = totaal.ToString("C");
         }
     }
 }

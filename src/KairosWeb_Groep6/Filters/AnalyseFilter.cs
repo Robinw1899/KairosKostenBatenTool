@@ -18,6 +18,13 @@ namespace KairosWeb_Groep6.Filters
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             _analyse = ReadAnalyseFromSession(context.HttpContext);
+
+            if(_analyse.AnalyseId != 0)
+            {// geen nieuwe analyse
+                _analyse = _analyseRepository.GetById(_analyse.AnalyseId);
+            }
+
+           
             context.ActionArguments["analyse"] = _analyse;
             base.OnActionExecuting(context);
         }

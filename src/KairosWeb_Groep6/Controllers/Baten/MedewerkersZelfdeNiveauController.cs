@@ -142,8 +142,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                                 .MedewerkersZelfdeNiveauBaat
                                 .Select(m => new MedewerkerNiveauBaatViewModel(m)
                     {
-                        Bedrag = m.BerekenTotaleLoonkostPerJaar(analyse.Werkgever.AantalWerkuren, 
-                                                                analyse.Werkgever.PatronaleBijdrage)
+                        Bedrag = m.BerekenTotaleLoonkostPerJaar(analyse.Departement.Werkgever.AantalWerkuren, 
+                                                                analyse.Departement.Werkgever.PatronaleBijdrage)
                     })
             };
 
@@ -164,8 +164,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
             double totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
                 analyse.MedewerkersZelfdeNiveauBaat,
-                analyse.Werkgever.AantalWerkuren,
-                analyse.Werkgever.PatronaleBijdrage);
+                analyse.Departement.Werkgever.AantalWerkuren,
+                analyse.Departement.Werkgever.PatronaleBijdrage);
 
             ViewData["totaal"] = totaal.ToString("C");
         }

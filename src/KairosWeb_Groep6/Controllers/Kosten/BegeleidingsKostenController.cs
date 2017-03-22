@@ -84,7 +84,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.ViewModels = analyse.BegeleidingsKosten
                     .Select(m => new BegeleidingsKostViewModel(m)
                     {
-                        Bedrag = m.GeefJaarbedrag(analyse.Werkgever.PatronaleBijdrage)
+                        Bedrag = m.GeefJaarbedrag(analyse.Departement.Werkgever.PatronaleBijdrage)
                     });
             }
 
@@ -156,7 +156,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                                 .BegeleidingsKosten
                                 .Select(m => new BegeleidingsKostViewModel(m)
                                                 {
-                                                    Bedrag = m.GeefJaarbedrag(analyse.Werkgever.PatronaleBijdrage)
+                                                    Bedrag = m.GeefJaarbedrag(analyse.Departement.Werkgever.PatronaleBijdrage)
                                                 })
             };
 
@@ -176,7 +176,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             }
 
             double totaal = BegeleidingsKostExtensions.GeefTotaal(analyse.BegeleidingsKosten, 
-                                                                    analyse.Werkgever.PatronaleBijdrage);
+                                                                    analyse.Departement.Werkgever.PatronaleBijdrage);
 
             ViewData["totaal"] = totaal.ToString("C");
         }
