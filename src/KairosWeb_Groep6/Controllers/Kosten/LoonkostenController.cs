@@ -159,7 +159,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
             LoonkostenIndexViewModel model = new LoonkostenIndexViewModel(doelgroepen , Doelgroep.Andere)
             {
-                Type = Type.Baat,
+                Type = Type.Kost,
                 Soort = Soort.Loonkost,
                 ViewModels = analyse
                                 .Loonkosten
