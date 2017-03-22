@@ -17,7 +17,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             _analyseRepository = analyseRepository;
         }
-        // GET: /<controller>/
+
         public IActionResult Index(Analyse analyse)
         {
             LoonkostenIndexViewModel model = MaakModel(analyse);

@@ -4,11 +4,14 @@ using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
+    [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
+    [ValidateAntiForgeryToken]
     public class BegeleidingsKostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;

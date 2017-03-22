@@ -10,7 +10,6 @@ namespace KairosWeb_Groep6.Controllers
 {
     public class KostenController : Controller
     {
-        // GET: /<controller>/
         public IActionResult Index()
         {
             return View();
@@ -41,9 +40,9 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", "InfrastructuurKosten");
         }
 
-        public IActionResult LoonKosten()
+        public IActionResult Loonkosten()
         {
-            return RedirectToAction("Index", "LoonKosten");
+            return RedirectToAction("Index", "Loonkosten");
         }
 
         public IActionResult OpleidingsKosten()
