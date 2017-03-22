@@ -37,8 +37,12 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult NieuweAnalyse(Analyse analyse)
         {// hier word gekozen tussen een nieuwe of bestaande werkgever
-            _analyseRepository.Add(analyse);
-            _analyseRepository.Save();
+            if (analyse.AnalyseId == 0)
+            {
+                _analyseRepository.Add(analyse);
+                _analyseRepository.Save();
+            }
+            
             return View();
         }
 
