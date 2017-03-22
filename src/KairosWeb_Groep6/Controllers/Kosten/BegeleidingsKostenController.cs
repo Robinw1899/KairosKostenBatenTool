@@ -150,7 +150,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             BegeleidingsKostenIndexViewModel model = new BegeleidingsKostenIndexViewModel
             {
-                Type = Type.Baat,
+                Type = Type.Kost,
                 Soort = Soort.BegeleidingsKost,
                 ViewModels = analyse
                                 .BegeleidingsKosten
