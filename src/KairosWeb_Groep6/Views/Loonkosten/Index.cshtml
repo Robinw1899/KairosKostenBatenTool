@@ -50,7 +50,7 @@
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
                     </span>
                     <input asp-for="AantalUrenPerWeek" class="form-control"
-                           placeholder="Aantal uren per week" id="#urenPerWeek">
+                           placeholder="Aantal uren per week" id="urenPerWeek">
                 </div>
                 <span asp-validation-for="AantalUrenPerWeek" class="text-danger"></span>
             </div>
@@ -60,14 +60,17 @@
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
                     <input asp-for="BrutoMaandloonFulltime" class="form-control"
-                           placeholder="Brutomaandloon (fulltime)" id="BrutoMaandloon">
+                           placeholder="Brutomaandloon (fulltime)" id="brutoMaandloon">
                 </div>
                 <span asp-validation-for="BrutoMaandloonFulltime" class="text-danger"></span>
             </div>
             <div class="col-md-4">
                 <div class="input-group">
-                    <select  asp-for="Doelgroep" asp-items="@(Html.GetEnumSelectList<Doelgroep>())" class="form-control">
-                    <option value="">-- selecteer een doelgroep --</option>
+                    <span class="input-group-addon">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                    </span>
+                    <select asp-for="Doelgroep" asp-items="@(Html.GetEnumSelectList<Doelgroep>())" class="form-control">
+                        <option value="">-- selecteer een doelgroep --</option>
                     </select>
                 </div>
                 <span asp-validation-for="Doelgroep" class="text-danger"></span>
@@ -75,10 +78,14 @@
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <i class="fa fa-eur" aria-hidden="true"></i>
+                        <i class="fa fa-percent" aria-hidden="true"></i>
                     </span>
-                    <input asp-for="Ondersteuningspremie" class="form-control"
-                           placeholder="Vlaamse ondersteuningspremie" id="#Ondersteuningspremie">
+                    <select asp-for="Ondersteuningspremie" class="form-control">
+                        <option value="0">0%</option>
+                        <option value="20">20%</option>
+                        <option value="30">30%</option>
+                        <option value="40">40%</option>
+                    </select>
                 </div>
                 <span asp-validation-for="Ondersteuningspremie" class="text-danger"></span>
             </div>
@@ -88,7 +95,7 @@
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
                     <input asp-for="AantalMaandenIBO" class="form-control"
-                           placeholder="Aantal maanden IBO" id="#maandenIBO">
+                           placeholder="Aantal maanden IBO" id="maandenIBO">
                 </div>
                 <span asp-validation-for="AantalMaandenIBO" class="text-danger"></span>
             </div>
@@ -97,10 +104,10 @@
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
-                    <input asp-for="Bedrag" class="form-control"
-                           placeholder="Totale productiviteitspremie IBO" id="#bedrag">
+                    <input asp-for="IBOPremie" class="form-control"
+                           placeholder="IBO premie" id="IBOpremie">
                 </div>
-                <span asp-validation-for="Bedrag" class="text-danger"></span>
+                <span asp-validation-for="IBOPremie" class="text-danger"></span>
             </div>
         </div>
         <br />
@@ -117,15 +124,15 @@
 @section scripts{
     <script>
         if (@Model.AantalUrenPerWeek !== 0 && @Model.BrutoMaandloonFulltime !== 0 && @Model.Ondersteuningspremie !== 0
-            && @Model.Doelgroep !== null && @Model.AantalMaandenIBO !== 0 && @Model.Bedrag !== 0) {
+            && @Model.AantalMaandenIBO !== 0) {
             toonFormulier();
         } else {
             $("#functie").val("");
-            $("#BrutoMaandloon").val("");
+            $("#urenPerWeek").val("");
+            $("#brutoMaandloon").val("");
             $("#doelgroep").val("");
-            $("#Ondersteuningspremie").val("");
             $("#maandenIBO").val("");
-            $("#bedrag").val("");
+            $("#IBOpremie").val("");
         }
 
         $("#form").submit(function () {
@@ -134,11 +141,11 @@
                 function (data) {
                     $("#data").html(data);
                     $("#functie").val("");
-                    $("#BrutoMaandloon").val("");
+                    $("#urenPerWeek").val("");
+                    $("#brutoMaandloon").val("");
                     $("#doelgroep").val("");
-                    $("#Ondersteuningspremie").val("");
                     $("#maandenIBO").val("");
-                    $("#bedrag").val("");
+                    $("#IBOpremie").val("");
                     //verbergFormulier();
                 });
 
