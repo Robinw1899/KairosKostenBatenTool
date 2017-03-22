@@ -23,7 +23,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             _analyseRepository = analyseRepository;
         }
 
-        public IActionResult Index(Analyse analyse)
+        public IActionResult Index(Analyse analyse, bool foutgegeven = false)
         {
             analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
@@ -66,12 +66,12 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 analyse.DatumLaatsteAanpassing = DateTime.Now;
 
-                return PartialView("_OverzichtTabel", model.ViewModels);
+                return View("Index", model);
             }
 
             PlaatsTotaalInViewData(analyse);
 
-            return RedirectToAction("Index", model);
+            return View("Index", model);
         }
 
         public IActionResult Bewerk(Analyse analyse, int id)
@@ -87,12 +87,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 // parameters voor formulier instellen
                 model.Id = id;
-                //functie
+                model.Beschrijving = kost.Beschrijving;
                 model.AantalUrenPerWeek = kost.AantalUrenPerWeek;
                 model.BrutoMaandloonFulltime = kost.BrutoMaandloonFulltime;
                 model.Doelgroep = kost.Doelgroep;
                 model.Ondersteuningspremie = kost.Ondersteuningspremie;
                 model.AantalMaandenIBO = kost.AantalMaandenIBO;
+                model.IBOPremie = kost.IBOPremie;
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -125,7 +126,20 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 analyse.DatumLaatsteAanpassing = DateTime.Now;
 
-                return RedirectToAction("Index", model);
+                if (model.Doelgroep == null)
+                {
+                    TempData["error"] =
+                        "Opgelet! U heeft nog geen doelgroep geselecteerd. Er zal dus nog geen resultaat " +
+                        "berekend worden bij deze kost.";
+                }
+
+                if (analyse.Departement == null)
+                {
+                    // return de View zodat de error rond de werkgever toch getoond wordt
+                    return View("Index", model);
+                }
+
+                return View("Index", model);
             }
             PlaatsTotaalInViewData(analyse);
 
@@ -170,7 +184,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                                 .Loonkosten
                                 .Select(m => new LoonkostViewModel(m)
                     {
-                        Bedrag = m.BerekenTotaleLoonkost(analyse.Departement.Werkgever.AantalWerkuren, analyse.Departement.Werkgever.PatronaleBijdrage)
+                        Bedrag = analyse.Departement == null
+                        ? 0 : 
+                        m.BerekenTotaleLoonkost(analyse.Departement.Werkgever.AantalWerkuren, analyse.Departement.Werkgever.PatronaleBijdrage)
                     })
             };
 
@@ -186,19 +202,31 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             if (analyse.Loonkosten.Count == 0)
             {
-                ViewData["totaal"] = 0;
+                ViewData["totaalBrutolonen"] = 0;
+                ViewData["totaalLoonkosten"] = 0;
             }
 
+            if (analyse.Departement != null)
+            {
+                double totaal = LoonkostExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                    analyse.Loonkosten, analyse.Departement.Werkgever.AantalWerkuren,
+                    analyse.Departement.Werkgever.PatronaleBijdrage);
 
-            double totaal = LoonkostExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
-                analyse.Loonkosten, analyse.Departement.Werkgever.AantalWerkuren, analyse.Departement.Werkgever.PatronaleBijdrage);
+                ViewData["totaalBrutolonen"] = totaal.ToString("C");
 
-            ViewData["totaalBrutolonen"] = totaal.ToString("C");
+                totaal = LoonkostExtensions.GeefTotaalAlleLoonkosten(
+                    analyse.Loonkosten, analyse.Departement.Werkgever.AantalWerkuren,
+                    analyse.Departement.Werkgever.PatronaleBijdrage);
 
-            totaal = LoonkostExtensions.GeefTotaalAlleLoonkosten(
-                 analyse.Loonkosten, analyse.Departement.Werkgever.AantalWerkuren, analyse.Departement.Werkgever.PatronaleBijdrage);
-
-            ViewData["totaalLoonkosten"] = totaal.ToString("C");
+                ViewData["totaalLoonkosten"] = totaal.ToString("C");
+            }
+            else
+            {
+                ViewData["totaalBrutolonen"] = 0;
+                ViewData["totaalLoonkosten"] = 0;
+                TempData["error"] = "Opgelet! U heeft nog geen werkgever geselecteerd. Er zal dus nog geen resultaat " +
+                                    "berekend worden bij deze kost.";
+            }
         }
     }
 }

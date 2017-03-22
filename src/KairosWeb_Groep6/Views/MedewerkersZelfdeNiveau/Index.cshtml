@@ -74,19 +74,6 @@
             $("#brutoloon").val("");
         }
 
-        $("#form").submit(function () {
-            $.post(this.action,
-                $(this).serialize(),
-                function (data) {
-                    $("#data").html(data);
-                    $("#uren").val("");
-                    $("#brutoloon").val("");
-                    //verbergFormulier();
-                });
-
-            return false;
-        });
-
         $("#baten").addClass("active");
     </script>
 
