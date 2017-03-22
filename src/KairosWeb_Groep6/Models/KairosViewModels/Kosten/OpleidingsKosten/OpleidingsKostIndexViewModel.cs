@@ -5,20 +5,25 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.OpleidingsKosten
 {
     public class OpleidingsKostIndexViewModel
     {
+        
         [Required]
+        [HiddenInput]
         public int Id { get; set; }
         [Required]
+        [HiddenInput]
         public Domain.Type Type { get; set; }
         [Required]
+        [HiddenInput]
         public Soort Soort { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Gelieve een beschrijving op te geven.")]
         public string Beschrijving { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Gelieve een bedrag op te geven.")]
         public double Bedrag { get; set; }
 
         public IEnumerable<OpleidingsKostViewModel> ViewModels { get; internal set; }

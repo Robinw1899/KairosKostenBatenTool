@@ -30,34 +30,36 @@
         <div asp-validation-summary="All" class="text-danger"></div>
         <!--3 hidden inputs om het id, soort en type op te slaan-->
         <input asp-for="Id" />
-
+        <input asp-for="Type"/>
+        <input asp-for="Soort"/>
         <div class="row col-md-offset-2">
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <i class="fa fa-clock-o" aria-hidden="true"></i><!--symbool moet nog veranderd worden!-->
+                        <i class="fa fa-font" aria-hidden="true"></i><!--symbool moet nog veranderd worden!-->
                     </span>
-                    <input asp-for="Type" class="form-control" placeholder="Beschrijving" id="Type">
+                    <input asp-for="Beschrijving" class="form-control" placeholder="Beschrijving" id="beschrijving">
                 </div>
-                <span asp-validation-for="Type" class="text-danger"></span>
+                <span asp-validation-for="Beschrijving" class="text-danger"></span>
             </div>
             <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                        <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
                     <input asp-for="Bedrag" class="form-control"
                            placeholder="Geschatte bedrag" id="#Bedrag">
                 </div>
                 <span asp-validation-for="Bedrag" class="text-danger"></span>
             </div>
-            
-        <br />
 
-        <div class="row col-md-offset-2">
-            <div class="col-md-8 text-right">
-                <a class="btn btn-default" id="closeForm">Annuleer</a>
-                <button type="submit" class="btn btn-info" style="margin-left: 15px">@ViewData["action"]</button>
+            <br />
+
+            <div class="row col-md-offset-2">
+                <div class="col-md-8 text-right">
+                    <a class="btn btn-default" id="closeForm">Annuleer</a>
+                    <button type="submit" class="btn btn-info" style="margin-left: 15px">@ViewData["action"]</button>
+                </div>
             </div>
         </div>
     </form>
@@ -65,11 +67,11 @@
 
 @section scripts{
     <script>
-        if (@Model.Type !== empty && @Model.Bedrag !== 0) {
+        if (@Model.Beschrijving !== emptyCells && @Model.Bedrag !== 0) {
             toonFormulier();
         } else {
             $("#functie").val("");
-            $("#Type").val("");
+            $("#beschrijving").val("");
             $("#Bedrag").val("");
         }
 
@@ -78,7 +80,7 @@
                 $(this).serialize(),
                 function (data) {
                     $("#data").html(data);
-                    $("#Type").val("");
+                    $("#beschrijving").val("");
                     $("#Bedrag").val("");
                     //verbergFormulier();
                 });
