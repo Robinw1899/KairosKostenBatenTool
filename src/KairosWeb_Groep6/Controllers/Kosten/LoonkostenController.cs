@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Models.Domain;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -152,7 +153,10 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 Soort = Soort.Loonkost,
                 ViewModels = analyse
                                 .Loonkosten
-                                .Select(m => new LoonkostViewModel(m))
+                                .Select(m => new LoonkostViewModel(m)
+                    {
+                        Bedrag = m.BerekenTotaleLoonkost(analyse.Departement.Werkgever.AantalWerkuren, analyse.Departement.Werkgever.PatronaleBijdrage)
+                    })
             };
 
             return model;
@@ -170,10 +174,10 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 ViewData["totaal"] = 0;
             }
 
-            //double totaal = analyse.Loonkosten
-            //                        .Sum(t => t.Bedrag);
+            double totaal = LoonkostExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                analyse.Loonkosten, analyse.Departement.Werkgever.AantalWerkuren, analyse.Departement.Werkgever.PatronaleBijdrage);
 
-            //ViewData["totaal"] = totaal.ToString("C");
+            ViewData["totaal"] = totaal.ToString("C");
         }
     }
 }

@@ -41,7 +41,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
         #endregion
 
         #region Controleermethoden
-        private bool ControleerGegevensBrutoloonAanwezig(int aantalWerkuren, double patronaleBijdrage)
+        private bool ControleerGegevensBrutoloonAanwezig(double aantalWerkuren, double patronaleBijdrage)
         {
             // als een gegeven niet aanwezig is, wordt een InvalidOperationException gegooid
             // controleer of de gegevens in Werkgever aanwezig zijn
@@ -83,7 +83,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
             return true;
         }
 
-        private bool ControleerAlleGegevensAanwezig(int aantalWerkuren, double patronaleBijdrage)
+        private bool ControleerAlleGegevensAanwezig(double aantalWerkuren, double patronaleBijdrage)
         {
             if (!ControleerGegevensBrutoloonAanwezig(aantalWerkuren, patronaleBijdrage))
             {
@@ -108,7 +108,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
         #endregion
 
         #region Methods
-        public double BerekenBrutoloonPerMaand(int aantalWerkuren, double patronaleBijdrage)
+        public double BerekenBrutoloonPerMaand(double aantalWerkuren, double patronaleBijdrage)
         {
             // ((bruto maandloon/aantal uur voltijdse werkweek) * aantal uur dat medewerker werkt) + 35% werkgeversbijdrage
             if (ControleerGegevensBrutoloonAanwezig(aantalWerkuren, patronaleBijdrage))
@@ -128,7 +128,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
             return 0; // return 0 indien gegeven ontbreekt
         }
 
-        public double BerekenGemiddeldeVOPPerMaand(int aantalWerkuren, double patronaleBijdrage)
+        public double BerekenGemiddeldeVOPPerMaand(double aantalWerkuren, double patronaleBijdrage)
         {
             //(bruto maandloon incl werkgeverslasten – maandelijkse doelgroepvermindering) * percentage VOP premie
 
@@ -144,7 +144,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
             return 0; // return 0 indien gegeven ontbreekt
         }
         
-        public double BerekenTotaleLoonkost(int aantalWerkuren, double patronaleBijdrage)
+        public double BerekenTotaleLoonkost(double aantalWerkuren, double patronaleBijdrage)
         {
             if (ControleerAlleGegevensAanwezig(aantalWerkuren, patronaleBijdrage))
             {

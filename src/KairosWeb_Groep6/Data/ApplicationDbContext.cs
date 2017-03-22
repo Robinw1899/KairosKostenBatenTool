@@ -13,7 +13,7 @@ namespace KairosWeb_Groep6.Data
     {
         public DbSet<Jobcoach> Gebruikers { get; set; }
 
-        public DbSet<Werkgever> Werkgevers { get; set; }
+        public DbSet<Departement> Departementen { get; set; }
 
         public DbSet<Analyse> Analyses { get; set; }
 

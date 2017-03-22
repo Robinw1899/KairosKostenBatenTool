@@ -1,4 +1,4 @@
-﻿@using System.Threading.Tasks
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
 @using KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
 @model IEnumerable<LoonkostViewModel>
 
@@ -10,7 +10,7 @@
         <th>Doelgroep</th>
         <th>Vlaamse ondersteuningspremie</th>
         <th>Aantal maanden IBO</th>
-        <th>Totale productiviteitspremie IBO</th>
+        <th>Jaarbedrag</th>
         <th class="empty-th"></th>
     </tr>
     @if (Model == null || !Model.Any()) // als de lijst leeg is
@@ -28,13 +28,13 @@
         foreach (LoonkostViewModel kost in Model)
         {
             <tr>
-                <td>@kost.</td>
+                <td>@kost.Beschrijving</td> <!--Functie-->
                 <td>@kost.AantalUrenPerWeek</td>
                 <td>@kost.BrutoMaandloonFulltime</td>
                 <td>@kost.Doelgroep</td>
-                <td>@kost.Ondersteuningspremie</td>
+                <td>@(kost.Ondersteuningspremie) %</td>
                 <td>@kost.AantalMaandenIBO</td>
-                <td>@kost.</td><!--Totale productiviteitspremie IBO-->
+                <th>@kost.Bedrag</th>
                 <td>
                     <div class="options">
                         <a asp-action="Bewerk" asp-route-id="@kost.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>

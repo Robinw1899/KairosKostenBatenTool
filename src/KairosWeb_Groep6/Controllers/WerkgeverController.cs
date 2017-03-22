@@ -13,36 +13,37 @@ namespace KairosWeb_Groep6.Controllers
         #region Properties
 
         private readonly IAnalyseRepository _analyseRepository;
-        private readonly IWerkgeverRepository _werkgeverRepository;
+        private readonly IDepartementRepository _departementRepository;
         #endregion
 
         #region Constructors
 
         public WerkgeverController(
             IAnalyseRepository analyseRepository,
-            IWerkgeverRepository werkgeverRepository)
+            IDepartementRepository werkgeverRepository)
         {
             _analyseRepository = analyseRepository;
-            _werkgeverRepository = werkgeverRepository;
+            _departementRepository = werkgeverRepository;
         }
         #endregion
 
         public IActionResult Index(Analyse analyse)
         {
-            if (analyse.Werkgever == null)
+            if (analyse.Departement == null || analyse.Departement.Naam.Length == 0)
             {
                 // er is nog geen werkgever, doorsturen naar nieuwe analyse
                 return RedirectToAction("NieuweAnalyse", "Analyse");
             }
 
-            WerkgeverViewModel model = new WerkgeverViewModel(analyse.Werkgever);
+            WerkgeverViewModel model = new WerkgeverViewModel(analyse.Departement);
 
             return View(model);
         }
 
         public IActionResult Opslaan(Analyse analyse, WerkgeverViewModel model)
         {
-            Werkgever werkgever = _werkgeverRepository.GetById(model.WerkgeverId);
+            Departement departement = _departementRepository.GetById(model.DepartementId);
+            Werkgever werkgever = departement.Werkgever;
 
             werkgever.Naam = model.Naam;
 
@@ -55,9 +56,12 @@ namespace KairosWeb_Groep6.Controllers
             werkgever.Postcode = model.Postcode;
             werkgever.Gemeente = model.Gemeente;
 
-            analyse.Werkgever = werkgever;
+            departement.Naam = model.Naam;
+            departement.Werkgever = werkgever;
 
-            _werkgeverRepository.Save();
+            analyse.Departement = departement;
+
+            _departementRepository.Save();
             _analyseRepository.Save();
 
             return RedirectToAction("Index");
