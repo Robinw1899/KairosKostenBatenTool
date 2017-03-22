@@ -4,8 +4,6 @@ namespace KairosWeb_Groep6.Models.Domain
     {
         public int WerkgeverId { get; set; }
 
-        public string Departement { get; set; }
-
         public string Naam { get; set; }
 
         public string Straat { get; set; }

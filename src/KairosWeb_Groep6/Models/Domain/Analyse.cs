@@ -11,8 +11,7 @@ namespace KairosWeb_Groep6.Models.Domain
         public int AnalyseId { get; set; }
 
         [JsonProperty]
-        public Werkgever Werkgever { get; set; } = new Werkgever();
-
+        public Departement Departement { get; set; } 
         #region Kosten
         [JsonProperty]
         public List<Loonkost> Loonkosten { get; set; } = new List<Loonkost>();

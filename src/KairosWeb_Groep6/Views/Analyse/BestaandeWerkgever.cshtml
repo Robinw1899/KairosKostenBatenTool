@@ -12,8 +12,11 @@
         <div class="form-group col-md-offset-2">
             <label for="naam" class="control-label">Zoekterm</label>
             <div class="">
-                <input type="text" id="naam" name="naam" class="form-control" placeholder="Zoekterm" />
+                <input type="text" id="naam" name="naam" class="form-control input-maxwidth" placeholder="Zoekterm" />
             </div>
+        </div>
+        <div class="form-group col-md-offset-4">
+            <a asp-controller="Analyse" asp-action="NieuweAnalyse" class="btn btn-default">Terug</a>
         </div>
     </form>
 </div>

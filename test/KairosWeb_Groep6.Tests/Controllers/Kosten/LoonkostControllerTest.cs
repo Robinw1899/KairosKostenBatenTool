@@ -23,7 +23,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         public LoonkostControllerTest()
         {
             _controller = new LoonkostenController(_analyseRepository.Object);
-            _analyse = new Analyse { Loonkost = _dbContext.GeefLoonkosten()};
+            _analyse = new Analyse { Loonkosten = _dbContext.Loonkosten};
             _analyseRepository = new Mock<AnalyseRepository>();
             _dbContext = new DummyApplicationDbContext();
         }
