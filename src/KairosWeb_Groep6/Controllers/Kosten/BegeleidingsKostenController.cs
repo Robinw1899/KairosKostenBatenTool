@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
@@ -6,6 +7,7 @@ using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
@@ -53,6 +55,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
+
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
 
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
@@ -109,6 +113,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
+
                 return RedirectToAction("Index", model);
             }
 
@@ -131,6 +137,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             PlaatsTotaalInViewData(analyse);
 
             TempData["message"] = "De kost is succesvol verwijderd.";
+
+            analyse.DatumLaatsteAanpassing = DateTime.Now;
 
             return View("Index", model);
         }

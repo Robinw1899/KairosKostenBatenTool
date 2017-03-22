@@ -64,6 +64,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
+
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
@@ -121,6 +123,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
+
                 return RedirectToAction("Index", model);
             }
             PlaatsTotaalInViewData(analyse);
@@ -143,6 +147,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             PlaatsTotaalInViewData(analyse);
 
             TempData["message"] = "De waarden zijn succesvol verwijderd.";
+
+            analyse.DatumLaatsteAanpassing = DateTime.Now;
 
             return View("Index", model);
         }
