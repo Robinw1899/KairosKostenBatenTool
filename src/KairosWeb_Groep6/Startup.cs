@@ -58,9 +58,16 @@ namespace KairosWeb_Groep6
                     options.Password.RequiredLength = 6;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddErrorDescriber<KairosIdentityErrorDescriber>();
 
-            services.AddMvc();
+            services.AddMvc(
+                options =>
+                {
+                    options.ModelBindingMessageProvider
+                        .ValueMustBeANumberAccessor = s => "Het veld {0} mag enkel een getal bevatten.";
+                })
+                .AddDataAnnotationsLocalization();
             services.AddSession();
 
             // Add application services.
