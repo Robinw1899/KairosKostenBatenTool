@@ -64,7 +64,12 @@
         </div>
     </form>
 </div>
-
+<div class="row col-md-offset-2">
+    <div class="col-md-5 text-right">
+        <a asp-controller="Baten" asp-action="MedewerkerHogerNiveau" style="margin-left: 15px" class="btn btn-default">❮ Medewerker hoger niveau </a>
+        <a asp-controller="Baten" asp-action="ExtraOmzet" style="margin-left: 15px" class="btn btn-success">Extra omzet ❯</a>
+    </div>
+</div>
 @section scripts{
     <script>
         if (@Model.Bedrag > 0) {
