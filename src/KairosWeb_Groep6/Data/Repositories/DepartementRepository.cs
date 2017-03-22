@@ -18,12 +18,14 @@ namespace KairosWeb_Groep6.Data.Repositories
         public IEnumerable<Departement> GetAll()
         {
             return _departementen
+                .Include(d => d.Werkgever)
                 .AsNoTracking();
         }
 
         public IEnumerable<Departement> GetByName(string naam)
         {
             return _departementen
+                .Include(d => d.Werkgever)
                 .Where(d => d.Werkgever.Naam.Contains(naam))
                 .ToList();
         }
@@ -31,6 +33,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public Departement GetById(int id)
         {
             return _departementen
+                .Include(d => d.Werkgever)
                 .SingleOrDefault(w => w.DepartementId == id);
         }
 

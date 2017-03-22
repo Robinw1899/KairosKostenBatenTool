@@ -30,13 +30,13 @@ namespace KairosWeb_Groep6.Data
             if (_dbContext.Database.EnsureCreated())
             {
                 Werkgever werkgever = new Werkgever("VDAB", "Vooruitgangstraat", 1, 9300, "Aalst", 37);
-                _departementRepository.Add(new Departement("R&D") {Werkgever = werkgever});
+                _departementRepository.Add(new Departement("Onderhoudsdienst") {Werkgever = werkgever});
 
                 werkgever = new Werkgever("ALDI", "Leo Duboistraat", 20, 9280, "Lebbeke", 37);
-                _departementRepository.Add(new Departement("R&D") { Werkgever = werkgever });
+                _departementRepository.Add(new Departement("Aankoop") { Werkgever = werkgever });
 
                 werkgever = new Werkgever("Coolblue", "Medialaan", 1, 1000, "Brussel", 35);
-                _departementRepository.Add(new Departement("R&D") { Werkgever = werkgever });
+                _departementRepository.Add(new Departement("Human resources") { Werkgever = werkgever });
 
                 _departementRepository.Save();
 
