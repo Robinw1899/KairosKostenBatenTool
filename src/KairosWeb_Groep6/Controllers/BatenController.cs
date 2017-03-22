@@ -41,7 +41,7 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult ExterneInkopen()
         {
-            return RedirectToAction("Index", "Subsidie");
+            return RedirectToAction("Index", "ExterneInkopen");
         }
 
         public IActionResult Subsidies()

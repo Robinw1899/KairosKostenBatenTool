@@ -86,12 +86,14 @@
         </li>
     </ul>
 </div>
-    <div class="row col-md-offset-2">
-        <div class="col-md-5 text-right">
-            <a asp-controller="Kosten" asp-action="Index" class="btn btn-default">❮ Kosten</a>
-            <a asp-controller="Resultaten" asp-action="Index" style="margin-left:15px" class="btn btn-success">Resultaat ❯</a>
-        </div>
+<div class="row">
+    <div class="col-xs-10 .col-md-10">
+        <a asp-controller="Kosten" asp-action="Index" class="btn btn-default">❮ Kosten</a>
     </div>
+    <div class="col-xs-2 .col-md-2">
+        <a asp-controller="Resultaten" asp-action="Index" style="margin-left:15px" class="btn btn-success">Resultaat ❯</a>
+    </div>
+</div>
 @section scripts {
     <script>
         $(document).ready(function(){

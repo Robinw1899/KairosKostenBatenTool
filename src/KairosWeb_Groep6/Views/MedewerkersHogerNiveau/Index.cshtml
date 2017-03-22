@@ -64,12 +64,16 @@
         </div>
     </form>
 </div>
-<div class="row col-md-offset-2">
-    <div class="col-md-5 text-right">
+
+<div class="row">
+    <div class="col-xs-9 .col-md-9">
         <a asp-controller="Baten" asp-action="MedewerkerZelfdeNiveau" style="margin-left: 15px" class="btn btn-default">❮ Medewerker zelfde niveau </a>
-        <a asp-controller="Baten" asp-action="UitzendKrachtBesparingen" style="margin-left: 15px" class="btn btn-success">Uitzendkracht besparingen ❯</a>
+    </div>
+    <div class="col-xs-3 .col-md-3">
+        <a asp-controller="Baten" asp-action="UitzendKrachtBesparingen" style="margin-left: 35px" class="btn btn-success">Uitzendkracht besparingen ❯</a>
     </div>
 </div>
+
 @section scripts{
     <script>
         if (@Model.Uren !== 0 && @Model.BrutoMaandloonFulltime !== 0) {
