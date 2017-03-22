@@ -42,6 +42,7 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult Opslaan(Analyse analyse, WerkgeverViewModel model)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId);
             Departement departement = _departementRepository.GetById(model.DepartementId);
             Werkgever werkgever = departement.Werkgever;
 

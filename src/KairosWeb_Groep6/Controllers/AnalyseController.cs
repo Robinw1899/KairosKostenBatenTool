@@ -48,6 +48,8 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult NieuweWerkgever(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId);
+
             // nieuwe werkgever aanmaken voor de analyse
             analyse.Departement = new Departement();
             analyse.Departement.Werkgever = new Werkgever();
@@ -55,6 +57,8 @@ namespace KairosWeb_Groep6.Controllers
             // model aanmaken
             WerkgeverViewModel model = new WerkgeverViewModel(analyse.Departement);
 
+            _analyseRepository.Save();
+            
             // view returnen
             return View(model);
         }
@@ -116,6 +120,7 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult SelecteerBestaandeWerkgever(Analyse analyse, int id)
         {// nog verder veranderen naar redirect naar ResultaatController
+            //analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
             Departement departement = _departementRepository.GetById(id);
             analyse.Departement = departement;

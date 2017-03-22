@@ -34,7 +34,7 @@
                 <td>@kost.Doelgroep</td>
                 <td>@(kost.Ondersteuningspremie) %</td>
                 <td>@kost.AantalMaandenIBO</td>
-                <th>@kost.Bedrag</th>
+                <th>@(kost.Bedrag.ToString("C"))</th>
                 <td>
                     <div class="options">
                         <a asp-action="Bewerk" asp-route-id="@kost.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -45,11 +45,17 @@
         }
 
         <tr class="alert alert-success">
-            <td colspan="4" class="text-right">
-                Totaal:
+            <td colspan="2" class="text-right">
+                <b>Totaal per jaar:</b>
             </td>
-            <td colspan="4">
-                @(ViewData["totaal"])
+            <td colspan="3">
+                <b>@(ViewData["totaalBrutolonen"])</b>
+            </td>
+            <td class="text-right">
+                <b>Totaal:</b>
+            </td>
+            <td colspan="2">
+                <b>@(ViewData["totaalLoonkosten"])</b>
             </td>
         </tr>
     }
