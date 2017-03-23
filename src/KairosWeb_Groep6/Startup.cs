@@ -65,7 +65,7 @@ namespace KairosWeb_Groep6
                 options =>
                 {
                     options.ModelBindingMessageProvider
-                        .ValueMustBeANumberAccessor = s => "Het veld {0} mag enkel een getal bevatten.";
+                        .ValueMustBeANumberAccessor = s => "Dit veld mag enkel een getal bevatten.";
                 })
                 .AddDataAnnotationsLocalization();
             services.AddSession();
@@ -74,6 +74,7 @@ namespace KairosWeb_Groep6
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<AnalyseFilter>();
+            services.AddScoped<JobcoachFilter>();
             services.AddScoped<IJobcoachRepository, JobcoachRepository>();
             services.AddScoped<IDepartementRepository, DepartementRepository>();
             services.AddScoped<IAnalyseRepository, AnalyseRepository>();

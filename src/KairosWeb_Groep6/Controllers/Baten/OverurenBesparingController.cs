@@ -30,8 +30,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 // de baat bestaat reeds:
                 OverurenBesparing baat = new OverurenBesparing
                 {
-                    //Id = model.Id,
-                    Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     Bedrag = model.Bedrag

@@ -40,8 +40,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 // de baat bestaat reeds:
                 MedewerkerNiveauBaat baat = new MedewerkerNiveauBaat
                 {
-                    //Id = model.Id,
-                    Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     Uren = model.Uren,
@@ -53,14 +51,13 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
-              
 
-                return PartialView("_OverzichtTabel", model.ViewModels);
+                return View("Index", model);
             }
 
             PlaatsTotaalInViewData(analyse);
 
-            return RedirectToAction("Index", model);
+            return View("Index", model);
         }
 
         public IActionResult Bewerk(Analyse analyse, int id)
@@ -102,11 +99,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
                 TempData["message"] = "De waarden zijn succesvol opgeslagen.";
-
-                return RedirectToAction("Index", model);
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -142,7 +136,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                                 .MedewerkersZelfdeNiveauBaat
                                 .Select(m => new MedewerkerNiveauBaatViewModel(m)
                     {
-                        Bedrag = m.BerekenTotaleLoonkostPerJaar(analyse.Departement.Werkgever.AantalWerkuren, 
+                        Bedrag = analyse.Departement == null
+                        ? 0 : m.BerekenTotaleLoonkostPerJaar(analyse.Departement.Werkgever.AantalWerkuren, 
                                                                 analyse.Departement.Werkgever.PatronaleBijdrage)
                     })
             };
@@ -162,12 +157,20 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
-                analyse.MedewerkersZelfdeNiveauBaat,
-                analyse.Departement.Werkgever.AantalWerkuren,
-                analyse.Departement.Werkgever.PatronaleBijdrage);
+            if(analyse.Departement != null) { 
+                double totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                    analyse.MedewerkersZelfdeNiveauBaat,
+                    analyse.Departement.Werkgever.AantalWerkuren,
+                    analyse.Departement.Werkgever.PatronaleBijdrage);
 
-            ViewData["totaal"] = totaal.ToString("C");
+                ViewData["totaal"] = totaal.ToString("C");
+            }
+            else
+            {
+                ViewData["totaal"] = 0;
+                TempData["error"] = "Opgelet! U heeft nog geen werkgever geselecteerd. Er zal dus nog geen resultaat " +
+                                    "berekend worden bij deze kost.";
+            }
         }
     }
 }

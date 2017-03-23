@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
@@ -6,6 +7,7 @@ using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
@@ -54,12 +56,14 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                return PartialView("_OverzichtTabel", model.ViewModels);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
+
+                return View("Index", model);
             }
 
             PlaatsTotaalInViewData(analyse);
 
-            return RedirectToAction("Index", model);
+            return View("Index", model);
         }
 
         public IActionResult Bewerk(Analyse analyse, int id)
@@ -109,7 +113,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                return RedirectToAction("Index", model);
+                if (analyse.Departement == null)
+                {
+                    // return de View zodat de error rond de werkgever toch getoond wordt
+                    return View("Index", model);
+                }
+
+                return View("Index", model);
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -152,7 +162,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                                 .BegeleidingsKosten
                                 .Select(m => new BegeleidingsKostViewModel(m)
                                                 {
-                                                    Bedrag = m.GeefJaarbedrag(analyse.Departement.Werkgever.PatronaleBijdrage)
+                                                    Bedrag = analyse.Departement == null
+                                                        ? 0 : 
+                                                        m.GeefJaarbedrag(analyse.Departement.Werkgever.PatronaleBijdrage)
                                                 })
             };
 
@@ -171,10 +183,19 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = BegeleidingsKostExtensions.GeefTotaal(analyse.BegeleidingsKosten, 
-                                                                    analyse.Departement.Werkgever.PatronaleBijdrage);
+            if (analyse.Departement != null)
+            {
+                double totaal = BegeleidingsKostExtensions.GeefTotaal(analyse.BegeleidingsKosten,
+                    analyse.Departement.Werkgever.PatronaleBijdrage);
 
-            ViewData["totaal"] = totaal.ToString("C");
+                ViewData["totaal"] = totaal.ToString("C");
+            }
+            else
+            {
+                ViewData["totaal"] = 0;
+                TempData["error"] = "Opgelet! U heeft nog geen werkgever geselecteerd. Er zal dus nog geen resultaat " +
+                                    "berekend worden bij deze kost.";
+            }
         }
     }
 }
