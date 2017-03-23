@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using KairosWeb_Groep6.Models.Domain;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.OpleidingsKosten;
 using Microsoft.AspNetCore.Mvc;
@@ -54,9 +55,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = $"{model.Beschrijving} is succesvol opgeslagen.";
+                TempData["message"] = "De kost is succesvol opgeslaan.";
 
-                return PartialView("_OverzichtTabel", model.ViewModels);
+                return View("Index", model);
             }
 
             /* PlaatsTotaalInViewData(analyse);*/
@@ -66,8 +67,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            OpleidingsKost kost = analyse.OpleidingsKosten
-                                                .SingleOrDefault(b => b.Id == id);
+            OpleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.OpleidingsKosten, id);
 
             OpleidingsKostIndexViewModel model = MaakModel(analyse);
 
@@ -89,8 +89,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, OpleidingsKostIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            OpleidingsKost kost = analyse.OpleidingsKosten
-                                                 .SingleOrDefault(b => b.Id == model.Id);
+            OpleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.OpleidingsKosten, model.Id);
 
             if (ModelState.IsValid && kost != null)
             {
@@ -106,7 +105,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = $"{model.Beschrijving} is succesvol opgeslagen.";
+                TempData["message"] = "De kost is succesvol opgeslaan.";
 
                 return RedirectToAction("Index", model);
             }
@@ -118,8 +117,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            OpleidingsKost kost = analyse.OpleidingsKosten
-                                                 .SingleOrDefault(b => b.Id == id);
+            OpleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.OpleidingsKosten, id);
             if (kost != null)
             {
                 analyse.OpleidingsKosten.Remove(kost);
@@ -129,7 +127,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             OpleidingsKostIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = $"{model.Beschrijving} is succesvol verwijderd.";
+            TempData["message"] = "De kost is succesvol verwijderd.";
 
             return View("Index", model);
         }
