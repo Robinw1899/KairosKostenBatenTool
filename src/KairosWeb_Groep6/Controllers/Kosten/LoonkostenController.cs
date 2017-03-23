@@ -25,8 +25,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Index(Analyse analyse, bool foutgegeven = false)
         {
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
-
             LoonkostenIndexViewModel model = MaakModel(analyse);
 
             if (IsAjaxRequest())
@@ -43,8 +41,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         [HttpPost]
         public IActionResult VoegToe(Analyse analyse, Jobcoach jobcoach, LoonkostenIndexViewModel model)
         {
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
-
             if (ModelState.IsValid)
             {
                 Loonkost kost = new Loonkost
@@ -62,11 +58,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
-
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-
-                return View("Index", model);
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -78,8 +69,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet bewerkt wordens
             analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
-            Loonkost kost = analyse.Loonkosten
-                                              .SingleOrDefault(b => b.Id == id);
+            Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, id);
 
             LoonkostenIndexViewModel model = MaakModel(analyse);
 
@@ -106,10 +96,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
-            Loonkost kost = analyse.Loonkosten
-                                             .SingleOrDefault(b => b.Id == model.Id);
+            Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, model.Id);
 
-           
+
             if (ModelState.IsValid && kost != null)
             {
                 // parameters voor formulier instellen
@@ -146,9 +135,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
-            Loonkost kost = analyse.Loonkosten
-                                                 .SingleOrDefault(k => k.Id == id);
+            Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, id);
+
             if (kost != null)
             {
                 analyse.Loonkosten.Remove(kost);

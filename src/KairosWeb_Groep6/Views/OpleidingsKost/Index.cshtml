@@ -73,20 +73,7 @@
             $("#Bedrag").val("");
         }
 
-        $("#form").submit(function () {
-            $.post(this.action,
-                $(this).serialize(),
-                function (data) {
-                    $("#data").html(data);
-                    $("#Type").val("");
-                    $("#Bedrag").val("");
-                    //verbergFormulier();
-                });
-
-            return false;
-        });
-
-        $("#Kosten").addClass("active");
+        $("#kosten").addClass("active");
     </script>
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
