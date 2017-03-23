@@ -113,8 +113,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-
                 if (analyse.Departement == null)
                 {
                     // return de View zodat de error rond de werkgever toch getoond wordt
@@ -143,8 +141,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             PlaatsTotaalInViewData(analyse);
 
             TempData["message"] = "De kost is succesvol verwijderd.";
-
-            analyse.DatumLaatsteAanpassing = DateTime.Now;
 
             return View("Index", model);
         }

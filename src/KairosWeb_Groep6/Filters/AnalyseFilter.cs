@@ -1,4 +1,5 @@
-﻿using KairosWeb_Groep6.Models.Domain;
+﻿using System;
+using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
@@ -31,6 +32,7 @@ namespace KairosWeb_Groep6.Filters
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             WriteAnalyseToSession(context.HttpContext, _analyse);
+            _analyse.DatumLaatsteAanpassing = DateTime.Now;
             _analyseRepository.Save();
             base.OnActionExecuted(context);
         }

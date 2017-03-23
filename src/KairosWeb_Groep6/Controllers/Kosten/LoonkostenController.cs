@@ -124,8 +124,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-
                 if (model.Doelgroep == null)
                 {
                     TempData["error"] =
@@ -161,8 +159,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             PlaatsTotaalInViewData(analyse);
 
             TempData["message"] = "De waarden zijn succesvol verwijderd.";
-
-            analyse.DatumLaatsteAanpassing = DateTime.Now;
 
             return View("Index", model);
         }
