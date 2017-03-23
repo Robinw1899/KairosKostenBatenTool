@@ -40,7 +40,7 @@
             <a asp-controller="Baten" asp-action="UitzendKrachtBesparingen"
                data-toggle="tooltip" data-placement="bottom"
                title="Welke besparing denkt de werkgever jaarlijks te kunnen maken op uitzendkrachten?">
-                @if (Model.UitzendKrachtBesparingen != null)
+                @if (Model.UitzendKrachtBesparingen.Count != 0)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Besparingen op uitzendkrachten

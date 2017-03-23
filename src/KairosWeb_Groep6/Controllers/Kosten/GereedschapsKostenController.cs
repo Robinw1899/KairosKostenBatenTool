@@ -1,12 +1,16 @@
 ﻿using System.Linq;
+using KairosWeb_Groep6.Filters;
 using Microsoft.AspNetCore.Mvc;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.GereedschapsKostenViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
+    [Authorize]
+    [ServiceFilter(typeof(AnalyseFilter))]
     public class GereedschapsKostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
@@ -45,9 +49,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
-
-                return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -99,7 +100,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 TempData["message"] = "De kost is succesvol opgeslagen.";
 
-                return RedirectToAction("Index", model);
+                return View("Index", model);
             }
 
             PlaatsTotaalInViewData(analyse);
