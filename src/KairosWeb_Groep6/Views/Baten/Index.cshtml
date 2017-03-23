@@ -1,4 +1,5 @@
-﻿@{
+﻿@model KairosWeb_Groep6.Models.Domain.Analyse
+@{
     ViewData["title"] = "Baten";
 }
 
@@ -19,21 +20,30 @@
             <a asp-controller="Baten" asp-action="MedewerkerZelfdeNiveau"
                data-toggle="tooltip" data-placement="bottom"
                title="Zullen er (deels) medewerkers op hetzelfde niveau als de nieuwe medewerker vervangen worden?">
-                Medewerkers op zelfde niveau vervangen
+                @if (Model.MedewerkersZelfdeNiveauBaat.Count != 0)
+                {
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                } Medewerkers op zelfde niveau vervangen
             </a>
         </li>
         <li>
             <a asp-controller="Baten" asp-action="MedewerkerHogerNiveau"
                data-toggle="tooltip" data-placement="bottom"
                title="Zullen er (deels) medewerkers op een hoger niveau als de nieuwe medewerker vervangen worden?">
-                Medewerkers op hoger niveau vervangen
+                @if (Model.MedewerkersHogerNiveauBaat.Count != 0)
+                {
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                } Medewerkers op hoger niveau vervangen
             </a>
         </li>
         <li>
             <a asp-controller="Baten" asp-action="UitzendKrachtBesparingen"
                data-toggle="tooltip" data-placement="bottom"
                title="Welke besparing denkt de werkgever jaarlijks te kunnen maken op uitzendkrachten?">
-                Besparingen op uitzendkrachten
+                @if (Model.UitzendKrachtBesparingen != null)
+                {
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                } Besparingen op uitzendkrachten
             </a>
         </li>
         <li>
@@ -41,7 +51,10 @@
                data-toggle="tooltip" data-placement="bottom"
                title="Mist de werkgever vandaag omzet doordat hij personeel tekort komt?
                Hoeveel meer omzet denkt de werkgever jaarlijks te kunnen realiseren door inzet van mensen met een grote afstand tot de arbeidsmarkt?">
-                Extra omzet
+                @if (Model.ExtraOmzet != null)
+                {
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                } Extra omzet
             </a>
         </li>
         <li>
@@ -49,14 +62,20 @@
                data-toggle="tooltip" data-placement="bottom"
                title="Hoeveel extra productiviteit denkt de werkgever jaarlijks
                te kunnen maken door inzet van mensen met een grote afstand tot de arbeidsmarkt?">
-                Extra productiviteit
+                @if (Model.ExtraProductiviteit != null)
+                {
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                } Extra productiviteit
             </a>
         </li>
         <li>
             <a asp-controller="Baten" asp-action="OverurenBesparingen"
                data-toggle="tooltip" data-placement="bottom"
                title="Hoeveel denkt de werkgever jaarlijks te kunnen besparen op overuren door inzet van mensen met een grote afstand tot de arbeidsmarkt?">
-                Besparingen op overuren
+                @if (Model.OverurenBesparing != null)
+                {
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                } Besparingen op overuren
             </a>
         </li>
         <li>
@@ -67,24 +86,41 @@
                Wat zijn de transportkosten van eventueel uitbesteedde zaken?
                Wat zijn de logistieke handlingskosten van eventueel uitbesteedde zaken?
                Hoeveel denkt de werkgever te kunnen besparen?">
-                Externe inkopen, transportskosten en logistieke handlingskosten
+                @if (Model.ExterneInkopen.Count != 0)
+                {
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                } Externe inkopen, transportskosten en logistieke handlingskosten
             </a>
         </li>
         <li>
             <a asp-controller="Baten" asp-action="Subsidies"
                data-toggle="tooltip" data-placement="bottom"
                title="Welk bedrag krijgt de werkgever aan subsidie voor eventuele aanpassingen aan de werkomgeving?">
-                Subsidie
+                @if (Model.Subsidie != null)
+                {
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                } Subsidie
             </a>
         </li>
         <li>
             <a asp-controller="Baten" asp-action="ExtraBesparingen"
                data-toggle="tooltip" data-placement="bottom"
                title="Aan welke besparingen kan er nog meer gedacht worden?">
-                Extra besparingen
+                @if (Model.ExtraBesparingen.Count != 0)
+                {
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                } Extra besparingen
             </a>
         </li>
     </ul>
+</div>
+<div class="row">
+    <div class="col-xs-10 .col-md-10">
+        <a asp-controller="Kosten" asp-action="Index" class="btn btn-default">❮ Kosten</a>
+    </div>
+    <div class="col-xs-2 .col-md-2">
+        <a asp-controller="Resultaten" asp-action="Index" style="margin-left:15px" class="btn btn-success">Resultaat ❯</a>
+    </div>
 </div>
 @section scripts {
     <script>

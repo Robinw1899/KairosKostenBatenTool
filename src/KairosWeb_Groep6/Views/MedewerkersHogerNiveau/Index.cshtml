@@ -65,6 +65,15 @@
     </form>
 </div>
 
+<div class="row">
+    <div class="col-xs-9 .col-md-9">
+        <a asp-controller="Baten" asp-action="MedewerkerZelfdeNiveau" style="margin-left: 15px" class="btn btn-default">❮ Medewerker zelfde niveau </a>
+    </div>
+    <div class="col-xs-3 .col-md-3">
+        <a asp-controller="Baten" asp-action="UitzendKrachtBesparingen" style="margin-left: 35px" class="btn btn-success">Uitzendkracht besparingen ❯</a>
+    </div>
+</div>
+
 @section scripts{
     <script>
         if (@Model.Uren !== 0 && @Model.BrutoMaandloonFulltime !== 0) {
@@ -73,19 +82,6 @@
             $("#uren").val("");
             $("#brutoloon").val("");
         }
-
-        $("#form").submit(function () {
-            $.post(this.action,
-                $(this).serialize(),
-                function (data) {
-                    $("#data").html(data);
-                    $("#uren").val("");
-                    $("#brutoloon").val("");
-                    //verbergFormulier();
-                });
-
-            return false;
-        });
 
         $("#baten").addClass("active");
     </script>

@@ -24,9 +24,8 @@ namespace KairosWeb_Groep6.Models.ManageViewModels
         public string Voornaam { get; set; }
 
         [Required]
-        [EmailAddress]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Een e-mail moet een '@' bevatten en moet eindigen op iets zoals '.be' of '.com'")]
         [Display(Name = "Emailadres")]
-        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}", ErrorMessage = "Email adres is niet gelding")]
         public string Email { get; set; }
 
         /*info organisatie*/

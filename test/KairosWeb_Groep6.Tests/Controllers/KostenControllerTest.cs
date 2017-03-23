@@ -55,7 +55,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestLoonKosten_RedirectsToLoonKostenController()
         {
-            var result = _controller.LoonKosten() as RedirectToActionResult;
+            var result = _controller.Loonkosten() as RedirectToActionResult;
             Assert.Equal("LoonKosten", result?.ControllerName);
             Assert.Equal("Index", result?.ActionName);
         }

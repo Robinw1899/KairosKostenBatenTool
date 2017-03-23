@@ -11,22 +11,26 @@ namespace KairosWeb_Groep6.Controllers
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
+    [ServiceFilter(typeof(JobcoachFilter))]
     public class AnalyseController : Controller
     {
         #region Properties
 
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IDepartementRepository _departementRepository;
+        private readonly IJobcoachRepository _jobcoachRepository;
         #endregion
 
         #region Constructors
 
         public AnalyseController(
             IAnalyseRepository analyseRepository,
-            IDepartementRepository werkgeverRepository)
+            IDepartementRepository werkgeverRepository,
+            IJobcoachRepository jobcoachRepository)
         {
             _analyseRepository = analyseRepository;
             _departementRepository = werkgeverRepository;
+            _jobcoachRepository = jobcoachRepository;
         }
         #endregion
 
@@ -35,10 +39,17 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", "Baten");
         }
 
-        public IActionResult NieuweAnalyse(Analyse analyse)
-        {// hier word gekozen tussen een nieuwe of bestaande werkgever
+        public IActionResult NieuweAnalyse(Analyse analyse, Jobcoach jobcoach)
+        {//hier word gekozen tussen een nieuwe of bestaande werkgever
             if (analyse.AnalyseId == 0)
             {
+                if (jobcoach != null)
+                {
+                    jobcoach = _jobcoachRepository.GetById(jobcoach.JobcoachId);
+                    jobcoach.Analyses.Add(analyse);
+                    _jobcoachRepository.Save();
+                }
+
                 _analyseRepository.Add(analyse);
                 _analyseRepository.Save();
             }

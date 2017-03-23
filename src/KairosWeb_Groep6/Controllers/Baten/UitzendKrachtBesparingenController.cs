@@ -37,8 +37,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 // de baat bestaat reeds:
                 UitzendKrachtBesparing baat = new UitzendKrachtBesparing
                 {
-                    //Id = model.Id,
-                    Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     Beschrijving = model.Beschrijving,
@@ -117,7 +115,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
                                                     .SingleOrDefault(u => u.Id == id);
 
             analyse.UitzendKrachtBesparingen.Remove(baat);
-            // hier moet nog extra komen wnr db werkt
             _analyseRepository.Save();
 
             UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);

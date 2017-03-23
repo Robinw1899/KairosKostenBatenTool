@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
@@ -41,7 +42,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             if (ModelState.IsValid)
             {
-              ExtraKost kost = new ExtraKost
+                ExtraKost kost = new ExtraKost
                 {
                     Type = model.Type,
                     Soort = model.Soort,
@@ -54,6 +55,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
+
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
 
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }

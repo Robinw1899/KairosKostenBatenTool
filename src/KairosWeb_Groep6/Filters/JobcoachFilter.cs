@@ -1,21 +1,20 @@
-﻿using KairosWeb_Groep6.Data.Repositories;
-using KairosWeb_Groep6.Models.Domain;
+﻿using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace KairosWeb_Groep6.Filters
 {
-    public class GebruikerFilter : ActionFilterAttribute
+    public class JobcoachFilter : ActionFilterAttribute
     {
         private readonly IJobcoachRepository _gebruikerRepository;
 
-        public GebruikerFilter(IJobcoachRepository repo)
+        public JobcoachFilter(IJobcoachRepository repo)
         {
             _gebruikerRepository = repo;
         }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            context.ActionArguments["gebruiker"] = context.HttpContext.User.Identity.IsAuthenticated
+            context.ActionArguments["jobcoach"] = context.HttpContext.User.Identity.IsAuthenticated
                 ? _gebruikerRepository.GetByEmail(context.HttpContext.User.Identity.Name)
                 : null;
 
