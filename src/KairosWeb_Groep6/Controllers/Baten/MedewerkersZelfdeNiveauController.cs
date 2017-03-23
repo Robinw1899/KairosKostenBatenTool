@@ -51,7 +51,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
-              
 
                 return View("Index", model);
             }
@@ -100,17 +99,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
                 TempData["message"] = "De waarden zijn succesvol opgeslagen.";
-
-                if (analyse.Departement == null)
-                {
-                    // return de View zodat de error rond de werkgever toch getoond wordt
-                    return View("Index", model);
-                }
-
-                return View("Index", model);
             }
 
             PlaatsTotaalInViewData(analyse);

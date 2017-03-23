@@ -23,7 +23,6 @@ namespace KairosWeb_Groep6.Filters
             {// geen nieuwe analyse
                 _analyse = _analyseRepository.GetById(_analyse.AnalyseId);
             }
-
            
             context.ActionArguments["analyse"] = _analyse;
             base.OnActionExecuting(context);

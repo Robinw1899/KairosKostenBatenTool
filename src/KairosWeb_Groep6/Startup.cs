@@ -74,6 +74,7 @@ namespace KairosWeb_Groep6
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<AnalyseFilter>();
+            services.AddScoped<JobcoachFilter>();
             services.AddScoped<IJobcoachRepository, JobcoachRepository>();
             services.AddScoped<IDepartementRepository, DepartementRepository>();
             services.AddScoped<IAnalyseRepository, AnalyseRepository>();

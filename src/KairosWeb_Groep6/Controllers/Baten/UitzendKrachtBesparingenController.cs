@@ -115,7 +115,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
                                                     .SingleOrDefault(u => u.Id == id);
 
             analyse.UitzendKrachtBesparingen.Remove(baat);
-            // hier moet nog extra komen wnr db werkt
             _analyseRepository.Save();
 
             UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);
