@@ -12,7 +12,7 @@ namespace KairosWeb_Groep6.Data.Repositories
 
         public AnalyseRepository()
         {
-            // enkel voor Mock
+            
         }
 
         public AnalyseRepository(ApplicationDbContext dbContext)

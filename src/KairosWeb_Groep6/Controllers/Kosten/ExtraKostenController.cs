@@ -41,8 +41,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             if (ModelState.IsValid)
             {
-                // de baat bestaat reeds:
-                ExtraKost kost = new ExtraKost
+              ExtraKost kost = new ExtraKost
                 {
                     Type = model.Type,
                     Soort = model.Soort,
@@ -66,8 +65,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            //ExtraKost kost = analyse.ExtraKosten
-            //                                    .SingleOrDefault(b => b.Id == id);
             ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
 
             ExtraKostenIndexViewModel model = MaakModel(analyse);

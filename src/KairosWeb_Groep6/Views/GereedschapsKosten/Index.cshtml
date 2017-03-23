@@ -74,8 +74,8 @@
 
 @section scripts{
     <script>
-        if (@Model.Bedrag > 0) {
-            toonFormulier();
+        if (@Model.Bedrag !== 0) {
+            siteView.toonFormulier();
         } else {
             $("#beschrijving").val("");
             $("#bedrag").val("");
@@ -93,7 +93,7 @@
             return false;
         });
 
-        $("#baten").addClass("active");
+        $("#kosten").addClass("active");
 
     </script>
 
