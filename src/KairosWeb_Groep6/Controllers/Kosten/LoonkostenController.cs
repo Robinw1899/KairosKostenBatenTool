@@ -18,7 +18,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
     {
         private readonly IAnalyseRepository _analyseRepository;
 
-        public LoonkostenController(IAnalyseRepository analyseRepository)
+        public LoonkostenController(IAnalyseRepository analyseRepository, IJobcoachRepository jobcoachRepository)
         {
             _analyseRepository = analyseRepository;
         }
@@ -41,7 +41,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         }
 
         [HttpPost]
-        public IActionResult VoegToe(Analyse analyse, LoonkostenIndexViewModel model)
+        public IActionResult VoegToe(Analyse analyse, Jobcoach jobcoach, LoonkostenIndexViewModel model)
         {
             analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
