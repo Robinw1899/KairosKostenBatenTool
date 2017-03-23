@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels;
 
 namespace KairosWeb_Groep6.Controllers.Baten
@@ -47,22 +48,18 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = $"{model.Beschrijving} is succesvol opgeslagen.";
-
-                return PartialView("_OverzichtTabel", model.ViewModels);
+                TempData["message"] = "De baat is succesvol toegevoegd.";
             }
 
-           /* PlaatsTotaalInViewData(analyse);*/
+            PlaatsTotaalInViewData(analyse);
 
             return RedirectToAction("Index", model);
         }
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            ExterneInkoop baat = analyse.ExterneInkopen
-                                                .SingleOrDefault(b => b.Id == id);
+            ExterneInkoop baat = KostOfBaatExtensions.GetBy(analyse.ExterneInkopen, id);
 
             ExterneInkopenIndexViewModel model = MaakModel(analyse);
 
@@ -84,8 +81,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, ExterneInkopenIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            ExterneInkoop baat = analyse.ExterneInkopen
-                                                 .SingleOrDefault(b => b.Id == model.Id);
+            ExterneInkoop baat = KostOfBaatExtensions.GetBy(analyse.ExterneInkopen, model.Id);
 
             if (ModelState.IsValid && baat != null)
             {
@@ -101,7 +97,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = $"{model.Beschrijving} is succesvol opgeslagen.";
+                TempData["message"] = "De baat is succesvol opgeslaan.";
 
                 return RedirectToAction("Index", model);
             }
@@ -113,8 +109,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            ExterneInkoop baat = analyse.ExterneInkopen
-                                                 .SingleOrDefault(b => b.Id == id);
+            ExterneInkoop baat = KostOfBaatExtensions.GetBy(analyse.ExterneInkopen, id);
+
             if (baat != null)
             {
                 analyse.ExterneInkopen.Remove(baat);
@@ -124,7 +120,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             ExterneInkopenIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = $"{model.Beschrijving} is succesvol verwijderd.";
+            TempData["message"] = "De baat is succesvol verwijderd.";
 
             return View("Index", model);
         }

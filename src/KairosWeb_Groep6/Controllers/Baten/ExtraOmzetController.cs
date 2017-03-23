@@ -41,7 +41,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
                 model = MaakModel(analyse);
 
-                TempData["message"] = "De waarden zijn succesvol opgeslagen.";
+                TempData["message"] = "De baat is succesvol opgeslaan.";
             }
 
             return View("Index", model);

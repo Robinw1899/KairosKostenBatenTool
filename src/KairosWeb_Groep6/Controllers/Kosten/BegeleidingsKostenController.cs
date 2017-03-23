@@ -54,11 +54,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
-
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-
-                return View("Index", model);
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -68,8 +63,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            BegeleidingsKost kost = analyse.BegeleidingsKosten
-                                                .SingleOrDefault(b => b.Id == id);
+            BegeleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, id);
 
             BegeleidingsKostenIndexViewModel model = MaakModel(analyse);
 
@@ -96,8 +90,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, BegeleidingsKostenIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            BegeleidingsKost kost = analyse.BegeleidingsKosten
-                                                 .SingleOrDefault(b => b.Id == model.Id);
+            BegeleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, model.Id);
 
             if (ModelState.IsValid && kost != null)
             {
@@ -129,8 +122,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            BegeleidingsKost baat = analyse.BegeleidingsKosten
-                                                 .SingleOrDefault(b => b.Id == id);
+            BegeleidingsKost baat = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, id);
             if (baat != null)
             {
                 analyse.BegeleidingsKosten.Remove(baat);

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraBesparingViewModels;
 
 namespace KairosWeb_Groep6.Controllers.Baten
@@ -48,9 +49,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
-                return PartialView("_OverzichtTabel", model.ViewModels);
+                TempData["message"] = "De baat is succesvol toegevoegd.";
             }
 
             return RedirectToAction("Index", model);
@@ -58,8 +58,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            ExtraBesparing baat = analyse.ExtraBesparingen
-                                                .SingleOrDefault(b => b.Id == id);
+            ExtraBesparing baat = KostOfBaatExtensions.GetBy(analyse.ExtraBesparingen, id);
 
             ExtraBesparingIndexViewModel model = MaakModel(analyse);
 
@@ -81,8 +80,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, ExtraBesparingIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            ExtraBesparing baat = analyse.ExtraBesparingen
-                                                 .SingleOrDefault(b => b.Id == model.Id);
+            ExtraBesparing baat = KostOfBaatExtensions.GetBy(analyse.ExtraBesparingen, model.Id);
 
             if (ModelState.IsValid && baat != null)
             {
@@ -98,6 +96,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
+                TempData["message"] = "De baat is succesvol opgeslaan.";
+
                 return RedirectToAction("Index", model);
             }
 
@@ -108,8 +108,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            ExtraBesparing baat = analyse.ExtraBesparingen
-                                                 .SingleOrDefault(b => b.Id == id);
+            ExtraBesparing baat = KostOfBaatExtensions.GetBy(analyse.ExtraBesparingen, id);
             if (baat != null)
             {
                 analyse.ExtraBesparingen.Remove(baat);
@@ -118,6 +117,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
             ExtraBesparingIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
+
+            TempData["message"] = "De baat is succesvol verwijderd.";
 
             return View("Index", model);
         }

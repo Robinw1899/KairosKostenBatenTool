@@ -54,11 +54,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
-
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-
-                return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
             PlaatsTotaalInViewData(analyse);

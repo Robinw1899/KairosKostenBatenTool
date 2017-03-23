@@ -93,18 +93,6 @@
             $("#bedrag").val("");
         }
 
-        $("#form").submit(function() {
-            $.post(this.action,
-                $(this).serialize(),
-                function(data) {
-                    $("#data").html(data);
-                    $("#beschrijving").val("");
-                    $("#bedrag").val("");
-                });
-
-            return false;
-        });
-
         $("#baten").addClass("active");
 
     </script>

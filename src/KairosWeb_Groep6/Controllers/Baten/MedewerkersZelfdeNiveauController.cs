@@ -50,9 +50,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
-                return View("Index", model);
+                TempData["message"] = "De baat is succesvol toegevoegd.";
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -62,8 +61,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat
-                                                .SingleOrDefault(b => b.Id == id);
+            MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, id);
 
             MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
 
@@ -85,8 +83,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, MedewerkerNiveauIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat
-                                                 .SingleOrDefault(b => b.Id == model.Id);
+            MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, model.Id);
 
             if (ModelState.IsValid && baat != null)
             {
@@ -100,7 +97,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
                 model = MaakModel(analyse);
 
-                TempData["message"] = "De waarden zijn succesvol opgeslagen.";
+                TempData["message"] = "De baat is succesvol opgeslaan.";
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -110,8 +107,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersZelfdeNiveauBaat
-                                                 .SingleOrDefault(b => b.Id == id);
+            MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, id);
+
             if (baat != null)
             {
                 analyse.MedewerkersZelfdeNiveauBaat.Remove(baat);
@@ -121,7 +118,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = "De waarden zijn succesvol verwijderd.";
+            TempData["message"] = "De baat is succesvol verwijderd.";
 
             return View("Index", model);
         }
