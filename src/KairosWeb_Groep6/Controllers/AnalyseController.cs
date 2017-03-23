@@ -11,22 +11,26 @@ namespace KairosWeb_Groep6.Controllers
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
+    [ServiceFilter(typeof(JobcoachFilter))]
     public class AnalyseController : Controller
     {
         #region Properties
 
         private readonly IAnalyseRepository _analyseRepository;
-        private readonly IWerkgeverRepository _werkgeverRepository;
+        private readonly IDepartementRepository _departementRepository;
+        private readonly IJobcoachRepository _jobcoachRepository;
         #endregion
 
         #region Constructors
 
         public AnalyseController(
             IAnalyseRepository analyseRepository,
-            IWerkgeverRepository werkgeverRepository)
+            IDepartementRepository werkgeverRepository,
+            IJobcoachRepository jobcoachRepository)
         {
             _analyseRepository = analyseRepository;
-            _werkgeverRepository = werkgeverRepository;
+            _departementRepository = werkgeverRepository;
+            _jobcoachRepository = jobcoachRepository;
         }
         #endregion
 
@@ -35,19 +39,37 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", "Baten");
         }
 
-        public IActionResult NieuweAnalyse()
-        {// hier word gekozen tussen een nieuwe of bestaande werkgever
+        public IActionResult NieuweAnalyse(Analyse analyse, Jobcoach jobcoach)
+        {//hier word gekozen tussen een nieuwe of bestaande werkgever
+            if (analyse.AnalyseId == 0)
+            {
+                if (jobcoach != null)
+                {
+                    jobcoach = _jobcoachRepository.GetById(jobcoach.JobcoachId);
+                    jobcoach.Analyses.Add(analyse);
+                    _jobcoachRepository.Save();
+                }
+
+                _analyseRepository.Add(analyse);
+                _analyseRepository.Save();
+            }
+            
             return View();
         }
 
         public IActionResult NieuweWerkgever(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId);
+
             // nieuwe werkgever aanmaken voor de analyse
-            analyse.Werkgever = new Werkgever();
+            analyse.Departement = new Departement();
+            analyse.Departement.Werkgever = new Werkgever();
 
             // model aanmaken
-            WerkgeverViewModel model = new WerkgeverViewModel(analyse.Werkgever);
+            WerkgeverViewModel model = new WerkgeverViewModel(analyse.Departement);
 
+            _analyseRepository.Save();
+            
             // view returnen
             return View(model);
         }
@@ -55,7 +77,11 @@ namespace KairosWeb_Groep6.Controllers
         [HttpPost]
         public IActionResult NieuweWerkgever(Analyse analyse, WerkgeverViewModel model)
         {
-            Werkgever werkgever = analyse.Werkgever;
+            analyse = _analyseRepository.GetById(analyse.AnalyseId);
+
+            Departement departement = new Departement(model.Departement); // nieuw departement aanmaken
+            Werkgever werkgever = new Werkgever(); // nieuwe werkgever aanmaken
+
             werkgever.Naam = model.Naam;
 
             if (model.Straat != null && model.Nummer != 0)
@@ -67,9 +93,14 @@ namespace KairosWeb_Groep6.Controllers
             werkgever.Postcode = model.Postcode;
             werkgever.Gemeente = model.Gemeente;
 
-            _werkgeverRepository.Add(werkgever);
-            _werkgeverRepository.Save();
+            departement.Werkgever = werkgever;
+            
+            // alles instellen
+            _departementRepository.Add(departement);
+            analyse.Departement = departement;
 
+            // alles opslaan
+            _departementRepository.Save();
             _analyseRepository.Save();
 
             return View();
@@ -83,13 +114,13 @@ namespace KairosWeb_Groep6.Controllers
         [HttpPost]
         public IActionResult BestaandeWerkgever(string naam)
         {
-            IEnumerable<Werkgever> werkgevers;
+            IEnumerable<Departement> werkgevers;
 
             if (naam.Equals(""))
-                werkgevers = _werkgeverRepository.GetAll();
+                werkgevers = _departementRepository.GetAll();
             else
             {
-                werkgevers = _werkgeverRepository.GetByName(naam);
+                werkgevers = _departementRepository.GetByName(naam);
             }
 
             List<WerkgeverViewModel> viewModels = werkgevers.Select(w => new WerkgeverViewModel(w))
@@ -100,9 +131,10 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult SelecteerBestaandeWerkgever(Analyse analyse, int id)
         {// nog verder veranderen naar redirect naar ResultaatController
+            //analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
-            Werkgever werkgever = _werkgeverRepository.GetById(id);
-            analyse.Werkgever = werkgever;
+            Departement departement = _departementRepository.GetById(id);
+            analyse.Departement = departement;
 
             _analyseRepository.Save();
 

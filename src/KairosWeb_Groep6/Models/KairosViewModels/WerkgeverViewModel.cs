@@ -9,6 +9,9 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         [HiddenInput]
         public int WerkgeverId { get; set; }
 
+        [HiddenInput]
+        public int DepartementId { get; set; }
+
         [Display(Name = "Departement")]
         [Required(ErrorMessage = "Gelieve het departement op te geven")]
         public string Departement { get; set; }
@@ -47,8 +50,13 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         }
 
-        public WerkgeverViewModel(Werkgever werkgever)
+        public WerkgeverViewModel(Departement departement)
         {
+            Departement = departement.Naam;
+            DepartementId = departement.DepartementId;
+
+            Werkgever werkgever = departement.Werkgever;
+
             WerkgeverId = werkgever.WerkgeverId;
             Naam = werkgever.Naam;
             Straat = werkgever.Straat;
@@ -56,8 +64,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
             Postcode = werkgever.Postcode;
             Gemeente = werkgever.Gemeente;
 
-            AantalWerkuren = AantalWerkuren;
-            PatronaleBijdrage = PatronaleBijdrage;  
+            AantalWerkuren = werkgever.AantalWerkuren;
+            PatronaleBijdrage = werkgever.PatronaleBijdrage;  
         }
     }
 }

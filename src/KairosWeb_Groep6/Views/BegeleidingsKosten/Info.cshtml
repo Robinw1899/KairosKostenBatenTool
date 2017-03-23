@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["title"] = "Toelichting begeleidingskost";
+}
+
+<div>
+    @Html.Partial("_Tabs")
+</div>
+
+<div class="page-header" style="overflow: auto;"> <!--Overflow omdat anders de border boven de h3 en knop staat-->
+    <div class="col-md-8">
+        <h3>@ViewData["title"]</h3>
+    </div>
+    <div class="col-md-4" style="margin-top: 20px;">
+        <!--margin omdat de h3 dezelfde margin heeft-->
+        <a asp-controller="BegeleidingsKosten" asp-action="Index" class="btn btn-default">
+            <span class="glyphicon glyphicon-chevron-left"></span> Terug naar het overzicht van begeleidingskosten
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <p>
+            <br/>
+            <img src="/images/infoBegeleidingsKost.png" alt="Toelichting begeleidingskost" class="img-rounded img-responsive"/>
+        </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-responsive table-condensed table-bordered">
+            <tr>
+                <th class="zwart">Algemeen</th>
+                <th class="donkerpaars">Gemiddelde kost (range)</th>
+                <th class="donkergeel">Gemiddelde kost (range)</th>
+                <th class="donkergeel">Gemiddelde kost (range)</th>
+                <th class="donkergeel">Gemiddelde kost (range)</th>
+            </tr>
+            
+            <tr>
+                <th class="lichtgrijs">Kost interne begeleiding</th>
+                <td class="lichtpaars">0 € (detachering)</td>
+                <td class="lichtgeel">2000 € (0 € - 3000 €)</td>
+                <td class="lichtgeel">4000 € (0 € - duizenden €)</td>
+                <td class="lichtgeel">2000 € (0 € - 3000 €)</td>
+            </tr>
+            
+            <tr>
+                <th class="lichtgrijs">Administratie</th>
+                <td class="lichtpaars">0 € (detachering)</td>
+                <td class="lichtgeel">629 € (0 € - 2000 €)</td>
+                <td class="lichtgeel">629 € (0 € - 2000 €)</td>
+                <td class="lichtgeel">629 € (0 € - 2000 €)</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $("#kosten").addClass("active");
+    </script>
+}

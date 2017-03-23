@@ -30,8 +30,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 ExtraOmzet baat = new ExtraOmzet
                 {
-                    //Id = model.Id,
-                    Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     JaarbedragOmzetverlies = model.JaarbedragOmzetverlies,

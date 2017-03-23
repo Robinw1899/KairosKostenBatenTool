@@ -13,7 +13,7 @@ namespace KairosWeb_Groep6.Data
     {
         public DbSet<Jobcoach> Gebruikers { get; set; }
 
-        public DbSet<Werkgever> Werkgevers { get; set; }
+        public DbSet<Departement> Departementen { get; set; }
 
         public DbSet<Analyse> Analyses { get; set; }
 
@@ -28,9 +28,23 @@ namespace KairosWeb_Groep6.Data
             base.OnModelCreating(builder);
             builder.Entity<Jobcoach>(MapGebruiker);
             builder.Entity<Organisatie>(MapOrganisatie);
-            builder.Ignore<DomeinController>();
+            builder.Entity<Departement>(MapDepartement);
             builder.Entity<Werkgever>(MapWerkgever);
             builder.Entity<Analyse>(MapAnalyse);
+        }
+
+        private void MapDepartement(EntityTypeBuilder<Departement> d)
+        {
+            d.ToTable("Departement");
+
+            d.HasKey(t => t.DepartementId);
+
+            d.Property(t => t.Naam)
+                .IsRequired();
+
+            d.HasOne(t => t.Werkgever)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         private static void MapAnalyse(EntityTypeBuilder<Analyse> a)
@@ -38,6 +52,10 @@ namespace KairosWeb_Groep6.Data
             a.ToTable("Analyse");
 
             a.HasKey(t => t.AnalyseId);
+
+            a.HasOne(t => t.Departement)
+                .WithMany()
+                .OnDelete(DeleteBehavior.SetNull);
 
             a.HasMany(t => t.MedewerkersZelfdeNiveauBaat)
                 .WithOne()

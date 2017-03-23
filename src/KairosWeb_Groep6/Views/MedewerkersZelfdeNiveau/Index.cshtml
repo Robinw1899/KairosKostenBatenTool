@@ -68,24 +68,11 @@
 @section scripts{
     <script>
         if (@Model.Uren !== 0 && @Model.BrutoMaandloonFulltime !== 0) {
-            toonFormulier();
+            siteView.toonFormulier();
         } else {
             $("#uren").val("");
             $("#brutoloon").val("");
         }
-
-        $("#form").submit(function () {
-            $.post(this.action,
-                $(this).serialize(),
-                function (data) {
-                    $("#data").html(data);
-                    $("#uren").val("");
-                    $("#brutoloon").val("");
-                    //verbergFormulier();
-                });
-
-            return false;
-        });
 
         $("#baten").addClass("active");
     </script>

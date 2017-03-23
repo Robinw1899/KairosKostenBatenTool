@@ -24,7 +24,8 @@ namespace KairosWeb_Groep6.Data.Repositories
         public IEnumerable<Analyse> GetAll()
         {
             return _analyses
-                .Include(a => a.Werkgever)
+                .Include(a => a.Departement)
+                    .ThenInclude(d => d.Werkgever)
                 .Include(a => a.BegeleidingsKosten)
                 .Include(a => a.EnclaveKosten)
                 .Include(a => a.ExterneInkopen)
@@ -48,7 +49,8 @@ namespace KairosWeb_Groep6.Data.Repositories
         public Analyse GetById(int id)
         {
             return _analyses
-                .Include(a => a.Werkgever)
+                .Include(a => a.Departement)
+                    .ThenInclude(d => d.Werkgever)
                 .Include(a => a.BegeleidingsKosten)
                 .Include(a => a.EnclaveKosten)
                 .Include(a => a.ExterneInkopen)
@@ -58,6 +60,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.GereedschapsKosten)
                 .Include(a => a.InfrastructuurKosten)
                 .Include(a => a.Loonkosten)
+                .Include(a => a.ExtraKosten)
                 .Include(a => a.MedewerkersHogerNiveauBaat)
                 .Include(a => a.MedewerkersZelfdeNiveauBaat)
                 .Include(a => a.OpleidingsKosten)

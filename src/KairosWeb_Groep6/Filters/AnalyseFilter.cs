@@ -1,4 +1,5 @@
-﻿using KairosWeb_Groep6.Models.Domain;
+﻿using System;
+using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
@@ -18,6 +19,12 @@ namespace KairosWeb_Groep6.Filters
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             _analyse = ReadAnalyseFromSession(context.HttpContext);
+
+            if(_analyse.AnalyseId != 0)
+            {// geen nieuwe analyse
+                _analyse = _analyseRepository.GetById(_analyse.AnalyseId);
+            }
+           
             context.ActionArguments["analyse"] = _analyse;
             base.OnActionExecuting(context);
         }
@@ -25,6 +32,8 @@ namespace KairosWeb_Groep6.Filters
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             WriteAnalyseToSession(context.HttpContext, _analyse);
+            _analyse.DatumLaatsteAanpassing = DateTime.Now;
+            _analyseRepository.Save();
             base.OnActionExecuted(context);
         }
 

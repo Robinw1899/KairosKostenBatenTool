@@ -10,18 +10,18 @@ namespace KairosWeb_Groep6.Data
         private readonly ApplicationDbContext _dbContext;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJobcoachRepository _gebruikerRepository;
-        private readonly IWerkgeverRepository _werkgeverRepository;
+        private readonly IDepartementRepository _departementRepository;
 
         public DataInitializer(
             ApplicationDbContext dbContext,
             UserManager<ApplicationUser> userManager, 
             IJobcoachRepository gebruikerRepository,
-            IWerkgeverRepository werkgeverRepository)
+            IDepartementRepository werkgeverRepository)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _gebruikerRepository = gebruikerRepository;
-            _werkgeverRepository = werkgeverRepository;
+            _departementRepository = werkgeverRepository;
         }
 
         public async Task InitializeData()
@@ -30,17 +30,17 @@ namespace KairosWeb_Groep6.Data
             if (_dbContext.Database.EnsureCreated())
             {
                 Werkgever werkgever = new Werkgever("VDAB", "Vooruitgangstraat", 1, 9300, "Aalst", 37);
-                _werkgeverRepository.Add(werkgever);
+                _departementRepository.Add(new Departement("Onderhoudsdienst") {Werkgever = werkgever});
 
                 werkgever = new Werkgever("ALDI", "Leo Duboistraat", 20, 9280, "Lebbeke", 37);
-                _werkgeverRepository.Add(werkgever);
+                _departementRepository.Add(new Departement("Aankoop") { Werkgever = werkgever });
 
                 werkgever = new Werkgever("Coolblue", "Medialaan", 1, 1000, "Brussel", 35);
-                _werkgeverRepository.Add(werkgever);
+                _departementRepository.Add(new Departement("Human resources") { Werkgever = werkgever });
 
-                _werkgeverRepository.Save();
+                _departementRepository.Save();
 
-              //  await InitializeUsers();
+                await InitializeUsers();
             }
             _dbContext.SaveChanges();
         }

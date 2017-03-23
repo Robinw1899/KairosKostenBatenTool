@@ -10,10 +10,7 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
 
         public override double Bedrag
         {
-            get
-            {
-                throw new InvalidOperationException("Het bedrag wordt gegegen door de methode BerekenTotaleLoonkost()");
-            }
+            get { return 0; }
             set { }
         } // returned berekening
 
@@ -48,7 +45,7 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
 
         #region Methods
 
-        public double BerekenTotaleLoonkostPerJaar(int aantalWerkuren, double patronaleBijdrage)
+        public double BerekenTotaleLoonkostPerJaar(double aantalWerkuren, double patronaleBijdrage)
         {
             if (ControleerAlleGegevensAanwezig(aantalWerkuren, patronaleBijdrage))
             {
@@ -60,7 +57,7 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
             return 0; // als een gegeven ontbreekt, wordt 0 gereturned
         }
 
-        private bool ControleerAlleGegevensAanwezig(int aantalWerkuren, double patronaleBijdrage)
+        private bool ControleerAlleGegevensAanwezig(double aantalWerkuren, double patronaleBijdrage)
         {
             if (aantalWerkuren <= 0)
             {

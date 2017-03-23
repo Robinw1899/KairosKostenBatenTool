@@ -6,84 +6,93 @@
 }
 
 <div class="row">
-    <div class="col-md-5">
-        <section>
-            <h2>@ViewData["Title"]</h2>
-            <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Email" class="col-md-4 control-label"></label>
-                    <div class="col-md-8">
-                        <input asp-for="Email" class="form-control" placeholder="voorbeeld@example.be"/>
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
+    <div class="intro">
+        <!--INTRODUCTIE-TEKST-->
+        <div class="row">
+            <h4 class="col-md-10">Introductie</h4>
+            <a id="verbergIntro">
+                <i class="fa fa-times fa-2x col-md-2 text-right" aria-hidden="true"></i>
+            </a>
+        </div>
+
+        <hr />
+        <p>
+            Waarom zou een werkgever investeren in het tewerkstellen van personen met een grote
+            afstand tot de arbeidsmarkt en/of functiecreatie? We zijn geneigd te denken dat
+            we - ook managers en bedrijfsleiders - erg rationele wezens zijn, die (grote) beslissingen
+            weloverwogen maken. Maar... zijn menselijke beslissingen wel zo rationeel als we denken?
+        </p>
+        <p>
+            Niet echt. Mensen beslissen op basis van eigen kennis, ervaring, inschattingsvermogen en intuïtie.
+            We gaan er vanuit dat we daarmee in staat zijn om consistente en evenwichtige beslissingen te nemen of,
+            anders gezegd, een rationele afweging te maken. De waarheid is echter heel anders.
+            Veel van onze besluitvorming wordt door een automatische piloot-functie van onze hersenen gedaan.
+            Met als gevolg dat wij, en ook werkgevers, veel beslissingen nemen op basis van vooroordelen in plaats van
+            alle beschikbare informatie in overweging te nemen.
+        </p>
+        <p>
+            Het maken van een business case kan helpen om de besluitvorming te verbeteren,
+            want het geeft betrouwbare, op feiten gebaseerde informatie en vermindert de subjectiviteit
+            in beoordeling en besluitvorming. De kans dat de werkgever op jouw aanbod zal ingaan, vergroot
+            naarmate je deze vraag duidelijk en zakelijk onderbouwd weet te beantwoorden.
+        </p>
+        <p>
+            Met dit model kan je werkgevers inzicht geven in de economische waarde van het werken
+            met mensen met een grote afstand tot de arbeidsmarkt.
+        </p>
+    </div>
+    <div class="box-login">
+        <!--LOGIN FORM-->
+        <div class="thumbnail">
+            <img src="/images/logo's/kairos_icon_green.png" alt="Logo Kairos" id="logoToonIntro" />
+        </div>
+        
+        <form asp-controller="Account" asp-action="Login" method="post" class="form-horizontal">
+            <div class="row">
+                <a id="toonIntro">Wat is Kairos?</a>
+            </div>
+
+            <div asp-validation-summary="All" class="text-danger"></div>
+            
+            <div class="row form-group">
+                <div class="col-md-12 noPadding">
+                    <input asp-for="Email" class="form-control" placeholder="Emailadres" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Password" class="col-md-4 control-label"></label>
-                    <div class="col-md-8">
-                        <input asp-for="Password" class="form-control"/>
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-12 noPadding">
+                    <input asp-for="Password" class="form-control" placeholder="Wachtwoord" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
-                <div class="col-md-12">
-                    <div class="form-group col-md-6">
-                        <div class="col-md-12">
-                            <div class="checkbox">
-                                <label asp-for="RememberMe">
-                                    <input asp-for="RememberMe"/>
-                                    @Html.DisplayNameFor(m => m.RememberMe)
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <div class="col-md-offset-5 col-md-12 text-right">
-                            <button type="submit" class="btn btn-info">Aanmelden</button>
-                        </div>
-                    </div>
-                </div>
-                <p>
-                    <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Registreren</a>
-                </p>
+            </div>
+
+            <div class="row">
                 <p>
                     <a asp-action="ForgotPassword">Wachtwoord vergeten?</a>
                 </p>
-            </form>
-        </section>
-    </div>
-    <div class="col-md-7">
-        <section class="intro">
-            <h4 style="margin-top: 20px;">Introductie</h4>
-            <hr />
-            <div class="intro">
-                <p>
-                    Waarom zou een werkgever investeren in het tewerkstellen van personen met een grote
-                    afstand tot de arbeidsmarkt en/of functiecreatie? We zijn geneigd te denken dat
-                    we - ook managers en bedrijfsleiders - erg rationele wezens zijn, die (grote) beslissingen
-                    weloverwogen maken. Maar... zijn menselijke beslissingen wel zo rationeel als we denken?
-                </p>
-                <p>
-                    Niet echt. Mensen beslissen op basis van eigen kennis, ervaring, inschattingsvermogen en intuïtie.
-                    We gaan er vanuit dat we daarmee in staat zijn om consistente en evenwichtige beslissingen te nemen of,
-                    anders gezegd, een rationele afweging te maken. De waarheid is echter heel anders.
-                    Veel van onze besluitvorming wordt door een automatische piloot-functie van onze hersenen gedaan.
-                    Met als gevolg dat wij, en ook werkgevers, veel beslissingen nemen op basis van vooroordelen in plaats van
-                    alle beschikbare informatie in overweging te nemen.
-                </p>
-                <p>
-                    Het maken van een business case kan helpen om de besluitvorming te verbeteren,
-                    want het geeft betrouwbare, op feiten gebaseerde informatie en vermindert de subjectiviteit
-                    in beoordeling en besluitvorming. De kans dat de werkgever op jouw aanbod zal ingaan, vergroot
-                    naarmate je deze vraag duidelijk en zakelijk onderbouwd weet te beantwoorden.
-                </p>
-                <p>
-                    Met dit model kan je werkgevers inzicht geven in de economische waarde van het werken
-                    met mensen met een grote afstand tot de arbeidsmarkt.
-                </p>
             </div>
-        </section>
+            
+            <div>
+                <button type="submit" class="btn btn-default btn-block">@ViewData["Title"]</button>
+            </div>
+            <br />
+            <div>
+                <a asp-controller="Account" asp-action="Register" class="btn btn-info btn-block">Registreer</a>
+            </div>
+        </form>
     </div>
 </div>
+
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="/css/login.css" />
+    <style>
+        .body-content {
+            background: none;
+        }
+    </style>
+}
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

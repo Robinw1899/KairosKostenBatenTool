@@ -47,6 +47,7 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult Login(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            TempData["Actie"] = "Aanmelden"; // nodig om de partials niet te laden
             return View();
         }
 
@@ -58,6 +59,7 @@ namespace KairosWeb_Groep6.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -89,6 +91,7 @@ namespace KairosWeb_Groep6.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Deze combinatie email en wachtwoord is ongeldig, probeer opnieuw.");
+                    TempData["Actie"] = "Aanmelden"; // nodig om de partials niet te laden
                     return View(model);
                 }
             }
@@ -105,6 +108,7 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult Register(string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+            TempData["Actie"] = "Registreer";
             return View();
         }
 
@@ -137,6 +141,7 @@ namespace KairosWeb_Groep6.Controllers
                 if (possibleUser != null)
                 {
                     ModelState.AddModelError("", "Er is al een gebruiker geregistreerd met dit emailadres");
+                    TempData["Actie"] = "Registreer";
                 }
                 else
                 {
@@ -172,6 +177,7 @@ namespace KairosWeb_Groep6.Controllers
                         return RedirectToAction(nameof(Login), "Account");
                     }
 
+                    TempData["Actie"] = "Registreer";
                     AddErrors(result);
                 }
             }

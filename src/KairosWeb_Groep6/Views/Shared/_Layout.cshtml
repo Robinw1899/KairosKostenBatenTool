@@ -6,6 +6,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"]</title>
+    <link rel="icon" href="/images/favicon.ico"> <!--Icoon in het tabblad-->
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -27,6 +28,8 @@
     </environment>
 </head>
 <body>
+@if (TempData["Actie"] == null)
+{
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -37,7 +40,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a asp-area="" asp-controller="Kairos" asp-action="Index" class="navbar-brand">
-                    <img src="/images/logo's/kairos_wordmark_normal.png" alt="Logo Kairos" />
+                    <img src="/images/logo's/kairos_wordmark_normal.png" alt="Logo Kairos"/>
                 </a>
             </div>
             <div class="navbar-collapse collapse">
@@ -53,21 +56,26 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @if (TempData["message"] != null)
-        {
-            <div class="alert alert-success animated slideInDown">@TempData["message"]</div>
-        }
-        @if (TempData["error"] != null)
-        {
-            <div class="alert alert-warning animated rubberBand">@TempData["error"]</div>
-        }
-        @RenderBody()
+}
+<div class="container body-content">
+    @if (TempData["message"] != null)
+    {
+        <div class="alert alert-success animated slideInDown">@TempData["message"]</div>
+    }
+    @if (TempData["error"] != null)
+    {
+        <div class="alert alert-warning animated rubberBand">@TempData["error"]</div>
+    }
+    @RenderBody()
+    
+    @if (TempData["Actie"] == null)
+    {
         <hr />
         <footer>
             <p>&copy; 2017 - Kairos</p>
         </footer>
-    </div>
+    }
+</div>
 
 <environment names="Development">
     <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -80,14 +88,12 @@
             asp-fallback-test="window.jQuery">
 
 
-    
     </script>
     <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
             asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
             asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
 
 
-    
     </script>
     <script src="~/js/site.min.js" asp-append-version="true"></script>
 </environment>
