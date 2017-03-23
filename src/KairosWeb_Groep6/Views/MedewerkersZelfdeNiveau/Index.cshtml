@@ -65,6 +65,15 @@
     </form>
 </div>
 
+<div class="row">
+    <div class="col-xs-9 .col-md-9">
+        <a asp-controller="Baten" asp-action="Index" style="margin-left: 15px" class="btn btn-default">❮ Baten </a>
+    </div>
+    <div class="col-xs-3 .col-md-3">
+        <a asp-controller="Baten" asp-action="MedewerkerHogerNiveau" style="margin-left: 40px" class="btn btn-success">Medewerker hoger niveau ❯</a>
+    </div>
+</div>
+
 @section scripts{
     <script>
         if (@Model.Uren !== 0 && @Model.BrutoMaandloonFulltime !== 0) {
