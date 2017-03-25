@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.GereedschapsKostenViewModels
 {
-    public class GereedschapsKostViewModel
+    public class GereedschapsKostenViewModel
     {
         #region Properties
         [HiddenInput]
@@ -27,12 +27,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.GereedschapsKostenView
         #endregion
 
         #region Constructors
-        public GereedschapsKostViewModel()
+        public GereedschapsKostenViewModel()
         {
             
         }
 
-        public GereedschapsKostViewModel(GereedschapsKost kost)
+        public GereedschapsKostenViewModel(GereedschapsKost kost)
         {
             Id = kost.Id;
             Type = kost.Type;

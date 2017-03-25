@@ -1,0 +1,102 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenViewModels.InfrastructuurKostenIndexViewModel
+@{
+    ViewData["Title"] = "Infrastructuurkosten";
+    var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
+    ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
+}
+
+<div>
+    <div>
+        @Html.Partial("_Tabs")
+    </div>
+
+    <div class="page-header">
+        <h3>@ViewData["title"]</h3>
+    </div>
+
+    <p>
+        Welke extra kosten inzake infrastructuur zal het tewerkstellen van deze medewerker(s) met zich meebrengen?
+        (bv. aanpassingen werkpost, extra infrastructuur ten gevolge van reshoring of insourcing,…)
+    </p>
+
+    <div id="data">
+        @{
+            Html.RenderPartial("_OverzichtTabel", Model.ViewModels);
+        }
+    </div>
+
+    <div class="addOption">
+        <a class="btn btn-success" id="openForm">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
+    </div>
+
+    <!--begin div inputForm-->
+    <form asp-action="@action" id="form" method="post" style="display: none;" class="form-horizontal">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <input asp-for="Id" />
+        <input asp-for="Soort" />
+        <input asp-for="Type" />
+
+        <div class="row col-md-offset-2">
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-font" aria-hidden="true"></i>
+                    </span>
+                    <input asp-for="Beschrijving" class="form-control" placeholder="Beschrijving" id="beschrijving" />
+                </div>
+                <span asp-validation-for="Beschrijving" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-eur" aria-hidden="true"></i>
+                    </span>
+                    <input asp-for="Bedrag" class="form-control" id="bedrag" placeholder="Bedrag" />
+                </div>
+                <span asp-validation-for="Bedrag" class="text-danger"></span>
+            </div>
+        </div>
+        <br />
+
+        <!--buttons an/add-->
+        <div class="row col-md-offset-2">
+            <div class="col-md-8 text-right">
+                <a class="btn btn-default" id="closeForm">Annuleer</a>
+                <button type="submit" class="btn btn-info" style="margin-left: 15px">@ViewData["action"]</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-xs-10 col-md-10">
+        <a asp-controller="Kosten" asp-action="InfrastructuurKosten" style="margin-left: 15px" class="btn btn-default">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Infrastructuurkosten
+        </a>
+    </div>
+    <div class="col-xs-2 col-md-2">
+        <a asp-controller="Kosten" asp-action="OpleidingsKosten" class="btn btn-success">
+            Opleidingskosten <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        if (@Model.Bedrag !== 0) {
+            siteView.toonFormulier();
+        } else {
+            $("#beschrijving").val("");
+            $("#bedrag").val("");
+        }
+
+        $("#kosten").addClass("active");
+
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

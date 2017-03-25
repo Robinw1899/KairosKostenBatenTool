@@ -1,22 +1,26 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using KairosWeb_Groep6.Models.Domain;
+﻿using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.GereedschapsKostenViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenViewModels
 {
-    public class GereedschapsKostenIndexViewModel
+    public class InfrastructuurKostenIndexViewModel
     {
+
         #region Properties
         [HiddenInput]
         public int Id { get; set; }
 
         [HiddenInput]
-        public Type Type { get; set; }
+        public Domain.Type Type { get; set; }
 
         [HiddenInput]
         public Soort Soort { get; set; }
-        
+
         [Required(ErrorMessage = "Gelieve een (korte) beschrijving op te geven.")]
         public string Beschrijving { get; set; }
 
@@ -25,7 +29,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.GereedschapsKostenView
 
         public double Bedrag { get; set; }
 
-        public IEnumerable<GereedschapsKostenViewModel> ViewModels { get; set; }
+        public IEnumerable<InfrastructuurKostenViewModel> ViewModels { get; set; } 
         #endregion
     }
 }
