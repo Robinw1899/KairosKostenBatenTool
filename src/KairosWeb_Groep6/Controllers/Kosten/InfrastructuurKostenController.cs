@@ -7,8 +7,6 @@ using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenViewModels;
 
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [Authorize]
@@ -51,6 +49,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
+
+                TempData["message"] = "De kost is succesvol toegevoegd.";
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -100,7 +100,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = "De kost is succesvol opgeslagen.";
+                TempData["message"] = "De kost is succesvol opgeslaan.";
 
                 return View("Index", model);
             }
@@ -123,7 +123,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             InfrastructuurKostenIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = $"{model.Beschrijving} is succesvol verwijderd.";
+            TempData["message"] = "De kost is succesvol verwijderd.";
 
             return View("Index", model);
         }
@@ -132,7 +132,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             InfrastructuurKostenIndexViewModel model = new InfrastructuurKostenIndexViewModel()
             {
-                Type = Models.Domain.Type.Kost,
+                Type = Type.Kost,
                 Soort = Soort.InfrastructuurKost,
                 ViewModels = analyse
                                 .InfrastructuurKosten
