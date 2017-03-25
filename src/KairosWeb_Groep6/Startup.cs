@@ -58,15 +58,23 @@ namespace KairosWeb_Groep6
                     options.Password.RequiredLength = 6;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders()
+                .AddErrorDescriber<KairosIdentityErrorDescriber>();
 
-            services.AddMvc();
+            services.AddMvc(
+                options =>
+                {
+                    options.ModelBindingMessageProvider
+                        .ValueMustBeANumberAccessor = s => "Dit veld mag enkel een getal bevatten.";
+                })
+                .AddDataAnnotationsLocalization();
             services.AddSession();
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
             services.AddScoped<AnalyseFilter>();
+            services.AddScoped<JobcoachFilter>();
             services.AddScoped<IJobcoachRepository, JobcoachRepository>();
             services.AddScoped<IDepartementRepository, DepartementRepository>();
             services.AddScoped<IAnalyseRepository, AnalyseRepository>();

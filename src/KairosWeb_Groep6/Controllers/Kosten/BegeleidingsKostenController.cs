@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
@@ -6,12 +7,12 @@ using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
-    [ValidateAntiForgeryToken]
     public class BegeleidingsKostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
@@ -43,8 +44,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 // de baat bestaat reeds:
                 BegeleidingsKost kost = new BegeleidingsKost
                 {
-                    //Id = model.Id,
-                    Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     Uren = model.Uren,
@@ -55,21 +54,16 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
-
-                return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
             PlaatsTotaalInViewData(analyse);
 
-            return RedirectToAction("Index", model);
+            return View("Index", model);
         }
 
-        [HttpGet]
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            BegeleidingsKost kost = analyse.BegeleidingsKosten
-                                                .SingleOrDefault(b => b.Id == id);
+            BegeleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, id);
 
             BegeleidingsKostenIndexViewModel model = MaakModel(analyse);
 
@@ -96,8 +90,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, BegeleidingsKostenIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            BegeleidingsKost kost = analyse.BegeleidingsKosten
-                                                 .SingleOrDefault(b => b.Id == model.Id);
+            BegeleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, model.Id);
 
             if (ModelState.IsValid && kost != null)
             {
@@ -113,7 +106,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                return RedirectToAction("Index", model);
+                if (analyse.Departement == null)
+                {
+                    // return de View zodat de error rond de werkgever toch getoond wordt
+                    return View("Index", model);
+                }
+
+                return View("Index", model);
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -123,8 +122,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            BegeleidingsKost baat = analyse.BegeleidingsKosten
-                                                 .SingleOrDefault(b => b.Id == id);
+            BegeleidingsKost baat = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, id);
             if (baat != null)
             {
                 analyse.BegeleidingsKosten.Remove(baat);
@@ -150,13 +148,15 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             BegeleidingsKostenIndexViewModel model = new BegeleidingsKostenIndexViewModel
             {
-                Type = Type.Baat,
+                Type = Type.Kost,
                 Soort = Soort.BegeleidingsKost,
                 ViewModels = analyse
                                 .BegeleidingsKosten
                                 .Select(m => new BegeleidingsKostViewModel(m)
                                                 {
-                                                    Bedrag = m.GeefJaarbedrag(analyse.Departement.Werkgever.PatronaleBijdrage)
+                                                    Bedrag = analyse.Departement == null
+                                                        ? 0 : 
+                                                        m.GeefJaarbedrag(analyse.Departement.Werkgever.PatronaleBijdrage)
                                                 })
             };
 
@@ -175,10 +175,19 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = BegeleidingsKostExtensions.GeefTotaal(analyse.BegeleidingsKosten, 
-                                                                    analyse.Departement.Werkgever.PatronaleBijdrage);
+            if (analyse.Departement != null)
+            {
+                double totaal = BegeleidingsKostExtensions.GeefTotaal(analyse.BegeleidingsKosten,
+                    analyse.Departement.Werkgever.PatronaleBijdrage);
 
-            ViewData["totaal"] = totaal.ToString("C");
+                ViewData["totaal"] = totaal.ToString("C");
+            }
+            else
+            {
+                ViewData["totaal"] = 0;
+                TempData["error"] = "Opgelet! U heeft nog geen werkgever geselecteerd. Er zal dus nog geen resultaat " +
+                                    "berekend worden bij deze kost.";
+            }
         }
     }
 }

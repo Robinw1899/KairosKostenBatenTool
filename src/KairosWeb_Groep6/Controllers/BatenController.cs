@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using KairosWeb_Groep6.Filters;
+using KairosWeb_Groep6.Models.Domain;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Controllers
 {
     public class BatenController : Controller
     {
-        public IActionResult Index()
+        [ServiceFilter(typeof(AnalyseFilter))]
+        public IActionResult Index(Analyse analyse)
         {
-            return View();
+            return View(analyse);
         }
 
         public IActionResult MedewerkerZelfdeNiveau()
@@ -41,7 +44,7 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult ExterneInkopen()
         {
-            return RedirectToAction("Index", "Subsidie");
+            return RedirectToAction("Index", "ExterneInkopen");
         }
 
         public IActionResult Subsidies()

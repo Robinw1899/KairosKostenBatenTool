@@ -65,6 +65,19 @@
     </form>
 </div>
 
+<div class="row">
+    <div class="col-xs-10 col-md-10">
+        <a asp-controller="Baten" asp-action="MedewerkerHogerNiveau" style="margin-left: 15px" class="btn btn-default">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Medewerker hoger niveau
+        </a>
+    </div>
+    <div class="col-xs-2 col-md-2">
+        <a asp-controller="Baten" asp-action="ExtraOmzet" style="margin-left: 30px" class="btn btn-success">
+            Extra omzet <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+
 @section scripts{
     <script>
         if (@Model.Bedrag > 0) {
@@ -73,19 +86,6 @@
             $("#beschrijving").val("");
             $("#bedrag").val("");
         }
-
-        $("#form").submit(function () {
-            $.post(this.action,
-                $(this).serialize(),
-                function (data) {
-                    $("#data").html(data);
-                    $("#beschrijving").val("");
-                    $("#bedrag").val("");
-                    //verbergFormulier();
-                });
-
-            return false;
-        });
 
         $("#baten").addClass("active");
     </script>

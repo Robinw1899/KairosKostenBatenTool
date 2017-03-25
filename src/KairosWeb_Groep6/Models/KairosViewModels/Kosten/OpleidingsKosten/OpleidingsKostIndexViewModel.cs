@@ -21,9 +21,11 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.OpleidingsKosten
         [Required]
         [HiddenInput]
         public Soort Soort { get; set; }
-        [Required(ErrorMessage = "Gelieve een beschrijving op te geven.")]
+      
+        [Required(ErrorMessage = "Gelieve een (korte) beschrijving op te geven")]
         public string Beschrijving { get; set; }
-        [Required(ErrorMessage = "Gelieve een bedrag op te geven.")]
+        [Required(ErrorMessage = "Gelieve een bedrag op te geven")]
+        [Range(0, Double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal op te geven voor het bedrag")]
         public double Bedrag { get; set; }
 
         public IEnumerable<OpleidingsKostViewModel> ViewModels { get; internal set; }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Newtonsoft.Json;
@@ -7,11 +8,20 @@ namespace KairosWeb_Groep6.Models.Domain
 {
     public class Analyse
     {
+        #region Andere properties
         [JsonProperty]
         public int AnalyseId { get; set; }
 
         [JsonProperty]
-        public Departement Departement { get; set; } 
+        public Departement Departement { get; set; }
+
+        [JsonProperty]
+        public DateTime DatumCreatie { get; set; } = DateTime.Now;
+
+        [JsonProperty]
+        public DateTime DatumLaatsteAanpassing { get; set; }
+        #endregion
+
         #region Kosten
         [JsonProperty]
         public List<Loonkost> Loonkosten { get; set; } = new List<Loonkost>();
@@ -33,6 +43,9 @@ namespace KairosWeb_Groep6.Models.Domain
 
         [JsonProperty]
         public List<BegeleidingsKost> BegeleidingsKosten { get; set; } = new List<BegeleidingsKost>();
+
+        [JsonProperty]
+        public List<ExtraKost> ExtraKosten { get; set; } = new List<ExtraKost>();
         #endregion
 
         #region Baten

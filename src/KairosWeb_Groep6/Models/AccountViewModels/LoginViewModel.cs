@@ -5,7 +5,7 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
     public class LoginViewModel
     {
         [Required(ErrorMessage = "Gelieve je emailadres op te geven")]
-        [EmailAddress(ErrorMessage = "Dit is geen geldig emailadres")]
+        [EmailAddress(ErrorMessage = "Een e-mail moet een '@' bevatten en moet eindigen op iets zoals '.be' of '.com'")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Gelieve je wachtwoord op te geven")]

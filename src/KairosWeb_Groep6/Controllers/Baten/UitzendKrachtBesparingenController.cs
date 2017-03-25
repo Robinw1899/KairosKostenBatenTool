@@ -2,6 +2,7 @@
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -37,8 +38,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 // de baat bestaat reeds:
                 UitzendKrachtBesparing baat = new UitzendKrachtBesparing
                 {
-                    //Id = model.Id,
-                    Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     Beschrijving = model.Beschrijving,
@@ -49,11 +48,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = $"{model.Beschrijving} is succesvol toegevoegd.";
-
-                return PartialView("_OverzichtTabel", model.ViewModels);
+                TempData["message"] = "De baat is succesvol toegevoegd.";
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -63,8 +59,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {
-            UitzendKrachtBesparing baat = analyse.UitzendKrachtBesparingen
-                                                    .SingleOrDefault(u => u.Id == id);
+            UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, id);
 
             UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);
 
@@ -86,8 +81,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, UitzendKrachtBesparingIndexViewModel model)
         {
-            UitzendKrachtBesparing baat = analyse.UitzendKrachtBesparingen
-                                                .SingleOrDefault(b => b.Id == model.Id);
+            UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, model.Id);
 
             if (ModelState.IsValid && baat != null)
             {
@@ -101,7 +95,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = $"{model.Beschrijving} is succesvol opgeslagen.";
+                TempData["message"] = "De baat is succesvol opgeslagen.";
 
                 return RedirectToAction("Index", model);
             }
@@ -113,17 +107,15 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {
-            UitzendKrachtBesparing baat = analyse.UitzendKrachtBesparingen
-                                                    .SingleOrDefault(u => u.Id == id);
+            UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, id);
 
             analyse.UitzendKrachtBesparingen.Remove(baat);
-            // hier moet nog extra komen wnr db werkt
             _analyseRepository.Save();
 
             UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = $"{model.Beschrijving} is succesvol verwijderd.";
+            TempData["message"] = "De baat is succesvol verwijderd.";
 
             return View("Index", model);
         }

@@ -39,8 +39,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 // de baat bestaat reeds:
                 MedewerkerNiveauBaat baat = new MedewerkerNiveauBaat
                 {
-                    //Id = model.Id,
-                    Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     Uren = model.Uren,
@@ -51,21 +49,18 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
-                
 
-                return PartialView("_OverzichtTabel", model.ViewModels);
+                TempData["message"] = "De baat is succesvol toegevoegd.";
             }
 
             PlaatsTotaalInViewData(analyse);
 
-            return RedirectToAction("Index", model);
+            return View("Index", model);
         }
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
-                                                .SingleOrDefault(b => b.Id == id);
+            MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersHogerNiveauBaat, id);
 
             MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
 
@@ -87,8 +82,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, MedewerkerNiveauIndexViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
-                                                 .SingleOrDefault(b => b.Id == model.Id);
+            MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersHogerNiveauBaat, model.Id);
 
             if (ModelState.IsValid && baat != null)
             {
@@ -101,11 +95,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = "De waarden zijn succesvol opgeslagen.";
-
-                return RedirectToAction("Index", model);
+                TempData["message"] = "De baat is succesvol opgeslagen.";
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -115,8 +106,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            MedewerkerNiveauBaat baat = analyse.MedewerkersHogerNiveauBaat
-                                                 .SingleOrDefault(b => b.Id == id);
+            MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, id);
 
             analyse.MedewerkersHogerNiveauBaat.Remove(baat);
             _analyseRepository.Save();
@@ -124,7 +114,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = "De waarden zijn succesvol verwijderd.";
+            TempData["message"] = "De baat is succesvol verwijderd.";
 
             return View("Index", model);
         }
@@ -139,7 +129,9 @@ namespace KairosWeb_Groep6.Controllers.Baten
                                 .MedewerkersHogerNiveauBaat
                                 .Select(m => new MedewerkerNiveauBaatViewModel(m)
                                 {
-                                    Bedrag = m.BerekenTotaleLoonkostPerJaar(analyse.Departement.Werkgever.AantalWerkuren,
+                                    Bedrag = analyse.Departement == null
+                                                    ? 0 : 
+                                                    m.BerekenTotaleLoonkostPerJaar(analyse.Departement.Werkgever.AantalWerkuren,
                                                                 analyse.Departement.Werkgever.PatronaleBijdrage)
                                 })
             };
@@ -159,12 +151,20 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
-                analyse.MedewerkersHogerNiveauBaat,
-                analyse.Departement.Werkgever.AantalWerkuren,
-                analyse.Departement.Werkgever.PatronaleBijdrage);
+            if(analyse.Departement != null) { 
+                double totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                    analyse.MedewerkersHogerNiveauBaat,
+                    analyse.Departement.Werkgever.AantalWerkuren,
+                    analyse.Departement.Werkgever.PatronaleBijdrage);
 
-            ViewData["totaal"] = totaal.ToString("C");
+                ViewData["totaal"] = totaal.ToString("C");
+            }
+            else
+            {
+                ViewData["totaal"] = 0;
+                TempData["error"] = "Opgelet! U heeft nog geen werkgever geselecteerd. Er zal dus nog geen resultaat " +
+                                    "berekend worden bij deze kost.";
+            }
         }
     }
 }

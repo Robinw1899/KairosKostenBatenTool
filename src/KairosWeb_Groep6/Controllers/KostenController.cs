@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using KairosWeb_Groep6.Filters;
+using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace KairosWeb_Groep6.Controllers
 {
     public class KostenController : Controller
     {
-        public IActionResult Index()
+        [ServiceFilter(typeof(AnalyseFilter))]
+        public IActionResult Index(Analyse analyse)
         {
-            return View();
+            return View(analyse);
         }
 
         public IActionResult BegeleidingsKosten()
