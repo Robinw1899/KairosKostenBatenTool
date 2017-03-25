@@ -17,7 +17,7 @@
 <div class="row col-md-offset-1">
     <ul class="nav nav-pills nav-stacked">
         <li>
-            <a asp-controller="Kosten" asp-action="Loonkosten" 
+            <a asp-controller="Kosten" asp-action="Loonkosten"
                data-toggle="tooltip" data-placement="bottom"
                title="Welke (nieuwe) functie(s) vul je in?">
                 @if (Model.Loonkosten.Count != 0)
@@ -27,7 +27,7 @@
             </a>
         </li>
         <li>
-            <a asp-controller="Kosten" asp-action="EnclaveKosten" 
+            <a asp-controller="Kosten" asp-action="EnclaveKosten"
                data-toggle="tooltip" data-placement="bottom"
                title="Laat de werkgever werk uitvoeren door een maatwerkbedrijf of via enclave of onderaanneming?
                 Zo ja, hoeveel betaalt hij hiervoor jaarlijks?">
@@ -40,8 +40,8 @@
         <li>
             <a asp-controller="Kosten" asp-action="VoorbereidingsKosten"
                data-toggle="tooltip" data-placement="bottom"
-               title="Welke kosten moet de werkgever maken ter voorbereiding van de aanwerving 
-               (bv. ondersteuning bij de uitvoer van functiecreatie of jobcarving, administratie regelen, 
+               title="Welke kosten moet de werkgever maken ter voorbereiding van de aanwerving
+               (bv. ondersteuning bij de uitvoer van functiecreatie of jobcarving, administratie regelen,
                uitzoeken welke aanpassingen nodig zijn, extra gesprekken met bemiddelingsdiensten, …)?">
                 @if (Model.VoorbereidingsKosten.Count != 0)
                 {
@@ -52,7 +52,7 @@
         <li>
             <a asp-controller="Kosten" asp-action="InfrastructuurKosten"
                data-toggle="tooltip" data-placement="bottom"
-               title="Welke extra kosten inzake infrastructuur zal het tewerkstellen van deze medewerker(s) met zich meebrengen? 
+               title="Welke extra kosten inzake infrastructuur zal het tewerkstellen van deze medewerker(s) met zich meebrengen?
                (bv. aanpassingen werkpost, extra infrastructuur ten gevolge van reshoring of insourcing,…)">
                 @if (Model.InfrastructuurKosten.Count != 0)
                 {
@@ -60,11 +60,12 @@
                 } Infrastructuurkosten
             </a>
         </li>
-        <li><!--K4-->
+        <li>
+            <!--K4-->
             <a asp-controller="Kosten" asp-action="GereedschapsKosten"
                data-toggle="tooltip" data-placement="bottom"
                title="Welke andere extra materiële kosten moet de werkgever jaarlijks maken bij
-                het tewerkstellen van deze medewerker(s)? 
+                het tewerkstellen van deze medewerker(s)?
                (bv. kosten van aangepaste werkkledij en -gereedschap)">
                 @if (Model.GereedschapsKosten.Count != 0)
                 {
@@ -72,10 +73,11 @@
                 } Materiële kosten (bv. kosten van aangepaste werkkledij en -gereedschap)
             </a>
         </li>
-        <li><!--K5-->
+        <li>
+            <!--K5-->
             <a asp-controller="Kosten" asp-action="OpleidingsKosten"
                data-toggle="tooltip" data-placement="bottom"
-               title="Welke extra opleidingskosten zal de werkgever hebben om de nieuwe krachten 
+               title="Welke extra opleidingskosten zal de werkgever hebben om de nieuwe krachten
                op het gewenste niveau te krijgen?">
                 @if (Model.OpleidingsKosten.Count != 0)
                 {
@@ -83,8 +85,9 @@
                 } Opleidingskosten
             </a>
         </li>
-        <li><!--k6-->
-            <a asp-controller="Kosten" asp-action="BegeleidingsKosten" 
+        <li>
+            <!--k6-->
+            <a asp-controller="Kosten" asp-action="BegeleidingsKosten"
                data-toggle="tooltip" data-placement="bottom"
                title="Welke kosten zal de werkgevers jaarlijks hebben aan extra administratie en
                 interne begeleiding tijdens de tewerkstelling?">
@@ -109,15 +112,19 @@
 
 <div class="row">
     <div class="col-xs-10 .col-md-10">
-        <a asp-controller="Werkgever" asp-action="Index" class="btn btn-default">❮ Werkgever</a>
+        <a asp-controller="Werkgever" asp-action="Index" class="btn btn-default">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Werkgever
+        </a>
     </div>
     <div class="col-xs-2 .col-md-2">
-        <a asp-controller="Baten" asp-action="Index" style="margin-left:15px" class="btn btn-success">Baten ❯</a>
+        <a asp-controller="Baten" asp-action="Index" style="margin-left: 15px" class="btn btn-success">
+            Baten <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>
     </div>
 </div>
 @section scripts {
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
 

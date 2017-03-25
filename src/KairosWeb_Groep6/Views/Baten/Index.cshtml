@@ -51,7 +51,7 @@
                data-toggle="tooltip" data-placement="bottom"
                title="Mist de werkgever vandaag omzet doordat hij personeel tekort komt?
                Hoeveel meer omzet denkt de werkgever jaarlijks te kunnen realiseren door inzet van mensen met een grote afstand tot de arbeidsmarkt?">
-                @if (Model.ExtraOmzet != null)
+                @if (Model.ExtraOmzet != null && Model.ExtraOmzet.Bedrag <= 0)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Extra omzet
@@ -62,7 +62,7 @@
                data-toggle="tooltip" data-placement="bottom"
                title="Hoeveel extra productiviteit denkt de werkgever jaarlijks
                te kunnen maken door inzet van mensen met een grote afstand tot de arbeidsmarkt?">
-                @if (Model.ExtraProductiviteit != null)
+                @if (Model.ExtraProductiviteit != null && Model.ExtraProductiviteit.Bedrag <= 0)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Extra productiviteit
@@ -72,7 +72,7 @@
             <a asp-controller="Baten" asp-action="OverurenBesparingen"
                data-toggle="tooltip" data-placement="bottom"
                title="Hoeveel denkt de werkgever jaarlijks te kunnen besparen op overuren door inzet van mensen met een grote afstand tot de arbeidsmarkt?">
-                @if (Model.OverurenBesparing != null)
+                @if (Model.OverurenBesparing != null && Model.OverurenBesparing.Bedrag <= 0)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Besparingen op overuren
@@ -96,7 +96,7 @@
             <a asp-controller="Baten" asp-action="Subsidies"
                data-toggle="tooltip" data-placement="bottom"
                title="Welk bedrag krijgt de werkgever aan subsidie voor eventuele aanpassingen aan de werkomgeving?">
-                @if (Model.Subsidie != null)
+                @if (Model.Subsidie != null && Model.Subsidie.Bedrag <= 0)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Subsidie
