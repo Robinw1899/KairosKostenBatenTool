@@ -2,8 +2,7 @@
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModels
 {
@@ -18,9 +17,13 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModels
 
         [HiddenInput]
         public Soort Soort { get; set; }
+
+        [Required(ErrorMessage = "Gelieve een (korte) beschrijving op te geven.")]
         public string Beschrijving { get; set; }
 
-        public double Bedrag { get; set; } // jaarbedrag van de huidige BegeleidingsKost
+        [Required(ErrorMessage = "Gelieve een bedrag op te geven.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief bedrag op te geven.")]
+        public double Bedrag { get; set; }
 
         public IEnumerable<EnclaveKostenViewModel> ViewModels { get; set; }
         #endregion

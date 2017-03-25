@@ -1,23 +1,28 @@
-﻿using KairosWeb_Groep6.Models.Domain;
+﻿using System.ComponentModel.DataAnnotations;
+using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModels
 {
     public class EnclaveKostenViewModel
     {
         #region Properties
+        [HiddenInput]
         public int Id { get; set; }
 
+        [HiddenInput]
         public Type Type { get; set; }
 
+        [HiddenInput]
         public Soort Soort { get; set; }
+
+        [Required(ErrorMessage = "Gelieve een (korte) beschrijving op te geven.")]
         public string Beschrijving { get; set; }
 
-        public double Bedrag { get; set; } // jaarbedrag van de huidige BegeleidingsKost
+        [Required(ErrorMessage = "Gelieve een bedrag op te geven.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief bedrag op te geven.")]
+        public double Bedrag { get; set; }
         #endregion
 
         #region Constructors

@@ -1,6 +1,6 @@
 ﻿@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModels.EnclaveKostenIndexViewModel
 @{
-    ViewData["Title"] = "Enclave kosten";
+    ViewData["Title"] = "Kosten voor maatwerkbedrijf of enclave of onderaanneming";
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
     ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
 }
@@ -74,23 +74,11 @@
 @section scripts{
     <script>
         if (@Model.Bedrag > 0) {
-            toonFormulier();
+            siteView.toonFormulier();
         } else {
             $("#beschrijving").val("");
             $("#bedrag").val("");
         }
-
-        $("#form").submit(function() {
-            $.post(this.action,
-                $(this).serialize(),
-                function(data) {
-                    $("#data").html(data);
-                    $("#beschrijving").val("");
-                    $("#bedrag").val("");
-                });
-
-            return false;
-        });
 
         $("#baten").addClass("active");
 
