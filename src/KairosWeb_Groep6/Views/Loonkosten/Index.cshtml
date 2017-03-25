@@ -124,6 +124,19 @@
     </form>
 </div>
 
+<div class="row">
+    <div class="col-xs-7 col-md-7">
+        <a asp-controller="Kosten" asp-action="Index" style="margin-left: 15px" class="btn btn-default">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Kosten
+        </a>
+    </div>
+    <div class="col-xs-5 col-md-5">
+        <a asp-controller="Kosten" asp-action="EnclaveKosten" style="margin-left: 30px" class="btn btn-success">
+            Kosten voor maatwerkbedrijf of enclave of onderaanneming <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+
 @section scripts{
     <script>
         if (@Model.AantalUrenPerWeek !== 0 && @Model.BrutoMaandloonFulltime !== 0
