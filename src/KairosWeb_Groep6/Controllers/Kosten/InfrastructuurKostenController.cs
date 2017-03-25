@@ -1,28 +1,30 @@
 ﻿using System.Linq;
-using KairosWeb_Groep6.Filters;
 using Microsoft.AspNetCore.Mvc;
-using KairosWeb_Groep6.Models.Domain;
-using KairosWeb_Groep6.Models.Domain.Extensions;
-using KairosWeb_Groep6.Models.Domain.Kosten;
-using KairosWeb_Groep6.Models.KairosViewModels.Kosten.GereedschapsKostenViewModels;
 using Microsoft.AspNetCore.Authorization;
+using KairosWeb_Groep6.Filters;
+using KairosWeb_Groep6.Models.Domain;
+using KairosWeb_Groep6.Models.Domain.Kosten;
+using KairosWeb_Groep6.Models.Domain.Extensions;
+using KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenViewModels;
+
+// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
-    public class GereedschapsKostenController : Controller
+    public class InfrastructuurKostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
 
-        public GereedschapsKostenController(IAnalyseRepository analyseRepository)
+        public InfrastructuurKostenController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
 
         public IActionResult Index(Analyse analyse)
         {
-            GereedschapsKostenIndexViewModel model = MaakModel(analyse);
+            InfrastructuurKostenIndexViewModel model = MaakModel(analyse);
 
             if (IsAjaxRequest())
             {
@@ -33,11 +35,11 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             return View(model);
         }
 
-        public IActionResult VoegToe(Analyse analyse, GereedschapsKostenIndexViewModel model)
+        public IActionResult VoegToe(Analyse analyse, InfrastructuurKostenIndexViewModel model)
         {
             if (ModelState.IsValid)
             {
-                GereedschapsKost kost = new GereedschapsKost
+                InfrastructuurKost kost = new InfrastructuurKost
                 {
                     Type = model.Type,
                     Soort = model.Soort,
@@ -45,7 +47,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     Bedrag = model.Bedrag
                 };
 
-                analyse.GereedschapsKosten.Add(kost);
+                analyse.InfrastructuurKosten.Add(kost);
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -58,9 +60,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            GereedschapsKost kost = KostOfBaatExtensions.GetBy(analyse.GereedschapsKosten, id);
+            InfrastructuurKost kost = KostOfBaatExtensions.GetBy(analyse.InfrastructuurKosten, id);
 
-            GereedschapsKostenIndexViewModel model = MaakModel(analyse);
+            InfrastructuurKostenIndexViewModel model = MaakModel(analyse);
 
             if (kost != null)
             {
@@ -70,8 +72,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Soort = kost.Soort;
                 model.Beschrijving = kost.Beschrijving;
                 model.Bedrag = kost.Bedrag;
-                model.ViewModels = analyse.GereedschapsKosten
-                                            .Select(m => new GereedschapsKostenViewModel(m));
+                model.ViewModels = analyse.InfrastructuurKosten
+                                            .Select(m => new InfrastructuurKostenViewModel(m));
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -80,9 +82,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, GereedschapsKostenIndexViewModel model)
+        public IActionResult Bewerk(Analyse analyse, InfrastructuurKostenIndexViewModel model)
         {
-            GereedschapsKost kost = KostOfBaatExtensions.GetBy(analyse.GereedschapsKosten, model.Id);
+            InfrastructuurKost kost = KostOfBaatExtensions.GetBy(analyse.InfrastructuurKosten, model.Id);
 
             if (ModelState.IsValid && kost != null)
             {
@@ -110,15 +112,15 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            GereedschapsKost kost = KostOfBaatExtensions.GetBy(analyse.GereedschapsKosten, id);
+            InfrastructuurKost kost = KostOfBaatExtensions.GetBy(analyse.InfrastructuurKosten, id);
 
             if (kost != null)
             {
-                analyse.GereedschapsKosten.Remove(kost);
+                analyse.InfrastructuurKosten.Remove(kost);
                 _analyseRepository.Save();
             }
 
-            GereedschapsKostenIndexViewModel model = MaakModel(analyse);
+            InfrastructuurKostenIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
             TempData["message"] = $"{model.Beschrijving} is succesvol verwijderd.";
@@ -126,15 +128,15 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             return View("Index", model);
         }
 
-        private GereedschapsKostenIndexViewModel MaakModel(Analyse analyse)
+        private InfrastructuurKostenIndexViewModel MaakModel(Analyse analyse)
         {
-            GereedschapsKostenIndexViewModel model = new GereedschapsKostenIndexViewModel()
+            InfrastructuurKostenIndexViewModel model = new InfrastructuurKostenIndexViewModel()
             {
-                Type = Type.Kost,
-                Soort = Soort.GereedschapsKost,
+                Type = Models.Domain.Type.Kost,
+                Soort = Soort.InfrastructuurKost,
                 ViewModels = analyse
-                                .GereedschapsKosten
-                                .Select(m => new GereedschapsKostenViewModel(m))
+                                .InfrastructuurKosten
+                                .Select(m => new InfrastructuurKostenViewModel(m))
             };
 
             return model;
@@ -147,12 +149,12 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         private void PlaatsTotaalInViewData(Analyse analyse)
         {
-            if (analyse.GereedschapsKosten.Count == 0)
+            if (analyse.InfrastructuurKosten.Count == 0)
             {
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = KostOfBaatExtensions.GeefTotaal(analyse.GereedschapsKosten);
+            double totaal = KostOfBaatExtensions.GeefTotaal(analyse.InfrastructuurKosten);
 
             ViewData["totaal"] = totaal.ToString("C");
         }
