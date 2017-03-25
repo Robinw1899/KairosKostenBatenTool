@@ -1,23 +1,22 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.ExtraKostViewModels;
+using KairosWeb_Groep6.Models.KairosViewModels.Kosten.VoorbereidingsKostViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
-    public class ExtraKostenController : Controller
+    public class VoorbereidingsKostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
 
-        public ExtraKostenController(IAnalyseRepository analyseRepository)
+        public VoorbereidingsKostenController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
@@ -26,7 +25,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
-            ExtraKostenIndexViewModel model = MaakModel(analyse);
+            VoorbereidingsKostIndexViewModel model = MaakModel(analyse);
 
             if (IsAjaxRequest())
             {
@@ -39,11 +38,11 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             return View(model);
         }
 
-        public IActionResult VoegToe(Analyse analyse, ExtraKostenIndexViewModel model)
+        public IActionResult VoegToe(Analyse analyse, VoorbereidingsKostIndexViewModel model)
         {
             if (ModelState.IsValid)
             {
-                ExtraKost kost = new ExtraKost
+                VoorbereidingsKost kost = new VoorbereidingsKost
                 {
                     Type = model.Type,
                     Soort = model.Soort,
@@ -51,7 +50,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     Bedrag = model.Bedrag
                 };
 
-                analyse.ExtraKosten.Add(kost);
+                analyse.VoorbereidingsKosten.Add(kost);
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -64,9 +63,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
+            VoorbereidingsKost kost = KostOfBaatExtensions.GetBy(analyse.VoorbereidingsKosten, id);
 
-            ExtraKostenIndexViewModel model = MaakModel(analyse);
+            VoorbereidingsKostIndexViewModel model = MaakModel(analyse);
 
             if (kost != null)
             {
@@ -76,8 +75,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Soort = kost.Soort;
                 model.Beschrijving = kost.Beschrijving;
                 model.Bedrag = kost.Bedrag;
-                model.ViewModels = analyse.ExtraKosten
-                    .Select(m => new ExtraKostViewModel(m));
+                model.ViewModels = analyse.VoorbereidingsKosten
+                    .Select(m => new VoorbereidingsKostViewModel(m));
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -86,9 +85,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, ExtraKostenIndexViewModel model)
+        public IActionResult Bewerk(Analyse analyse, VoorbereidingsKostIndexViewModel model)
         {
-            ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, model.Id);
+            VoorbereidingsKost kost = KostOfBaatExtensions.GetBy(analyse.VoorbereidingsKosten, model.Id);
 
             if (ModelState.IsValid && kost != null)
             {
@@ -114,15 +113,15 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
+            VoorbereidingsKost kost = KostOfBaatExtensions.GetBy(analyse.VoorbereidingsKosten, id);
 
             if (kost != null)
             {
-                analyse.ExtraKosten.Remove(kost);
+                analyse.VoorbereidingsKosten.Remove(kost);
                 _analyseRepository.Save();
             }
 
-            ExtraKostenIndexViewModel model = MaakModel(analyse);
+            VoorbereidingsKostIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
             TempData["message"] = "De kost is succesvol verwijderd.";
@@ -130,15 +129,15 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             return View("Index", model);
         }
 
-        private ExtraKostenIndexViewModel MaakModel(Analyse analyse)
+        private VoorbereidingsKostIndexViewModel MaakModel(Analyse analyse)
         {
-            ExtraKostenIndexViewModel model = new ExtraKostenIndexViewModel()
+            VoorbereidingsKostIndexViewModel model = new VoorbereidingsKostIndexViewModel()
             {
                 Type = Type.Kost,
                 Soort = Soort.ExtraKost,
                 ViewModels = analyse
-                                .ExtraKosten
-                                .Select(m => new ExtraKostViewModel(m))
+                                .VoorbereidingsKosten
+                                .Select(m => new VoorbereidingsKostViewModel(m))
             };
 
             return model;
@@ -151,12 +150,12 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
         private void PlaatsTotaalInViewData(Analyse analyse)
         {
-            if (analyse.ExtraKosten.Count == 0)
+            if (analyse.VoorbereidingsKosten.Count == 0)
             {
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = KostOfBaatExtensions.GeefTotaal(analyse.ExtraKosten);
+            double totaal = KostOfBaatExtensions.GeefTotaal(analyse.VoorbereidingsKosten);
 
             ViewData["totaal"] = totaal.ToString("C");
         }
