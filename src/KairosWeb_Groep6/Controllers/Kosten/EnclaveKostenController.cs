@@ -14,7 +14,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
-    [ValidateAntiForgeryToken]
     public class EnclaveKostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
@@ -50,9 +49,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 EnclaveKost kost = new EnclaveKost
                 {
-                    Beschrijving = model.Beschrijving,
                     Soort = model.Soort,
-                    Type = model.Type,     
+                    Type = model.Type,
+                    Beschrijving = model.Beschrijving,
                     Bedrag = model.Bedrag
                 };
 
@@ -60,22 +59,18 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
-                return PartialView("_OverzichtTabel", model.ViewModels);
+                TempData["message"] = "De kost is succesvol toegevoegd.";
             }
 
             PlaatsTotaalInViewData(analyse);
 
-            return RedirectToAction("Index", model);
+            return View("Index", model);
         }
 
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
-
-            EnclaveKost kost = analyse.EnclaveKosten
-                                              .SingleOrDefault(b => b.Id == id);
+            EnclaveKost kost = KostOfBaatExtensions.GetBy(analyse.EnclaveKosten, id);
 
             EnclaveKostenIndexViewModel model = MaakModel(analyse);
 
@@ -83,12 +78,10 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 // parameters voor formulier instellen
                 model.Id = id;
-                //functie
                 model.Type = kost.Type;
                 model.Beschrijving = kost.Beschrijving;
                 model.Soort = kost.Soort;
                 model.Bedrag = kost.Bedrag;
-             
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -99,27 +92,22 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, EnclaveKostenIndexViewModel model)
         {
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
-
-            EnclaveKost kost = analyse.EnclaveKosten
-                                             .SingleOrDefault(b => b.Id == model.Id);
-
+            EnclaveKost kost = KostOfBaatExtensions.GetBy(analyse.EnclaveKosten, model.Id);
 
             if (ModelState.IsValid && kost != null)
             {
                 // parameters voor formulier instellen
                 model.Id = kost.Id;
-                //functie
                 model.Type = kost.Type;
                 model.Beschrijving = kost.Beschrijving;
                 model.Soort = kost.Soort;
                 model.Bedrag = kost.Bedrag;
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
-                return RedirectToAction("Index", model);
+                TempData["message"] = "De kost is succesvol opgeslaan.";
             }
+
             PlaatsTotaalInViewData(analyse);
 
             return View("Index", model);
@@ -139,7 +127,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             EnclaveKostenIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = "De waarden zijn succesvol verwijderd.";
+            TempData["message"] = "De kost is succesvol verwijderd.";
 
             return View("Index", model);
         }
@@ -168,7 +156,10 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 ViewData["totaal"] = 0;
             }
- 
+            
+            double totaal = KostOfBaatExtensions.GeefTotaal(analyse.EnclaveKosten);
+
+            ViewData["totaal"] = totaal.ToString("C");
         }
     }
 }
