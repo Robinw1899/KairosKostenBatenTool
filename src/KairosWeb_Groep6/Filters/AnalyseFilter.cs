@@ -33,7 +33,6 @@ namespace KairosWeb_Groep6.Filters
         {
             WriteAnalyseToSession(context.HttpContext, _analyse);
             _analyse.DatumLaatsteAanpassing = DateTime.Now;
-            _analyseRepository.Save();
             base.OnActionExecuted(context);
         }
 

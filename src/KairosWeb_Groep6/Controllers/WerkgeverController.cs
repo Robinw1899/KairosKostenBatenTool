@@ -32,7 +32,7 @@ namespace KairosWeb_Groep6.Controllers
             if (analyse.Departement == null || analyse.Departement.Naam.Length == 0)
             {
                 // er is nog geen werkgever, doorsturen naar nieuwe analyse
-                return RedirectToAction("NieuweAnalyse", "Analyse");
+                return RedirectToAction("SelecteerWerkgever", "Analyse");
             }
 
             WerkgeverViewModel model = new WerkgeverViewModel(analyse.Departement);

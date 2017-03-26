@@ -66,7 +66,7 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
             return minBrutoloon;
         }
 
-        public static string ToString(this Doelgroep doelgroep)
+        public static string GeefOmschrijving(Doelgroep doelgroep)
         {
             switch (doelgroep)
             {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
@@ -57,6 +56,11 @@ namespace KairosWeb_Groep6.Controllers
             return View();
         }
 
+        public IActionResult SelecteerWerkgever()
+        {
+            return View("NieuweAnalyse");
+        }
+
         public IActionResult NieuweWerkgever(Analyse analyse)
         {
             analyse = _analyseRepository.GetById(analyse.AnalyseId);
@@ -103,7 +107,9 @@ namespace KairosWeb_Groep6.Controllers
             _departementRepository.Save();
             _analyseRepository.Save();
 
-            return View();
+            TempData["message"] = "De werkgever is succesvol toegevoegd";
+
+            return RedirectToAction("Index", "Resultaat");
         }
 
         public IActionResult BestaandeWerkgever()
@@ -138,7 +144,7 @@ namespace KairosWeb_Groep6.Controllers
 
             _analyseRepository.Save();
 
-            return RedirectToAction("Index", "Baten");
+            return RedirectToAction("Index", "Resultaat");
         }
     }
 }

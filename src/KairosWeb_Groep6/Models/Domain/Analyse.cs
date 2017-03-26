@@ -86,21 +86,9 @@ namespace KairosWeb_Groep6.Models.Domain
         #endregion
 
         #region Methods
-        public IDictionary<Soort, double> GeefResultaat()
+        public IDictionary<Soort, double> GeefTotalenKosten()
         {
             IDictionary<Soort, double> resultaat = new Dictionary<Soort, double>();
-
-            // Totalen van alle kosten in resultaat steken
-            ZetTotaalKostenInResultaat(resultaat);
-
-            // Totalen van alle baten in resultaat steken
-            ZetTotaalBatenInResultaat(resultaat);
-
-            return resultaat;
-        }
-
-        private void ZetTotaalKostenInResultaat(IDictionary<Soort, double> resultaat)
-        {
             double totaal = 0;
 
             // Loonkosten
@@ -136,10 +124,13 @@ namespace KairosWeb_Groep6.Models.Domain
             // Extra kosten
             totaal = KostOfBaatExtensions.GeefTotaal(ExtraKosten);
             resultaat.Add(Soort.ExtraKost, totaal);
+
+            return resultaat;
         }
 
-        private void ZetTotaalBatenInResultaat(IDictionary<Soort, double> resultaat)
+        public IDictionary<Soort, double> GeefTotalenBaten()
         {
+            IDictionary<Soort, double> resultaat = new Dictionary<Soort, double>();
             double totaal = 0;
 
             // Medewerkers zelfde niveau
@@ -161,15 +152,27 @@ namespace KairosWeb_Groep6.Models.Domain
             resultaat.Add(Soort.UitzendkrachtBesparing, totaal);
 
             // Extra omzet
-            totaal = ExtraOmzet.Bedrag;
+            if(ExtraOmzet != null)
+            {
+                totaal = ExtraOmzet.Bedrag;
+            }
+            totaal = 0;
             resultaat.Add(Soort.ExtraOmzet, totaal);
 
             // Extra productiviteit
-            totaal = ExtraProductiviteit.Bedrag;
+            if (ExtraProductiviteit != null)
+            {
+                totaal = ExtraProductiviteit.Bedrag;
+            }
+            totaal = 0;
             resultaat.Add(Soort.ExtraProductiviteit, totaal);
 
             // Overurenbesparing
-            totaal = OverurenBesparing.Bedrag;
+            if (OverurenBesparing != null)
+            {
+                totaal = OverurenBesparing.Bedrag;
+            }
+            totaal = 0;
             resultaat.Add(Soort.OverurenBesparing, totaal);
 
             // Externe inkopen
@@ -177,12 +180,18 @@ namespace KairosWeb_Groep6.Models.Domain
             resultaat.Add(Soort.ExterneInkoop, totaal);
 
             // Subsidie
-            totaal = Subsidie.Bedrag;
+            if(Subsidie != null)
+            {
+                totaal = Subsidie.Bedrag;
+            }
+            totaal = 0;
             resultaat.Add(Soort.Subsidie, totaal);
 
             // Extra besparingen
             totaal = KostOfBaatExtensions.GeefTotaal(ExtraBesparingen);
             resultaat.Add(Soort.ExtraBesparing, totaal);
+
+            return resultaat;
         }
         #endregion
     }

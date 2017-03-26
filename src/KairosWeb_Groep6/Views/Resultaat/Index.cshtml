@@ -1,4 +1,6 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.ResultaatViewModel
+﻿@using KairosWeb_Groep6.Models.Domain;
+@using KairosWeb_Groep6.Models.Domain.Extensions;
+@model KairosWeb_Groep6.Models.KairosViewModels.ResultaatViewModel
 @{ 
     ViewData["title"] = "Resultaat";
 }
@@ -11,3 +13,170 @@
     <h3>@ViewData["title"]</h3>
 </div>
 
+@if (Model.Resultaten != null)
+{
+    <div class="row">
+        <table class="table table-bordered table-responsive">
+            <tr>
+                <th class="col-md-4">Baten</th>
+                <th class="col-md-4 text-center" colspan="2">Bedrag</th>
+                <th class="col-md-4">Kosten</th>
+            </tr>
+
+            <tr> <!-- Rij 1 Medewerkers zelfde niveau - Loonkost -->
+                <td class="col-md-4">
+                    @Soort.MedewerkersZelfdeNiveau.GeefOmschrijving()
+                </td>
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.MedewerkersZelfdeNiveau].ToString("C")
+                </td>
+
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.Loonkost].ToString("C")
+                </td>
+                <td class="col-md-4">
+                    @Soort.Loonkost.GeefOmschrijving()
+                </td>
+            </tr>
+
+            <tr> <!-- Rij 2 Medewerkers hoger niveau - Enclavekost -->
+                <td class="col-md-4">
+                    @Soort.MedewerkersHogerNiveau.GeefOmschrijving()
+                </td>
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.MedewerkersHogerNiveau].ToString("C")
+                </td>
+                
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.EnclaveKost].ToString("C")
+                </td>
+                <td class="col-md-4">
+                    @Soort.EnclaveKost.GeefOmschrijving()
+                </td>
+            </tr>
+
+            <tr>  <!-- Rij 3 Uitzendkrachtbesparing - Voorbereidingskosten -->
+                <td class="col-md-4">
+                    @Soort.UitzendkrachtBesparing.GeefOmschrijving()
+                </td>    
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.UitzendkrachtBesparing].ToString("C")
+                </td>
+                
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.VoorbereidingsKost].ToString("C")
+                </td>
+                <td class="col-md-4">
+                    @Soort.VoorbereidingsKost.GeefOmschrijving()
+                </td>
+            </tr>
+
+            <tr>
+                <!-- Rij 4 Extra omzet - Infrastructuurkosten -->
+                <td class="col-md-4">
+                    @Soort.ExtraOmzet.GeefOmschrijving()
+                </td>
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.ExtraOmzet].ToString("C")
+                </td>
+
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.InfrastructuurKost].ToString("C")
+                </td>
+                <td class="col-md-4">
+                    @Soort.InfrastructuurKost.GeefOmschrijving()
+                </td>
+            </tr>
+
+            <tr>
+                <!-- Rij 5 Extra productiviteit - Gereedschapskosten -->
+                <td class="col-md-4">
+                    @Soort.ExtraProductiviteit.GeefOmschrijving()
+                </td>
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.ExtraProductiviteit].ToString("C")
+                </td>
+
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.GereedschapsKost].ToString("C")
+                </td>
+                <td class="col-md-4">
+                    @Soort.GereedschapsKost.GeefOmschrijving()
+                </td>
+            </tr>
+
+            <tr>
+                <!-- Rij 6 Besparing op overuren - Opleidingskosten -->
+                <td class="col-md-4">
+                    @Soort.OverurenBesparing.GeefOmschrijving()
+                </td>
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.OverurenBesparing].ToString("C")
+                </td>
+
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.OpleidingsKost].ToString("C")
+                </td>
+                <td class="col-md-4">
+                    @Soort.OpleidingsKost.GeefOmschrijving()
+                </td>
+            </tr>
+
+            <tr>
+                <!-- Rij 7 Externe inkopen - Begeleidingskosten -->
+                <td class="col-md-4">
+                    @Soort.ExterneInkoop.GeefOmschrijving()
+                </td>
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.ExterneInkoop].ToString("C")
+                </td>
+
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.BegeleidingsKost].ToString("C")
+                </td>
+                <td class="col-md-4">
+                    @Soort.BegeleidingsKost.GeefOmschrijving()
+                </td>
+            </tr>
+
+            <tr>
+                <!-- Rij 8 Subsidie - Extra kosten -->
+                <td class="col-md-4">
+                    @Soort.Subsidie.GeefOmschrijving()
+                </td>
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.Subsidie].ToString("C")
+                </td>
+
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.ExtraKost].ToString("C")
+                </td>
+                <td class="col-md-4">
+                    @Soort.ExtraKost.GeefOmschrijving()
+                </td>
+            </tr>
+
+            <tr>
+                <!-- Rij 9 Extra besparingen -->
+                <td class="col-md-4">
+                    @Soort.ExtraBesparing.GeefOmschrijving()
+                </td>
+                <td class="col-md-2 text-center">
+                    @Model.Resultaten[Soort.ExtraBesparing].ToString("C")
+                </td>
+
+                <td class="col-md-2 text-center">
+                    
+                </td>
+                <td class="col-md-4">
+                    
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+else
+{
+    <p>Er is nog geen werkgever geselecteerd, hierdoor kan er momenteel nog geen resultaat getoond worden.</p>
+    <p><a asp-controller="Analyse" asp-action="SelecteerWerkgever">Voeg een werknemer toe</a> via de navigatie hierboven.</p>
+}

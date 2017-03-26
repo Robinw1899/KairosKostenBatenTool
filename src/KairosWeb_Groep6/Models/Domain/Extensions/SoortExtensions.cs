@@ -2,7 +2,7 @@
 {
     public static class SoortExtensions
     {
-        public static string ToString(this Soort soort)
+        public static string GeefOmschrijving(this Soort soort)
         {
             switch(soort)
             {
