@@ -65,5 +65,24 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
 
             return minBrutoloon;
         }
+
+        public static string ToString(this Doelgroep doelgroep)
+        {
+            switch (doelgroep)
+            {
+                case Doelgroep.LaaggeschooldTot25:
+                    return "Wn's < 25 jaar laaggeschoold";
+                case Doelgroep.MiddengeschooldTot25:
+                    return "Wn's < 25 jaar middengeschoold";
+                case Doelgroep.Tussen55En60:
+                    return "Wn's ≥ 55 en < 60 jaar";
+                case Doelgroep.Vanaf60:
+                    return "Wns ≥ 60 jaar";
+                case Doelgroep.Andere:
+                    return "Andere";
+                default:
+                    return "";
+            }
+        }
     }
 }

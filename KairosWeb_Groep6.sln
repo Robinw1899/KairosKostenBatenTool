@@ -1,20 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{77A4153E-2AE1-4D8E-829F-96F21102A25A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{44C15997-827A-45EB-B924-4EF39FBE74C8}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "KairosWeb_Groep6", "src\KairosWeb_Groep6\KairosWeb_Groep6.xproj", "{CD9A0E14-2A06-4C62-8AB7-634C1282C033}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{701E5FB8-D665-40F2-8B88-FC4773FBD72E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "KairosWeb_Groep6.Tests", "test\KairosWeb_Groep6.Tests\KairosWeb_Groep6.Tests.xproj", "{5726F6FC-A31D-4793-AE3F-8BFACEF5C9E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KairosWeb_Groep6", "src\KairosWeb_Groep6\KairosWeb_Groep6.csproj", "{CD9A0E14-2A06-4C62-8AB7-634C1282C033}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KairosWeb_Groep6.Tests", "test\KairosWeb_Groep6.Tests\KairosWeb_Groep6.Tests.csproj", "{5726F6FC-A31D-4793-AE3F-8BFACEF5C9E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
