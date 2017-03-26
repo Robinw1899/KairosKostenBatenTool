@@ -30,7 +30,21 @@ namespace KairosWeb_Groep6.Controllers
 
                 model.KostenTotaal = kostenTotaal;
                 model.BatenTotaal = batenTotaal;
-                model.Totaal = kostenTotaal + batenTotaal;
+                model.Totaal = batenTotaal - kostenTotaal;
+
+                // kleur voor nettoresultaat bepalen
+                if (model.Totaal < 0)
+                {
+                    ViewData["klasseTotaal"] = "alert-danger";
+                }
+                else if (model.Totaal == 0)
+                {
+                    ViewData["klasseTotaal"] = "alert-warning";
+                }
+                else
+                {
+                    ViewData["klasseTotaal"] = "alert-succes";
+                }
             }
             else
             {

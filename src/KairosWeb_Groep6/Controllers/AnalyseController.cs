@@ -122,7 +122,7 @@ namespace KairosWeb_Groep6.Controllers
         {
             IEnumerable<Departement> werkgevers;
 
-            if (naam.Equals(""))
+            if (naam == null || naam.Equals(""))
                 werkgevers = _departementRepository.GetAll();
             else
             {

@@ -1,7 +1,7 @@
 ﻿@using KairosWeb_Groep6.Models.Domain;
 @using KairosWeb_Groep6.Models.Domain.Extensions;
 @model KairosWeb_Groep6.Models.KairosViewModels.ResultaatViewModel
-@{ 
+@{
     ViewData["title"] = "Resultaat";
 }
 
@@ -15,15 +15,16 @@
 
 @if (Model.Resultaten != null)
 {
-    <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
         <table class="table table-bordered table-responsive">
             <tr>
                 <th class="col-md-4">Baten</th>
                 <th class="col-md-4 text-center" colspan="2">Bedrag</th>
-                <th class="col-md-4">Kosten</th>
+                <th class="col-md-4 text-right">Kosten</th>
             </tr>
 
-            <tr> <!-- Rij 1 Medewerkers zelfde niveau - Loonkost -->
+            <tr>
+                <!-- Rij 1 Medewerkers zelfde niveau - Loonkost -->
                 <td class="col-md-4">
                     @Soort.MedewerkersZelfdeNiveau.GeefOmschrijving()
                 </td>
@@ -34,39 +35,41 @@
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.Loonkost].ToString("C")
                 </td>
-                <td class="col-md-4">
+                <td class="col-md-4  text-right">
                     @Soort.Loonkost.GeefOmschrijving()
                 </td>
             </tr>
 
-            <tr> <!-- Rij 2 Medewerkers hoger niveau - Enclavekost -->
+            <tr>
+                <!-- Rij 2 Medewerkers hoger niveau - Enclavekost -->
                 <td class="col-md-4">
                     @Soort.MedewerkersHogerNiveau.GeefOmschrijving()
                 </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.MedewerkersHogerNiveau].ToString("C")
                 </td>
-                
+
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.EnclaveKost].ToString("C")
                 </td>
-                <td class="col-md-4">
+                <td class="col-md-4  text-right">
                     @Soort.EnclaveKost.GeefOmschrijving()
                 </td>
             </tr>
 
-            <tr>  <!-- Rij 3 Uitzendkrachtbesparing - Voorbereidingskosten -->
+            <tr>
+                <!-- Rij 3 Uitzendkrachtbesparing - Voorbereidingskosten -->
                 <td class="col-md-4">
                     @Soort.UitzendkrachtBesparing.GeefOmschrijving()
-                </td>    
+                </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.UitzendkrachtBesparing].ToString("C")
                 </td>
-                
+
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.VoorbereidingsKost].ToString("C")
                 </td>
-                <td class="col-md-4">
+                <td class="col-md-4  text-right">
                     @Soort.VoorbereidingsKost.GeefOmschrijving()
                 </td>
             </tr>
@@ -83,7 +86,7 @@
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.InfrastructuurKost].ToString("C")
                 </td>
-                <td class="col-md-4">
+                <td class="col-md-4  text-right">
                     @Soort.InfrastructuurKost.GeefOmschrijving()
                 </td>
             </tr>
@@ -100,7 +103,7 @@
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.GereedschapsKost].ToString("C")
                 </td>
-                <td class="col-md-4">
+                <td class="col-md-4  text-right">
                     @Soort.GereedschapsKost.GeefOmschrijving()
                 </td>
             </tr>
@@ -117,7 +120,7 @@
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.OpleidingsKost].ToString("C")
                 </td>
-                <td class="col-md-4">
+                <td class="col-md-4  text-right">
                     @Soort.OpleidingsKost.GeefOmschrijving()
                 </td>
             </tr>
@@ -134,7 +137,7 @@
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.BegeleidingsKost].ToString("C")
                 </td>
-                <td class="col-md-4">
+                <td class="col-md-4  text-right">
                     @Soort.BegeleidingsKost.GeefOmschrijving()
                 </td>
             </tr>
@@ -151,7 +154,7 @@
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.ExtraKost].ToString("C")
                 </td>
-                <td class="col-md-4">
+                <td class="col-md-4  text-right">
                     @Soort.ExtraKost.GeefOmschrijving()
                 </td>
             </tr>
@@ -165,11 +168,35 @@
                     @Model.Resultaten[Soort.ExtraBesparing].ToString("C")
                 </td>
 
-                <td class="col-md-2 text-center">
-                    
-                </td>
+                <td class="col-md-2 text-center"></td>
+                <td class="col-md-4  text-right"></td>
+            </tr>
+
+            <tr class="alert alert-info">
+                <!-- Afzonderlijke resultaten -->
                 <td class="col-md-4">
-                    
+                    <b>Subtotaal baten</b>
+                </td>
+                <td class="col-md-2 text-center">
+                    @Model.BatenTotaal.ToString("C")
+                </td>
+                <td class="col-md-2 text-center">
+                    @Model.KostenTotaal.ToString("C")
+                </td>
+                <td class="col-md-4 text-right">
+                    <b>Subtotaal kosten</b>
+                </td>
+            </tr>
+
+            <!-- Nettoresultaat -->
+            <tr class="alert @ViewData["klasseTotaal"]">
+                <td colspan="4" class="col-md-12 text-center">
+                    @Model.Totaal.ToString("C")
+                </td>
+            </tr>
+            <tr class="alert @ViewData["klasseTotaal"]">
+                <td colspan="4" class="col-md-12 text-center">
+                    <b>NETTORESULTAAT</b>
                 </td>
             </tr>
         </table>
