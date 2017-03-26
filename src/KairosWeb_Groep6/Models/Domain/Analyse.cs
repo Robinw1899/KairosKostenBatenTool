@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Newtonsoft.Json;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
@@ -85,7 +86,104 @@ namespace KairosWeb_Groep6.Models.Domain
         #endregion
 
         #region Methods
+        public IDictionary<Soort, double> GeefResultaat()
+        {
+            IDictionary<Soort, double> resultaat = new Dictionary<Soort, double>();
 
+            // Totalen van alle kosten in resultaat steken
+            ZetTotaalKostenInResultaat(resultaat);
+
+            // Totalen van alle baten in resultaat steken
+            ZetTotaalBatenInResultaat(resultaat);
+
+            return resultaat;
+        }
+
+        private void ZetTotaalKostenInResultaat(IDictionary<Soort, double> resultaat)
+        {
+            double totaal = 0;
+
+            // Loonkosten
+            totaal = LoonkostExtensions.GeefTotaalAlleLoonkosten(Loonkosten,
+                                                                    Departement.Werkgever.AantalWerkuren,
+                                                                    Departement.Werkgever.PatronaleBijdrage);
+            resultaat.Add(Soort.Loonkost, totaal);
+
+            // Enclavekosten
+            totaal = KostOfBaatExtensions.GeefTotaal(EnclaveKosten);
+            resultaat.Add(Soort.EnclaveKost, totaal);
+
+            // Voorbereidingskosten
+            totaal = KostOfBaatExtensions.GeefTotaal(VoorbereidingsKosten);
+            resultaat.Add(Soort.VoorbereidingsKost, totaal);
+
+            // Infrastructuurkosten
+            totaal = KostOfBaatExtensions.GeefTotaal(InfrastructuurKosten);
+            resultaat.Add(Soort.InfrastructuurKost, totaal);
+
+            // Gereedschapskosten
+            totaal = KostOfBaatExtensions.GeefTotaal(GereedschapsKosten);
+            resultaat.Add(Soort.GereedschapsKost, totaal);
+
+            // Opleidingskosten
+            totaal = KostOfBaatExtensions.GeefTotaal(OpleidingsKosten);
+            resultaat.Add(Soort.OpleidingsKost, totaal);
+
+            // Begeleidingskosten
+            totaal = BegeleidingsKostExtensions.GeefTotaal(BegeleidingsKosten, Departement.Werkgever.PatronaleBijdrage);
+            resultaat.Add(Soort.BegeleidingsKost, totaal);
+
+            // Extra kosten
+            totaal = KostOfBaatExtensions.GeefTotaal(ExtraKosten);
+            resultaat.Add(Soort.ExtraKost, totaal);
+        }
+
+        private void ZetTotaalBatenInResultaat(IDictionary<Soort, double> resultaat)
+        {
+            double totaal = 0;
+
+            // Medewerkers zelfde niveau
+            totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                                                        MedewerkersZelfdeNiveauBaat,
+                                                        Departement.Werkgever.AantalWerkuren,
+                                                        Departement.Werkgever.PatronaleBijdrage);
+            resultaat.Add(Soort.MedewerkersZelfdeNiveau, totaal);
+
+            // Medewerkers hoger niveau
+            totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                                                        MedewerkersHogerNiveauBaat,
+                                                        Departement.Werkgever.AantalWerkuren,
+                                                        Departement.Werkgever.PatronaleBijdrage);
+            resultaat.Add(Soort.MedewerkersHogerNiveau, totaal);
+
+            // Uitzendkrachtbesparingen
+            totaal = KostOfBaatExtensions.GeefTotaal(UitzendKrachtBesparingen);
+            resultaat.Add(Soort.UitzendkrachtBesparing, totaal);
+
+            // Extra omzet
+            totaal = ExtraOmzet.Bedrag;
+            resultaat.Add(Soort.ExtraOmzet, totaal);
+
+            // Extra productiviteit
+            totaal = ExtraProductiviteit.Bedrag;
+            resultaat.Add(Soort.ExtraProductiviteit, totaal);
+
+            // Overurenbesparing
+            totaal = OverurenBesparing.Bedrag;
+            resultaat.Add(Soort.OverurenBesparing, totaal);
+
+            // Externe inkopen
+            totaal = KostOfBaatExtensions.GeefTotaal(ExterneInkopen);
+            resultaat.Add(Soort.ExterneInkoop, totaal);
+
+            // Subsidie
+            totaal = Subsidie.Bedrag;
+            resultaat.Add(Soort.Subsidie, totaal);
+
+            // Extra besparingen
+            totaal = KostOfBaatExtensions.GeefTotaal(ExtraBesparingen);
+            resultaat.Add(Soort.ExtraBesparing, totaal);
+        }
         #endregion
     }
 }
