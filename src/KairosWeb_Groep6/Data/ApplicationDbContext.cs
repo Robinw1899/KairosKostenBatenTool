@@ -121,7 +121,9 @@ namespace KairosWeb_Groep6.Data
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            j.Ignore(t => t.Analyses);
+            j.HasMany(t => t.Analyses)
+                .WithOne()
+                .IsRequired(false);
         }
 
         private static void MapWerkgever(EntityTypeBuilder<Werkgever> w)

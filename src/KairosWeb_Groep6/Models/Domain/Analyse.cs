@@ -20,7 +20,8 @@ namespace KairosWeb_Groep6.Models.Domain
         public DateTime DatumCreatie { get; set; } = DateTime.Now;
 
         [JsonProperty]
-        public DateTime DatumLaatsteAanpassing { get; set; }
+        // bij aanmaak van analyse ook steeds op vandaag zetten
+        public DateTime DatumLaatsteAanpassing { get; set; } = DateTime.Now;
         #endregion
 
         #region Kosten

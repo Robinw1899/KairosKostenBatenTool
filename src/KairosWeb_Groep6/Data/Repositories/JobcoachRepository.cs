@@ -19,7 +19,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             return _gebruikers
                 .Include(g => g.Organisatie)
-                //.Include(g => g.Analyses)
+                .Include(g => g.Analyses)
                 .AsNoTracking();
         }
 
@@ -27,7 +27,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             return _gebruikers
                 .Include(g => g.Organisatie)
-                //.Include(g => g.Analyses)
+                .Include(g => g.Analyses)
                 .SingleOrDefault(g => g.Emailadres.Equals(email));
         }
 
@@ -35,7 +35,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             return _gebruikers
                 .Include(g => g.Organisatie)
-                //.Include(g => g.Analyses)
+                .Include(g => g.Analyses)
                 .SingleOrDefault(g => g.JobcoachId == id);
         }
 

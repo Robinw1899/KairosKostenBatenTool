@@ -84,7 +84,7 @@ namespace KairosWeb_Groep6
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
             ILoggerFactory loggerFactory, ApplicationDbContext context, 
             UserManager<ApplicationUser> userManager, IJobcoachRepository gebruikerRepository,
-            IDepartementRepository werkgeverRepository)
+            IDepartementRepository werkgeverRepository, IAnalyseRepository analyseRepository)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -121,7 +121,7 @@ namespace KairosWeb_Groep6
                     template: "{controller=Kairos}/{action=Index}/{id?}");
             });
 
-            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,werkgeverRepository);
+            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,werkgeverRepository, analyseRepository);
             initializer.InitializeData().Wait();
         }
     }

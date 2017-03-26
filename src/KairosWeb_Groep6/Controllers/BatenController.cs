@@ -1,5 +1,6 @@
 ﻿using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
+using KairosWeb_Groep6.Models.KairosViewModels.Baten;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Controllers
@@ -9,7 +10,9 @@ namespace KairosWeb_Groep6.Controllers
         [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult Index(Analyse analyse)
         {
-            return View(analyse);
+            BatenIndexViewModel model = new BatenIndexViewModel(analyse);
+
+            return View(model);
         }
 
         public IActionResult MedewerkerZelfdeNiveau()
