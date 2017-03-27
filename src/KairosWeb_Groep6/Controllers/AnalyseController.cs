@@ -146,5 +146,20 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction("Index", "Resultaat");
         }
+
+        public IActionResult OpenAnalyse(Analyse analyse, int id)
+        {
+            analyse = _analyseRepository.GetById(id); // analyse instellen in Session
+
+            return RedirectToAction("Index", "Resultaat");
+        }
+
+        public IActionResult VerwijderAnalyse(int id)
+        {
+            Analyse analyse = _analyseRepository.GetById(id);
+            _analyseRepository.Remove(analyse);
+
+            return RedirectToAction("Index", "Kairos");
+        }
     }
 }

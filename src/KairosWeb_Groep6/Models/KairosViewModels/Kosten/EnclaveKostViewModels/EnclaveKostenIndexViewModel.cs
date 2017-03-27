@@ -36,6 +36,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModels
 
         public EnclaveKostenIndexViewModel(EnclaveKost kost)
         {
+            Id = kost.Id;
             Type = kost.Type;
             Soort = kost.Soort;
             Beschrijving = kost.Beschrijving;

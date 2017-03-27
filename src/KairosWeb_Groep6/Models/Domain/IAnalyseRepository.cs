@@ -6,8 +6,8 @@ namespace KairosWeb_Groep6.Models.Domain
     {
         IEnumerable<Analyse> GetAll();
         Analyse GetById(int id);
-        void Add(Analyse werkgever);
-        void Remove(Analyse werkgever);
+        void Add(Analyse analyse);
+        void Remove(Analyse analyse);
         void Save();
     }
 }
