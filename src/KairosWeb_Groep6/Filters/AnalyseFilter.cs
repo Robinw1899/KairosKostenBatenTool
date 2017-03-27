@@ -54,5 +54,10 @@ namespace KairosWeb_Groep6.Filters
         {
             context.Session.Remove("analyse");
         }
+
+        public static void SetAnalyseInSession(HttpContext context, Analyse analyse)
+        {
+            context.Session.SetString("analyse", JsonConvert.SerializeObject(analyse));
+        }
     }
 }

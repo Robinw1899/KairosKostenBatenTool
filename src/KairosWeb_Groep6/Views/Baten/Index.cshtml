@@ -12,8 +12,9 @@
 </div>
 
 <div class="progress">
-    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@Model.AantalIngevuld"
-         aria-valuemin="0" aria-valuemax="@Model.AantalBaten" style="width:@((Model.AantalIngevuld / Model.AantalBaten) * 100)%">
+    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@Model.AantalIngevuld"
+         aria-valuemin="0" aria-valuemax="@Model.AantalBaten" 
+         style="width:@(Math.Round((((double) Model.AantalIngevuld / (double) Model.AantalBaten) * 100) / 2, 0))%">
     </div>
 </div>
 
@@ -129,7 +130,7 @@
             <i class="fa fa-chevron-left" aria-hidden="true"></i> Kosten</a>
     </div>
     <div class="col-xs-2 .col-md-2">
-        <a asp-controller="Resultaten" asp-action="Index" style="margin-left:15px" class="btn btn-success">
+        <a asp-controller="Resultaat" asp-action="Index" style="margin-left:15px" class="btn btn-success">
         Resultaat <i class="fa fa-chevron-right" aria-hidden="true"></i></a>
     </div>
 </div>

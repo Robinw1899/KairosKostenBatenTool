@@ -20,6 +20,7 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult Index(Analyse analyse)
         {
             ResultaatViewModel model = new ResultaatViewModel();
+            model.AnalyseId = analyse.AnalyseId;
 
             if (analyse.Departement != null)
             {

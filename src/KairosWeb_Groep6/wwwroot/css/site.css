@@ -208,10 +208,19 @@ li:hover .options i {
     font-size: 1.5em;
 }
 
+.headerButtons a {
+    background: none;
+    border: none;
+}
+
+.headerButtons a span, .headerButtons a i {
+    font-size: 1.3em;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
     .carousel-caption {
-    display: none
-  }
+        display: none
+    }
 }
