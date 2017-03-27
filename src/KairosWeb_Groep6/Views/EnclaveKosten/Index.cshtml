@@ -71,15 +71,15 @@
     </form>
 </div>
 
-<div class="row">
+<div class="row" style="margin-top:20px">
     <div class="col-xs-8 col-md-8">
         <a asp-controller="Kosten" asp-action="Loonkosten" style="margin-left: 15px" class="btn btn-default">
-            <i class="fa fa-chevron-left" aria-hidden="true"></i> Loonkosten / functies
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Loonkosten / Functies
         </a>
     </div>
     <div class="col-xs-4 col-md-4 text-right">
         <a asp-controller="Kosten" asp-action="VoorbereidingsKosten" class="btn btn-success">
-            Voorbereidingskosten <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            VoorbereidingsKosten <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </a>
     </div>
 </div>
@@ -93,7 +93,7 @@
             $("#bedrag").val("");
         }
 
-        $("#baten").addClass("active");
+        $("#kosten").addClass("active");
 
     </script>
 

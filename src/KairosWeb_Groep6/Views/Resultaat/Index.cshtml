@@ -33,7 +33,7 @@
         </a>
         
         <a asp-controller="Analyse" asp-action="VerwijderAnalyse" asp-route-id="@Model.AnalyseId" class="btn btn-default">
-            <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <!-- ANALYSE VERWIJDEREN -->
+            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> <!-- ANALYSE VERWIJDEREN -->
         </a>
     </div>
 </div>
@@ -231,4 +231,11 @@ else
 {
     <p>Er is nog geen werkgever geselecteerd, hierdoor kan er momenteel nog geen resultaat getoond worden.</p>
     <p><a asp-controller="Analyse" asp-action="SelecteerWerkgever">Voeg een werknemer toe</a> via de navigatie hierboven.</p>
+}
+@section scripts{
+   <script>
+        $("#resultaat").addClass("active");
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
