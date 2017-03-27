@@ -77,15 +77,12 @@ namespace KairosWeb_Groep6.Data
             o.HasKey(t => t.OrganisatieId);
 
             o.Property(t => t.Naam)
-                .HasMaxLength(50)
                 .IsRequired();
 
             o.Property(t => t.Straat)
-                .HasMaxLength(50)
                 .IsRequired();
 
             o.Property(t => t.Gemeente)
-                .HasMaxLength(50)
                 .IsRequired();
 
             o.Property(t => t.Postcode)
@@ -124,7 +121,9 @@ namespace KairosWeb_Groep6.Data
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
 
-            j.Ignore(t => t.Analyses);
+            j.HasMany(t => t.Analyses)
+                .WithOne()
+                .IsRequired(false);
         }
 
         private static void MapWerkgever(EntityTypeBuilder<Werkgever> w)
@@ -138,20 +137,18 @@ namespace KairosWeb_Groep6.Data
                 .IsRequired();
 
             w.Property(t => t.Straat)
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsRequired(false);
 
             w.Property(t => t.Nummer)
-                .HasMaxLength(5);
+                .HasMaxLength(5)
+                .IsRequired(false);
 
             w.Property(t => t.Postcode)
                 .IsRequired();
 
             w.Property(t => t.Gemeente)
-                .IsRequired();          
-            //w.Property(t => Werkgever.AantalWerkuren)
-            //    .IsRequired();
-
-            //w.Property(t => Werkgever.PatronaleBijdrage);
+                .IsRequired();
         }
     }
 }

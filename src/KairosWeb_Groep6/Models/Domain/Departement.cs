@@ -5,7 +5,7 @@
         #region Properties
 
         public int DepartementId { get; set; }
-        public string Naam { get; set; }
+        public string Naam { get; set; } = "";
 
         public Werkgever Werkgever { get; set; }
         #endregion

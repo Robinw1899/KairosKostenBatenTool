@@ -1,6 +1,7 @@
 ﻿using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
+using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -9,7 +10,9 @@ namespace KairosWeb_Groep6.Controllers
         [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult Index(Analyse analyse)
         {
-            return View(analyse);
+            KostenIndexViewModel model = new KostenIndexViewModel(analyse);
+
+            return View(model);
         }
 
         public IActionResult BegeleidingsKosten()
@@ -51,6 +54,5 @@ namespace KairosWeb_Groep6.Controllers
         {
             return RedirectToAction("Index", "VoorbereidingsKosten");
         }
-
     }
 }

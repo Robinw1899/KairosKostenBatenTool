@@ -2,6 +2,9 @@
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using KairosWeb_Groep6.Models.Domain.Baten;
+using KairosWeb_Groep6.Models.Domain.Kosten;
 
 namespace KairosWeb_Groep6.Data
 {
@@ -11,17 +14,20 @@ namespace KairosWeb_Groep6.Data
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJobcoachRepository _gebruikerRepository;
         private readonly IDepartementRepository _departementRepository;
+        private readonly IAnalyseRepository _analyseRepository;
 
         public DataInitializer(
             ApplicationDbContext dbContext,
             UserManager<ApplicationUser> userManager, 
             IJobcoachRepository gebruikerRepository,
-            IDepartementRepository werkgeverRepository)
+            IDepartementRepository werkgeverRepository,
+            IAnalyseRepository analyseRepository)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _gebruikerRepository = gebruikerRepository;
             _departementRepository = werkgeverRepository;
+            _analyseRepository = analyseRepository;
         }
 
         public async Task InitializeData()
@@ -29,6 +35,8 @@ namespace KairosWeb_Groep6.Data
             _dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated())
             {
+                await InitializeUsers();
+
                 Werkgever werkgever = new Werkgever("VDAB", "Vooruitgangstraat", 1, 9300, "Aalst", 37);
                 _departementRepository.Add(new Departement("Onderhoudsdienst") {Werkgever = werkgever});
 
@@ -40,7 +48,27 @@ namespace KairosWeb_Groep6.Data
 
                 _departementRepository.Save();
 
-                await InitializeUsers();
+                Jobcoach thomas = _gebruikerRepository.GetByEmail("thomasaelbrecht@live.com");
+
+                Analyse analyse = new Analyse();
+
+                analyse.Departement = new Departement("Verkoop") { Werkgever = werkgever };
+
+                analyse.Loonkosten = MaakLoonkosten();
+
+                analyse.ExtraKosten = MaakExtraKosten();
+
+                analyse.MedewerkersZelfdeNiveauBaat = MaakMedewerkerNiveauBaten();
+
+                analyse.Subsidie = new Subsidie { Id = 2, Bedrag = 1500 };
+
+                analyse.UitzendKrachtBesparingen = MaakUitzendKrachtBesparingen();
+
+                _analyseRepository.Add(analyse);
+                _analyseRepository.Save();
+
+                thomas.Analyses.Add(analyse);
+                _gebruikerRepository.Save();
             }
             _dbContext.SaveChanges();
         }
@@ -100,6 +128,79 @@ namespace KairosWeb_Groep6.Data
             await _userManager.CreateAsync(user, "kairos2017");
 
             _gebruikerRepository.Save();
+        }
+
+        private List<Loonkost> MaakLoonkosten()
+        {
+            Loonkost poetsvrouw = new Loonkost
+            {
+                Id = 1,
+                BrutoMaandloonFulltime = 1800,
+                AantalUrenPerWeek = 37,
+                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Ondersteuningspremie = 0.20D,
+                AantalMaandenIBO = 2,
+                IBOPremie = 564.0D
+            };
+
+            Loonkost secretaresse = new Loonkost
+            {
+                Id = 2,
+                BrutoMaandloonFulltime = 2200,
+                AantalUrenPerWeek = 23,
+                Doelgroep = Doelgroep.MiddengeschooldTot25,
+                Ondersteuningspremie = 0.20D,
+                AantalMaandenIBO = 2,
+                IBOPremie = 564.0D
+            };
+
+            Loonkost postbode = new Loonkost
+            {
+                Id = 3,
+                BrutoMaandloonFulltime = 1900,
+                AantalUrenPerWeek = 35,
+                Doelgroep = Doelgroep.Tussen55En60,
+                Ondersteuningspremie = 0.20D,
+                AantalMaandenIBO = 2,
+                IBOPremie = 564.0D
+            };
+
+            return new List<Loonkost>
+            {
+                poetsvrouw,
+                secretaresse,
+                postbode
+            };
+        }
+
+        private List<ExtraKost> MaakExtraKosten()
+        {
+            List<ExtraKost>  extraKosten = new List<ExtraKost>();
+            extraKosten.Add(new ExtraKost { Id = 1, Bedrag = 150, Beschrijving = "Stagekosten" });
+            extraKosten.Add(new ExtraKost { Id = 2, Bedrag = 1000, Beschrijving = "Uitrusting" });
+            extraKosten.Add(new ExtraKost { Id = 3, Bedrag = 400, Beschrijving = "Boeken en ander studiemateriaal" });
+            return extraKosten;
+        }
+
+        private List<MedewerkerNiveauBaat> MaakMedewerkerNiveauBaten()
+        {
+            List<MedewerkerNiveauBaat>  medewerkerNiveauBaten = new List<MedewerkerNiveauBaat>();
+            medewerkerNiveauBaten.Add(new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau) { Id = 1, Uren = 35, BrutoMaandloonFulltime = 2300 });
+            medewerkerNiveauBaten.Add(new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau) { Id = 2, Uren = 30, BrutoMaandloonFulltime = 2000 });
+            medewerkerNiveauBaten.Add(new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau) { Id = 3, Uren = 37, BrutoMaandloonFulltime = 3250 });
+            return medewerkerNiveauBaten;
+        }
+
+        public List<UitzendKrachtBesparing> MaakUitzendKrachtBesparingen()
+        {
+            List<UitzendKrachtBesparing> baten = new List<UitzendKrachtBesparing>
+            {
+                new UitzendKrachtBesparing() {Id = 1, Beschrijving = "Tuinier", Bedrag = 2500},
+                new UitzendKrachtBesparing() {Id = 2, Beschrijving = "Klusjesman", Bedrag = 3500},
+                new UitzendKrachtBesparing() {Id = 3, Beschrijving = "WC-madam", Bedrag = 2750}
+            };
+
+            return baten;
         }
     }
 }

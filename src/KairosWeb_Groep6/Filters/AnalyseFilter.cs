@@ -33,7 +33,6 @@ namespace KairosWeb_Groep6.Filters
         {
             WriteAnalyseToSession(context.HttpContext, _analyse);
             _analyse.DatumLaatsteAanpassing = DateTime.Now;
-            _analyseRepository.Save();
             base.OnActionExecuted(context);
         }
 
@@ -47,6 +46,16 @@ namespace KairosWeb_Groep6.Filters
         }
 
         private void WriteAnalyseToSession(HttpContext context, Analyse analyse)
+        {
+            context.Session.SetString("analyse", JsonConvert.SerializeObject(analyse));
+        }
+
+        public static void ClearSession(HttpContext context)
+        {
+            context.Session.Remove("analyse");
+        }
+
+        public static void SetAnalyseInSession(HttpContext context, Analyse analyse)
         {
             context.Session.SetString("analyse", JsonConvert.SerializeObject(analyse));
         }

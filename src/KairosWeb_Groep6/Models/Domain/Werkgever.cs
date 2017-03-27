@@ -4,15 +4,15 @@ namespace KairosWeb_Groep6.Models.Domain
     {
         public int WerkgeverId { get; set; }
 
-        public string Naam { get; set; }
+        public string Naam { get; set; } = "";
 
-        public string Straat { get; set; }
+        public string Straat { get; set; } = "";
 
-        public int Nummer { get; set; }
+        public int? Nummer { get; set; }
 
         public int Postcode { get; set; }
 
-        public string Gemeente { get; set; }
+        public string Gemeente { get; set; } = "";
 
         public double AantalWerkuren { get; set; }
 

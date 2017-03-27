@@ -6,6 +6,7 @@ using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -18,23 +19,50 @@ namespace KairosWeb_Groep6.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
 
         private readonly IJobcoachRepository _gebruikerRepository;
+
+        private readonly IAnalyseRepository _analyseRepository;
         #endregion
 
         #region Constructors
         public KairosController(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
-            IJobcoachRepository gebruikerRepository)
+            IJobcoachRepository gebruikerRepository,
+            IAnalyseRepository analyseRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _gebruikerRepository = gebruikerRepository;
+            _analyseRepository = analyseRepository;
         }
         #endregion
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            ApplicationUser user = await _userManager.GetUserAsync(User);
+            IndexViewModel model;
+
+            if (user == null)
+            {
+                TempData["error"] = "Gelieve je eerst aan te melden alvorens deze pagina te bezoeken.";
+                model = new IndexViewModel();
+            }
+            else
+            {
+                Jobcoach jobcoach = _gebruikerRepository.GetByEmail(user.Email);
+                List<Analyse> analyses = new List<Analyse>();
+
+                foreach(Analyse a in jobcoach.Analyses)
+                {
+                    analyses.Add(_analyseRepository.GetById(a.AnalyseId));
+                }
+
+                jobcoach.Analyses = analyses;
+
+                model = new IndexViewModel(jobcoach);
+            }
+
+            return View(model);
         }
 
         #region Eerste keer aanmelden       

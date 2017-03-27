@@ -1,4 +1,4 @@
-﻿@model KairosWeb_Groep6.Models.Domain.Analyse
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.KostenIndexViewModel
 @{
     ViewData["title"] = "Kosten";
 }
@@ -10,17 +10,28 @@
 <div class="page-header">
     <h3>@ViewData["title"]</h3>
 </div>
+
+<div class="progress">
+    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@Model.AantalIngevuld"
+         aria-valuemin="0" aria-valuemax="@Model.AantalKosten" 
+         style="width:@(Math.Round((((double) Model.AantalIngevuld / (double) Model.AantalKosten) * 100) / 2, 0))%">
+    </div>
+</div>
+
+<p class="text-center">@Model.AantalIngevuld van de @Model.AantalKosten kosten ingevuld.</p>
+
 <p>
     Kies een kost uit onderstaande lijst.
     Beweeg met de muis over de kost om meer info te krijgen.
 </p>
+
 <div class="row col-md-offset-1">
     <ul class="nav nav-pills nav-stacked">
         <li>
             <a asp-controller="Kosten" asp-action="Loonkosten"
                data-toggle="tooltip" data-placement="bottom"
                title="Welke (nieuwe) functie(s) vul je in?">
-                @if (Model.Loonkosten.Count != 0)
+                @if (Model.LoonkostenIngevuld)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Loonkosten / functies
@@ -31,7 +42,7 @@
                data-toggle="tooltip" data-placement="bottom"
                title="Laat de werkgever werk uitvoeren door een maatwerkbedrijf of via enclave of onderaanneming?
                 Zo ja, hoeveel betaalt hij hiervoor jaarlijks?">
-                @if (Model.EnclaveKosten.Count != 0)
+                @if (Model.EnclaveKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Kosten voor maatwerkbedrijf of enclave of onderaanneming
@@ -43,7 +54,7 @@
                title="Welke kosten moet de werkgever maken ter voorbereiding van de aanwerving
                (bv. ondersteuning bij de uitvoer van functiecreatie of jobcarving, administratie regelen,
                uitzoeken welke aanpassingen nodig zijn, extra gesprekken met bemiddelingsdiensten, …)?">
-                @if (Model.VoorbereidingsKosten.Count != 0)
+                @if (Model.VoorbereidingsKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Voorbereidingskosten
@@ -54,7 +65,7 @@
                data-toggle="tooltip" data-placement="bottom"
                title="Welke extra kosten inzake infrastructuur zal het tewerkstellen van deze medewerker(s) met zich meebrengen?
                (bv. aanpassingen werkpost, extra infrastructuur ten gevolge van reshoring of insourcing,…)">
-                @if (Model.InfrastructuurKosten.Count != 0)
+                @if (Model.InfrastructuurKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Infrastructuurkosten
@@ -67,7 +78,7 @@
                title="Welke andere extra materiële kosten moet de werkgever jaarlijks maken bij
                 het tewerkstellen van deze medewerker(s)?
                (bv. kosten van aangepaste werkkledij en -gereedschap)">
-                @if (Model.GereedschapsKosten.Count != 0)
+                @if (Model.GereedschapsKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Materiële kosten (bv. kosten van aangepaste werkkledij en -gereedschap)
@@ -79,7 +90,7 @@
                data-toggle="tooltip" data-placement="bottom"
                title="Welke extra opleidingskosten zal de werkgever hebben om de nieuwe krachten
                op het gewenste niveau te krijgen?">
-                @if (Model.OpleidingsKosten.Count != 0)
+                @if (Model.OpleidingsKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Opleidingskosten
@@ -91,7 +102,7 @@
                data-toggle="tooltip" data-placement="bottom"
                title="Welke kosten zal de werkgevers jaarlijks hebben aan extra administratie en
                 interne begeleiding tijdens de tewerkstelling?">
-                @if (Model.BegeleidingsKosten.Count != 0)
+                @if (Model.BegeleidingsKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Kosten voor administratie en interne begeleiding
@@ -101,7 +112,7 @@
             <a asp-controller="Kosten" asp-action="ExtraKosten"
                data-toggle="tooltip" data-placement="bottom"
                title="Aan welke kosten kan nog meer worden gedacht?">
-                @if (Model.ExtraKosten.Count != 0)
+                @if (Model.ExtraKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o" aria-hidden="true"></i>
                 } Extra kosten
@@ -116,18 +127,26 @@
             <i class="fa fa-chevron-left" aria-hidden="true"></i> Werkgever
         </a>
     </div>
-    <div class="col-xs-2 .col-md-2">
-        <a asp-controller="Baten" asp-action="Index" style="margin-left: 15px" class="btn btn-success">
+    <div class="col-xs-2 col-md-2 text-right">
+        <a asp-controller="Baten" asp-action="Index" class="btn btn-success">
             Baten <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </a>
     </div>
 </div>
+
+@section styles {
+    <link rel="stylesheet" type="text/css" href="~/css/semantic.min.css">
+}
+
 @section scripts {
+    <script src="~/js/semantic.min.js"></script>
     <script>
         $(document).ready(function () {
             $('[data-toggle="tooltip"]').tooltip();
         });
 
         $("#kosten").addClass("active");
+
+        $("#progressKosten").progress();
     </script>
 }

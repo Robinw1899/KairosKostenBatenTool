@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using KairosWeb_Groep6.Models.Domain;
+using System.Linq;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels
 {
-    public class GebruikerViewModel
+    public class IndexViewModel
     {
         public string Naam { get; set; }
 
@@ -13,15 +14,22 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public Organisatie Organisatie { get; set; }
 
-        public ICollection<Analyse> Analyses { get; private set; }
+        public IEnumerable<AnalyseViewModel> Analyses { get; private set; }
 
-        public GebruikerViewModel(Jobcoach gebruiker)
+        public IndexViewModel()
+        {
+            Analyses = new List<AnalyseViewModel>();
+        }
+
+        public IndexViewModel(Jobcoach gebruiker)
         {
             Naam = gebruiker.Naam;
             Voornaam = gebruiker.Voornaam;
             Emailadres = gebruiker.Emailadres;
             Organisatie = gebruiker.Organisatie;
-            Analyses = gebruiker.Analyses;
+            Analyses = gebruiker.Analyses
+                                    .Select(a => new AnalyseViewModel(a))
+                                    .ToList();
         }
     }
 }

@@ -1,5 +1,6 @@
-﻿@using KairosWeb_Groep6.Models.Domain
-@model KairosWeb_Groep6.Models.KairosViewModels.GebruikerViewModel
+﻿@using KairosWeb_Groep6.Models.KairosViewModels
+@using System.Linq;
+@model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
 
 @{
     ViewData["title"] = "Home";
@@ -7,18 +8,26 @@
 <div>
     <h3>@ViewData["title"]</h3>
     <hr />
-
-    @if (Model == null || Model.Analyses.Count == 0)
+    @if (Model == null || !Model.Analyses.Any())
     {   // Model == null moet er nog uit, voorlopig staat dit er om ervoor te zorgen dat de pagina opent.
         // Er wordt namelijk nog geen model doorgegeven.
-        <p>Er zijn nog geen analyses om te tonen.</p>
+        <p>Er zijn nog geen analyses om te tonen. Klik op de <i class="fa fa-plus" aria-hidden="true"></i> hieronder 
+           of het <i class="fa fa-line-chart" aria-hidden="true"></i>-icoon hierboven om een nieuwe analyse te starten.</p>
+    }
+    
+
+    @if (Model == null || !Model.Analyses.Any())
+    {   // Model == null moet er nog uit, voorlopig staat dit er om ervoor te zorgen dat de pagina opent.
+        // Er wordt namelijk nog geen model doorgegeven.
+        @*@Html.Partial("_AnalyseAddCard");*@
     }
     else
     {
-        <p>Er zijn al analyses.</p>
-        /*foreach (Analyse a in Model.Analyses)
-        {
-
-        }*/
+        <div class="row">
+            @foreach (AnalyseViewModel a in Model.Analyses)
+            {
+                @Html.Partial("_AnalyseCard", a);
+            }
+        </div>
     }
 </div>

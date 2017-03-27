@@ -25,7 +25,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         [Display(Name = "Nummer")]
         [Range(0, int.MaxValue, ErrorMessage = "Gelieve een positief getal op te geven voor het nummer")]
-        public int Nummer{ get; set; } // niet verplicht: zie UC + backlog
+        public int? Nummer{ get; set; } // niet verplicht: zie UC + backlog
 
         [Display(Name = "Postcode")]
         [DataType(DataType.PostalCode)]
