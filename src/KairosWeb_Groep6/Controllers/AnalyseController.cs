@@ -42,15 +42,15 @@ namespace KairosWeb_Groep6.Controllers
         {//hier word gekozen tussen een nieuwe of bestaande werkgever
             if (analyse.AnalyseId == 0)
             {
+                _analyseRepository.Add(analyse);
+                _analyseRepository.Save();
+
                 if (jobcoach != null)
                 {
                     jobcoach = _jobcoachRepository.GetById(jobcoach.JobcoachId);
                     jobcoach.Analyses.Add(analyse);
                     _jobcoachRepository.Save();
                 }
-
-                _analyseRepository.Add(analyse);
-                _analyseRepository.Save();
             }
             
             return View();

@@ -10,6 +10,13 @@ namespace KairosWeb_Groep6.Controllers
     [ServiceFilter(typeof(AnalyseFilter))]
     public class ResultaatController : Controller
     {
+        private readonly IAnalyseRepository _analyseRepository;
+
+        public ResultaatController(IAnalyseRepository analyseRepository)
+        {
+            _analyseRepository = analyseRepository;
+        }
+
         public IActionResult Index(Analyse analyse)
         {
             ResultaatViewModel model = new ResultaatViewModel();
@@ -54,6 +61,24 @@ namespace KairosWeb_Groep6.Controllers
             }
             
             return View(model);
+        }
+
+        public IActionResult Opslaan(Analyse analyse)
+        {
+            try
+            {
+                _analyseRepository.Save();
+
+                // Pas als er geen exception geweest is, de sessionvariabele verwijderen
+                AnalyseFilter.ClearSession(HttpContext);
+                TempData["message"] = "De analyse is succesvol opgeslaan.";
+            }
+            catch
+            {
+                TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw.";
+            }
+
+            return RedirectToAction("Index", "Kairos");
         }
     }
 }

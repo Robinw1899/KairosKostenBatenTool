@@ -9,8 +9,29 @@
     @Html.Partial("_Tabs")
 </div>
 
-<div class="page-header">
-    <h3>@ViewData["title"]</h3>
+<div class="page-header" style="overflow: auto;">
+    <!--Overflow omdat anders de border boven de h3 en knop staat-->
+    <div class="col-md-9">
+        <h3>@ViewData["title"]</h3>
+    </div>
+    <div class="col-md-3" style="margin-top: 20px;">
+        <!--margin omdat de h3 dezelfde margin heeft-->
+        <a asp-controller="Resultaat" asp-action="Afdrukken" class="btn btn-default text-right">
+            <span class="glyphicon glyphicon-print"></span> <!-- AFDRUKKEN -->
+        </a>
+
+        <a asp-controller="Resultaat" asp-action="Mail" class="btn btn-default text-right">
+            <span class="glyphicon glyphicon-envelope"></span> <!-- MAILEN -->
+        </a>
+
+        <a asp-controller="Resultaat" asp-action="Opslaan" class="btn btn-default text-right">
+            <span class="glyphicon glyphicon-floppy-disk"></span> <!-- OPSLAAN -->
+        </a>
+
+        <a asp-controller="Resultaat" asp-action="MaakPdf" class="btn btn-default text-right">
+            <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <!-- PDF MAKEN -->
+        </a>
+    </div>
 </div>
 
 @if (Model.Resultaten != null)
