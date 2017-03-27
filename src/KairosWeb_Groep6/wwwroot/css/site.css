@@ -195,10 +195,23 @@ li:hover .options i {
     overflow: auto;
 }
 
+.card {
+    padding: 10px 20px;
+    min-height: 0px;
+    border: none;
+    -ms-border-radius: .28571429rem;
+    border-radius: .28571429rem;
+    box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+}
+
+.resultaat {
+    font-size: 1.5em;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
-  /* Hide captions */
-  .carousel-caption {
+    /* Hide captions */
+    .carousel-caption {
     display: none
   }
 }

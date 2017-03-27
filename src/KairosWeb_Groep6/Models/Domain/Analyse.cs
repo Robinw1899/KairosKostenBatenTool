@@ -93,9 +93,17 @@ namespace KairosWeb_Groep6.Models.Domain
             double totaal = 0;
 
             // Loonkosten
-            totaal = LoonkostExtensions.GeefTotaalAlleLoonkosten(Loonkosten,
+            if(Departement != null)
+            {
+                totaal = LoonkostExtensions.GeefTotaalAlleLoonkosten(Loonkosten,
                                                                     Departement.Werkgever.AantalWerkuren,
                                                                     Departement.Werkgever.PatronaleBijdrage);
+            }
+            else
+            {
+                totaal = 0;
+            }
+            
             resultaat.Add(Soort.Loonkost, totaal);
 
             // Enclavekosten
@@ -119,7 +127,15 @@ namespace KairosWeb_Groep6.Models.Domain
             resultaat.Add(Soort.OpleidingsKost, totaal);
 
             // Begeleidingskosten
-            totaal = BegeleidingsKostExtensions.GeefTotaal(BegeleidingsKosten, Departement.Werkgever.PatronaleBijdrage);
+            if (Departement != null)
+            {
+                totaal = BegeleidingsKostExtensions.GeefTotaal(BegeleidingsKosten, Departement.Werkgever.PatronaleBijdrage);
+            }
+            else
+            {
+                totaal = 0;
+            }
+
             resultaat.Add(Soort.BegeleidingsKost, totaal);
 
             // Extra kosten
@@ -135,17 +151,33 @@ namespace KairosWeb_Groep6.Models.Domain
             double totaal = 0;
 
             // Medewerkers zelfde niveau
-            totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+            if (Departement != null)
+            {
+                totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
                                                         MedewerkersZelfdeNiveauBaat,
                                                         Departement.Werkgever.AantalWerkuren,
                                                         Departement.Werkgever.PatronaleBijdrage);
+            }
+            else
+            {
+                totaal = 0;
+            }
+
             resultaat.Add(Soort.MedewerkersZelfdeNiveau, totaal);
 
             // Medewerkers hoger niveau
-            totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+            if (Departement != null)
+            {
+                totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
                                                         MedewerkersHogerNiveauBaat,
                                                         Departement.Werkgever.AantalWerkuren,
                                                         Departement.Werkgever.PatronaleBijdrage);
+            }
+            else
+            {
+                totaal = 0;
+            }
+
             resultaat.Add(Soort.MedewerkersHogerNiveau, totaal);
 
             // Uitzendkrachtbesparingen

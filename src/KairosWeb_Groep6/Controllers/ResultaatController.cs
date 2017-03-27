@@ -50,7 +50,7 @@ namespace KairosWeb_Groep6.Controllers
                 }
                 else
                 {
-                    ViewData["klasseTotaal"] = "alert-succes";
+                    ViewData["klasseTotaal"] = "alert-success";
                 }
             }
             else

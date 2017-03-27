@@ -8,11 +8,18 @@
 <div>
     <h3>@ViewData["title"]</h3>
     <hr />
-
-    @if (Model == null || Model.Analyses.Count() == 0)
+    @if (Model == null || !Model.Analyses.Any())
     {   // Model == null moet er nog uit, voorlopig staat dit er om ervoor te zorgen dat de pagina opent.
         // Er wordt namelijk nog geen model doorgegeven.
-        <p>Er zijn nog geen analyses om te tonen.</p>
+        <p>Er zijn nog geen analyses om te tonen. Klik op de <i class="fa fa-plus" aria-hidden="true"></i> hieronder 
+           of het <i class="fa fa-line-chart" aria-hidden="true"></i>-icoon hierboven om een nieuwe analyse te starten.</p>
+    }
+    
+
+    @if (Model == null || !Model.Analyses.Any())
+    {   // Model == null moet er nog uit, voorlopig staat dit er om ervoor te zorgen dat de pagina opent.
+        // Er wordt namelijk nog geen model doorgegeven.
+        @*@Html.Partial("_AnalyseAddCard");*@
     }
     else
     {

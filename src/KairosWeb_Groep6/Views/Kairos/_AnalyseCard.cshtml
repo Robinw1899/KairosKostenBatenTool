@@ -2,10 +2,28 @@
 
 <div class="col-sm-12 col-md-6 col-lg-4">
     <div class="card">
-        <div class="card-block">
-            <h3 class="card-title">Special title treatment</h3>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+        @if (Model == null)
+        {
+            
+        }
+        else
+        {
+            <div class="card-block">
+                <h3 class="card-title">@Model.Werkgever</h3>
+                <p class="card-text">@Model.Departement</p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" role="progressbar"
+                         style="width: @(Math.Round((((double) Model.BatenInfo.AantalIngevuld / (double) Model.BatenInfo.AantalBaten) * 100)/2, 0))%">
+                    </div>
+                    <div class="progress-bar progress-bar-danger" role="progressbar"
+                         style="width: @(Math.Round((((double) Model.KostenInfo.AantalIngevuld / (double) Model.KostenInfo.AantalKosten) * 100)/2, 0))%">
+                    </div>
+                </div>
+                
+                <div class="text-center resultaat alert @Model.KlasseTotaal">
+                    <b>@Model.NettoResultaat.ToString("C")</b>
+                </div>
+            </div>
+        }
     </div>
 </div>
