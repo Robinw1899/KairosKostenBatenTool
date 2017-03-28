@@ -62,9 +62,27 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult VerwijderAnalyse(int id)
         {
-            Analyse analyse = _analyseRepository.GetById(id);
-            _analyseRepository.Remove(analyse);
-            _analyseRepository.Save();
+            try
+            {
+                Analyse analyse = _analyseRepository.GetById(id);
+                _analyseRepository.Remove(analyse);
+                _analyseRepository.Save();
+
+                if (analyse.Departement == null)
+                {
+                    TempData["message"] = "De analyse is succesvol verwijderd.";
+                }
+                else
+                {
+                    TempData["message"] = $"De analyse van {analyse.Departement.Werkgever} - {analyse.Departement.Naam}" +
+                                          " is succesvol verwijderd.";
+                }
+            }
+            catch
+            {
+                TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw.";
+            }
+            
 
             return RedirectToAction("Index", "Kairos");
         }
