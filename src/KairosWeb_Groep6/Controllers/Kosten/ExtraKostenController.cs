@@ -78,6 +78,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Bedrag = kost.Bedrag;
                 model.ViewModels = analyse.ExtraKosten
                     .Select(m => new ExtraKostViewModel(m));
+                model.ToonFormulier = 1;
             }
 
             PlaatsTotaalInViewData(analyse);

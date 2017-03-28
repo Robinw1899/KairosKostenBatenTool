@@ -26,6 +26,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.VoorbereidingsKostView
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te vullen voor het bedrag")]
         public double Bedrag { get; set; }
 
+        public int ToonFormulier { get; set; } = 0;
+
         public IEnumerable<VoorbereidingsKostViewModel> ViewModels { get; set; }
         #endregion
 

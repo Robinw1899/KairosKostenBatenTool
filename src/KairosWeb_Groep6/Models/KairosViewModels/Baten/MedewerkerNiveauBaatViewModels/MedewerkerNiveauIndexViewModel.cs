@@ -25,6 +25,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatVie
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het brutoloon op te geven.")]
         public double BrutoMaandloonFulltime { get; set; }
 
+        public int ToonFormulier { get; set; } = 0;
+
         public IEnumerable<MedewerkerNiveauBaatViewModel> ViewModels { get; set; }
     }
 }

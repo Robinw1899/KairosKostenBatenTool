@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -108,9 +104,9 @@ namespace KairosWeb_Groep6
           
             app.UseSession();
           
-            context.Database.EnsureDeleted();
+            //context.Database.EnsureDeleted();
 
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
 
             // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
 

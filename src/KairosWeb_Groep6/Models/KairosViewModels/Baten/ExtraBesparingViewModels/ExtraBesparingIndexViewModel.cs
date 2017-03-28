@@ -25,6 +25,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraBesparingViewModel
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bedrag op te geven.")]
         public double Bedrag { get; set; }
 
+        public int ToonFormulier { get; set; } = 0;
+
         public IEnumerable<ExtraBesparingViewModel> ViewModels { get; set; }
 
         public ExtraBesparingIndexViewModel()

@@ -45,6 +45,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
         [Required(ErrorMessage = "Gelieve een doelgroep op te geven.")]
         public Doelgroep? Doelgroep { get; set; }
 
+        public int ToonFormulier { get; set; } = 0;
+
         public double Bedrag { get; set; }
 
         public IEnumerable<LoonkostViewModel> ViewModels { get; internal set; }

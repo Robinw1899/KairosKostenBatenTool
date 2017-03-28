@@ -28,6 +28,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.OpleidingsKosten
         [Range(0, Double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal op te geven voor het bedrag")]
         public double Bedrag { get; set; }
 
+        public int ToonFormulier { get; set; } = 0;
+
         public IEnumerable<OpleidingsKostViewModel> ViewModels { get; internal set; }
 
         public OpleidingsKostIndexViewModel()

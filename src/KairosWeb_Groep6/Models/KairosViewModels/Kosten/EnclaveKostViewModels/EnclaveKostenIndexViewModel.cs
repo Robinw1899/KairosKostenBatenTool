@@ -25,6 +25,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModels
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief bedrag op te geven.")]
         public double Bedrag { get; set; }
 
+        public int ToonFormulier { get; set; } = 0;
+
         public IEnumerable<EnclaveKostenViewModel> ViewModels { get; set; }
         #endregion
 

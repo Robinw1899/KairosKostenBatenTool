@@ -84,6 +84,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Ondersteuningspremie = kost.Ondersteuningspremie;
                 model.AantalMaandenIBO = kost.AantalMaandenIBO;
                 model.IBOPremie = kost.IBOPremie;
+                model.ToonFormulier = 1;
             }
 
             PlaatsTotaalInViewData(analyse);

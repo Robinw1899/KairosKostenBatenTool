@@ -139,8 +139,7 @@
 
 @section scripts{
     <script>
-        if (@Model.AantalUrenPerWeek !== 0 && @Model.BrutoMaandloonFulltime !== 0
-            && @Model.AantalMaandenIBO !== 0) {
+        if (@Model.ToonFormulier === 1) {
             siteView.toonFormulier();
         } else {
             $("#functie").val("");

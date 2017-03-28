@@ -74,6 +74,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Bedrag = kost.Bedrag;
                 model.ViewModels = analyse.InfrastructuurKosten
                                             .Select(m => new InfrastructuurKostenViewModel(m));
+                model.ToonFormulier = 1;
             }
 
             PlaatsTotaalInViewData(analyse);

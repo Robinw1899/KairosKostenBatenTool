@@ -73,6 +73,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model.Soort = baat.Soort;
                 model.Uren = baat.Uren;
                 model.BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
+                model.ToonFormulier = 1;
             }
 
             PlaatsTotaalInViewData(analyse);

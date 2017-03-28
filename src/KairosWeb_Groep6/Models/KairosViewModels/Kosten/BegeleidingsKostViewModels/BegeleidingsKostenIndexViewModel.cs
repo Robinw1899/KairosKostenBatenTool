@@ -27,6 +27,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewMo
 
         public double Bedrag { get; set; } // jaarbedrag van de huidige BegeleidingsKost
 
+        public int ToonFormulier { get; set; } = 0;
+
         public IEnumerable<BegeleidingsKostViewModel> ViewModels { get; set; }
         #endregion
     }

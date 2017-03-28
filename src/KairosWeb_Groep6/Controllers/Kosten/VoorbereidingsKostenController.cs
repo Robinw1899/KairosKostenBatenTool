@@ -3,7 +3,6 @@ using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
-using KairosWeb_Groep6.Models.KairosViewModels.Kosten.ExtraKostViewModels;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.VoorbereidingsKostViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -77,6 +76,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Bedrag = kost.Bedrag;
                 model.ViewModels = analyse.VoorbereidingsKosten
                     .Select(m => new VoorbereidingsKostViewModel(m));
+                model.ToonFormulier = 1;
             }
 
             PlaatsTotaalInViewData(analyse);

@@ -46,13 +46,13 @@
         <input asp-for="Type" />
         <input asp-for="Soort" />
 
-        <div class="row">
-            <div class="col-md-4 col-md-offset-2">
+        <div class="row col-md-offset-2">
+            <div class="col-md-4">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
                     </span>
-                    <input asp-for="Uren" class="form-control" placeholder="Uren" id="uren">
+                    <input asp-for="Uren" class="form-control input-maxwidth" placeholder="Uren" id="uren">
                 </div>
                 <span asp-validation-for="Uren" class="text-danger"></span>
             </div>
@@ -62,7 +62,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
-                    <input asp-for="BrutoMaandloonBegeleider" class="form-control"
+                    <input asp-for="BrutoMaandloonBegeleider" class="form-control input-maxwidth"
                            placeholder="Bruto maandloon begeleider" id="brutoloon">
                 </div>
                 <span asp-validation-for="BrutoMaandloonBegeleider" class="text-danger"></span>
@@ -71,8 +71,8 @@
 
         <br />
 
-        <div class="row col-md-offset-6">
-            <div class="col-md-8 text-right">
+        <div class="row col-md-offset-6 col-md-4 form-group">
+            <div class="col-md-8 text-right noPadding">
                 <a class="btn btn-default" id="closeForm">Annuleer</a>
                 <button type="submit" class="btn btn-info" style="margin-left: 15px">@ViewData["action"]</button>
             </div>
@@ -97,7 +97,7 @@
 
 @section scripts{
     <script>
-        if (@Model.Uren !== 0 && @Model.BrutoMaandloonBegeleider !== 0) {
+        if (@Model.ToonFormulier === 1) {
             siteView.toonFormulier();
         } else {
             $("#uren").val("");

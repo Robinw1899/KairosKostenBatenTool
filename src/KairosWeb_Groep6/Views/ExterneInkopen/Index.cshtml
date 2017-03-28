@@ -90,7 +90,7 @@
 
 @section scripts{
     <script>
-        if (@Model.Bedrag > 0) {
+        if (@Model.ToonFormulier === 1) {
             siteView.toonFormulier();
         } else {
             $("#beschrijving").val("");

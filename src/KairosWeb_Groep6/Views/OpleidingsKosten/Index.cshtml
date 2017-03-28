@@ -79,7 +79,7 @@
 
 @section scripts{
     <script>
-        if (@Model.Beschrijving !== emptyCells && @Model.Bedrag !== 0) {
+        if (@Model.ToonFormulier === 1) {
             toonFormulier();
         } else {
             $("#functie").val("");

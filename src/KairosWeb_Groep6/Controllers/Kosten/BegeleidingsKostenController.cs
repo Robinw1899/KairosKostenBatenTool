@@ -80,6 +80,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     {
                         Bedrag = m.GeefJaarbedrag(analyse.Departement.Werkgever.PatronaleBijdrage)
                     });
+                model.ToonFormulier = 1;
             }
 
             PlaatsTotaalInViewData(analyse);
