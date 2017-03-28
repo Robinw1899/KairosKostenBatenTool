@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 namespace KairosWeb_Groep6.Controllers
 {
-    [ServiceFilter(typeof(AnalyseFilter))]
     public class ResultaatController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
@@ -17,6 +16,7 @@ namespace KairosWeb_Groep6.Controllers
             _analyseRepository = analyseRepository;
         }
 
+        [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult Index(Analyse analyse)
         {
             ResultaatViewModel model = new ResultaatViewModel();
@@ -64,7 +64,7 @@ namespace KairosWeb_Groep6.Controllers
             return View(model);
         }
 
-        public IActionResult Opslaan(Analyse analyse)
+        public IActionResult Opslaan(int id)
         {
             try
             {
