@@ -29,6 +29,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
+            PlaatsTotaalInViewData(analyse);
             return View(model);
         }
 

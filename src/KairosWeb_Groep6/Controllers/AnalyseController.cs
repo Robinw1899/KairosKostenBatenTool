@@ -74,7 +74,7 @@ namespace KairosWeb_Groep6.Controllers
                 }
                 else
                 {
-                    TempData["message"] = $"De analyse van {analyse.Departement.Werkgever} - {analyse.Departement.Naam}" +
+                    TempData["message"] = $"De analyse van {analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}" +
                                           " is succesvol verwijderd.";
                 }
             }
