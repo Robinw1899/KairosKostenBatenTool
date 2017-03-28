@@ -99,11 +99,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
                 TempData["message"] = "De kost is succesvol opgeslaan.";
-
-                return View("Index", model);
             }
 
             PlaatsTotaalInViewData(analyse);

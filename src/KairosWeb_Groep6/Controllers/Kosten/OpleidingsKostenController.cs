@@ -48,16 +48,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
                 TempData["message"] = "De kost is succesvol opgeslaan.";
-
-                return View("Index", model);
             }
 
-            /* PlaatsTotaalInViewData(analyse);*/
+            PlaatsTotaalInViewData(analyse);
 
-            return RedirectToAction("Index", model);
+            return View("Index", model);
         }
 
         public IActionResult Bewerk(Analyse analyse, int id)
@@ -99,11 +96,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = "De kost is succesvol opgeslaan.";
-
-                return RedirectToAction("Index", model);
+                TempData["message"] = "De kost is succesvol opgeslaan.";;
             }
 
             PlaatsTotaalInViewData(analyse);

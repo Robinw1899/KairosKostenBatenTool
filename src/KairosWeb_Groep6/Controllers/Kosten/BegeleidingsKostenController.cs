@@ -54,6 +54,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
+
+                TempData["message"] = "De kost is succesvol toegevoegd.";
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -105,15 +107,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
-                if (analyse.Departement == null)
-                {
-                    // return de View zodat de error rond de werkgever toch getoond wordt
-                    return View("Index", model);
-                }
-
-                return View("Index", model);
+                TempData["message"] = "De kost is succesvol opgeslaan.";
             }
 
             PlaatsTotaalInViewData(analyse);

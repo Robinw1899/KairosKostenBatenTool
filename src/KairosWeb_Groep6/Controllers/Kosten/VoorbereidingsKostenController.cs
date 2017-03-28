@@ -53,6 +53,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
+
+                TempData["message"] = "De kost is succesvol toegevoegd.";
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -101,9 +103,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
-                return RedirectToAction("Index", model);
+                TempData["message"] = "De kost is succesvol opgeslaan.";
             }
 
             PlaatsTotaalInViewData(analyse);
