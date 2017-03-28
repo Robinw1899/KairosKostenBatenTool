@@ -97,30 +97,29 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         [HttpPost]
         public IActionResult Bewerk(Analyse analyse, LoonkostenIndexViewModel model)
         {
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
-
             Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, model.Id);
-
 
             if (ModelState.IsValid && kost != null)
             {
                 // parameters voor formulier instellen
-                model.Id = kost.Id;
-                //functie
-                model.AantalUrenPerWeek = kost.AantalUrenPerWeek;
-                model.BrutoMaandloonFulltime = kost.BrutoMaandloonFulltime;
-                model.Doelgroep = kost.Doelgroep;
-                model.Ondersteuningspremie = kost.Ondersteuningspremie;
-                model.AantalMaandenIBO = kost.AantalMaandenIBO;
+                kost.Id = model.Id;
+                kost.Beschrijving = model.Beschrijving;
+                kost.AantalUrenPerWeek = model.AantalUrenPerWeek;
+                kost.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
+                kost.Doelgroep = model.Doelgroep;
+                kost.Ondersteuningspremie = model.Ondersteuningspremie;
+                kost.AantalMaandenIBO = model.AantalMaandenIBO;
 
                 model = MaakModel(analyse);
 
-                if (model.Doelgroep == null)
+                if (kost.Doelgroep == null)
                 {
                     TempData["error"] =
                         "Opgelet! U heeft nog geen doelgroep geselecteerd. Er zal dus nog geen resultaat " +
                         "berekend worden bij deze kost.";
                 }
+
+                _analyseRepository.Save();
 
                 TempData["message"] = "De kost is succesvol opgeslaan.";
             }
@@ -156,7 +155,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 doelgroepen.Add(value);
             }
 
-            LoonkostenIndexViewModel model = new LoonkostenIndexViewModel(doelgroepen , Doelgroep.Andere)
+            LoonkostenIndexViewModel model = new LoonkostenIndexViewModel()
             {
                 Type = Type.Kost,
                 Soort = Soort.Loonkost,
