@@ -37,6 +37,7 @@
         <div class="row">
             <div class="form-group overflow">
                 <div class="col-md-4">
+                    <label asp-for="Beschrijving"></label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-font" aria-hidden="true"></i>
@@ -139,8 +140,7 @@
 
 @section scripts{
     <script>
-        if (@Model.AantalUrenPerWeek !== 0 && @Model.BrutoMaandloonFulltime !== 0
-            && @Model.AantalMaandenIBO !== 0) {
+        if (@Model.ToonFormulier === 1) {
             siteView.toonFormulier();
         } else {
             $("#functie").val("");

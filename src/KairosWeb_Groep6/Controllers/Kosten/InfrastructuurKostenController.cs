@@ -74,6 +74,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Bedrag = kost.Bedrag;
                 model.ViewModels = analyse.InfrastructuurKosten
                                             .Select(m => new InfrastructuurKostenViewModel(m));
+                model.ToonFormulier = 1;
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -98,11 +99,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
                 TempData["message"] = "De kost is succesvol opgeslaan.";
-
-                return View("Index", model);
             }
 
             PlaatsTotaalInViewData(analyse);

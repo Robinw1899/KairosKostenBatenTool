@@ -22,6 +22,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels
         [Range(0.0, double.MaxValue, ErrorMessage = "Gelieve een positief bedrag op te geven")]
         public double Bedrag { get; set; }
 
+        public int ToonFormulier { get; set; } = 0;
+
         public IEnumerable<ExterneInkoopViewModel> ViewModels { get; set; }
 
         public ExterneInkopenIndexViewModel()

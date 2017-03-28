@@ -49,6 +49,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
+
+                TempData["message"] = "De kost is succesvol toegevoegd.";
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -72,6 +74,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Bedrag = kost.Bedrag;
                 model.ViewModels = analyse.GereedschapsKosten
                                             .Select(m => new GereedschapsKostenViewModel(m));
+                model.ToonFormulier = 1;
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -96,11 +99,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = "De kost is succesvol opgeslagen.";
-
-                return View("Index", model);
+                TempData["message"] = "De kost is succesvol opgeslaan.";
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -121,7 +121,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             GereedschapsKostenIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = $"{model.Beschrijving} is succesvol verwijderd.";
+            TempData["message"] = "De kost is succesvol verwijderd.";
 
             return View("Index", model);
         }

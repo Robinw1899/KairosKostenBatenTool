@@ -3,9 +3,9 @@ using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.OverurenBesparingViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 {
-    public class OverurenBesparingIndexViewModel
+    public class OverurenBesparingViewModel
     {
         [HiddenInput]
         public int Id { get; set; }
@@ -20,12 +20,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.OverurenBesparingViewMo
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bedrag op te geven.")]
         public double Bedrag { get; set; }
 
-        public OverurenBesparingIndexViewModel()
+        public OverurenBesparingViewModel()
         {
             
         }
 
-        public OverurenBesparingIndexViewModel(OverurenBesparing besparing)
+        public OverurenBesparingViewModel(OverurenBesparing besparing)
         {
             Id = besparing.Id;
             Type = besparing.Type;

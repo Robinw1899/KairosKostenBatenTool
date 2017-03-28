@@ -136,7 +136,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
             {
                 double brutoloon = BerekenBrutoloonPerMaand(aantalWerkuren, patronaleBijdrage);
                 double doelgroepvermindering = Doelgroep?.BerekenDoelgroepVermindering(BrutoMaandloonFulltime, AantalUrenPerWeek, aantalWerkuren, patronaleBijdrage) ?? 0;
-                double gemiddeldeVOPPerMaand = (brutoloon - doelgroepvermindering) * Ondersteuningspremie;
+                double gemiddeldeVOPPerMaand = (brutoloon - doelgroepvermindering) * (Ondersteuningspremie / 100);
 
                 return gemiddeldeVOPPerMaand;
             }

@@ -71,6 +71,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model.Soort = baat.Soort;
                 model.Beschrijving = baat.Beschrijving;
                 model.Bedrag = baat.Bedrag;
+                model.ToonFormulier = 1;
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -95,7 +96,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = "De baat is succesvol opgeslagen.";
+                TempData["message"] = "De baat is succesvol opgeslaan.";
 
                 return RedirectToAction("Index", model);
             }

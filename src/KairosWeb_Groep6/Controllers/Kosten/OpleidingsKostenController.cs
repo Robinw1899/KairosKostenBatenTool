@@ -1,14 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.OpleidingsKosten;
 using Microsoft.AspNetCore.Mvc;
-
-
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
@@ -53,16 +48,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
                 TempData["message"] = "De kost is succesvol opgeslaan.";
-
-                return View("Index", model);
             }
 
-            /* PlaatsTotaalInViewData(analyse);*/
+            PlaatsTotaalInViewData(analyse);
 
-            return RedirectToAction("Index", model);
+            return View("Index", model);
         }
 
         public IActionResult Bewerk(Analyse analyse, int id)
@@ -79,6 +71,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Soort = kost.Soort;
                 model.Beschrijving = kost.Beschrijving;
                 model.Bedrag = kost.Bedrag;
+                model.ToonFormulier = 1;
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -103,11 +96,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
 
-                TempData["message"] = "De kost is succesvol opgeslaan.";
-
-                return RedirectToAction("Index", model);
+                TempData["message"] = "De kost is succesvol opgeslaan.";;
             }
 
             PlaatsTotaalInViewData(analyse);

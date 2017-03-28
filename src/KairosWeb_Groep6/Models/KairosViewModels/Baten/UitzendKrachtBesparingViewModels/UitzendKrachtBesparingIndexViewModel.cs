@@ -23,6 +23,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingV
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positieve waarde op te geven voor het bedrag.")]
         public double Bedrag { get; set; }
 
+        public int ToonFormulier { get; set; } = 0;
+
         public IEnumerable<UitzendKrachtBesparingViewModel> ViewModels { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
-using KairosWeb_Groep6.Models.KairosViewModels.Baten.OverurenBesparingViewModels;
+using KairosWeb_Groep6.Models.KairosViewModels.Baten;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
@@ -18,12 +18,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
         public IActionResult Index(Analyse analyse)
         {
-            OverurenBesparingIndexViewModel model = MaakModel(analyse);
+            OverurenBesparingViewModel model = MaakModel(analyse);
 
             return View(model);
         }
 
-        public IActionResult Opslaan(Analyse analyse, OverurenBesparingIndexViewModel model)
+        public IActionResult Opslaan(Analyse analyse, OverurenBesparingViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -46,14 +46,14 @@ namespace KairosWeb_Groep6.Controllers.Baten
             return RedirectToAction("Index", model);
         }
 
-        private OverurenBesparingIndexViewModel MaakModel(Analyse analyse)
+        private OverurenBesparingViewModel MaakModel(Analyse analyse)
         {
             if (analyse.OverurenBesparing == null)
             {
                 analyse.OverurenBesparing = new OverurenBesparing();
             }
 
-            return new OverurenBesparingIndexViewModel(analyse.OverurenBesparing);
+            return new OverurenBesparingViewModel(analyse.OverurenBesparing);
         }
     }
 }

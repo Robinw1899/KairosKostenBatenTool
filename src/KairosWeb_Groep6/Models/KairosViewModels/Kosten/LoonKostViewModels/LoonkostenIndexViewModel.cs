@@ -45,28 +45,18 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
         [Required(ErrorMessage = "Gelieve een doelgroep op te geven.")]
         public Doelgroep? Doelgroep { get; set; }
 
+        public int ToonFormulier { get; set; } = 0;
+
         public double Bedrag { get; set; }
 
         public IEnumerable<LoonkostViewModel> ViewModels { get; internal set; }
-
-        public SelectList Doelgroepen { get; set; }
 
         public LoonkostenIndexViewModel()
         {
 
         }
 
-        public LoonkostenIndexViewModel(IEnumerable<Doelgroep> doelgroepen, Doelgroep? geselecteerd)
-        {
-            Doelgroepen = new SelectList(
-                doelgroepen,
-                nameof(Doelgroep),
-                nameof(Doelgroep),
-                geselecteerd);
-        }
-
-        public LoonkostenIndexViewModel(Loonkost loon, IEnumerable<Doelgroep> doelgroepen)
-            :this(doelgroepen, loon.Doelgroep)
+        public LoonkostenIndexViewModel(Loonkost loon)
         {
             Id = loon.Id;
             Beschrijving = loon.Beschrijving;

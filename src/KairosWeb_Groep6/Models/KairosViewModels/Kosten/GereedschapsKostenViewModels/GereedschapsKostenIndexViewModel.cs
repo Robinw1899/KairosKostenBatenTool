@@ -25,6 +25,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.GereedschapsKostenView
 
         public double Bedrag { get; set; }
 
+        public int ToonFormulier { get; set; } = 0;
+
         public IEnumerable<GereedschapsKostenViewModel> ViewModels { get; set; }
         #endregion
     }

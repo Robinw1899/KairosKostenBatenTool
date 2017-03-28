@@ -90,7 +90,7 @@ namespace KairosWeb_Groep6.Models.Domain
         public IDictionary<Soort, double> GeefTotalenKosten()
         {
             IDictionary<Soort, double> resultaat = new Dictionary<Soort, double>();
-            double totaal = 0;
+            double totaal;
 
             // Loonkosten
             if(Departement != null)
@@ -185,11 +185,15 @@ namespace KairosWeb_Groep6.Models.Domain
             resultaat.Add(Soort.UitzendkrachtBesparing, totaal);
 
             // Extra omzet
-            if(ExtraOmzet != null)
+            if (ExtraOmzet != null)
             {
                 totaal = ExtraOmzet.Bedrag;
             }
-            totaal = 0;
+            else
+            {
+                totaal = 0;
+            }
+            
             resultaat.Add(Soort.ExtraOmzet, totaal);
 
             // Extra productiviteit
@@ -197,7 +201,10 @@ namespace KairosWeb_Groep6.Models.Domain
             {
                 totaal = ExtraProductiviteit.Bedrag;
             }
-            totaal = 0;
+            else
+            {
+                totaal = 0;
+            }
             resultaat.Add(Soort.ExtraProductiviteit, totaal);
 
             // Overurenbesparing
@@ -205,7 +212,10 @@ namespace KairosWeb_Groep6.Models.Domain
             {
                 totaal = OverurenBesparing.Bedrag;
             }
-            totaal = 0;
+            else
+            {
+                totaal = 0;
+            }
             resultaat.Add(Soort.OverurenBesparing, totaal);
 
             // Externe inkopen
@@ -217,7 +227,10 @@ namespace KairosWeb_Groep6.Models.Domain
             {
                 totaal = Subsidie.Bedrag;
             }
-            totaal = 0;
+            else
+            {
+                totaal = 0;
+            }
             resultaat.Add(Soort.Subsidie, totaal);
 
             // Extra besparingen

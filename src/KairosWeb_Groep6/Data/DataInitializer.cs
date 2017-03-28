@@ -135,10 +135,11 @@ namespace KairosWeb_Groep6.Data
             Loonkost poetsvrouw = new Loonkost
             {
                 Id = 1,
+                Beschrijving = "Poetsvrouw",
                 BrutoMaandloonFulltime = 1800,
                 AantalUrenPerWeek = 37,
                 Doelgroep = Doelgroep.LaaggeschooldTot25,
-                Ondersteuningspremie = 0.20D,
+                Ondersteuningspremie = 20D,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0D
             };
@@ -146,10 +147,11 @@ namespace KairosWeb_Groep6.Data
             Loonkost secretaresse = new Loonkost
             {
                 Id = 2,
+                Beschrijving = "Secretaresse",
                 BrutoMaandloonFulltime = 2200,
                 AantalUrenPerWeek = 23,
                 Doelgroep = Doelgroep.MiddengeschooldTot25,
-                Ondersteuningspremie = 0.20D,
+                Ondersteuningspremie = 20D,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0D
             };
@@ -157,10 +159,11 @@ namespace KairosWeb_Groep6.Data
             Loonkost postbode = new Loonkost
             {
                 Id = 3,
+                Beschrijving = "Postbode",
                 BrutoMaandloonFulltime = 1900,
                 AantalUrenPerWeek = 35,
                 Doelgroep = Doelgroep.Tussen55En60,
-                Ondersteuningspremie = 0.20D,
+                Ondersteuningspremie = 20D,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0D
             };

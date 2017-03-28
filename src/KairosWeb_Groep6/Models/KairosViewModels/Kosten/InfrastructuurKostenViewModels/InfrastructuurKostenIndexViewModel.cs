@@ -1,10 +1,7 @@
 ﻿using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenViewModels
 {
@@ -28,6 +25,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenVi
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het bedrag")]
 
         public double Bedrag { get; set; }
+
+        public int ToonFormulier { get; set; } = 0;
 
         public IEnumerable<InfrastructuurKostenViewModel> ViewModels { get; set; } 
         #endregion

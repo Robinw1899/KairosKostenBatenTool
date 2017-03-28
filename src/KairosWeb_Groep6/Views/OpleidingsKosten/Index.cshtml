@@ -79,26 +79,13 @@
 
 @section scripts{
     <script>
-        if (@Model.Beschrijving !== emptyCells && @Model.Bedrag !== 0) {
+        if (@Model.ToonFormulier === 1) {
             toonFormulier();
         } else {
             $("#functie").val("");
             $("#beschrijving").val("");
             $("#Bedrag").val("");
         }
-
-        $("#form").submit(function () {
-            $.post(this.action,
-                $(this).serialize(),
-                function (data) {
-                    $("#data").html(data);
-                    $("#beschrijving").val("");
-                    $("#Bedrag").val("");
-                    //verbergFormulier();
-                });
-
-            return false;
-        });
 
         $("#Kosten").addClass("active");
     </script>

@@ -29,6 +29,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 return PartialView("_OverzichtTabel", model.ViewModels);
             }
 
+            PlaatsTotaalInViewData(analyse);
             return View(model);
         }
 
@@ -73,6 +74,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 model.Soort = baat.Soort;
                 model.Uren = baat.Uren;
                 model.BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
+                model.ToonFormulier = 1;
             }
 
             PlaatsTotaalInViewData(analyse);

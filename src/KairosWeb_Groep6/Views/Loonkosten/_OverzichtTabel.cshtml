@@ -10,6 +10,7 @@
         <th>Doelgroep</th>
         <th>Vlaamse ondersteuningspremie</th>
         <th>Aantal maanden IBO</th>
+        <th>Totale productiviteitspremie IBO</th>
         <th>Jaarbedrag</th>
         <th class="empty-th"></th>
     </tr>
@@ -31,9 +32,10 @@
                 <td>@kost.Beschrijving</td> <!--Functie-->
                 <td>@kost.AantalUrenPerWeek</td>
                 <td>@kost.BrutoMaandloonFulltime</td>
-                <td>@kost.Doelgroep</td>
+                <td>@(DoelgroepExtensions.GeefOmschrijving(kost.Doelgroep))</td>
                 <td>@(kost.Ondersteuningspremie) %</td>
                 <td>@kost.AantalMaandenIBO</td>
+                <td>@(kost.IBOPremie.ToString("C"))</td>
                 <th>@(kost.Bedrag.ToString("C"))</th>
                 <td>
                     <div class="options">
@@ -51,7 +53,7 @@
             <td colspan="3">
                 <b>@(ViewData["totaalBrutolonen"])</b>
             </td>
-            <td class="text-right">
+            <td colspan="2" class="text-right">
                 <b>Totaal:</b>
             </td>
             <td colspan="2">
