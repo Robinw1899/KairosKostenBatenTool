@@ -232,6 +232,14 @@ else
     <p>Er is nog geen werkgever geselecteerd, hierdoor kan er momenteel nog geen resultaat getoond worden.</p>
     <p><a asp-controller="Analyse" asp-action="SelecteerWerkgever">Voeg een werknemer toe</a> via de navigatie hierboven.</p>
 }
+<div class="row" style="margin-top:20px">
+    <div class="col-xs-10 col-md-10">
+        <a asp-controller="Baten" asp-action="Index" style="margin-left: 15px" class="btn btn-default">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Baten
+        </a>
+    </div>
+  
+</div>
 @section scripts{
    <script>
         $("#resultaat").addClass("active");
