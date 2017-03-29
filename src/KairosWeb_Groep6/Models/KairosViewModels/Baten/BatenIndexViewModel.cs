@@ -54,19 +54,19 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
                 AantalIngevuld += 1;
             }
 
-            if (analyse.ExtraOmzet != null && analyse.ExtraOmzet.Bedrag <= 0)
+            if (analyse.ExtraOmzet != null && analyse.ExtraOmzet.Bedrag > 0)
             {
                 ExtraOmzetIngevuld = true;
                 AantalIngevuld += 1;
             }
 
-            if (analyse.ExtraProductiviteit != null && analyse.ExtraProductiviteit.Bedrag <= 0)
+            if (analyse.ExtraProductiviteit != null && analyse.ExtraProductiviteit.Bedrag > 0)
             {
                 ExtraProductiviteitIngevuld = true;
                 AantalIngevuld += 1;
             }
 
-            if (analyse.OverurenBesparing != null && analyse.OverurenBesparing.Bedrag <= 0)
+            if (analyse.OverurenBesparing != null && analyse.OverurenBesparing.Bedrag > 0)
             {
                 OverurenBesparingIngevuld = true;
                 AantalIngevuld += 1;
@@ -78,7 +78,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
                 AantalIngevuld += 1;
             }
 
-            if (analyse.Subsidie != null && analyse.Subsidie.Bedrag <= 0)
+            if (analyse.Subsidie != null && analyse.Subsidie.Bedrag > 0)
             {
                 SubsidieIngevuld = true;
                 AantalIngevuld += 1;
