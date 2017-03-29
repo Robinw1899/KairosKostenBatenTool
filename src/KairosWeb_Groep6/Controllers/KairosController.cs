@@ -120,7 +120,7 @@ namespace KairosWeb_Groep6.Controllers
                     var user = await _userManager.GetUserAsync(User);
 
                     // gegevens jobcoach ophalen
-                    string nameJobcoach = user.Voornaam + " " + user.Naam;
+                    string nameJobcoach = user.Voornaam ?? "";
                     string emailJobcoach = user.Email;
 
                     // mail verzenden

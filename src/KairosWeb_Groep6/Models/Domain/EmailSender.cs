@@ -9,7 +9,7 @@ namespace KairosWeb_Groep6.Models.Domain
         {
             var message = CreateBaseMessage();
             message.To.Add(new MailboxAddress(name, email));
-            message.Subject = "Welkom bij Kairos!";
+            message.Subject = @"Welkom bij KAIROS' kosten-baten tool!";
 
             var builder = new BodyBuilder();
             builder.HtmlBody = CreateRegisterMail(name, email, password);
@@ -23,7 +23,7 @@ namespace KairosWeb_Groep6.Models.Domain
         {
             var message = CreateBaseMessage();
             message.To.Add(new MailboxAddress(name, email));
-            message.Subject = "Welkom bij Kairos!";
+            message.Subject = "Paswoord KAIROS kosten-baten tool vergetenPaswoord KAIROS kosten-baten tool vergeten";
 
             var builder = new BodyBuilder();
             builder.HtmlBody = CreateForgotPasswordMail(name, password);
@@ -80,29 +80,22 @@ namespace KairosWeb_Groep6.Models.Domain
 
         private static string CreateForgotPasswordMail(string name, string password)
         {
-
-
             return CreateHtmlHead() + 
             @"
-            <body>
-                <img src='https://static.wixstatic.com/media/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png/v1/crop/x_2,y_0,w_1257,h_515/fill/w_800,h_328,al_c,usm_0.66_1.00_0.01/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png' alt='Logo Kairos' width='50%' style='margin: 0 auto; display: block;' />
-                <h1>Ben je je wachtwoord vergeten?</h1>"
-
-            + string.Format(@"<h3>Hallo, {0}!</h3>", name)
+            <body>"
+            + string.Format(@"<p>Beste  {0}!</p>", name)
             +
-                @"<p>Je hebt gevraagd om je wachtwoord te resetten. Hieronder vind je een tijdelijk wachtwoord waar je maar één maal kan aanmelden.</p>
-                   
+                @"<p>Je hebt aangegeven dat je jouw paswoord vergeten bent.</p>
+                   <p>Het onderstaande nieuwe paswoord kan je gebruiken om in te loggen. Nadat je bent ingelogd, kan je jouw pas paswoord wijzigen.</p>
                   <p><strong>Je doorloopt hierdoor opnieuw de procedure van een eerste keer aanmelden!</strong> 
-                    Uiteraard ben je géén analyses of andere gegevens kwijt!</p>"
+                    Uiteraard ben je géén analyses of andere gegevens kwijt.</p>"
 
             + string.Format(
-                @"<p>Je tijdelijk wachtwoord is <strong>{0}</strong>.</p>", password)
+                @"<p>Jouw nieuw paswoord is: <strong>{0}</strong>.</p>", password)
             +
-                @"<p>Bij vragen of problemen, mag je steeds mailen naar <a href='mailto:bart@werkgeversbenadering.be'>bart@werkgeversbenadering.be</a></p>
-                <br>
-
-                <h3 class='no-margin'>Veel plezier met Kairos!</h3>
-                <p class='no-margin'>Het Kairos-team</p>
+                @"
+                    <p class='no-margin'>Hartelijke groet</p>
+                    <p class='no-margin'>Het team van KAIROS</p>
             </body>
 
             </html>";
@@ -112,25 +105,24 @@ namespace KairosWeb_Groep6.Models.Domain
         {
             return CreateHtmlHead() +
             @"
-            <body>
-                <img src='https://static.wixstatic.com/media/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png/v1/crop/x_2,y_0,w_1257,h_515/fill/w_800,h_328,al_c,usm_0.66_1.00_0.01/192f9b_a49f1a3533c149a2a803ee4ab519ef2e~mv2.png' alt='Logo Kairos' width='50%' style='margin: 0 auto; display: block;' />
-                <h1>Welkom bij Kairos!</h1>
-                <h2><span style='color:#97C900'>nu</span> is het moment voor iedereen</h2>"
-
-            + string.Format(@"<h3>Hallo, {0}!</h3>", name)
+            <body>"
+            + string.Format(@"<p>Beste  {0}!</p>", name)
             +
-                @"<p>We zijn blij je te mogen verwelkomen in onze gloednieuwe webapplicatie! Hieronder vind je je wachtwoord waarmee je een eerste keer kan aanmelden.</p>
-                <p>Na de eerste keer aanmelden wordt je een nieuw wachtwoord gevraagd, het onderstaande wachtwoord is dus slechts eenmalig geldig.</p>"
+                @"<p>Leuk dat je gebruik wil maken van onze tool om werkgevers meer inzicht te geven in de kosten en baten bij het tewerkstellen van personen met een grote afstand tot de arbeidsmarkt.</p>
+                <p>Je kan nu inloggen op <a href='http://localhost:25242'>localhost:25242</a> met deze gebruikersnaam en paswoord:</p>"
 
             + string.Format(
-                @"<p>Je registreerde met <strong>{0}</strong> als email. Hiermee dien je steeds aan te melden.</p>
-                <p>Je tijdelijk wachtwoord is <strong>{1}</strong>.</p>", email, password)
+                @"<p>Gebruikersnaam: {0}</p>
+                <p>Paswoord: {1}</p>", email, password)
             +
-                @"<p>Bij vragen of problemen, mag je steeds mailen naar <a href='mailto:bart@werkgeversbenadering.be'>bart@werkgeversbenadering.be</a></p>
+            @"<p>Na het inloggen kan je je paswoord veranderen.<br />
+                    Veel succes met het gebruik van onze tool!</p>"
+            +
+                @"<p>Wil je meer weten over wie we zijn en wat we doen, surf naar <a href='www.hetmomentvooriedereen.be'>www.hetmomentvooriedereen.be</a>.</p>
                 <br>
 
-                <h3 class='no-margin'>Veel plezier met Kairos!</h3>
-                <p class='no-margin'>Het Kairos-team</p>
+                <p class='no-margin'>Hartelijke groet</p>
+                <p class='no-margin'>Het team van KAIROS</p>
             </body>
 
             </html>";

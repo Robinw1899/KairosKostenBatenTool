@@ -168,8 +168,8 @@ namespace KairosWeb_Groep6.Controllers
                         _jobcoachRepository.Add(jobcoach);
                         _jobcoachRepository.Save();
 
-                        string naamVoorEmail = model.Voornaam + " " + model.Naam;
-                        EmailSender.SendRegisterMailWithPassword(naamVoorEmail, model.Email, password);
+                        string naam = model.Voornaam ?? "";
+                        EmailSender.SendRegisterMailWithPassword(naam, model.Email, password);
 
                         TempData["message"] =
                             "Je bent succesvol geregistreerd. Kijk snel je mail na voor je tijdelijk wachtwoord!";
@@ -347,7 +347,7 @@ namespace KairosWeb_Groep6.Controllers
                 jobcoach.AlAangemeld = false;
                 _jobcoachRepository.Save();
 
-                string name = jobcoach.Voornaam + " " + jobcoach.Naam;
+                string name = jobcoach.Voornaam ?? "";
                 EmailSender.SendForgotPasswordMail(name, jobcoach.Emailadres, password);
 
                 return View("ForgotPasswordConfirmation");
