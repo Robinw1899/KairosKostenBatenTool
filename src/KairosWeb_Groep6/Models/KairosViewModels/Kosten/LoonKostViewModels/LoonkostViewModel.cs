@@ -30,9 +30,10 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
         public double BrutoMaandloonFulltime { get; set; }
 
         [Required(ErrorMessage = "Gelieve de ondersteuningspremie in te vullen.")]
-        [Display(Name = "% Vlaamse ondersteunings-premie")]
+        [Display(Name = "% Vlaamse ondersteuningspremie")]
         public double Ondersteuningspremie { get; set; }
 
+        [Display(Name = "Aantal maanden IBO", Prompt = "Aantal maanden IBO")]
         [Required(ErrorMessage = "Gelieve het aantal maanden IBO in te vullen.")]
         [Range(0, int.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het aantal maanden IBO")]
         public int AantalMaandenIBO { get; set; }
