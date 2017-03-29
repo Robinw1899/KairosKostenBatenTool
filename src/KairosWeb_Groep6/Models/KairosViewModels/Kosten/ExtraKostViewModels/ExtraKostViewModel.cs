@@ -18,6 +18,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.ExtraKostViewModels
         public Soort Soort { get; set; }
 
         [Required(ErrorMessage = "Gelieve een beschrijving op te geven.")]
+        [Display(Name = "Type")]
         public string Beschrijving { get; set; }
 
         [Required(ErrorMessage = "Gelieve het bedrag op te geven.")]

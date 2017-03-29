@@ -24,21 +24,26 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
         public string Beschrijving { get; set; }
 
         [Required(ErrorMessage = "Gelieve een het aantal uren per week op te geven.")]
+        [Display(Name = "Aantal uren per week")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het aantal uur")]
         public double AantalUrenPerWeek { get; set; }
 
         [Required(ErrorMessage = "Gelieve het bruto maandloon (fulltime) op te geven.")]
+        [Display(Name = "Bruto maandloon (fulltime)")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het bruto maandloon")]
         public double BrutoMaandloonFulltime { get; set; }
 
         [Required(ErrorMessage = "Gelieve de ondersteuningspremie in te vullen.")]
+        [Display(Name = "% Vlaamse ondersteunings-premie")]
         public double Ondersteuningspremie { get; set; }
 
         [Required(ErrorMessage = "Gelieve het aantal maanden IBO in te vullen.")]
+        [Display(Name = "Aantal maaden IBO")]
         [Range(0, int.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het aantal maanden IBO")]
         public int AantalMaandenIBO { get; set; }
 
         [Required(ErrorMessage = "Gelieve de IBO premie in te vullen.")]
+        [Display(Name = "Totale productiviteitspremie IBO")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor de IBO premie")]
         public double IBOPremie { get; set; }
 
