@@ -13,12 +13,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels
         public Type Type { get; set; }
         [HiddenInput]
         public Soort Soort { get; set; }
-
+        
         [Required(ErrorMessage = "Gelieve een beschrijving in te vullen")]
         public string Beschrijving { get; set; }
 
         [Required(ErrorMessage = "Gelieve een bedrag in te vullen")]
-        [Display(Name = "Bruto maandloon (fulltime)")]
+        [Display(Name = "Jaarbedrag")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het aantal uur op te geven.")]
         public double Bedrag { get; set; }
 

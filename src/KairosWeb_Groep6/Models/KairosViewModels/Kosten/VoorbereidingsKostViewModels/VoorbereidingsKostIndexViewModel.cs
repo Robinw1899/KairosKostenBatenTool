@@ -18,8 +18,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.VoorbereidingsKostView
         [HiddenInput]
         public Soort Soort { get; set; }
 
-        [Required(ErrorMessage = "Gelieve een type op te geven")]
         [Display(Name = "Type")]
+        [Required(ErrorMessage = "Gelieve een type op te geven")]
         public string Beschrijving { get; set; }
 
         [Required(ErrorMessage = "Gelieve een bedrag in te vullen")]

@@ -19,9 +19,11 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraBesparingViewModel
         public Soort Soort { get; set; }
 
         [Required(ErrorMessage = "Gelieve een beschrijving op te geven.")]
+        [Display(Name = "Type besparing")]
         public string Beschrijving { get; set; }
 
         [Required(ErrorMessage = "Gelieve het bedrag op te geven.")]
+        [Display(Name = "Jaarbedrag")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bedrag op te geven.")]
         public double Bedrag { get; set; }
 

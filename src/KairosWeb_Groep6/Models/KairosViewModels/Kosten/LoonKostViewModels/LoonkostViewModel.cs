@@ -30,6 +30,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
         public double BrutoMaandloonFulltime { get; set; }
 
         [Required(ErrorMessage = "Gelieve de ondersteuningspremie in te vullen.")]
+        [Display(Name = "% Vlaamse ondersteunings-premie")]
         public double Ondersteuningspremie { get; set; }
 
         [Required(ErrorMessage = "Gelieve het aantal maanden IBO in te vullen.")]
@@ -37,6 +38,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
         public int AantalMaandenIBO { get; set; }
 
         [Required(ErrorMessage = "Gelieve de IBO premie in te vullen.")]
+        [Display(Name = "Totale productiviteitspremie IBO")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor de IBO premie")]
         public double IBOPremie { get; set; }
 

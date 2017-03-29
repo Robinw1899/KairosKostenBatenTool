@@ -17,6 +17,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.OpleidingsKosten
         [Required]
         public Soort Soort { get; set; }
 
+        [Display(Name = "Type")]
         [Required(ErrorMessage = "Gelieve een (korte) beschrijving op te geven")]
         public string Beschrijving { get; set; }
       

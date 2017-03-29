@@ -1,4 +1,4 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.OverurenBesparingViewModels.OverurenBesparingIndexViewModel
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.OverurenBesparingViewModel
 
 @{
     ViewData["Title"] = "Besparing op overuren";
@@ -27,11 +27,12 @@
 
         <div class="row col-md-offset-2">
             <div class="col-md-4">
+                <label asp-for="Bedrag"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-euro" aria-hidden="true"></i>
                     </span>
-                    <input asp-for="Bedrag" class="form-control" placeholder="Bedrag" id="bedrag">
+                    <input asp-for="Bedrag" class="form-control" placeholder="Jaarbedrag" id="bedrag">
                 </div>
                 <span asp-validation-for="Bedrag" class="text-danger"></span>
             </div>
