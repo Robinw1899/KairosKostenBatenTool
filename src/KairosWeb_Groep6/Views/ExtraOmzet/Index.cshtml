@@ -32,7 +32,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
-                    <input asp-for="JaarbedragOmzetverlies" class="form-control" id="jaarbedrag" placeholder="Jaarbedrag omzetverlies"/>
+                    <input asp-for="JaarbedragOmzetverlies" class="form-control input-maxwidth" id="jaarbedrag" placeholder="Jaarbedrag omzetverlies"/>
                 </div>
                 <span asp-validation-for="JaarbedragOmzetverlies" class="text-danger"></span>
             </div>
@@ -43,7 +43,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
-                    <input asp-for="Besparing" class="form-control" id="besparing" placeholder="% besparing"/>
+                    <input asp-for="Besparing" class="form-control input-maxwidth" id="besparing" placeholder="% besparing"/>
                 </div>
                 <span asp-validation-for="Besparing" class="text-danger"></span>
             </div>
@@ -54,7 +54,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
-                    <input type="text" class="form-control" disabled="disabled" value="@(Model.Bedrag.ToString("C"))"/>
+                    <input type="text" class="form-control input-maxwidth" disabled="disabled" value="@(Model.Bedrag.ToString("C"))"/>
                 </div>
                 <span asp-validation-for="Bedrag" class="text-danger"></span>
             </div>
@@ -62,7 +62,7 @@
 
         <br />
 
-        <!--buttons an/add-->
+        <!--buttons add-->
         <div class="row">
             <div class="col-md-7 text-right">
                 <a asp-controller="Baten" asp-action="Index" class="btn btn-default" id="closeForm">Annuleer</a>
