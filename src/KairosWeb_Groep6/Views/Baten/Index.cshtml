@@ -14,7 +14,7 @@
 <div class="progress">
     <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@Model.AantalIngevuld"
          aria-valuemin="0" aria-valuemax="@Model.AantalBaten" 
-         style="width:@(Math.Round((((double) Model.AantalIngevuld / (double) Model.AantalBaten) * 100) / 2, 0))%">
+         style="width:@(Math.Round((((double) Model.AantalIngevuld / (double) Model.AantalBaten) * 100), 0))%">
     </div>
 </div>
 
