@@ -5,25 +5,23 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
     public class KostenIndexViewModel
     {
         #region Properties
-        public bool LoonkostenIngevuld { get; set; } = false;
+        public bool LoonkostenIngevuld { get; set; }
 
-        public bool EnclaveKostenIngevuld { get; set; } = false;
+        public bool EnclaveKostenIngevuld { get; set; }
 
-        public bool VoorbereidingsKostenIngevuld { get; set; } = false;
+        public bool VoorbereidingsKostenIngevuld { get; set; }
 
-        public bool InfrastructuurKostenIngevuld { get; set; } = false;
+        public bool InfrastructuurKostenIngevuld { get; set; }
 
-        public bool GereedschapsKostenIngevuld { get; set; } = false;
+        public bool GereedschapsKostenIngevuld { get; set; }
 
-        public bool OpleidingsKostenIngevuld { get; set; } = false;
+        public bool OpleidingsKostenIngevuld { get; set; }
 
-        public bool BegeleidingsKostenIngevuld { get; set; } = false;
+        public bool BegeleidingsKostenIngevuld { get; set; }
 
-        public bool ExtraKostenIngevuld { get; set; } = false;
+        public bool ExtraKostenIngevuld { get; set; }
 
-        public int AantalIngevuld { get; set; } = 0;
-
-        public int AantalKosten { get; set; } = 8;
+        public int AantalIngevuld { get; set; }
         #endregion
 
         #region Constructor

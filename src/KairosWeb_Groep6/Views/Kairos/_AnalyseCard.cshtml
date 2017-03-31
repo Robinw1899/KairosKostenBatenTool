@@ -26,10 +26,10 @@
             <p>@Model.Departement</p>
             <div class="progress">
                 <div class="progress-bar progress-bar-success" role="progressbar"
-                     style="width: @(Math.Round((((double) Model.BatenInfo.AantalIngevuld / (double) Model.BatenInfo.AantalBaten) * 100) / 2, 0))%">
+                     style="width: @(Math.Round((((double) Model.BatenInfo.AantalIngevuld / (Model.KostenInfo.AantalIngevuld + Model.BatenInfo.AantalIngevuld)) * 100), 0))%">
                 </div>
                 <div class="progress-bar progress-bar-danger" role="progressbar"
-                     style="width: @(Math.Round((((double) Model.KostenInfo.AantalIngevuld / (double) Model.KostenInfo.AantalKosten) * 100) / 2, 0))%">
+                     style="width: @(Math.Round((((double) Model.KostenInfo.AantalIngevuld / (Model.KostenInfo.AantalIngevuld + Model.BatenInfo.AantalIngevuld)) * 100), 0))%">
                 </div>
             </div>
 

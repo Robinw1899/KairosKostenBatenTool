@@ -193,6 +193,10 @@ li:hover .options i {
     font-size: 1.3em;
 }
 
+.kostenBatenNav li a i {
+    margin-right: 100px;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

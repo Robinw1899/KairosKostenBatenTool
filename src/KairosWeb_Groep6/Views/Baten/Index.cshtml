@@ -11,49 +11,43 @@
     <h3>@ViewData["title"]</h3>
 </div>
 
-<div class="progress">
-    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@Model.AantalIngevuld"
-         aria-valuemin="0" aria-valuemax="@Model.AantalBaten" 
-         style="width:@(Math.Round((((double) Model.AantalIngevuld / (double) Model.AantalBaten) * 100), 0))%">
-    </div>
-</div>
-
-<p class="text-center">@Model.AantalIngevuld van de @Model.AantalBaten baten ingevuld.</p>
-
 <p>
     Kies een baat uit onderstaande lijst.
     Beweeg met de muis over de baat om meer info te krijgen.
 </p>
 <div class="row col-md-offset-1">
-    <ul class="nav nav-pills nav-stacked">
+    <ul class="nav nav-pills nav-stacked kostenBatenNav">
         <li>
             <a asp-controller="Baten" asp-action="MedewerkerZelfdeNiveau"
                data-toggle="tooltip" data-placement="bottom"
                title="Zullen er (deels) medewerkers op hetzelfde niveau als de nieuwe medewerker vervangen worden?">
+                Medewerkers op zelfde niveau vervangen
                 @if (Model.MedewerkersZelfdeNiveauBaatIngevuld)
                 {
-                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                } Medewerkers op zelfde niveau vervangen
+                    <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
+                }
             </a>
         </li>
         <li>
             <a asp-controller="Baten" asp-action="MedewerkerHogerNiveau"
                data-toggle="tooltip" data-placement="bottom"
                title="Zullen er (deels) medewerkers op een hoger niveau als de nieuwe medewerker vervangen worden?">
+                Medewerkers op hoger niveau vervangen
                 @if (Model.MedewerkersHogerNiveauBaatIngevuld)
                 {
-                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                } Medewerkers op hoger niveau vervangen
+                    <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
+                }
             </a>
         </li>
         <li>
             <a asp-controller="Baten" asp-action="UitzendKrachtBesparingen"
                data-toggle="tooltip" data-placement="bottom"
                title="Welke besparing denkt de werkgever jaarlijks te kunnen maken op uitzendkrachten?">
+                Besparingen op uitzendkrachten
                 @if (Model.UitzendKrachtBesparingenIngevuld)
                 {
-                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                } Besparingen op uitzendkrachten
+                    <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
+                }
             </a>
         </li>
         <li>
@@ -61,10 +55,11 @@
                data-toggle="tooltip" data-placement="bottom"
                title="Mist de werkgever vandaag omzet doordat hij personeel tekort komt?
                Hoeveel meer omzet denkt de werkgever jaarlijks te kunnen realiseren door inzet van mensen met een grote afstand tot de arbeidsmarkt?">
+                Extra omzet
                 @if (Model.ExtraOmzetIngevuld)
                 {
-                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                } Extra omzet
+                    <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
+                }
             </a>
         </li>
         <li>
@@ -72,20 +67,22 @@
                data-toggle="tooltip" data-placement="bottom"
                title="Hoeveel extra productiviteit denkt de werkgever jaarlijks
                te kunnen maken door inzet van mensen met een grote afstand tot de arbeidsmarkt?">
+                Extra productiviteit
                 @if (Model.ExtraProductiviteitIngevuld)
                 {
-                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                } Extra productiviteit
+                    <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
+                }
             </a>
         </li>
         <li>
             <a asp-controller="Baten" asp-action="OverurenBesparingen"
                data-toggle="tooltip" data-placement="bottom"
                title="Hoeveel denkt de werkgever jaarlijks te kunnen besparen op overuren door inzet van mensen met een grote afstand tot de arbeidsmarkt?">
+                Besparingen op overuren
                 @if (Model.OverurenBesparingIngevuld)
                 {
-                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                } Besparingen op overuren
+                    <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
+                }
             </a>
         </li>
         <li>
@@ -96,30 +93,33 @@
                Wat zijn de transportkosten van eventueel uitbesteedde zaken?
                Wat zijn de logistieke handlingskosten van eventueel uitbesteedde zaken?
                Hoeveel denkt de werkgever te kunnen besparen?">
+                Externe inkopen, transportskosten en logistieke handlingskosten
                 @if (Model.ExterneInkopenIngevuld)
                 {
-                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                } Externe inkopen, transportskosten en logistieke handlingskosten
+                    <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
+                }
             </a>
         </li>
         <li>
             <a asp-controller="Baten" asp-action="Subsidies"
                data-toggle="tooltip" data-placement="bottom"
                title="Welk bedrag krijgt de werkgever aan subsidie voor eventuele aanpassingen aan de werkomgeving?">
+                Subsidie
                 @if (Model.SubsidieIngevuld)
                 {
-                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                } Subsidie
+                    <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
+                }
             </a>
         </li>
         <li>
             <a asp-controller="Baten" asp-action="ExtraBesparingen"
                data-toggle="tooltip" data-placement="bottom"
                title="Aan welke besparingen kan er nog meer gedacht worden?">
+                Extra besparingen
                 @if (Model.ExtraBesparingenIngevuld)
                 {
-                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                } Extra besparingen
+                    <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
+                }
             </a>
         </li>
     </ul>

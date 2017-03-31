@@ -52,7 +52,14 @@
     },
 
     toonIntro: function () {
-        $(".intro").show(500);
+        $(".intro").show(500, function() {
+            // de hoogte van het loginform gelijk zetten aan de hoogte van de introtekst
+            var width = $(document).width();
+            if (width >= 768) {
+                var introHeight = $("#intro").height();
+                $("#login").height(introHeight);
+            }
+        });
 
         if (localStorage != null) {
             localStorage.setItem("intro", "");
