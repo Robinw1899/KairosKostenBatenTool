@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
@@ -48,6 +49,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 };
 
                 analyse.MedewerkersZelfdeNiveauBaat.Add(baat);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -95,6 +97,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 baat.Soort = model.Soort;
                 baat.Uren = model.Uren;
                 baat.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
+
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -114,6 +118,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             if (baat != null)
             {
                 analyse.MedewerkersZelfdeNiveauBaat.Remove(baat);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
             }
 

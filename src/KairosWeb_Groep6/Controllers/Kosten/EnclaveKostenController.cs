@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
@@ -56,6 +55,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 };
 
                 analyse.EnclaveKosten.Add(kost);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -104,6 +104,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 model.Soort = kost.Soort;
                 model.Bedrag = kost.Bedrag;
 
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
+                _analyseRepository.Save();
+
                 model = MaakModel(analyse);
 
                 TempData["message"] = "De kost is succesvol opgeslaan.";
@@ -122,6 +125,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             if (kost != null)
             {
                 analyse.EnclaveKosten.Remove(kost);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
             }
 

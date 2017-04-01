@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using KairosWeb_Groep6.Filters;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -39,13 +40,14 @@ namespace KairosWeb_Groep6.Controllers
 
         public async Task<IActionResult> Index()
         {
+            AnalyseFilter.ClearSession(HttpContext);
             ApplicationUser user = await _userManager.GetUserAsync(User);
             IndexViewModel model;
 
             if (user == null)
             {
                 TempData["error"] = "Gelieve je eerst aan te melden alvorens deze pagina te bezoeken.";
-                model = new IndexViewModel();
+                return RedirectToAction("LogOff", "Account");
             }
             else
             {
@@ -124,13 +126,20 @@ namespace KairosWeb_Groep6.Controllers
                     string emailJobcoach = user.Email;
 
                     // mail verzenden
-                    EmailSender.SendMailAdmin(nameJobcoach, emailJobcoach, model.Onderwerp, model.Bericht);
+                    bool mailVerzendenGelukt = await EmailSender.SendMailAdmin(nameJobcoach, emailJobcoach, model.Onderwerp, model.Bericht);
 
-                    // als we hier komen, is alles gelukt
-                    TempData["message"] =
-                        "Je vraag/opmerking is succesvol verzonden naar administrator. Deze zal zo snel mogelijk contact opnemen met jou.";
+                    if (mailVerzendenGelukt)
+                    {
+                        // als we hier komen, is alles gelukt
+                        TempData["message"] =
+                            "Je vraag/opmerking is succesvol verzonden naar administrator. Deze zal zo snel mogelijk contact opnemen met jou.";
 
-                    return RedirectToAction(nameof(Index), "Kairos");
+                        return RedirectToAction(nameof(Index), "Kairos");
+                    }
+                    else
+                    {
+                        TempData["error"] = "De opmerking kan momenteel niet verzonden worden, probeer het later opnieuw.";
+                    }
                 }
                 catch (Exception)
                 {

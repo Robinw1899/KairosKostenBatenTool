@@ -23,9 +23,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         public bool ExtraBesparingenIngevuld { get; set; }
 
-        public int AantalIngevuld { get; set; } = 0;
-
-        public int AantalBaten { get; set; } = 9;
+        public int AantalIngevuld { get; set; }
         #endregion
 
         #region Constructors

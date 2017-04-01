@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using KairosWeb_Groep6.Filters;
@@ -6,6 +7,7 @@ using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenViewModels;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
@@ -46,6 +48,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 };
 
                 analyse.InfrastructuurKosten.Add(kost);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -96,6 +99,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 kost.Beschrijving = model.Beschrijving;
                 kost.Bedrag = model.Bedrag;
 
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -115,6 +119,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             if (kost != null)
             {
                 analyse.InfrastructuurKosten.Remove(kost);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
             }
 

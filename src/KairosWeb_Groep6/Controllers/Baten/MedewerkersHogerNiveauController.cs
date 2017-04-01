@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
@@ -47,6 +49,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 };
 
                 analyse.MedewerkersHogerNiveauBaat.Add(baat);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -94,6 +97,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 baat.Soort = model.Soort;
                 baat.Uren = model.Uren;
                 baat.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
+
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -111,6 +116,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, id);
 
             analyse.MedewerkersHogerNiveauBaat.Remove(baat);
+            analyse.DatumLaatsteAanpassing = DateTime.Now;
             _analyseRepository.Save();
 
             MedewerkerNiveauIndexViewModel model = MaakModel(analyse);

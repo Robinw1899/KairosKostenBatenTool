@@ -6,7 +6,7 @@
 }
 
 <div class="row">
-    <div class="intro">
+    <div class="intro" id="intro">
         <!--INTRODUCTIE-TEKST-->
         <div class="row">
             <h4 class="col-md-10">Introductie</h4>
@@ -41,7 +41,7 @@
             met mensen met een grote afstand tot de arbeidsmarkt.
         </p>
     </div>
-    <div class="box-login">
+    <div class="box-login" id="login">
         <!--LOGIN FORM-->
         <div class="thumbnail">
             <img src="/images/logo's/kairos_icon_green.png" alt="Logo Kairos" id="logoToonIntro" />
@@ -96,8 +96,8 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script>
+            var body = document.getElementsByTagName("body")[0];
+            body.style.backgroundImage = "url(/images/aanmelden_bg.jpg)";
+    </script>
 }
-<script>
-    var body = document.getElementsByTagName("body")[0];
-    body.style.backgroundImage = "url(/images/aanmelden_bg.jpg)";
-</script>

@@ -172,8 +172,8 @@ li:hover .options i {
 }
 
 .card {
+    margin-top: 20px;
     padding: 10px 20px;
-    min-height: 0px;
     border: none;
     -ms-border-radius: .28571429rem;
     border-radius: .28571429rem;
@@ -191,6 +191,10 @@ li:hover .options i {
 
 .headerButtons a span, .headerButtons a i {
     font-size: 1.3em;
+}
+
+.kostenBatenNav li a i {
+    margin-right: 100px;
 }
 
 /* Hide/rearrange for smaller screens */

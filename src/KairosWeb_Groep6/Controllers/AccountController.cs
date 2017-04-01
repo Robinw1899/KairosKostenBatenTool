@@ -145,40 +145,48 @@ namespace KairosWeb_Groep6.Controllers
                 }
                 else
                 {
-                    var result = await _userManager.CreateAsync(user, password);
-
-                    if (result.Succeeded)
-                    {
-                        // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
-                        // Send an email with this link
-                        //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                        //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                        //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                        //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
-                        //await _signInManager.SignInAsync(user, isPersistent: false);
-                        //_logger.LogInformation(3, "User created a new account with password.");
-                        //return RedirectToLocal(returnUrl);
-
-                        Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
+                    Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
                             model.NrOrganisatie, model.Postcode, model.Gemeente);
-                        Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie)
+                    Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie)
+                    {
+                        Wachtwoord = password
+                    };
+                    _jobcoachRepository.Add(jobcoach);
+                    _jobcoachRepository.Save();
+
+                    string naam = model.Voornaam ?? "";
+                    bool mailVerzendenGelukt = await EmailSender.SendRegisterMailWithPassword(naam, model.Email, password);
+
+                    if (mailVerzendenGelukt)
+                    {
+                        var result = await _userManager.CreateAsync(user, password);
+
+                        if (result.Succeeded)
                         {
-                            Wachtwoord = password
-                        };
-                        _jobcoachRepository.Add(jobcoach);
-                        _jobcoachRepository.Save();
+                            // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
+                            // Send an email with this link
+                            //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                            //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
+                            //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
+                            //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+                            //await _signInManager.SignInAsync(user, isPersistent: false);
+                            //_logger.LogInformation(3, "User created a new account with password.");
+                            //return RedirectToLocal(returnUrl);
 
-                        string naam = model.Voornaam ?? "";
-                        EmailSender.SendRegisterMailWithPassword(naam, model.Email, password);
+                            TempData["message"] =
+                                "Je bent succesvol geregistreerd. Kijk snel je mail na voor je tijdelijk wachtwoord!";
 
-                        TempData["message"] =
-                            "Je bent succesvol geregistreerd. Kijk snel je mail na voor je tijdelijk wachtwoord!";
+                            return RedirectToAction(nameof(Login), "Account");
+                        }
 
-                        return RedirectToAction(nameof(Login), "Account");
+                        TempData["Actie"] = "Registreer";
+                        AddErrors(result);
                     }
-
-                    TempData["Actie"] = "Registreer";
-                    AddErrors(result);
+                    else
+                    {
+                        TempData["Actie"] = "Registreer";
+                        TempData["error"] = "Registreren is niet mogelijk op dit moment, probeer het later opnieuw.";
+                    }
                 }
             }
 
@@ -311,6 +319,7 @@ namespace KairosWeb_Groep6.Controllers
         [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
+            TempData["Actie"] = "Registreer";
             return View();
         }
 
@@ -327,6 +336,7 @@ namespace KairosWeb_Groep6.Controllers
                 if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
+                    TempData["Actie"] = "Registreer";
                     return View("ForgotPasswordConfirmation");
                 }
 
@@ -337,20 +347,28 @@ namespace KairosWeb_Groep6.Controllers
                 //await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                 //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
 
-                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-
+                // eerst mail proberen verzenden alvorens paswoord te resetten
                 Random random = new Random();
                 var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
-
-                await _userManager.ResetPasswordAsync(user, token, password);
                 var jobcoach = _jobcoachRepository.GetByEmail(user.Email);
                 jobcoach.AlAangemeld = false;
                 _jobcoachRepository.Save();
 
                 string name = jobcoach.Voornaam ?? "";
-                EmailSender.SendForgotPasswordMail(name, jobcoach.Emailadres, password);
+                bool mailVerzendenGelukt = await EmailSender.SendForgotPasswordMail(name, jobcoach.Emailadres, password);
 
-                return View("ForgotPasswordConfirmation");
+                if (mailVerzendenGelukt)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    await _userManager.ResetPasswordAsync(user, token, password);
+
+                    return View("ForgotPasswordConfirmation");
+                }
+                else
+                {
+                    TempData["Actie"] = "Registreer";
+                    TempData["error"] = "Je wachtwoord resetten is niet mogelijk op dit moment, probeer het later opnieuw. Je wachtwoord is nog steeds hetzelfde als hiervoor.";
+                }
             }
 
             // If we got this far, something failed, redisplay form
