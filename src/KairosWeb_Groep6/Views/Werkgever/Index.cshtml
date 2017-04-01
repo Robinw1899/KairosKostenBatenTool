@@ -50,6 +50,14 @@
             </div>
 
             <div class="form-group">
+                <label asp-for="Bus" class="col-md-offset-2 col-md-2 control-label"></label>
+                <div class="col-md-8">
+                    <input asp-for="Bus" class="form-control input-maxwidth" id="street_number" />
+                    <span asp-validation-for="Bus" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label asp-for="Postcode" class="col-md-offset-2 col-md-2 control-label"></label>
                 <div class="col-md-8">
                     <input asp-for="Postcode" class="form-control input-maxwidth" id="postal_code" />

@@ -10,6 +10,8 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public int? Nummer { get; set; }
 
+        public string Bus { get; set; } = "";
+
         public int Postcode { get; set; }
 
         public string Gemeente { get; set; } = "";

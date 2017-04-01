@@ -24,7 +24,7 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
 
         /*info organisatie*/
         [Required(ErrorMessage = "De naam van de organisatie is verplicht")]
-        [Display(Name = "Naam", Prompt = "Naam")]
+        [Display(Name = "Naam", Prompt = "Naam organisatie")]
         public string OrganisatieNaam { get; set; }
 
         [Required(ErrorMessage = "De straat van de organisatie is verplicht")]
@@ -35,6 +35,9 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
         [Range(0, int.MaxValue, ErrorMessage = "Gelieve een positief getal op te geven voor het nummer")]
         [Display(Name = "Nr", Prompt = "Nr")]
         public int NrOrganisatie { get; set; }
+
+        [Display(Prompt = "Bus")]
+        public string Bus { get; set; } // niet verplicht
 
         [Required(ErrorMessage = "De postcode van de organisatie is verplicht")]
         [Display(Name = "Postcode", Prompt = "Postcode")]
@@ -62,6 +65,7 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
                 OrganisatieNaam = gebruiker.Organisatie.Naam;
                 StraatOrganisatie = gebruiker.Organisatie.Straat;
                 NrOrganisatie = gebruiker.Organisatie.Nummer;
+                Bus = gebruiker.Organisatie.Bus;
                 Postcode = gebruiker.Organisatie.Postcode;
                 Gemeente = gebruiker.Organisatie.Gemeente;
             }
