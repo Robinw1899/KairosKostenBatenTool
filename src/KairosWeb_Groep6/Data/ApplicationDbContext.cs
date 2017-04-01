@@ -59,6 +59,40 @@ namespace KairosWeb_Groep6.Data
                 .WithMany()
                 .OnDelete(DeleteBehavior.SetNull);
 
+            // Kosten
+            a.HasMany(t => t.Loonkosten)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            a.HasMany(t => t.EnclaveKosten)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            a.HasMany(t => t.VoorbereidingsKosten)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            a.HasMany(t => t.InfrastructuurKosten)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            a.HasMany(t => t.GereedschapsKosten)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            a.HasMany(t => t.OpleidingsKosten)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            a.HasMany(t => t.BegeleidingsKosten)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            a.HasMany(t => t.ExtraKosten)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Baten
             a.HasMany(t => t.MedewerkersZelfdeNiveauBaat)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
@@ -68,6 +102,14 @@ namespace KairosWeb_Groep6.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             a.HasMany(t => t.UitzendKrachtBesparingen)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            a.HasMany(t => t.ExterneInkopen)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            a.HasMany(t => t.ExtraBesparingen)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
         }
