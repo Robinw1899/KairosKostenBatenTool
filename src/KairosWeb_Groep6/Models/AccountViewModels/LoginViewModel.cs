@@ -15,7 +15,5 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
 
         [Display(Name = "Mij onthouden")]
         public bool RememberMe { get; set; }
-
-        public bool EersteKeerAanmelden { get; set; }
     }
 }

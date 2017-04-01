@@ -11,7 +11,6 @@ using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.AccountViewModels;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace KairosWeb_Groep6.Controllers
 {
