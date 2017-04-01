@@ -2,16 +2,9 @@
 
 namespace KairosWeb_Groep6.Models.Domain
 {
-    public class Jobcoach
+    public class Jobcoach : Persoon
     {
-        public int JobcoachId { get; set; }
-
-        public string Naam { get; set; }
-
-        public string Voornaam { get; set; }
-
-        public string Emailadres { get; set; }
-
+        #region Properties
         public string Wachtwoord { get; set; }
 
         public bool AlAangemeld { get; set; }
@@ -19,6 +12,7 @@ namespace KairosWeb_Groep6.Models.Domain
         public Organisatie Organisatie { get; set; }
 
         public ICollection<Analyse> Analyses { get; set; } = new List<Analyse>();
+        #endregion
 
         public Jobcoach()
         {
@@ -26,10 +20,8 @@ namespace KairosWeb_Groep6.Models.Domain
         }
 
         public Jobcoach(string naam, string voornaam, string emailadres)
+            : base(voornaam, naam, emailadres)
         {
-            Naam = naam;
-            Voornaam = voornaam;
-            Emailadres = emailadres;
             AlAangemeld = false;
         }
 

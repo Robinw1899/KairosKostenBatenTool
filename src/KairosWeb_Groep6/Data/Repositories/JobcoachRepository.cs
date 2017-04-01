@@ -36,7 +36,7 @@ namespace KairosWeb_Groep6.Data.Repositories
             return _gebruikers
                 .Include(g => g.Organisatie)
                 .Include(g => g.Analyses)
-                .SingleOrDefault(g => g.JobcoachId == id);
+                .SingleOrDefault(g => g.PersoonId == id);
         }
 
         public void Add(Jobcoach gebruiker)

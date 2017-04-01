@@ -103,12 +103,10 @@ namespace KairosWeb_Groep6
             app.UseIdentity();
           
             app.UseSession();
-          
-            //context.Database.EnsureDeleted();
 
-            //context.Database.EnsureCreated();
+            context.Database.EnsureDeleted();
 
-            // Add external authentication middleware below. To configure them please see http://go.microsoft.com/fwlink/?LinkID=532715
+            context.Database.EnsureCreated();
 
             app.UseMvc(routes =>
             {

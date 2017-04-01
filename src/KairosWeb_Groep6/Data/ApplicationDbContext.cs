@@ -1,4 +1,5 @@
 ﻿
+using System;
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
@@ -26,7 +27,8 @@ namespace KairosWeb_Groep6.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<Jobcoach>(MapGebruiker);
+            builder.Entity<Persoon>(MapPersoon);
+            builder.Entity<Jobcoach>(MapJobcoach);
             builder.Entity<Organisatie>(MapOrganisatie);
             builder.Entity<Departement>(MapDepartement);
             builder.Entity<Werkgever>(MapWerkgever);
@@ -92,30 +94,35 @@ namespace KairosWeb_Groep6.Data
                 .IsRequired();
         }
 
-        private static void MapGebruiker(EntityTypeBuilder<Jobcoach> j)
+        private static void MapPersoon(EntityTypeBuilder<Persoon> p)
+        {
+            p.ToTable("Persoon");
+
+            p.HasKey(t => t.PersoonId);
+
+            p.Property(t => t.Naam)
+                .IsRequired();
+
+            p.Property(t => t.Voornaam)
+                .IsRequired();
+
+            p.Property(t => t.Emailadres)
+                .IsRequired();
+
+            p.HasDiscriminator<string>("Discriminator")
+                .HasValue<Persoon>("Persoon")
+                .HasValue<Jobcoach>("Jobcoach");
+        }
+
+        private static void MapJobcoach(EntityTypeBuilder<Jobcoach> j)
         {
             j.ToTable("Jobcoach");
-
-            j.HasKey(t => t.JobcoachId);
-
-            j.Property(t => t.Naam)
-                .HasMaxLength(50)
-                .IsRequired();
-
-            j.Property(t => t.Voornaam)
-                .HasMaxLength(50)
-                .IsRequired();
-
-            j.Property(t => t.Emailadres)
-                .HasMaxLength(100)
-                .IsRequired();
 
             j.Property(t => t.AlAangemeld)
                 .IsRequired();
 
             j.Property(t => t.Wachtwoord)
-                .IsRequired()
-                .HasMaxLength(16);
+                .IsRequired();
 
             j.HasOne(t => t.Organisatie)
                 .WithMany()
@@ -133,15 +140,12 @@ namespace KairosWeb_Groep6.Data
             w.HasKey(t => t.WerkgeverId);
 
             w.Property(t => t.Naam)
-                .HasMaxLength(50)
                 .IsRequired();
 
             w.Property(t => t.Straat)
-                .HasMaxLength(50)
                 .IsRequired(false);
 
             w.Property(t => t.Nummer)
-                .HasMaxLength(5)
                 .IsRequired(false);
 
             w.Property(t => t.Postcode)
