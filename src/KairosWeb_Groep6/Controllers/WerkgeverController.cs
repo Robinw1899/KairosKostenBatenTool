@@ -126,6 +126,14 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", "Resultaat");
         }
 
+        public IActionResult AnnuleerNieuweWerkgever(Analyse analyse)
+        {
+            analyse.Departement = null;
+            _analyseRepository.Save();
+
+            return RedirectToAction("NieuweAnalyse", "Analyse");
+        }
+
         public IActionResult BestaandeWerkgever()
         {
             return View();
