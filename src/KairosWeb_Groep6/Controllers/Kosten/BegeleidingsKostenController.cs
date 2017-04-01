@@ -51,6 +51,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 };
 
                 analyse.BegeleidingsKosten.Add(kost);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -104,6 +105,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 kost.Uren = model.Uren;
                 kost.BrutoMaandloonBegeleider = model.BrutoMaandloonBegeleider;
 
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -122,6 +124,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             if (baat != null)
             {
                 analyse.BegeleidingsKosten.Remove(baat);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
             }
 

@@ -55,6 +55,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 };
 
                 analyse.Loonkosten.Add(kost);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -119,6 +120,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                         "berekend worden bij deze kost.";
                 }
 
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 TempData["message"] = "De kost is succesvol opgeslaan.";
@@ -135,6 +137,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             if (kost != null)
             {
                 analyse.Loonkosten.Remove(kost);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
             }
 
