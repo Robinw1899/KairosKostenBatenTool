@@ -43,7 +43,7 @@ namespace KairosWeb_Groep6.Controllers
 
                 if (jobcoach != null)
                 {
-                    jobcoach = _jobcoachRepository.GetById(jobcoach.JobcoachId);
+                    jobcoach = _jobcoachRepository.GetById(jobcoach.PersoonId);
                     jobcoach.Analyses.Add(analyse);
                     _jobcoachRepository.Save();
                 }
