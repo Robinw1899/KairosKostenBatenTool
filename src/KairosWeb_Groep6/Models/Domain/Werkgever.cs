@@ -20,8 +20,6 @@ namespace KairosWeb_Groep6.Models.Domain
         public double AantalWerkuren { get; set; }
 
         public double PatronaleBijdrage { get; set; } = 35D;
-
-        public Persoon ContactPersoon { get; set; }
         #endregion
 
         #region Constructors

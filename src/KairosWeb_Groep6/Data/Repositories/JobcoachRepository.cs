@@ -8,16 +8,16 @@ namespace KairosWeb_Groep6.Data.Repositories
     public class JobcoachRepository : IJobcoachRepository
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly DbSet<Jobcoach> _gebruikers;
+        private readonly DbSet<Jobcoach> _jobcoaches;
 
         public JobcoachRepository(ApplicationDbContext _context)
         {
             _dbContext = _context;
-            _gebruikers = _context.Gebruikers;
+            _jobcoaches = _context.Jobcoaches;
         }
         public IEnumerable<Jobcoach> GetAll()
         {
-            return _gebruikers
+            return _jobcoaches
                 .Include(g => g.Organisatie)
                 .Include(g => g.Analyses)
                 .AsNoTracking();
@@ -25,7 +25,7 @@ namespace KairosWeb_Groep6.Data.Repositories
 
         public Jobcoach GetByEmail(string email)
         {
-            return _gebruikers
+            return _jobcoaches
                 .Include(g => g.Organisatie)
                 .Include(g => g.Analyses)
                 .SingleOrDefault(g => g.Emailadres.Equals(email));
@@ -33,7 +33,7 @@ namespace KairosWeb_Groep6.Data.Repositories
 
         public Jobcoach GetById(int id)
         {
-            return _gebruikers
+            return _jobcoaches
                 .Include(g => g.Organisatie)
                 .Include(g => g.Analyses)
                 .SingleOrDefault(g => g.PersoonId == id);
@@ -41,12 +41,12 @@ namespace KairosWeb_Groep6.Data.Repositories
 
         public void Add(Jobcoach gebruiker)
         {
-            _gebruikers.Add(gebruiker);
+            _jobcoaches.Add(gebruiker);
         }
 
         public void Remove(Jobcoach gebruiker)
         {
-            _gebruikers.Remove(gebruiker);
+            _jobcoaches.Remove(gebruiker);
         }
 
         public void Save()

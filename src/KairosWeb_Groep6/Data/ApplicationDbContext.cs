@@ -12,7 +12,7 @@ namespace KairosWeb_Groep6.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Jobcoach> Gebruikers { get; set; }
+        public DbSet<Jobcoach> Jobcoaches { get; set; }
 
         public DbSet<Departement> Departementen { get; set; }
 
@@ -153,6 +153,7 @@ namespace KairosWeb_Groep6.Data
 
             p.HasDiscriminator<string>("Discriminator")
                 .HasValue<Persoon>("Persoon")
+                .HasValue<ContactPersoon>("ContactPersoon")
                 .HasValue<Jobcoach>("Jobcoach");
         }
 
