@@ -9,17 +9,18 @@
     <h3>@ViewData["title"]</h3>
     <hr />
     @if (Model == null || !Model.Analyses.Any())
-    {   // Model == null moet er nog uit, voorlopig staat dit er om ervoor te zorgen dat de pagina opent.
-        // Er wordt namelijk nog geen model doorgegeven.
-        <p style="font-size: 1.2em;">Er zijn nog geen analyses om te tonen. Klik op het <!--de <i class="fa fa-plus" aria-hidden="true"></i> hieronder -->
-           of het <i class="fa fa-line-chart" aria-hidden="true"></i>-icoon hierboven om een nieuwe analyse te starten.</p>
-    }
-    
-
-    @if (Model == null || !Model.Analyses.Any())
-    {   // Model == null moet er nog uit, voorlopig staat dit er om ervoor te zorgen dat de pagina opent.
-        // Er wordt namelijk nog geen model doorgegeven.
-        @*@Html.Partial("_AnalyseAddCard");*@
+    {
+        <p style="font-size: 1.2em;">Er zijn nog geen analyses om te tonen. Klik op de <i class="fa fa-plus" aria-hidden="true"></i> hieronder
+            of op het <i class="fa fa-line-chart" aria-hidden="true"></i>-icoon hierboven om een nieuwe analyse toe te voegen.</p>
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <a asp-controller="Analyse" asp-action="NieuweAnalyse">
+                    <div class="card text-center">
+                        <i class="fa fa-plus fa-4x" aria-hidden="true" style="margin: auto 0;"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
     }
     else
     {

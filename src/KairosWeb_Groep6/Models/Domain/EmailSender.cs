@@ -1,11 +1,12 @@
-﻿using MailKit.Net.Smtp;
+﻿using System.Threading.Tasks;
+using MailKit.Net.Smtp;
 using MimeKit;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
     public static class EmailSender
     {
-        public static void SendRegisterMailWithPassword(string name, string email, string password)
+        public static async Task<bool> SendRegisterMailWithPassword(string name, string email, string password)
         {
             var message = CreateBaseMessage();
             message.To.Add(new MailboxAddress(name, email));
@@ -16,10 +17,11 @@ namespace KairosWeb_Groep6.Models.Domain
 
             message.Body = builder.ToMessageBody();
 
-            SendMail(message);
+            bool gelukt = await SendMail(message);
+            return gelukt;
         }
 
-        public static void SendForgotPasswordMail(string name, string email, string password)
+        public static async Task<bool> SendForgotPasswordMail(string name, string email, string password)
         {
             var message = CreateBaseMessage();
             message.To.Add(new MailboxAddress(name, email));
@@ -30,10 +32,11 @@ namespace KairosWeb_Groep6.Models.Domain
 
             message.Body = builder.ToMessageBody();
 
-            SendMail(message);
+            bool gelukt = await SendMail(message);
+            return gelukt;
         }
 
-        public static void SendMailAdmin(string nameJobcoach, string emailJobcoach, string subject, string body)
+        public static async Task<bool> SendMailAdmin(string nameJobcoach, string emailJobcoach, string subject, string body)
         {
             var message = CreateBaseMessage();
             //message.To.Add(new MailboxAddress("Bart Moens", "bart@werkgeversbenadering.be"));
@@ -48,8 +51,9 @@ namespace KairosWeb_Groep6.Models.Domain
             builder.HtmlBody = CreateMailAdmin(nameJobcoach, emailJobcoach, body);
 
             message.Body = builder.ToMessageBody();
-            
-            SendMail(message);
+
+            bool gelukt = await SendMail(message);
+            return gelukt;
         }
 
         private static MimeMessage CreateBaseMessage()
@@ -60,22 +64,31 @@ namespace KairosWeb_Groep6.Models.Domain
             return message;
         }
 
-        private static async void SendMail(MimeMessage message)
+        private static async Task<bool> SendMail(MimeMessage message)
         {
             using (var client = new SmtpClient())
             {
-                await client.ConnectAsync("smtp.gmail.com", 465, true);
+                try
+                {
+                    await client.ConnectAsync("smtp.gmail.com", 465, true);
 
-                // Note: since we don't have an OAuth2 token, disable
-                // the XOAUTH2 authentication mechanism.
-                client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    // Note: since we don't have an OAuth2 token, disable
+                    // the XOAUTH2 authentication mechanism.
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
 
-                // Note: only needed if the SMTP server requires authentication
-                await client.AuthenticateAsync("kairos.opportunit@gmail.com", "kairos2017");
+                    // Note: only needed if the SMTP server requires authentication
+                    await client.AuthenticateAsync("kairos.opportunit@gmail.com", "kairos2017");
 
-                await client.SendAsync(message);
-                await client.DisconnectAsync(true);
+                    await client.SendAsync(message);
+                    await client.DisconnectAsync(true);
+                }
+                catch
+                {
+                    return false;
+                }
             }
+
+            return true;
         }
 
         private static string CreateForgotPasswordMail(string name, string password)

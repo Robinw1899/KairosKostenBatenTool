@@ -172,8 +172,8 @@ li:hover .options i {
 }
 
 .card {
+    margin-top: 20px;
     padding: 10px 20px;
-    min-height: 0px;
     border: none;
     -ms-border-radius: .28571429rem;
     border-radius: .28571429rem;
