@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
@@ -45,11 +47,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 };
 
                 analyse.ExterneInkopen.Add(baat);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
 
-                TempData["message"] = "De baat is succesvol toegevoegd.";
+                TempData["message"] = "De baat is succesvol toegevoegd.";                
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -93,6 +96,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 baat.Beschrijving = model.Beschrijving;
                 baat.Bedrag = model.Bedrag;
 
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -115,6 +119,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             if (baat != null)
             {
                 analyse.ExterneInkopen.Remove(baat);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
             }
 

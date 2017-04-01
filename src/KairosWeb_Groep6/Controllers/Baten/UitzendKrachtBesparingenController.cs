@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
@@ -45,6 +47,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 };
 
                 analyse.UitzendKrachtBesparingen.Add(baat);
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
 
                 model = MaakModel(analyse);
@@ -93,11 +96,14 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 baat.Beschrijving = model.Beschrijving;
                 baat.Bedrag = model.Bedrag;
 
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
+                _analyseRepository.Save();
+
                 model = MaakModel(analyse);
                 PlaatsTotaalInViewData(analyse);
 
                 TempData["message"] = "De baat is succesvol opgeslaan.";
-
+                
                 return RedirectToAction("Index", model);
             }
 
@@ -111,6 +117,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, id);
 
             analyse.UitzendKrachtBesparingen.Remove(baat);
+            analyse.DatumLaatsteAanpassing = DateTime.Now;
             _analyseRepository.Save();
 
             UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);

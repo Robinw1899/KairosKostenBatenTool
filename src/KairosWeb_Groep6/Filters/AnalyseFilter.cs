@@ -32,7 +32,6 @@ namespace KairosWeb_Groep6.Filters
         public override void OnActionExecuted(ActionExecutedContext context)
         {
             WriteAnalyseToSession(context.HttpContext, _analyse);
-            _analyse.DatumLaatsteAanpassing = DateTime.Now;
             base.OnActionExecuted(context);
         }
 

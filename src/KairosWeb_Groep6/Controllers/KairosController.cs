@@ -47,7 +47,7 @@ namespace KairosWeb_Groep6.Controllers
             if (user == null)
             {
                 TempData["error"] = "Gelieve je eerst aan te melden alvorens deze pagina te bezoeken.";
-                model = new IndexViewModel();
+                return RedirectToAction("LogOff", "Account");
             }
             else
             {
