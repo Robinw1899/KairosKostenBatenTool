@@ -24,7 +24,8 @@
     max-width: 280px;
 }
 
-.btn-info {
+.btn-info,
+.btn-succes {
     background-color: #97C900 !important;
     border-color: #97C900 !important;
 }
