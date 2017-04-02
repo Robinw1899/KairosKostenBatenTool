@@ -19,7 +19,7 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
 
         [Required(ErrorMessage = "Emailadres is verplicht")]
         [DataType(DataType.EmailAddress,ErrorMessage= "Een e-mail moet een '@' bevatten en moet eindigen op iets zoals '.be' of '.com'")]
-        [Display(Name = "Emailadres", Prompt = "iets@voorbeeld.com")]  
+        [Display(Name = "E-mailadres", Prompt = "iets@voorbeeld.com")]  
         public string Email { get; set; }
 
         /*info organisatie*/
