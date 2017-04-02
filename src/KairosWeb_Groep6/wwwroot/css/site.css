@@ -196,7 +196,15 @@ li:hover .options i {
 .kostenBatenNav li a i {
     margin-right: 100px;
 }
-
+/*voor de * in html*/
+.required .control-label:after {
+    content: "*";
+    /*font-weight: bold;*/
+    color: #97C900;
+    position: absolute;
+    margin-left: 8px;
+    top: 7px;
+}
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */

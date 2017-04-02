@@ -34,8 +34,8 @@
         <input asp-for="Soort"/>
 
         <div class="row col-md-offset-2">
-            <div class="col-md-4">
-                <label asp-for="Uren"></label>
+            <div class="col-md-4 required">
+                <label asp-for="Uren" class="control-label"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -44,8 +44,8 @@
                 </div>
                 <span asp-validation-for="Uren" class="text-danger"></span>
             </div>
-            <div class="col-md-4">
-                <label asp-for="BrutoMaandloonFulltime"></label>
+            <div class="col-md-4 required">
+                <label asp-for="BrutoMaandloonFulltime" class="control-label"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>

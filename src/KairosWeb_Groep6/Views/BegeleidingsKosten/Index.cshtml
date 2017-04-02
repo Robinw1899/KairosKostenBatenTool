@@ -46,9 +46,9 @@
         <input asp-for="Type" />
         <input asp-for="Soort" />
 
-        <div class="row col-md-offset-2">
+        <div class="row col-md-offset-2 required">
             <div class="col-md-4">
-                <label asp-for="Uren"></label>
+                <label asp-for="Uren" class="control-label"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -59,7 +59,7 @@
             </div>
 
             <div class="col-md-4">
-                <label asp-for="BrutoMaandloonBegeleider"></label>
+                <label asp-for="BrutoMaandloonBegeleider" class="control-label"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>

@@ -33,8 +33,8 @@
         <input asp-for="Type"/>
         <input asp-for="Soort"/>
         <div class="row col-md-offset-2">
-            <div class="col-md-4">
-                <label asp-for="Beschrijving"></label>
+            <div class="col-md-4 required">
+                <label asp-for="Beschrijving" class="control-label"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-font" aria-hidden="true"></i><!--symbool moet nog veranderd worden!-->
@@ -43,8 +43,8 @@
                 </div>
                 <span asp-validation-for="Beschrijving" class="text-danger"></span>
             </div>
-            <div class="col-md-4">
-                <label asp-for="Bedrag"></label>
+            <div class="col-md-4 required">
+                <label asp-for="Bedrag" class="control-label"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
