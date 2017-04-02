@@ -9,8 +9,6 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
         [HiddenInput]
         public int GebruikerId { get; set; }
 
-        //public string PathImage { get; set; }
-
         [Required(ErrorMessage = "Gelieve je naam in te vullen")]
         [Display(Name = "Naam", Prompt = "Naam")]
         public string Naam { get; set; }
@@ -37,9 +35,8 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
         [Display(Name = "Nr", Prompt = "Nr")]
         public int? NrOrganisatie { get; set; }
 
-        [Required(ErrorMessage = "Gelieve de bus van je organisatie in te vullen")]
         [Display(Name = "Bus", Prompt = "Bus")]
-        public string Bus { get; set; }
+        public string BusOrganisatie { get; set; }
 
         [Required(ErrorMessage = "Gelieve de postcode van je organisatie in te vullen")]
         [Display(Name = "Postcode", Prompt = "Postcode")]
@@ -62,13 +59,13 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
             Naam = gebruiker.Naam;
             Voornaam = gebruiker.Voornaam;
             Email = gebruiker.Emailadres;
-            // PathImage = jobcoach.PathImage == String.Empty? "":jobcoach.PathImage
 
             if (gebruiker.Organisatie != null)
             {
                 OrganisatieNaam = gebruiker.Organisatie.Naam;
                 StraatOrganisatie = gebruiker.Organisatie.Straat;
                 NrOrganisatie = gebruiker.Organisatie.Nummer;
+                Bus = gebruiker.Organisatie.Bus;
                 Postcode = gebruiker.Organisatie.Postcode;
                 Gemeente = gebruiker.Organisatie.Gemeente;
             }
