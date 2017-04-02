@@ -49,6 +49,22 @@ namespace KairosWeb_Groep6.Controllers.Baten
             return View("Index", model);
         }
 
+        public IActionResult Verwijder(Analyse analyse)
+        {
+            // Baat eruit halen
+            analyse.ExtraOmzet = null;
+
+            // Datum updaten
+            analyse.DatumLaatsteAanpassing = DateTime.Now;
+
+            // Opslaan
+            _analyseRepository.Save();
+
+            ExtraOmzetViewModel model = MaakModel(analyse);
+
+            return View("Index", model);
+        }
+
         private ExtraOmzetViewModel MaakModel(Analyse analyse)
         {
             if (analyse.ExtraOmzet == null)
