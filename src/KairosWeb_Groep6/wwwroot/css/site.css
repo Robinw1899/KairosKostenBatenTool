@@ -2,6 +2,8 @@
     padding-top: 50px;
     padding-bottom: 20px;
     background-image: url(../images/dashboard_bg.jpg);
+    -ms-background-size: cover;
+    background-size: cover;
     -ms-background-attachment: fixed;
     background-attachment: fixed;
     -ms-background-position: top left;
