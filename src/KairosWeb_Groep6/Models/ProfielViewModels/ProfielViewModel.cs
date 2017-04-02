@@ -33,9 +33,12 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
         [Display(Name = "Straat")]
         public string StraatOrganisatie { get; set; }
 
-        [Required(ErrorMessage = "Gelieve de huisnummer van je organisatie in te vullen")]
-        [Display(Name = "Nr")]
+        [Required(ErrorMessage = "Gelieve het huisnummer van je organisatie in te vullen")]
+        [Display(Name = "Nr", Prompt = "Nr")]
         public int? NrOrganisatie { get; set; }
+
+        [Display(Name = "Bus", Prompt = "Bus")]
+        public string BusOrganisatie { get; set; }
 
         [Required(ErrorMessage = "Gelieve de postcode van je organisatie in te vullen")]
         [Display(Name = "Postcode")]

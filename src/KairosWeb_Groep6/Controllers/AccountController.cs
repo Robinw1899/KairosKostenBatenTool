@@ -146,7 +146,7 @@ namespace KairosWeb_Groep6.Controllers
                 else
                 {
                     Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
-                            model.NrOrganisatie, model.Postcode, model.Gemeente);
+                            model.NrOrganisatie, model.Bus, model.Postcode, model.Gemeente);
                     Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie)
                     {
                         Wachtwoord = password

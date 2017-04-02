@@ -54,6 +54,7 @@ namespace KairosWeb_Groep6.Controllers
             {
                 werkgever.Straat = model.Straat;
                 werkgever.Nummer = model.Nummer;
+                werkgever.Bus = model.Bus;
             }
 
             werkgever.Postcode = model.Postcode;
@@ -80,11 +81,11 @@ namespace KairosWeb_Groep6.Controllers
             analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
             // nieuwe werkgever aanmaken voor de analyse
-            analyse.Departement = new Departement();
-            analyse.Departement.Werkgever = new Werkgever();
+            //analyse.Departement = new Departement();
+            //analyse.Departement.Werkgever = new Werkgever();
 
             // model aanmaken
-            WerkgeverViewModel model = new WerkgeverViewModel(analyse.Departement);
+            WerkgeverViewModel model = new WerkgeverViewModel();
 
             _analyseRepository.Save();
 
@@ -106,6 +107,7 @@ namespace KairosWeb_Groep6.Controllers
             {
                 werkgever.Straat = model.Straat;
                 werkgever.Nummer = model.Nummer;
+                werkgever.Bus = model.Bus;
             }
 
             werkgever.Postcode = model.Postcode;

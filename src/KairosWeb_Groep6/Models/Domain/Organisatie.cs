@@ -21,11 +21,12 @@
             
         }
 
-        public Organisatie(string naam, string straat, int nummer, int postcode, string gemeente)
+        public Organisatie(string naam, string straat, int nummer, string bus, int postcode, string gemeente)
         {
             Naam = naam;
             Straat = straat;
             Nummer = nummer;
+            Bus = bus;
             Postcode = postcode;
             Gemeente = gemeente;
         }

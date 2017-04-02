@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace KairosWeb_Groep6.Controllers
 {
     [Authorize]
@@ -29,20 +27,10 @@ namespace KairosWeb_Groep6.Controllers
         {
             Jobcoach gebruiker = _gebruikerRepository.GetByEmail(_userManager.GetUserAsync(User).Result.Email);
 
-            //if (!gebruiker.IsAdmin)
-            //{
-            //    Jobcoach jobcoach = gebruiker as Jobcoach;
-            //    if (jobcoach == null)
-            //        return NotFound();
-
-            //    return View(new ProfielViewModel(jobcoach));
-            //}
-
             return View(new ProfielViewModel(gebruiker));
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Index(ProfielViewModel model)
         {
             if (ModelState.IsValid)
@@ -79,6 +67,7 @@ namespace KairosWeb_Groep6.Controllers
                             jobcoach.Organisatie.Postcode = (int)model.Postcode;
 
                         jobcoach.Organisatie.Straat = model.StraatOrganisatie;
+                        jobcoach.Organisatie.Bus = model.BusOrganisatie;
 
                         var user = await _userManager.GetUserAsync(User);
                         string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
