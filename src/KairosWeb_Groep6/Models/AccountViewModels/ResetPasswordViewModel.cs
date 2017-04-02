@@ -6,7 +6,7 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
     {
         [Required(ErrorMessage = "Emailadres is verplicht")]
         [EmailAddress]
-        [Display(Name = "Emailadres")]
+        [Display(Name = "E-mailadres", Prompt = "E-mailadres")]
         public string Email { get; set; }
 
         [Required]
