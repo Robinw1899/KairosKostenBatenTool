@@ -58,7 +58,15 @@ namespace KairosWeb_Groep6.Controllers.Baten
             analyse.DatumLaatsteAanpassing = DateTime.Now;
 
             // Opslaan
-            _analyseRepository.Save();
+            try
+            {
+                _analyseRepository.Save();
+                TempData["message"] = "De baat is succesvol verwijderd.";
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets mis tijdens het verwijderen, probeer het later opnieuw.";
+            }
 
             ExtraOmzetViewModel model = MaakModel(analyse);
 
@@ -69,7 +77,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         {
             if (analyse.ExtraOmzet == null)
             {
-                analyse.ExtraOmzet = new ExtraOmzet();
+                return new ExtraOmzetViewModel();
             }
 
             return new ExtraOmzetViewModel(analyse.ExtraOmzet);

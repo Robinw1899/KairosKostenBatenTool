@@ -48,11 +48,35 @@ namespace KairosWeb_Groep6.Controllers.Baten
             return RedirectToAction("Index", model);
         }
 
+        public IActionResult Verwijder(Analyse analyse)
+        {
+            // Baat eruit halen
+            analyse.OverurenBesparing = null;
+
+            // Datum updaten
+            analyse.DatumLaatsteAanpassing = DateTime.Now;
+
+            // Opslaan
+            try
+            {
+                _analyseRepository.Save();
+                TempData["message"] = "De baat is succesvol verwijderd.";
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets mis tijdens het verwijderen, probeer het later opnieuw.";
+            }
+
+            OverurenBesparingViewModel model = MaakModel(analyse);
+
+            return View("Index", model);
+        }
+
         private OverurenBesparingViewModel MaakModel(Analyse analyse)
         {
             if (analyse.OverurenBesparing == null)
             {
-                analyse.OverurenBesparing = new OverurenBesparing();
+                return new OverurenBesparingViewModel();
             }
 
             return new OverurenBesparingViewModel(analyse.OverurenBesparing);
