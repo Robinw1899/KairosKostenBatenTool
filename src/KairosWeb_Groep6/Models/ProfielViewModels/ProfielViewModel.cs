@@ -65,7 +65,7 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
                 OrganisatieNaam = gebruiker.Organisatie.Naam;
                 StraatOrganisatie = gebruiker.Organisatie.Straat;
                 NrOrganisatie = gebruiker.Organisatie.Nummer;
-                Bus = gebruiker.Organisatie.Bus;
+                BusOrganisatie = gebruiker.Organisatie.Bus;
                 Postcode = gebruiker.Organisatie.Postcode;
                 Gemeente = gebruiker.Organisatie.Gemeente;
             }
