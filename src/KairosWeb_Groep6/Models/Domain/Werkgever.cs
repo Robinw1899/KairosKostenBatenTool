@@ -1,10 +1,17 @@
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace KairosWeb_Groep6.Models.Domain
 {
     public class Werkgever
     {
         #region Properties
+        [Key]
+        [ForeignKey("HoofdContactPersoon")]
         public int WerkgeverId { get; set; }
-
+     
         public string Naam { get; set; } = "";
 
         public string Straat { get; set; } = "";
@@ -20,6 +27,10 @@ namespace KairosWeb_Groep6.Models.Domain
         public double AantalWerkuren { get; set; }
 
         public double PatronaleBijdrage { get; set; } = 35D;
+     
+        public List<ContactPersoon> ContactPersonen { get; set; }
+       
+        public ContactPersoon HoofdContactPersoon { get; set; }
         #endregion
 
         #region Constructors
@@ -43,7 +54,7 @@ namespace KairosWeb_Groep6.Models.Domain
             Postcode = postcode;
             Gemeente = gemeente;
             AantalWerkuren = aantalWerkuren;
-            PatronaleBijdrage = patronaleBijdrage;
+            PatronaleBijdrage = patronaleBijdrage;          
         }
         #endregion
     }

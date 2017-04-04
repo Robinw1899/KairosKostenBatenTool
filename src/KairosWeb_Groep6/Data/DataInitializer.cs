@@ -36,15 +36,33 @@ namespace KairosWeb_Groep6.Data
             if (_dbContext.Database.EnsureCreated())
             {
                 await InitializeUsers();
+                ContactPersoon contactThomas = new ContactPersoon("Thomas", "Aelbrecht", "thomasaelbrecht@live.com");
+                ContactPersoon contactRobin = new ContactPersoon("Robin", "Coppens", "robin.coppens.w1899@student.hogent.be");
+                ContactPersoon contactDimi = new ContactPersoon("Dimmy", "Maenhout", "dimmy.maenhout@telenet.be");
+
+                List<ContactPersoon> contacten = new List<ContactPersoon>();
+
+                contacten.Add(contactThomas);
+                contacten.Add(contactRobin);
+                contacten.Add(contactDimi);
 
                 Werkgever werkgever = new Werkgever("VDAB", "Vooruitgangstraat", 1, 9300, "Aalst", 37);
+                werkgever.ContactPersonen = contacten;
+                werkgever.HoofdContactPersoon = contactThomas;
                 _departementRepository.Add(new Departement("Onderhoudsdienst") {Werkgever = werkgever});
+              
 
                 werkgever = new Werkgever("ALDI", "Leo Duboistraat", 20, 9280, "Lebbeke", 37);
+                werkgever.ContactPersonen = contacten;
+                werkgever.HoofdContactPersoon = contactRobin;
                 _departementRepository.Add(new Departement("Aankoop") { Werkgever = werkgever });
+            
 
                 werkgever = new Werkgever("Coolblue", "Medialaan", 1, 1000, "Brussel", 35);
+                werkgever.ContactPersonen = contacten;
+                werkgever.HoofdContactPersoon = contactDimi;
                 _departementRepository.Add(new Departement("Human resources") { Werkgever = werkgever });
+              
 
                 _departementRepository.Save();
 

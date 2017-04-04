@@ -107,6 +107,7 @@ namespace KairosWeb_Groep6.Controllers
         #region Opmerking
         public IActionResult Opmerking()
         {
+           
             // return de view met een OpmerkingViewModel met een leeg onderwerp en leeg bericht
             return View(new OpmerkingViewModel("", ""));
         }
