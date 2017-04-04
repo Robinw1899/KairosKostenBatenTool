@@ -22,6 +22,7 @@
     max-width: 280px;
 }
 
+
 .btn-info {
     background-color: #97C900 !important;
     border-color: #97C900 !important;
@@ -196,24 +197,25 @@ li:hover .options i {
 .kostenBatenNav li a i {
     margin-right: 100px;
 }
-//tekst die zegt dat de velden die zijn aangeduid * met een verplicht zijn 
-h6#infoTekstVerplichteVelden {
+h6#infoTekstVerplichteVelden{
     color: #97C900;
-    padding-left: 15px;
 }
-//om de tekst gelijk met de labels/input fields te plaatsen
-/*.paddingtekst {
-    padding-left: 15px;
-}*/
 /*voor de * in html*/
 .required .control-label:after {
     content: "*";
     /*font-weight: bold;*/
     color: #97C900;
     position: absolute;
-    margin-left: 8px;
-    top: 7px;
+    margin-left: 1px;
+    /*top: 7px;*/ //hierdoor werden sommige * onderaan geplaatst
 }
+
+
+//om de tekst gelijk met de labels/input fields te plaatsen
+/*.paddingtekst {
+    padding-left: 15px;
+}*/
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
