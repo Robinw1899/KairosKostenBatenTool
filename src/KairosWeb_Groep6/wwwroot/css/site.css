@@ -209,12 +209,9 @@ h6#infoTekstVerplichteVelden{
     margin-left: 1px;
     /*top: 7px;*/ //hierdoor werden sommige * onderaan geplaatst
 }
-
-
-//om de tekst gelijk met de labels/input fields te plaatsen
-/*.paddingtekst {
+.paddingtekst {
     padding-left: 15px;
-}*/
+}
 
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
