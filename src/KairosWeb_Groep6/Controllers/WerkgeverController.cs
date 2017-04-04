@@ -190,7 +190,7 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         [HttpPost]
-        public IActionResult OverzichtDepartementenWerkgever(string departementfilter, string naam)
+        public IActionResult OverzichtDepartementenWerkgever(string departementfilter, string naam)//niet zeker of Visual studio weet welke parameter welke waarde moet krijgen naam is zelfde naam als het id van de form
         {//naam = zoekterm | departementenfilter = naam voor de juiste werkgever op te filteren 
             IEnumerable<Departement> departementen = _departementRepository.GetByName(departementfilter); ;
 
