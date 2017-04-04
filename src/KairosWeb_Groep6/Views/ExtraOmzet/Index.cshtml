@@ -19,6 +19,9 @@
     </p>
 
     <form asp-controller="ExtraOmzet" asp-action="Opslaan" method="post" class="form-horizontal">
+
+        <h6 id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <input asp-for="Id"/>
@@ -34,7 +37,7 @@
                     </span>
                     <input asp-for="JaarbedragOmzetverlies" class="form-control input-maxwidth" id="jaarbedrag" placeholder="Jaarbedrag omzetverlies"/>
                 </div>
-                <span asp-validation-for="JaarbedragOmzetverlies" class="text-danger"></span>
+                <!--<span asp-validation-for="JaarbedragOmzetverlies" class="text-danger"></span>-->
             </div>
 
             <div class="col-md-4">
@@ -45,7 +48,7 @@
                     </span>
                     <input asp-for="Besparing" class="form-control input-maxwidth" id="besparing" placeholder="% besparing"/>
                 </div>
-                <span asp-validation-for="Besparing" class="text-danger"></span>
+                <!--<span asp-validation-for="Besparing" class="text-danger"></span>-->
             </div>
             
             <div class="col-md-4">
@@ -56,7 +59,7 @@
                     </span>
                     <input type="text" class="form-control input-maxwidth" disabled="disabled" value="@(Model.Bedrag.ToString("C"))"/>
                 </div>
-                <span asp-validation-for="Bedrag" class="text-danger"></span>
+                <!--<span asp-validation-for="Bedrag" class="text-danger"></span>-->
             </div>
         </div>
 

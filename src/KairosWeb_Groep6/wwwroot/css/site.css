@@ -196,6 +196,15 @@ li:hover .options i {
 .kostenBatenNav li a i {
     margin-right: 100px;
 }
+//tekst die zegt dat de velden die zijn aangeduid * met een verplicht zijn 
+h6#infoTekstVerplichteVelden {
+    color: #97C900;
+    padding-left: 15px;
+}
+//om de tekst gelijk met de labels/input fields te plaatsen
+/*.paddingtekst {
+    padding-left: 15px;
+}*/
 /*voor de * in html*/
 .required .control-label:after {
     content: "*";
