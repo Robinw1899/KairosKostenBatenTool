@@ -64,32 +64,11 @@ a.navbar-brand {
     border-radius: 3px;
 }
 
-textarea#Bericht {
-    /*Opmerking form*/
-    width: 600px;
-    height: 300px;
-    max-width: none;
-}
-input#Onderwerp {
-    /*Opmerking form*/
-    width: 600px;
-    max-width: none;
-}
-
-#icons-h4 {
-    text-align: right;
-    display: inline-block;
-}
-
+/* De navigtie van de analyse centreren */
 .nav-tabs > li {
     float:none;
     display:inline-block;
-    *display:inline;
     zoom:1;
-}
-
-.nav-tabs {
-    text-align:center;
 }
 
 .nav-analyse {
@@ -99,6 +78,7 @@ input#Onderwerp {
     margin-top: 20px;
 }
 
+/* De links in de navigatie van de analyse opmaken */
 .nav-analyse a {
     color: black !important;
 }
@@ -109,15 +89,7 @@ input#Onderwerp {
     font-weight: bold;
 }
 
-form.formOpmerking.form-horizontal.call {
-    width: 900px;
-}
-
-.NieuweOfBestaandeWerkgeverButtons{
-    /*Buttons om te kiezen tussen Nieuwe of BsetaandeWerkgever*/
-    text-align: center;
-}
-
+/* De + bij elke kost of baat opmaken */
 .addOption {
     overflow: auto;
     padding: 10px;
@@ -128,6 +100,7 @@ form.formOpmerking.form-horizontal.call {
     margin: 0 15px;
 }
 
+/* De opties voor een rij in een tabel centreren */
 .options {
     text-align: center;
 }
@@ -145,15 +118,18 @@ li:hover .options i {
     opacity: 1;
 }
 
+/* De tooltips van de kosten en baten een max-width geven */
 .tooltip-inner {
     max-width: 450px;
     width: 450px;
 }
 
+/* Klasse om de padding uit te schakelen */
 .noPadding {
     padding: 0;
 }
 
+/* Kleuren voor de tabel van BegeleidingsKost */
 .lichtpaars {
     background-color: rgba(177, 161, 198, 0.5);
 }
@@ -179,10 +155,12 @@ li:hover .options i {
     background-color: lightgrey;
 }
 
+/* Klasse om ervoor te zorgen dat alle content in de div of andere tag zit */
 .overflow {
     overflow: auto;
 }
 
+/* Opmaak voor de card van een analyse */
 .card {
     margin-top: 20px;
     padding: 10px 20px;
@@ -192,10 +170,12 @@ li:hover .options i {
     box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
 }
 
+/* Opmaak van het resultaat */
 .resultaat {
     font-size: 1.5em;
 }
 
+/* Opmaak van de knoppen die in de header staan van bv. Resultaat */
 .headerButtons a {
     background: none;
     border: none;
@@ -205,6 +185,7 @@ li:hover .options i {
     font-size: 1.3em;
 }
 
+/* Opmaak van de navigatie van de kosten en baten */
 .kostenBatenNav li a i {
     margin-right: 100px;
 }
@@ -222,12 +203,4 @@ li:hover .options i {
 .kostenBatenNav a::before {
     content: "\f040";
     font-family: FontAwesome;
-}
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none
-    }
 }
