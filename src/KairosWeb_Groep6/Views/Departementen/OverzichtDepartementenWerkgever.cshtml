@@ -1,0 +1,50 @@
+﻿@using KairosWeb_Groep6.Models.Domain
+@model IEnumerable<Departement>
+@{
+    ViewData["Title"] = "Departementen";
+}
+<div class="page-header">
+    <h3>@ViewData["Title"]</h3>
+</div>
+
+<p>Vul een zoekterm in en druk op enter.</p>
+
+<div class="row">
+    <form asp-action="OverzichtDepartementenWerkgever" method="post" id="form">
+        <div class="form-group col-md-offset-2">
+            <label for="naam" class="control-label">Zoekterm</label>
+            <div class="">
+                <input type="text" id="naam" name="naam" class="form-control input-maxwidth" placeholder="Zoekterm" />
+            </div>
+        </div>
+        <div class="form-group col-md-offset-4">
+            <a asp-controller="Werkgever" asp-action="BestaandeWerkgever" class="btn btn-default">Terug</a>
+        </div>
+    </form>
+</div>
+
+<br />
+
+<div class="row" id="data" style="margin: 0 10px;">
+
+</div>
+
+
+
+@section Scripts {
+    <script>
+        $("#form").submit(function () {
+            $.post(this.action,
+                $(this).serialize(),
+                function (data) {
+                    $("#data").html(data);
+                });
+
+            return false;
+        });
+
+        $("#werkgever").addClass("active");
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -98,7 +98,16 @@ namespace KairosWeb_Groep6.Controllers
         {
             analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
-            Departement departement = new Departement(model.Departement); // nieuw departement aanmaken
+
+            /* Departement departement;
+
+             if (_departementRepository.GetDepByName(model.Departement) != null )
+                 departement = _departementRepository.GetDepByName(model.Departement); // nieuw departement aanmaken     
+             else
+                 departement = new Departement(model.Departement);*/
+
+            Departement departement = new Departement(model.Departement);
+
             Werkgever werkgever = new Werkgever(); // nieuwe werkgever aanmaken
 
             werkgever.Naam = model.Naam;
@@ -163,12 +172,32 @@ namespace KairosWeb_Groep6.Controllers
         {// nog verder veranderen naar redirect naar ResultaatController
             //analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
+            //de werkgever is geselecteerd je moet dus naar overzicht departementen gaan voor specifieke werkgever
             Departement departement = _departementRepository.GetById(id);
             analyse.Departement = departement;
 
             _analyseRepository.Save();
 
             return RedirectToAction("Index", "Resultaat");
+        }
+
+        public IActionResult OverzichtDepartementenWerkgever(string name)
+        {
+            //alle departementen opzoeken van een bepaalde werkgever
+            IEnumerable<Departement> departementen = _departementRepository.GetByName(name);
+            //deze meegeven aan de view
+            return View(departementen);
+        }
+
+        [HttpPost]
+        public IActionResult OverzichtDepartementenWerkgever(string departementfilter, string naam)
+        {//naam = zoekterm | departementenfilter = naam voor de juiste werkgever op te filteren 
+            IEnumerable<Departement> departementen = _departementRepository.GetByName(departementfilter); ;
+
+            if (!(naam == null || naam.Equals("")))
+                departementen = departementen.Where(t=>t.Naam.Contains(naam));//ik moet kunnen zoeken op naam van het departementen van de werkgever
+          
+            return PartialView("_departementen", departementen);
         }
     }
 }

@@ -30,6 +30,14 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .ToList();
         }
 
+        public Departement GetDepByName(string naam)
+        {
+            return _departementen
+                .Include(d => d.Werkgever)
+                .Where(d => d.Naam.Contains(naam))
+                .First();
+        }
+      
         public Departement GetById(int id)
         {
             return _departementen
