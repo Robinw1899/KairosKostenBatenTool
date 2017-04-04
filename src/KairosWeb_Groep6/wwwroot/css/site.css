@@ -11,30 +11,32 @@
     font-family: 'Asap', Cambria, sans-serif;
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
+/* Beetje padding zodat niet alles tegen de kant plakt */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
     background-color: #FAFAFA;
 }
 
-/* Set widths on the form inputs since otherwise they're 100% wide */
+/* De kleur van de navbar instellen */
+.navbar-inverse {
+    background-color: #FAFAFA;
+    border-color: #E5E5E5;
+}
+
+/* Klasse voor inputfields die niet de volledige breedte moeten innemen */
 .input-maxwidth {
     max-width: 280px;
 }
 
+/* Elke knop een groene kleur geven */
 .btn-info,
 .btn-succes {
     background-color: #97C900 !important;
     border-color: #97C900 !important;
 }
 
-.navbar-inverse {
-    background-color: #FAFAFA;
-    border-color: #E5E5E5;
-}
-
+/* Wat dingen goed zetten voor de kleur van de navbar */
 .navbar-nav > li > a,
 .navbar-brand,
 .navbar-nav > li > button {
@@ -42,6 +44,7 @@
     font-weight: bold !important;
 }
 
+/* Het logo wat goed zetten */
 a.navbar-brand {
     padding-top: 5px;
 }
@@ -49,6 +52,8 @@ a.navbar-brand {
 .navbar-brand img {
     max-width: 100px;
 }
+
+/* De introductietekst op de loginpagina wat opmakens */
 .intro {
     display: none;
     background-color: #FFFFFF;
@@ -70,9 +75,7 @@ input#Onderwerp {
     width: 600px;
     max-width: none;
 }
-.buttonsMinPlus {
-    align-items: right;
-}
+
 #icons-h4 {
     text-align: right;
     display: inline-block;
@@ -96,8 +99,14 @@ input#Onderwerp {
     margin-top: 20px;
 }
 
+.nav-analyse a {
+    color: black !important;
+}
+
 .nav-analyse .active a {
     background-color: #97c900 !important;
+    color: white !important;
+    font-weight: bold;
 }
 
 form.formOpmerking.form-horizontal.call {
@@ -198,6 +207,21 @@ li:hover .options i {
 
 .kostenBatenNav li a i {
     margin-right: 100px;
+}
+
+.kostenBatenNav a,
+.kostenBatenNav a:active{
+    color: black;
+}
+
+.kostenBatenNav a:hover {
+    color: #97C900 !important;
+    font-weight: bold;
+}
+
+.kostenBatenNav a::before {
+    content: "\f040";
+    font-family: FontAwesome;
 }
 
 /* Hide/rearrange for smaller screens */
