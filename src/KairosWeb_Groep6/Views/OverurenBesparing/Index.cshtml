@@ -45,6 +45,10 @@
         <div class="row col-md-offset-2">
             <div class="col-md-4 text-right">
                 <a asp-controller="Baten" asp-action="Index" class="btn btn-default">Annuleer</a>
+                @if (Model.Bedrag != 0)
+                {
+                    <a asp-controller="OverurenBesparing" asp-action="Verwijder" class="btn btn-danger" style="margin-left: 15px">Verwijder</a>
+                }
                 <button type="submit" class="btn btn-info" style="margin-left: 15px">Opslaan</button>
             </div>
         </div>
@@ -58,7 +62,7 @@
         </a>
     </div>
     <div class="col-xs-2 col-md-3 text-right">
-        <a asp-controller="Baten" asp-action="ExterneInkopen" style="margin-left: 15px" class="btn btn-success">
+        <a asp-controller="Baten" asp-action="ExterneInkopen" style="margin-left: 15px" class="btn btn-info">
             Externe inkopen <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </a>
     </div>

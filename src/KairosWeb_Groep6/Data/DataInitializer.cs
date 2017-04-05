@@ -87,7 +87,7 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            Organisatie organisatie = new Organisatie("HoGent", "Arbeidstraat", 14, 9300, "Aalst");
+            Organisatie organisatie = new Organisatie("HoGent", "Arbeidstraat", 14, "",  9300, "Aalst");
             Jobcoach jobcoach = new Jobcoach(naam, voornaam, email, organisatie) { AlAangemeld = true, Wachtwoord = "kairos2017" };
             _gebruikerRepository.Add(jobcoach);
 

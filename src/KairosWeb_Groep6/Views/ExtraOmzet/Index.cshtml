@@ -27,48 +27,53 @@
         <input asp-for="Id"/>
         <input asp-for="Soort"/>
         <input asp-for="Type"/>
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <label asp-for="JaarbedragOmzetverlies"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-eur" aria-hidden="true"></i>
+                        </span>
+                        <input asp-for="JaarbedragOmzetverlies" class="form-control input-maxwidth" id="jaarbedrag" placeholder="Jaarbedrag omzetverlies" />
+                    </div>
+                    <span asp-validation-for="JaarbedragOmzetverlies" class="text-danger"></span>
+                </div>
 
-        <div class="row required">
-            <div class="col-md-4">
-                <label asp-for="JaarbedragOmzetverlies" class="control-label"></label>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="fa fa-eur" aria-hidden="true"></i>
-                    </span>
-                    <input asp-for="JaarbedragOmzetverlies" class="form-control input-maxwidth" id="jaarbedrag" placeholder="Jaarbedrag omzetverlies"/>
+                <div class="col-md-4">
+                    <label asp-for="Besparing"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-eur" aria-hidden="true"></i>
+                        </span>
+                        <input asp-for="Besparing" class="form-control input-maxwidth" id="besparing" placeholder="% besparing" />
+                    </div>
+                    <span asp-validation-for="Besparing" class="text-danger"></span>
                 </div>
-                <!--<span asp-validation-for="JaarbedragOmzetverlies" class="text-danger"></span>-->
-            </div>
 
-            <div class="col-md-4">
-                <label asp-for="Besparing" class="control-label"></label>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="fa fa-eur" aria-hidden="true"></i>
-                    </span>
-                    <input asp-for="Besparing" class="form-control input-maxwidth" id="besparing" placeholder="% besparing"/>
+                <div class="col-md-4">
+                    <label asp-for="Bedrag"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-eur" aria-hidden="true"></i>
+                        </span>
+                        <input type="text" class="form-control input-maxwidth" disabled="disabled" value="@(Model.Bedrag.ToString("C"))" />
+                    </div>
+                    <span asp-validation-for="Bedrag" class="text-danger"></span>
                 </div>
-                <!--<span asp-validation-for="Besparing" class="text-danger"></span>-->
-            </div>
-            
-            <div class="col-md-4">
-                <label asp-for="Bedrag"></label>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="fa fa-eur" aria-hidden="true"></i>
-                    </span>
-                    <input type="text" class="form-control input-maxwidth" disabled="disabled" value="@(Model.Bedrag.ToString("C"))"/>
-                </div>
-                <!--<span asp-validation-for="Bedrag" class="text-danger"></span>-->
             </div>
         </div>
-
         <br />
 
         <!--buttons add-->
         <div class="row">
-            <div class="col-md-7 text-right">
-                <a asp-controller="Baten" asp-action="Index" class="btn btn-default" id="closeForm">Annuleer</a>
+            <div class="col-md-12 text-center">
+                <a asp-controller="Baten" asp-action="Index" class="btn btn-default">Annuleer</a>
+                @if (Model.JaarbedragOmzetverlies != 0 || Model.Besparing != 0)
+                {
+                    <a asp-controller="ExtraOmzet" asp-action="Verwijder" class="btn btn-danger" style="margin-left: 15px">Verwijder</a>
+                }
                 <button type="submit" class="btn btn-info" style="margin-left: 15px">Opslaan</button>
             </div>
         </div>
@@ -82,7 +87,7 @@
         </a>
     </div>
     <div class="col-xs-2 col-md-3 text-right">
-        <a asp-controller="Baten" asp-action="ExtraProductiviteit" class="btn btn-success">
+        <a asp-controller="Baten" asp-action="ExtraProductiviteit" class="btn btn-info">
             Extra productiviteit <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </a>
     </div>

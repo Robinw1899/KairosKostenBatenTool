@@ -49,11 +49,35 @@ namespace KairosWeb_Groep6.Controllers.Baten
             return View("Index", model);
         }
 
+        public IActionResult Verwijder(Analyse analyse)
+        {
+            // Baat eruit halen
+            analyse.ExtraOmzet = null;
+
+            // Datum updaten
+            analyse.DatumLaatsteAanpassing = DateTime.Now;
+
+            // Opslaan
+            try
+            {
+                _analyseRepository.Save();
+                TempData["message"] = "De baat is succesvol verwijderd.";
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets mis tijdens het verwijderen, probeer het later opnieuw.";
+            }
+
+            ExtraOmzetViewModel model = MaakModel(analyse);
+
+            return View("Index", model);
+        }
+
         private ExtraOmzetViewModel MaakModel(Analyse analyse)
         {
             if (analyse.ExtraOmzet == null)
             {
-                analyse.ExtraOmzet = new ExtraOmzet();
+                return new ExtraOmzetViewModel();
             }
 
             return new ExtraOmzetViewModel(analyse.ExtraOmzet);

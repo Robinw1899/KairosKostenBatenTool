@@ -4,11 +4,11 @@
 }
 
 <div>
-    <div>
-        @Html.Partial("_Tabs")
-    </div>
+    @Html.Partial("_Tabs")
+</div>
 
-    <div class="page-header col-md-offset-2">
+<div class="col-md-offset-1">
+    <div class="page-header">
         <h3>@ViewData["Title"]</h3>
     </div>
 
@@ -20,87 +20,76 @@
             <div asp-validation-summary="All" class="text-danger"></div>
             <input asp-for="WerkgeverId"/>
             <input asp-for="DepartementId" />
-
-            <div class="form-group required">
-                <label asp-for="Naam" class="col-md-offset-2 col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="Naam" class="form-control input-maxwidth"/>
-                    <!--<span asp-validation-for="Naam" class="text-danger"></span>-->
+              
+            <div class="form-group">
+                <div class="col-md-4">
+                    <label asp-for="Naam"></label>
+                    <input asp-for="Naam" class="form-control" />
+                    <span asp-validation-for="Naam" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Departement"></label>
+                    <input asp-for="Departement" class="form-control" />
+                    <span asp-validation-for="Departement" class="text-danger"></span>
                 </div>
             </div>
-            
-            <div class="form-group required">
-                <label asp-for="Departement" class="col-md-offset-2 col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="Departement" class="form-control input-maxwidth" />
-                    <!--<span asp-validation-for="Departement" class="text-danger"></span>-->
+
+            <br />
+            <h4>Adres</h4>
+            <hr/>
+
+            <div class="row form-group">
+                <div class="col-md-4">
+                    <label asp-for="Straat"></label>
+                    <input asp-for="Straat" class="form-control" onfocus="geolocate()" id="route" />
+                    <span asp-validation-for="Straat" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Nummer"></label>
+                    <input asp-for="Nummer" class="form-control" id="street_number" />
+                    <span asp-validation-for="Nummer" class="text-danger"></span>
+                </div>
+                <div class="col-md-2">
+                    <label asp-for="Bus"></label>
+                    <input asp-for="Bus" class="form-control" />
+                    <span asp-validation-for="Bus" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <label asp-for="Postcode"></label>
+                    <input asp-for="Postcode" class="form-control" id="postal_code" />
+                    <span asp-validation-for="Postcode" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Gemeente"></label>
+                    <input asp-for="Gemeente" class="form-control" id="locality" />
+                    <span asp-validation-for="Gemeente" class="text-danger"></span>
+                </div>
+            </div>
+
+            <br />
+            <h4>Andere gegevens</h4>
+            <hr />
+
+            <div class="form-group">
+                <div class="col-md-4">
+                    <label asp-for="AantalWerkuren"></label>
+                    <input asp-for="AantalWerkuren" class="form-control"/>
+                    <span asp-validation-for="AantalWerkuren" class="text-danger"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="PatronaleBijdrage"></label>
+                    <input asp-for="PatronaleBijdrage" class="form-control" />
+                    <span asp-validation-for="PatronaleBijdrage" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="form-group">
-                <label asp-for="Straat" class="col-md-offset-2 col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="Straat" onfocus="geolocate()" class="form-control input-maxwidth" id="route"/>
-                    <!--<span asp-validation-for="Straat" class="text-danger"></span>-->
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Nummer" class="col-md-offset-2 col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="Nummer" class="form-control input-maxwidth" id="street_number"/>
-                    <!--<span asp-validation-for="Nummer" class="text-danger"></span>-->
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Bus" class="col-md-offset-2 col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="Bus" class="form-control input-maxwidth" id="street_number" />
-                    <!--<span asp-validation-for="Bus" class="text-danger"></span>-->
-                </div>
-            </div>
-
-            <div class="form-group required">
-                <label asp-for="Postcode" class="col-md-offset-2 col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="Postcode" class="form-control input-maxwidth" id="postal_code"/>
-                    <!--<span asp-validation-for="Postcode" class="text-danger"></span>-->
-                </div>
-            </div>
-
-            <div class="form-group required">
-                <label asp-for="Gemeente" class="col-md-offset-2 col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="Gemeente" class="form-control input-maxwidth" id="locality"/>
-                    <!--<span asp-validation-for="Gemeente" class="text-danger"></span>-->
-                </div>
-            </div>
-
-            <div class="form-group required">
-                <label asp-for="AantalWerkuren" class="col-md-offset-2 col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="AantalWerkuren" class="form-control input-maxwidth"/>
-                    <!--<span asp-validation-for="AantalWerkuren" class="text-danger"></span>-->
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="PatronaleBijdrage" class="col-md-offset-2 col-md-2 control-label"></label>
-                <div class="col-md-8">
-                    <input asp-for="PatronaleBijdrage" class="form-control input-maxwidth"/>
-                    <!--<span asp-validation-for="PatronaleBijdrage" class="text-danger"></span>-->
-                </div>
-            </div>
-
-            <div class="col-md-12">
-                <div class="form-group col-md-12">
-                    <div class="col-md-offset-3 col-md-5 text-right">
-                        <div>
-                            <a asp-controller="Werkgever" asp-action="AnnuleerNieuweWerkgever" class="btn btn-default">Annuleer</a>
-                            <button class="btn btn-info" type="submit">Voeg toe</button>
-                        </div>
-                    </div>
+                <div class="col-md-8 text-right">
+                    <a asp-controller="Werkgever" asp-action="AnnuleerNieuweWerkgever" class="btn btn-default">Annuleer</a>
+                    <button type="submit" class="btn btn-info" style="margin-left: 15px;">Voeg toe</button>
                 </div>
             </div>
         </div>

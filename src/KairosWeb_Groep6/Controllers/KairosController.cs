@@ -47,7 +47,7 @@ namespace KairosWeb_Groep6.Controllers
             if (user == null)
             {
                 TempData["error"] = "Gelieve je eerst aan te melden alvorens deze pagina te bezoeken.";
-                return RedirectToAction("LogOff", "Account");
+                model = new IndexViewModel();
             }
             else
             {
@@ -93,6 +93,7 @@ namespace KairosWeb_Groep6.Controllers
                 if (login.Succeeded)
                 {
                     Jobcoach gebruiker = _gebruikerRepository.GetByEmail(model.Email);
+                    gebruiker.Wachtwoord = model.Password;
                     gebruiker.AlAangemeld = true;
                     _gebruikerRepository.Save();
 
