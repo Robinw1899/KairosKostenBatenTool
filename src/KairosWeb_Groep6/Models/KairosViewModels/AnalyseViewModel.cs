@@ -18,6 +18,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public double NettoResultaat { get; set; }
 
+        public bool InArchief { get; set; }
+
         public string KlasseTotaal { get; set; } // klasse die de kleur van het nettores aangeeft
         #endregion
 
@@ -30,6 +32,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         public AnalyseViewModel(Analyse analyse)
         {
             AnalyseId = analyse.AnalyseId;
+
+            InArchief = analyse.InArchief;
 
             if(analyse.Departement != null)
             {

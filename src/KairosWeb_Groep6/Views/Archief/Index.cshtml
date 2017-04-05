@@ -1,0 +1,26 @@
+﻿@using KairosWeb_Groep6.Models.KairosViewModels
+@model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
+@{
+    ViewData["title"] = "Archief";
+}
+
+<div>
+    <h3>@ViewData["title"]</h3>
+    <hr />
+    @if (Model == null || !Model.Analyses.Any())
+    {
+        <p style="font-size: 1.2em;">
+            Er zijn nog geen analyses in het archief. Klik op het 
+            <i class="fa fa-archive" aria-hidden="true"></i>-icoon bij elke analyse om een analyse te archiveren.
+        </p>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (AnalyseViewModel a in Model.Analyses)
+            {
+                @Html.Partial("_AnalyseCard", a);
+            }
+        </div>
+    }
+</div>

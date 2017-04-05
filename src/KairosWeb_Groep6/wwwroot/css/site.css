@@ -107,14 +107,16 @@ a.navbar-brand {
 }
 
 /*Ervoor zorgen dat de opties rechts in de tabel verschijnen en verdwijnen:*/
-tr .options i,
-li .options i {
+.options i,
+.options span{
     -ms-opacity: 0;
     opacity: 0;
 }
 
 tr:hover .options i,
-li:hover .options i {
+li:hover .options i,
+.card:hover .options i,
+.card:hover .options span {
     -ms-opacity: 1;
     opacity: 1;
 }
@@ -182,8 +184,16 @@ li:hover .options i {
     border: none;
 }
 
-.headerButtons a span, .headerButtons a i {
+.headerButtons a span {
+    font-size: 1.2em;
+}
+
+.headerButtons a i {
     font-size: 1.3em;
+}
+
+.headerButtons .btn {
+    padding: 6px 8px;
 }
 
 /* Opmaak van de navigatie van de kosten en baten */
