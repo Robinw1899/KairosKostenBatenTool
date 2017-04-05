@@ -20,6 +20,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 ### To do voor webapplicatie
 * Evenwicht met totalen en niet met aantallen
 * Error.cshtml aanpassen naar een gepaste pagina voor gebruikers ipv voor ons. Nu staat er nog info op rond de Exception.
+* Trigger schrijven voor het updaten van een analyse --> automatisch DatumLaatsteAanpassing aanpassen
 
 ### To do voor Java
 * Gebruikers in tabel --> ControlsFX
