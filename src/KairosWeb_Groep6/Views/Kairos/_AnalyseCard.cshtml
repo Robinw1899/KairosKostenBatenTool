@@ -2,7 +2,7 @@
 
 <div class="col-sm-12 col-md-6 col-lg-4">
     <div class="card">
-        <div class="card-block">
+        <div>
             <div style="overflow: auto;">
                 <!--Overflow omdat anders de border boven de h3 en knop staat-->
                 <div class="col-md-6" style="padding-left: 0;">
@@ -26,10 +26,10 @@
             <p>@Model.Departement</p>
             <div class="progress">
                 <div class="progress-bar progress-bar-success" role="progressbar"
-                     style="width: @(Math.Round((((double) Model.BatenInfo.AantalIngevuld / (Model.KostenInfo.AantalIngevuld + Model.BatenInfo.AantalIngevuld)) * 100), 0))%">
+                     style="width: @(Math.Round(((Model.BatenTotaal / (Model.BatenTotaal + Model.KostenTotaal)) * 100), 0))%">
                 </div>
                 <div class="progress-bar progress-bar-danger" role="progressbar"
-                     style="width: @(Math.Round((((double) Model.KostenInfo.AantalIngevuld / (Model.KostenInfo.AantalIngevuld + Model.BatenInfo.AantalIngevuld)) * 100), 0))%">
+                     style="width: @(Math.Round(((Model.KostenTotaal / (Model.BatenTotaal + Model.KostenTotaal)) * 100), 0))%">
                 </div>
             </div>
 
