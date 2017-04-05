@@ -2,6 +2,11 @@
 
 Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worden en wat goed/minder goed ging.
 
+## Opgenomen priors in sprint 4
+* 30: de jobcoach moet een berekening maken voor één specifieke werkgever
+* 80: de jobcoach moet het resultaat van de berekening in pdf kunnen opslaan, afdrukken of rechtstreeks via mail kunnen versturen naar werkgever
+* 110: administrator moet gebruikersaccounts kunnen aanpassen/verwijderen
+
 ## Niet vergeten!
 * Vaak committen
 * Bij aanmaken nieuwe branch:
