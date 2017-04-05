@@ -22,6 +22,8 @@ namespace KairosWeb_Groep6.Models.Domain
         [JsonProperty]
         // bij aanmaak van analyse ook steeds op vandaag zetten
         public DateTime DatumLaatsteAanpassing { get; set; } = DateTime.Now;
+
+        public bool InArchief { get; set; } = false;
         #endregion
 
         #region Kosten

@@ -55,6 +55,10 @@ namespace KairosWeb_Groep6.Data
 
             a.HasKey(t => t.AnalyseId);
 
+            a.Property(t => t.InArchief)
+                .HasDefaultValue(false)
+                .IsRequired();
+
             a.HasOne(t => t.Departement)
                 .WithMany()
                 .OnDelete(DeleteBehavior.SetNull);
