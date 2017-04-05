@@ -18,22 +18,25 @@
     </p>
 
     <form asp-action="Opslaan" method="post" class="form-horizontal">
+
+        <h6 cclass="col-md-offset-2" id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <input asp-for="Id"/>
         <input asp-for="Soort"/>
         <input asp-for="Type"/>
 
-        <div class="row col-md-offset-2">
+        <div class="row col-md-offset-2 required">
             <div class="col-md-4">
-                <label asp-for="Bedrag"></label>
+                <label asp-for="Bedrag" class="control-label"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
                     <input asp-for="Bedrag" class="form-control" id="jaarbedrag" placeholder="Jaarbedrag"/>
                 </div>
-                <span asp-validation-for="Bedrag" class="text-danger"></span>
+                <!--<span asp-validation-for="Bedrag" class="text-danger"></span>-->
             </div>
         </div>
 

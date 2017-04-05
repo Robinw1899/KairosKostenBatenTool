@@ -13,6 +13,7 @@
     </div>
 
     <form asp-controller="Werkgever" asp-action="Opslaan" method="post" class="form-horizontal">
+        <h6 class="col-md-offset-2" id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
         <div class="col-md-offset-1">
             <div asp-validation-summary="All" class="text-danger"></div>
             <input asp-for="WerkgeverId" />

@@ -32,6 +32,9 @@
 
     <!--begin div inputForm-->
     <form asp-action="@action" id="form" method="post" style="display: none;" class="form-horizontal">
+
+        <h6 class="col-md-offset-2 paddingtekst" id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <input asp-for="Id" />
@@ -39,26 +42,26 @@
         <input asp-for="Type" />
 
         <div class="row col-md-offset-2">
-            <div class="col-md-4">
-                <label asp-for="Beschrijving"></label>
+            <div class="col-md-4 required">
+                <label asp-for="Beschrijving" class="control-label"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-font" aria-hidden="true"></i>
                     </span>
                     <input asp-for="Beschrijving" class="form-control" placeholder="Beschrijving" id="beschrijving" />
                 </div>
-                <span asp-validation-for="Beschrijving" class="text-danger"></span>
+                <!--<span asp-validation-for="Beschrijving" class="text-danger"></span>-->
             </div>
 
-            <div class="col-md-4">
-                <label asp-for="Bedrag"></label>
+            <div class="col-md-4 required">
+                <label asp-for="Bedrag" class="control-label"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
                     <input asp-for="Bedrag" class="form-control" id="bedrag" placeholder="Jaarbedrag" />
                 </div>
-                <span asp-validation-for="Bedrag" class="text-danger"></span>
+                <!--<span asp-validation-for="Bedrag" class="text-danger"></span>-->
             </div>
         </div>
         <br />

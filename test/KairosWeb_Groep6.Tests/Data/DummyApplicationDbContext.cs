@@ -105,6 +105,10 @@ namespace KairosWeb_Groep6.Tests.Data
                 Postbode
             };
         }
+        public List<Loonkost> GeefLoonkosten()
+        {
+            return Loonkosten;
+        }
 
         private void MaakExtraKosten()
         {

@@ -29,6 +29,7 @@
     max-width: 280px;
 }
 
+
 /* Elke knop een groene kleur geven */
 .btn-info,
 .btn-succes {
@@ -188,6 +189,21 @@ li:hover .options i {
 /* Opmaak van de navigatie van de kosten en baten */
 .kostenBatenNav li a i {
     margin-right: 100px;
+}
+h6#infoTekstVerplichteVelden{
+    color: #97C900;
+}
+/*voor de * in html*/
+.required .control-label:after {
+    content: "*";
+    /*font-weight: bold;*/
+    color: #97C900;
+    position: absolute;
+    margin-left: 1px;
+    /*top: 7px;*/ //hierdoor werden sommige * onderaan geplaatst
+}
+.paddingtekst {
+    padding-left: 15px;
 }
 
 .kostenBatenNav a,

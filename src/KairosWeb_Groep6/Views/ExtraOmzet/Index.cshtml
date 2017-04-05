@@ -19,12 +19,15 @@
     </p>
 
     <form asp-controller="ExtraOmzet" asp-action="Opslaan" method="post" class="form-horizontal">
+
+        <h6 id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <input asp-for="Id"/>
         <input asp-for="Soort"/>
         <input asp-for="Type"/>
-
+        
         <div class="row">
             <div class="col-md-12">
                 <div class="col-md-4">

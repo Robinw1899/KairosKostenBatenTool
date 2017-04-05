@@ -13,11 +13,14 @@
     </div>
 
     <form asp-action="NieuweWerkgever" method="post" class="form-horizontal">
+
+        <h6 class="col-md-offset-2" id="infoTekstVerplichteVelden" style="color: #97C900">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+
         <div>
             <div asp-validation-summary="All" class="text-danger"></div>
             <input asp-for="WerkgeverId"/>
             <input asp-for="DepartementId" />
-
+              
             <div class="form-group">
                 <div class="col-md-4">
                     <label asp-for="Naam"></label>
