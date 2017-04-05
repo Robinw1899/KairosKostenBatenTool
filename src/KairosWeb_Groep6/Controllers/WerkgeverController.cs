@@ -81,8 +81,8 @@ namespace KairosWeb_Groep6.Controllers
             analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
             // nieuwe werkgever aanmaken voor de analyse
-            //analyse.Departement = new Departement();
-            //analyse.Departement.Werkgever = new Werkgever();
+            analyse.Departement = new Departement();
+            analyse.Departement.Werkgever = new Werkgever();
 
             // model aanmaken
             WerkgeverViewModel model = new WerkgeverViewModel();
@@ -98,6 +98,13 @@ namespace KairosWeb_Groep6.Controllers
         {
             analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
+            if (_departementRepository.GetByName(model.Naam) != null)
+            {
+                TempData["Error"] = "De Werkgever " + model.Naam + " bestaat al.";
+                return RedirectToAction("NieuweWerkgever");
+            }
+            else
+                TempData["Error"] = "";
 
             /* Departement departement;
 
@@ -181,22 +188,25 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", "Resultaat");
         }
 
-        public IActionResult OverzichtDepartementenWerkgever(string name)
+        public IActionResult OverzichtDepartementenWerkgever(WerkgeverViewModel model)
         {
             //alle departementen opzoeken van een bepaalde werkgever
-            IEnumerable<Departement> departementen = _departementRepository.GetByName(name);
+            IEnumerable<Departement> departementen = _departementRepository.GetByName(model.Naam);
             //deze meegeven aan de view
             return View(departementen);
         }
 
         [HttpPost]
-        public IActionResult OverzichtDepartementenWerkgever(string departementfilter, string naam)//niet zeker of Visual studio weet welke parameter welke waarde moet krijgen naam is zelfde naam als het id van de form
-        {//naam = zoekterm | departementenfilter = naam voor de juiste werkgever op te filteren 
-            IEnumerable<Departement> departementen = _departementRepository.GetByName(departementfilter); ;
+        public IActionResult OverzichtDepartementenWerkgever(string naam)//niet zeker of Visual studio weet welke parameter welke waarde moet krijgen naam is zelfde naam als het id van de form
+        {//naam = zoekterm | departementenfilter = naam van de gekozen werkgever
+         // IEnumerable<Departement> departementen = _departementRepository.GetByName(departementfilter); 
+
+            IEnumerable<Departement> departementen = _departementRepository.GetAll();
 
             if (!(naam == null || naam.Equals("")))
                 departementen = departementen.Where(t=>t.Naam.Contains(naam));//ik moet kunnen zoeken op naam van het departementen van de werkgever
           
+
             return PartialView("_departementen", departementen);
         }
     }

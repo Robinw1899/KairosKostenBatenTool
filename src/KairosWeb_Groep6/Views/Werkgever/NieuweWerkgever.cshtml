@@ -11,7 +11,11 @@
     <div class="page-header">
         <h3>@ViewData["Title"]</h3>
     </div>
-
+    <div>
+        <p class="alert alert-info animated shake">
+            @TempData["Error"]
+        </p>
+    </div>
     <form asp-action="NieuweWerkgever" method="post" class="form-horizontal">
         <div>
             <div asp-validation-summary="All" class="text-danger"></div>

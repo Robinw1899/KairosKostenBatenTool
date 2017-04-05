@@ -18,6 +18,8 @@ namespace KairosWeb_Groep6.Data
 
         public DbSet<Analyse> Analyses { get; set; }
 
+        public DbSet<Werkgever> Werkgevers { get; set; }
+
         //public DbSet<ContactPersoon> ContactPersonen { get; set; }
      
 
@@ -35,9 +37,11 @@ namespace KairosWeb_Groep6.Data
             builder.Entity<Organisatie>(MapOrganisatie);
             builder.Entity<Departement>(MapDepartement);
             builder.Entity<Werkgever>(MapWerkgever);
-            builder.Entity<Analyse>(MapAnalyse);
-           // builder.Entity<ContactPersoon>(MapContactPersoon);
+            builder.Entity<Analyse>(MapAnalyse);          
+            //builder.Entity<ContactPersoon>(MapContactPersoon);
         }
+
+       
 
         private void MapDepartement(EntityTypeBuilder<Departement> d)
         {
@@ -201,15 +205,19 @@ namespace KairosWeb_Groep6.Data
             w.Property(t => t.Gemeente)
                 .IsRequired();
 
-           /* w.HasOne(t => t.HoofdContactPersoon)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Restrict);
+            /*  w.HasOne(t => t.HoofdContactPersoon)
+                  .WithOne()
+                  .OnDelete(DeleteBehavior.Restrict);
 
-            w.HasOne(t => t.ContactPersonen)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Restrict); */
+              w.HasOne(t => t.ContactPersonen)
+                  .WithOne()
+                  .OnDelete(DeleteBehavior.Restrict); */
 
+            w.HasMany(t => t.Departementen)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
         }
-      
+       
+
     }
 }

@@ -74,7 +74,8 @@ namespace KairosWeb_Groep6
             services.AddScoped<IJobcoachRepository, JobcoachRepository>();
             services.AddScoped<IDepartementRepository, DepartementRepository>();
             services.AddScoped<IAnalyseRepository, AnalyseRepository>();
-           // services.AddScoped<IContactPersoonRepository, ContactPersoonRepository>();
+            services.AddScoped<IWerkgeverRepository, WerkgeverRepository>();
+            // services.AddScoped<IContactPersoonRepository, ContactPersoonRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,8 +8,7 @@ namespace KairosWeb_Groep6.Models.Domain
     public class Werkgever
     {
         #region Properties
-        [Key]
-        [ForeignKey("HoofdContactPersoon")]
+       
         public int WerkgeverId { get; set; }
      
         public string Naam { get; set; } = "";
@@ -27,10 +26,12 @@ namespace KairosWeb_Groep6.Models.Domain
         public double AantalWerkuren { get; set; }
 
         public double PatronaleBijdrage { get; set; } = 35D;
-     
+        [NotMapped]
         public List<ContactPersoon> ContactPersonen { get; set; }
-       
+        [NotMapped]      
         public ContactPersoon HoofdContactPersoon { get; set; }
+      
+        public IEnumerable<Departement> Departementen { get; set; }
         #endregion
 
         #region Constructors
