@@ -32,6 +32,9 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * De teamsfeer + motivatie
 * Als deze sprint volledig afgewerkt is, schieten er nog maar 2 taken over.
 * Iedereen vraagt aan elkaar of het goed is als zijn taak x opnemen. Als iemand dit niet goed vindt, kiest de persoon een andere taak.
-
+## mogelijke aanpassingen voor de applicatie (opmerkingen van externe gebruiker --> +70j)
+* Symbool(*) iets groter maken
+* Teken (ballonetje) om een bericht naar de admin te sturen veranderen (duidelijker) maken
+* Tooltip maken voor de symbolen op een pagina (waarvoor dient het symbool bv verzenden, pdf maken)
 ## Wat kan beter?
 * Voorlopig nog geen problemen ontdekt.
