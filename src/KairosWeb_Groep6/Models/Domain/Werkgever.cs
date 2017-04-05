@@ -31,7 +31,7 @@ namespace KairosWeb_Groep6.Models.Domain
         [NotMapped]      
         public ContactPersoon HoofdContactPersoon { get; set; }
       
-        public IEnumerable<Departement> Departementen { get; set; }
+        public List<Departement> Departementen { get; set; }
         #endregion
 
         #region Constructors

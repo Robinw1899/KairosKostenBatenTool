@@ -16,16 +16,19 @@ namespace KairosWeb_Groep6.Controllers
 
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IDepartementRepository _departementRepository;
+        private readonly IWerkgeverRepository _werkgeverRepository;
         #endregion
 
         #region Constructors
 
         public WerkgeverController(
             IAnalyseRepository analyseRepository,
-            IDepartementRepository werkgeverRepository)
+            IDepartementRepository departementenRepository,
+            IWerkgeverRepository werkgeverRepository)
         {
             _analyseRepository = analyseRepository;
-            _departementRepository = werkgeverRepository;
+            _departementRepository = departementenRepository;
+            _werkgeverRepository = werkgeverRepository;
         }
         #endregion
 
@@ -97,23 +100,17 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult NieuweWerkgever(Analyse analyse, WerkgeverViewModel model)
         {
             analyse = _analyseRepository.GetById(analyse.AnalyseId);
-
-            if (_departementRepository.GetByName(model.Naam) != null)
+            Departement departement = _departementRepository.GetDepByName(model.Departement);
+            if (_departementRepository.GetByName(model.Naam) != null && departement != null && departement.Werkgever.Gemeente == model.Gemeente)
             {
-                TempData["Error"] = "De Werkgever " + model.Naam + " bestaat al.";
+                TempData["Error"] = "De Werkgever " + model.Naam +  "met als departement" + model.Departement +" bestaat al.";
                 return RedirectToAction("NieuweWerkgever");
             }
             else
                 TempData["Error"] = "";
 
-            /* Departement departement;
-
-             if (_departementRepository.GetDepByName(model.Departement) != null )
-                 departement = _departementRepository.GetDepByName(model.Departement); // nieuw departement aanmaken     
-             else
-                 departement = new Departement(model.Departement);*/
-
-            Departement departement = new Departement(model.Departement);
+           
+           departement = new Departement(model.Departement);
 
             Werkgever werkgever = new Werkgever(); // nieuwe werkgever aanmaken
 
@@ -177,7 +174,7 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult SelecteerBestaandeWerkgever(Analyse analyse, int id)
         {// nog verder veranderen naar redirect naar ResultaatController
-            //analyse = _analyseRepository.GetById(analyse.AnalyseId);
+            analyse = _analyseRepository.GetById(analyse.AnalyseId);
 
             //de werkgever is geselecteerd je moet dus naar overzicht departementen gaan voor specifieke werkgever
             Departement departement = _departementRepository.GetById(id);
@@ -188,20 +185,20 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", "Resultaat");
         }
 
-        public IActionResult OverzichtDepartementenWerkgever(WerkgeverViewModel model)
+        public IActionResult OverzichtDepartementenWerkgever(int id)
         {
             //alle departementen opzoeken van een bepaalde werkgever
-            IEnumerable<Departement> departementen = _departementRepository.GetByName(model.Naam);
+            Departement departement =_departementRepository.GetById(id);
             //deze meegeven aan de view
-            return View(departementen);
+            return View(id);
         }
 
         [HttpPost]
-        public IActionResult OverzichtDepartementenWerkgever(string naam)//niet zeker of Visual studio weet welke parameter welke waarde moet krijgen naam is zelfde naam als het id van de form
-        {//naam = zoekterm | departementenfilter = naam van de gekozen werkgever
-         // IEnumerable<Departement> departementen = _departementRepository.GetByName(departementfilter); 
+        public IActionResult OverzichtDepartementenWerkgever(int id,string naam)//niet zeker of Visual studio weet welke parameter welke waarde moet krijgen naam is zelfde naam als het id van de form
+        {
 
-            IEnumerable<Departement> departementen = _departementRepository.GetAll();
+            Departement departement = _departementRepository.GetById(id);
+            IEnumerable<Departement> departementen = _departementRepository.GetByName(departement.Werkgever.Naam);
 
             if (!(naam == null || naam.Equals("")))
                 departementen = departementen.Where(t=>t.Naam.Contains(naam));//ik moet kunnen zoeken op naam van het departementen van de werkgever

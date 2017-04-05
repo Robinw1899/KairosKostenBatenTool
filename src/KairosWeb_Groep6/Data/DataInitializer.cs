@@ -15,19 +15,22 @@ namespace KairosWeb_Groep6.Data
         private readonly IJobcoachRepository _gebruikerRepository;
         private readonly IDepartementRepository _departementRepository;
         private readonly IAnalyseRepository _analyseRepository;
+        private readonly IWerkgeverRepository _werkgeverRepository;
 
         public DataInitializer(
             ApplicationDbContext dbContext,
             UserManager<ApplicationUser> userManager, 
             IJobcoachRepository gebruikerRepository,
-            IDepartementRepository werkgeverRepository,
-            IAnalyseRepository analyseRepository)
+            IDepartementRepository departementRepository,
+            IAnalyseRepository analyseRepository,
+            IWerkgeverRepository werkgeverRepository)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _gebruikerRepository = gebruikerRepository;
-            _departementRepository = werkgeverRepository;
+            _departementRepository = departementRepository;
             _analyseRepository = analyseRepository;
+            _werkgeverRepository = werkgeverRepository;
         }
 
         public async Task InitializeData()
@@ -41,36 +44,52 @@ namespace KairosWeb_Groep6.Data
                 ContactPersoon contactDimi = new ContactPersoon("Dimmy", "Maenhout", "dimmy.maenhout@telenet.be");
 
                 List<ContactPersoon> contacten = new List<ContactPersoon>();
-
+               
                 contacten.Add(contactThomas);
                 contacten.Add(contactRobin);
                 contacten.Add(contactDimi);
 
+                List<Departement> departementen = new List<Departement>();
+                
                 Werkgever werkgever = new Werkgever("VDAB", "Vooruitgangstraat", 1, 9300, "Aalst", 37);
                 werkgever.ContactPersonen = contacten;
-                werkgever.HoofdContactPersoon = contactThomas;
-                _departementRepository.Add(new Departement("Onderhoudsdienst") {Werkgever = werkgever});
-              
+                werkgever.HoofdContactPersoon = contactThomas;               
+                Departement departement = new Departement("Onderhoudsdienst") { Werkgever = werkgever };
+                departementen.Add(departement);
+                werkgever.Departementen = departementen;
+                _departementRepository.Add(departement);
+                _werkgeverRepository.Add(werkgever);
 
                 werkgever = new Werkgever("ALDI", "Leo Duboistraat", 20, 9280, "Lebbeke", 37);
                 werkgever.ContactPersonen = contacten;
                 werkgever.HoofdContactPersoon = contactRobin;
-                _departementRepository.Add(new Departement("Aankoop") { Werkgever = werkgever });
-            
+                departementen.Remove(departement);//verwijderen van vorige departement in de lijst
+                departement = new Departement("Aankoop") { Werkgever = werkgever };
+                departementen.Add(departement);//toevoegen van nieuw departement
+                werkgever.Departementen = departementen;
+                _departementRepository.Add(departement);
+                _werkgeverRepository.Add(werkgever);
 
                 werkgever = new Werkgever("Coolblue", "Medialaan", 1, 1000, "Brussel", 35);
                 werkgever.ContactPersonen = contacten;
                 werkgever.HoofdContactPersoon = contactDimi;
-                _departementRepository.Add(new Departement("Human resources") { Werkgever = werkgever });
+                departementen.Remove(departement);//verwijderen van vorige departement in de lijst
+                departement = new Departement("Human resources") { Werkgever = werkgever };
+                departementen.Add(departement);//toevoegen van nieuw departement
+                werkgever.Departementen = departementen;
+                _departementRepository.Add(departement);
+                _werkgeverRepository.Add(werkgever);
               
 
                 _departementRepository.Save();
+                _werkgeverRepository.Save();
 
                 Jobcoach thomas = _gebruikerRepository.GetByEmail("thomasaelbrecht@live.com");
 
                 Analyse analyse = new Analyse();
 
-                analyse.Departement = new Departement("Verkoop") { Werkgever = werkgever };
+                departement = new Departement("Verkoop") { Werkgever = werkgever };
+                analyse.Departement = departement ;
 
                 analyse.Loonkosten = MaakLoonkosten();
 
