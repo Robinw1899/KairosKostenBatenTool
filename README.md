@@ -1,5 +1,7 @@
 # Kairos - OpportunIT
 
+Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worden en wat goed/minder goed ging.
+
 ## Niet vergeten!
 * Vaak committen
 * Bij aanmaken nieuwe branch:
@@ -20,3 +22,11 @@
 ### Andere (lastenboek, etc.)
 * Afgewerkte UC's opschrijven
 * Admin moet niet inloggen op webapp
+
+## Wat ging goed?
+* De teamsfeer + motivatie
+* Als deze sprint volledig afgewerkt is, schieten er nog maar 2 taken over.
+* Iedereen vraagt aan elkaar of het goed is als zijn taak x opnemen. Als iemand dit niet goed vindt, kiest de persoon een andere taak.
+
+## Wat kan beter?
+* Voorlopig nog geen problemen ontdekt.
