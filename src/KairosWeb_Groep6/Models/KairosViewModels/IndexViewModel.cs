@@ -14,7 +14,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public Organisatie Organisatie { get; set; }
 
-        public IEnumerable<AnalyseViewModel> Analyses { get; private set; }
+        public IEnumerable<AnalyseViewModel> Analyses { get; set; }
 
         public IndexViewModel()
         {
