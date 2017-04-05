@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using KairosWeb_Groep6.Filters;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -54,7 +55,7 @@ namespace KairosWeb_Groep6.Controllers
                 Jobcoach jobcoach = _gebruikerRepository.GetByEmail(user.Email);
                 List<Analyse> analyses = new List<Analyse>();
 
-                foreach(Analyse a in jobcoach.Analyses)
+                foreach(Analyse a in jobcoach.Analyses.NietInArchief())
                 {
                     analyses.Add(_analyseRepository.GetById(a.AnalyseId));
                 }

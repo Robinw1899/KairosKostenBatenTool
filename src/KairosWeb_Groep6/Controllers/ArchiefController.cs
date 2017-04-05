@@ -34,7 +34,15 @@ namespace KairosWeb_Groep6.Controllers
             {
                 if (jobcoach != null)
                 {
-                    IEnumerable<Analyse> analysesInArchief = jobcoach.Analyses.InArchief();
+                    List<Analyse> analysesInArchief = new List<Analyse>();
+
+                    foreach (Analyse a in jobcoach.Analyses.InArchief())
+                    {
+                        analysesInArchief.Add(_analyseRepository.GetById(a.AnalyseId));
+                    }
+
+                    jobcoach.Analyses = analysesInArchief;
+
                     List<AnalyseViewModel> viewModels = analysesInArchief.Select(a => new AnalyseViewModel(a)).ToList();
                     model.Analyses = viewModels;
                 }
@@ -68,12 +76,12 @@ namespace KairosWeb_Groep6.Controllers
 
                 if (analyse.Departement == null)
                 {
-                    TempData["message"] = "De analyse is succesvol verwijderd.";
+                    TempData["message"] = "De analyse is succesvol uit het archief gehaald.";
                 }
                 else
                 {
                     TempData["message"] = $"De analyse van {analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}" +
-                                          " is succesvol verwijderd.";
+                                          " is succesvol uit het archief gehaald.";
                 }
             }
             catch (Exception e)

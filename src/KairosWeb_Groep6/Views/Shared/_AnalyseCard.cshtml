@@ -8,18 +8,31 @@
                 <div class="col-md-6" style="padding-left: 0;">
                     <h3>@Model.Werkgever</h3>
                 </div>
-                <div class="col-md-6 text-right headerButtons" style="margin-top: 20px; padding-right: 0;">
+                <div class="col-md-6 text-right headerButtons options" style="margin-top: 20px; padding-right: 0;">
                     <!--margin omdat de h3 dezelfde margin heeft-->
                     <a asp-controller="Analyse" asp-action="OpenAnalyse" asp-route-id="@Model.AnalyseId" class="btn btn-default text-right">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </a>
                     
+                    @if (Model.InArchief)
+                    {
+                        <a asp-controller="Archief" asp-action="HaalAnalyseUitArchief" asp-route-id="@Model.AnalyseId" class="btn btn-default text-right">
+                            <i class="fa fa-reply" aria-hidden="true"></i>
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Analyse" asp-action="Archiveer" asp-route-id="@Model.AnalyseId" class="btn btn-default text-right">
+                            <i class="fa fa-archive" aria-hidden="true"></i>
+                        </a>
+                    }
+
                     <a asp-controller="Resultaat" asp-action="MaakPdf" asp-route-id="@Model.AnalyseId" class="btn btn-default text-right">
                         <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <!-- PDF MAKEN -->
                     </a>
                     
                     <a asp-controller="Analyse" asp-action="VerwijderAnalyse" asp-route-id="@Model.AnalyseId" class="btn btn-default text-right">
-                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> 
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
                     </a>
                 </div>
             </div>
