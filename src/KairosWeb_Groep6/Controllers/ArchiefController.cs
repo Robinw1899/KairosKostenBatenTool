@@ -1,49 +1,99 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
+using KairosWeb_Groep6.Models.Domain.Extensions;
+using KairosWeb_Groep6.Models.KairosViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Controllers
 {
+    [Authorize]
     [ServiceFilter(typeof(JobcoachFilter))]
     public class ArchiefController : Controller
     {
         #region Properties
-
-        private readonly IJobcoachRepository _jobcoachRepository;
+        private readonly IAnalyseRepository _analyseRepository;
         #endregion
 
         #region Constructors
-        public ArchiefController(IJobcoachRepository jobcoachRepository)
+        public ArchiefController(IAnalyseRepository analyseRepository)
         {
-            _jobcoachRepository = jobcoachRepository;
+            _analyseRepository = analyseRepository;
         }
         #endregion
 
         #region Methods
         public IActionResult Index(Jobcoach jobcoach)
         {
-            if (jobcoach != null)
+            IndexViewModel model = new IndexViewModel();
+
+            try
             {
-                
+                if (jobcoach != null)
+                {
+                    IEnumerable<Analyse> analysesInArchief = jobcoach.Analyses.InArchief();
+                    List<AnalyseViewModel> viewModels = analysesInArchief.Select(a => new AnalyseViewModel(a)).ToList();
+                    model.Analyses = viewModels;
+                }
+                else
+                {
+                    TempData["error"] = "Gelieve eerst in te loggen alvorens deze pagina te bezoeken.";
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                ErrorViewModel errorViewModel = new ErrorViewModel {Exception = e};
+                return View("Error", errorViewModel);
             }
 
-            return View();
+            return View("Index", model);
         }
 
-        public IActionResult HaalAnalyseUitArchief()
+        public IActionResult HaalAnalyseUitArchief(int id)
         {
-            
+            try
+            {
+                Analyse analyse = _analyseRepository.GetById(id);
+
+                // uit archief halen + datum laatste aanpassing aanpassen
+                analyse.InArchief = false;
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
+
+                // alles opslaan in de databank
+                _analyseRepository.Save();
+
+                if (analyse.Departement == null)
+                {
+                    TempData["message"] = "De analyse is succesvol verwijderd.";
+                }
+                else
+                {
+                    TempData["message"] = $"De analyse van {analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}" +
+                                          " is succesvol verwijderd.";
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                ErrorViewModel errorViewModel = new ErrorViewModel { Exception = e };
+                return View("Error", errorViewModel);
+            }
+
+            return RedirectToAction("Index");
         }
 
-        public IActionResult OpenAnalyse()
+        public IActionResult OpenAnalyse(int id)
         {
-
+            return RedirectToAction("OpenAnalyse", "Analyse",  id);
         }
 
-        public IActionResult VerwijderAnalyse()
+        public IActionResult VerwijderAnalyse(int id)
         {
-
+            return RedirectToAction("VerwijderAnalyse", "Analyse", id);
         }
 
         public IActionResult MaakExcelAnalyse()
