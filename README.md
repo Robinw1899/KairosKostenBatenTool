@@ -12,6 +12,7 @@
 ## To do:
 ### To do voor webapplicatie
 * Evenwicht met totalen en niet met aantallen
+* Error.cshtml aanpassen naar een gepaste pagina voor gebruikers ipv voor ons. Nu staat er nog info op rond de Exception.
 
 ### To do voor Java
 * Gebruikers in tabel --> ControlsFX
