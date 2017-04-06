@@ -35,8 +35,8 @@ namespace KairosWeb_Groep6.Data.Repositories
             return _departementen
                 .Include(d => d.Werkgever)
                 .Where(d => d.Naam.Contains(naam))
-                .First();
-        }
+                .FirstOrDefault();
+        }   
       
         public Departement GetById(int id)
         {

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.WerkgeverViewModel
+@{
     ViewData["Title"] = "Departementen";
 }
 <div class="page-header">
@@ -27,8 +28,8 @@
 
 </div>
 
-<div>
-    <button class="btn btn-info" style="margin-left: 15px;">Niew Departement</button>
+<div class="form-group col-md-offset-4">
+    <a asp-action="NieuwDepartement" asp-route-id=@Model.DepartementId class="btn btn-info">Nieuw departement</a>
 </div>
 
 

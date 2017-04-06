@@ -187,24 +187,81 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult OverzichtDepartementenWerkgever(int id)
         {
-            //alle departementen opzoeken van een bepaalde werkgever
-            Departement departement =_departementRepository.GetById(id);
-            //deze meegeven aan de view
-            return View(id);
+            Departement departement = _departementRepository.GetById(id);
+            WerkgeverViewModel model = new WerkgeverViewModel(departement);
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult OverzichtDepartementenWerkgever(int id,string naam)//niet zeker of Visual studio weet welke parameter welke waarde moet krijgen naam is zelfde naam als het id van de form
+        public IActionResult OverzichtDepartementenWerkgever(int id,string naam)
         {
 
             Departement departement = _departementRepository.GetById(id);
             IEnumerable<Departement> departementen = _departementRepository.GetByName(departement.Werkgever.Naam);
 
             if (!(naam == null || naam.Equals("")))
-                departementen = departementen.Where(t=>t.Naam.Contains(naam));//ik moet kunnen zoeken op naam van het departementen van de werkgever
+                departementen = departementen.Where(t=>t.Naam.Contains(naam));
           
 
             return PartialView("_departementen", departementen);
+        }
+
+        public IActionResult NieuwDepartement(int id)
+        {
+            Departement departement = _departementRepository.GetById(id);
+            WerkgeverViewModel model = new WerkgeverViewModel(departement);
+            //het geselecteerd departement niet laten tonen
+            return View(model);
+        }
+
+        [HttpPost]
+        [ActionName("NieuwDepartement")]
+        public IActionResult NieuwDepartementPost(Analyse analyse,WerkgeverViewModel model)
+        {
+            if (_departementRepository.GetDepByName(model.Departement) != null && _departementRepository.GetByName(model.Naam) != null)
+            {
+                TempData["Error"] = "Het departement " + model.Departement + "van de werkgever " + model.Naam + " bestaat al";
+                return RedirectToAction("NieuwDepartement");
+            } else
+            {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId);
+                TempData["Error"] = "";
+                /* Departement departement = new Departement (model.Departement);
+                 departement.Werkgever =  _departementRepository.GetByName(model.Naam).First().Werkgever;
+                 _departementRepository.Add(departement);
+                 analyse.Departement = departement;
+                 _analyseRepository.Add(analyse);*/
+
+                Departement departement = new Departement(model.Departement);
+
+                Werkgever werkgever = _departementRepository.GetByName(model.Naam).First().Werkgever; // Zelfde werkgever maken
+
+                werkgever.Naam = model.Naam;
+
+                if (model.Straat != null && model.Nummer != 0)
+                {
+                    werkgever.Straat = model.Straat;
+                    werkgever.Nummer = model.Nummer;
+                    werkgever.Bus = model.Bus;
+                }
+
+                werkgever.Postcode = model.Postcode;
+                werkgever.Gemeente = model.Gemeente;
+
+                departement.Werkgever = werkgever;
+
+                // alles instellen
+                _departementRepository.Add(departement);
+                analyse.Departement = departement;
+
+                // alles opslaan
+                _departementRepository.Save();
+                _analyseRepository.Save();
+
+
+                return RedirectToAction("Index", "Resultaat");
+            }
+          
         }
     }
 }
