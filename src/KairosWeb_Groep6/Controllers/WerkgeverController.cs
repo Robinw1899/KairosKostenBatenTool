@@ -85,7 +85,7 @@ namespace KairosWeb_Groep6.Controllers
             //analyse.Departement.Werkgever = new Werkgever();
 
             // model aanmaken
-            WerkgeverViewModel model = new WerkgeverViewModel();
+            WerkgeverViewModel model = new WerkgeverViewModel{PatronaleBijdrage = 35};
 
             _analyseRepository.Save();
 
@@ -112,6 +112,8 @@ namespace KairosWeb_Groep6.Controllers
 
             werkgever.Postcode = model.Postcode;
             werkgever.Gemeente = model.Gemeente;
+            werkgever.AantalWerkuren = model.AantalWerkuren;
+            werkgever.PatronaleBijdrage = model.PatronaleBijdrage;
 
             departement.Werkgever = werkgever;
 
