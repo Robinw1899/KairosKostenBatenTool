@@ -14,10 +14,10 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
             set { }
         } // returned berekening
 
-        [JsonProperty]
+        
         public double Uren { get; set; }
 
-        [JsonProperty]
+        
         public double BrutoMaandloonFulltime { get; set; }
         #endregion
 
@@ -28,7 +28,7 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
             
         }
 
-        [JsonConstructor]
+       
         public MedewerkerNiveauBaat(bool forJsonOnly)
         {
             

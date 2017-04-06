@@ -85,5 +85,9 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             _dbContext.SaveChanges();
         }
+        public void Save(int id)
+        {
+            _dbContext.SaveChangesAsync();
+        }
     }
 }
