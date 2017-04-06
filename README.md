@@ -24,6 +24,8 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 
 ### To do voor Java
 * Gebruikers in tabel --> ControlsFX
+* Validatie van ingevoerde gegevens: regex, enz.
+* Tooltips iconen
 
 ### Andere (lastenboek, etc.)
 * Afgewerkte UC's opschrijven
