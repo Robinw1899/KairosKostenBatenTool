@@ -38,8 +38,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 // de baat bestaat reeds:
                 OpleidingsKost kost = new OpleidingsKost
                 {
-                    //Id = model.Id,
-                    Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     Beschrijving = model.Beschrijving,
