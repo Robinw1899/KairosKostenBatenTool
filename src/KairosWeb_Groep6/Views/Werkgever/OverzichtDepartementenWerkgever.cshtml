@@ -28,8 +28,14 @@
 
 </div>
 
-<div class="form-group col-md-offset-4">
-    <a asp-action="NieuwDepartement" asp-route-id=@Model.DepartementId class="btn btn-info">Nieuw departement</a>
+
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 text-right">
+        <a asp-controller="Werkgever" asp-action="NieuwDepartement" asp-route-id=@Model.DepartementId style="margin-left: 15px" class="btn btn-info">
+            Nieuw departement <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>
+    </div>
 </div>
 
 
