@@ -45,15 +45,15 @@ namespace KairosWeb_Groep6.Tests.Data
 
         private void MaakOrganisaties()
         {
-            HoGent = new Organisatie("HoGent", "Arbeidstraat", 10, 9300, "Aalst");
-            Colruyt = new Organisatie("Colruyt", "Weggevoerdenstraat", 55, 9404, "Ninove");
+            HoGent = new Organisatie("HoGent", "Arbeidstraat", 10, "", 9300, "Aalst");
+            Colruyt = new Organisatie("Colruyt", "Weggevoerdenstraat", 55, "", 9404, "Ninove");
         }
 
         private void MaakGebruikers()
         {
-            Thomas = new Jobcoach("Aelbrecht", "Thomas", "thomas.aelbrecht@gmail.com", HoGent) { JobcoachId = 1 };
-            Robin = new Jobcoach("Coppens", "Robin", "robbin.coppens@gmail.com", HoGent) { JobcoachId = 2 };
-            Dimmy = new Jobcoach("Maenhout", "Dimmy", "dimmy.maenhout@test.be", Colruyt) { JobcoachId = 3 };
+            Thomas = new Jobcoach("Aelbrecht", "Thomas", "thomas.aelbrecht@gmail.com", HoGent) { PersoonId = 1 };
+            Robin = new Jobcoach("Coppens", "Robin", "robbin.coppens@gmail.com", HoGent) { PersoonId = 2 };
+            Dimmy = new Jobcoach("Maenhout", "Dimmy", "dimmy.maenhout@test.be", Colruyt) { PersoonId = 3 };
 
             Gebruikers = new List<Jobcoach>
             {

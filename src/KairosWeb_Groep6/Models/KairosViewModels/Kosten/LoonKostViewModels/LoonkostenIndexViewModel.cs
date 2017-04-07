@@ -54,7 +54,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
 
         public double Bedrag { get; set; }
 
-        public IEnumerable<LoonkostViewModel> ViewModels { get; internal set; }
+        public IEnumerable<LoonkostViewModel> ViewModels { get; set; }
 
         public LoonkostenIndexViewModel()
         {

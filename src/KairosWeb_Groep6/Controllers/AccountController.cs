@@ -157,10 +157,7 @@ namespace KairosWeb_Groep6.Controllers
                 {
                     Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
                             model.NrOrganisatie, model.Bus, model.Postcode, model.Gemeente);
-                    Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie)
-                    {
-                        Wachtwoord = password
-                    };
+                    Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie);
                     _jobcoachRepository.Add(jobcoach);
                     _jobcoachRepository.Save();
 

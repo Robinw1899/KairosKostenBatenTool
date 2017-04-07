@@ -203,9 +203,6 @@ namespace KairosWeb_Groep6.Data
             j.Property(t => t.AlAangemeld)
                 .IsRequired();
 
-            j.Property(t => t.Wachtwoord)
-                .IsRequired();
-
             j.HasOne(t => t.Organisatie)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);

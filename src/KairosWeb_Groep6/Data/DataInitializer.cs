@@ -142,7 +142,7 @@ namespace KairosWeb_Groep6.Data
             };
 
             Organisatie organisatie = new Organisatie("HoGent", "Arbeidstraat", 14, "",  9300, "Aalst");
-            Jobcoach jobcoach = new Jobcoach(naam, voornaam, email, organisatie) { AlAangemeld = true, Wachtwoord = "kairos2017" };
+            Jobcoach jobcoach = new Jobcoach(naam, voornaam, email, organisatie) { AlAangemeld = true};
             _gebruikerRepository.Add(jobcoach);
 
             await _userManager.CreateAsync(user, "kairos2017");
@@ -159,7 +159,7 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true, Wachtwoord = "kairos2017" };
+            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true};
             _gebruikerRepository.Add(jobcoach);
 
             await _userManager.CreateAsync(user, "kairos2017");
@@ -176,7 +176,7 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true, Wachtwoord = "kairos2017" };
+            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true };
             _gebruikerRepository.Add(jobcoach);
 
             await _userManager.CreateAsync(user, "kairos2017");
