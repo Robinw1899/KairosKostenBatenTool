@@ -18,6 +18,8 @@ namespace KairosWeb_Groep6.Data
 
         public DbSet<Analyse> Analyses { get; set; }
 
+        public DbSet<Introductietekst> Introteksten { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -33,6 +35,39 @@ namespace KairosWeb_Groep6.Data
             builder.Entity<Departement>(MapDepartement);
             builder.Entity<Werkgever>(MapWerkgever);
             builder.Entity<Analyse>(MapAnalyse);
+            builder.Entity<Introductietekst>(MapIntroductietekst);
+            builder.Entity<Paragraaf>(MapParagraaf);
+        }
+
+        private static void MapParagraaf(EntityTypeBuilder<Paragraaf> p)
+        {
+            p.ToTable("Paragraaf");
+
+            p.HasKey(t => t.ParagraafId);
+
+            p.Property(t => t.Volgnummer)
+                .IsRequired();
+
+            p.Property(t => t.Tekst)
+                .IsRequired();
+        }
+
+        private static void MapIntroductietekst(EntityTypeBuilder<Introductietekst> i)
+        {
+            i.ToTable("Introductietekst");
+
+            i.HasKey(t => t.IntroductietekstId);
+
+            i.Property(t => t.Titel)
+                .IsRequired();
+
+            i.Property(t => t.Vraag)
+                .IsRequired();
+
+            i.HasMany(t => t.Paragrafen)
+                .WithOne()
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         private void MapDepartement(EntityTypeBuilder<Departement> d)
