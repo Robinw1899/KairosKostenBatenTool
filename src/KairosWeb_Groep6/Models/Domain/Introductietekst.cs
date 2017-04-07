@@ -13,7 +13,7 @@ namespace KairosWeb_Groep6.Models.Domain
         // dit is de vraag die getoond wordt om de tekst terug te laten verschijnen:
         public string Vraag { get; set; }
 
-        public IList<Paragraaf> Paragrafen { get; private set; } = new List<Paragraaf>();
+        public IList<Paragraaf> Paragrafen { get; set; } = new List<Paragraaf>();
         #endregion
     }
 }

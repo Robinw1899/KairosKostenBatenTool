@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using KairosWeb_Groep6.Models.Domain;
 
 namespace KairosWeb_Groep6.Models.AccountViewModels
 {
@@ -16,5 +17,7 @@ namespace KairosWeb_Groep6.Models.AccountViewModels
 
         [Display(Name = "Mij onthouden")]
         public bool RememberMe { get; set; }
+
+        public Introductietekst Introductietekst { get; set; }
     }
 }

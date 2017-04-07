@@ -1,4 +1,5 @@
-﻿@model LoginViewModel
+﻿@using KairosWeb_Groep6.Models.Domain
+@model LoginViewModel
 @inject SignInManager<ApplicationUser> SignInManager
 
 @{
@@ -9,14 +10,19 @@
     <div class="intro" id="intro">
         <!--INTRODUCTIE-TEKST-->
         <div class="row">
-            <h4 class="col-md-10">Introductie</h4>
+            <h4 class="col-md-10">@Model.Introductietekst.Titel</h4>
             <a id="verbergIntro">
                 <i class="fa fa-times fa-2x col-md-2 text-right" aria-hidden="true"></i>
             </a>
         </div>
 
         <hr />
-        <p>
+        @foreach (Paragraaf paragraaf in Model.Introductietekst.Paragrafen)
+        {
+            <p>@paragraaf.Tekst</p>
+        }
+
+        <!--<p>
             Waarom zou een werkgever investeren in het tewerkstellen van personen met een grote
             afstand tot de arbeidsmarkt en/of functiecreatie? We zijn geneigd te denken dat
             we - ook managers en bedrijfsleiders - erg rationele wezens zijn, die (grote) beslissingen
@@ -39,7 +45,7 @@
         <p>
             Met dit model kan je werkgevers inzicht geven in de economische waarde van het werken
             met mensen met een grote afstand tot de arbeidsmarkt.
-        </p>
+        </p>-->
     </div>
     <div class="box-login" id="login">
         <!--LOGIN FORM-->
@@ -49,7 +55,7 @@
         
         <form asp-controller="Account" asp-action="Login" method="post" class="form-horizontal">
             <div class="row">
-                <a id="toonIntro">Wat is Kairos?</a>
+                <a id="toonIntro">@Model.Introductietekst.Vraag</a>
             </div>
 
             <div asp-validation-summary="All" class="text-danger"></div>
