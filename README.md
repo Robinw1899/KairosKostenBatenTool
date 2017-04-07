@@ -23,6 +23,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Trigger schrijven voor het updaten van een analyse --> automatisch DatumLaatsteAanpassing aanpassen
 * Patronale bijdrage ingevuld?
 * Nieuwe werkgever nakijken
+* Mappen dat email Persoon uniek is
 
 ### To do voor Java
 * Gebruikers in tabel --> ControlsFX
