@@ -21,6 +21,8 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Evenwicht met totalen en niet met aantallen
 * Error.cshtml aanpassen naar een gepaste pagina voor gebruikers ipv voor ons. Nu staat er nog info op rond de Exception.
 * Trigger schrijven voor het updaten van een analyse --> automatisch DatumLaatsteAanpassing aanpassen
+* Patronale bijdrage ingevuld?
+* Nieuwe werkgever nakijken
 
 ### To do voor Java
 * Gebruikers in tabel --> ControlsFX
