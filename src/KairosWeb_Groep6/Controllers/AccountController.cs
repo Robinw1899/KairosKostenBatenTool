@@ -52,7 +52,6 @@ namespace KairosWeb_Groep6.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             TempData["Actie"] = "Aanmelden"; // nodig om de partials niet te laden
             Introductietekst tekst = _introductietekstRepository.GetIntroductietekst();
-            tekst.Paragrafen = tekst.Paragrafen.OrderBy(p => p.Volgnummer).ToList();
 
             LoginViewModel model = new LoginViewModel
             {
