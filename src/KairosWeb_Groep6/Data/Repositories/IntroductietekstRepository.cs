@@ -18,12 +18,15 @@ namespace KairosWeb_Groep6.Data.Repositories
 
         public Introductietekst GetIntroductietekst()
         {
-            Introductietekst tekst = _teksten.FirstOrDefault();
-
+            Introductietekst tekst = _teksten.Include(t => t.Paragrafen).FirstOrDefault();
+            
             if (tekst == null)
             {
                 return new Introductietekst();
             }
+
+            // als er een tekst is, de paragrafen terug in volgorde zetten
+            tekst.Paragrafen = tekst.Paragrafen.OrderBy(p => p.Volgnummer).ToList();
 
             return tekst;
         }

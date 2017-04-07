@@ -23,6 +23,7 @@ namespace KairosWeb_Groep6.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly IJobcoachRepository _jobcoachRepository;
+        private readonly IIntroductietekstRepository _introductietekstRepository;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -30,7 +31,8 @@ namespace KairosWeb_Groep6.Controllers
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            IJobcoachRepository jobcoachRepository)
+            IJobcoachRepository jobcoachRepository,
+            IIntroductietekstRepository introductietekstRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -38,6 +40,7 @@ namespace KairosWeb_Groep6.Controllers
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _jobcoachRepository = jobcoachRepository;
+            _introductietekstRepository = introductietekstRepository;
         }
 
         //
@@ -48,7 +51,14 @@ namespace KairosWeb_Groep6.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;
             TempData["Actie"] = "Aanmelden"; // nodig om de partials niet te laden
-            return View();
+            Introductietekst tekst = _introductietekstRepository.GetIntroductietekst();
+
+            LoginViewModel model = new LoginViewModel
+            {
+                Introductietekst = tekst
+            };
+
+            return View(model);
         }
 
         //
