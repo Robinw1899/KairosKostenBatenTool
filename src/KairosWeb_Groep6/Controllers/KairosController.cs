@@ -94,7 +94,6 @@ namespace KairosWeb_Groep6.Controllers
                 if (login.Succeeded)
                 {
                     Jobcoach gebruiker = _gebruikerRepository.GetByEmail(model.Email);
-                    gebruiker.Wachtwoord = model.Password;
                     gebruiker.AlAangemeld = true;
                     _gebruikerRepository.Save();
 

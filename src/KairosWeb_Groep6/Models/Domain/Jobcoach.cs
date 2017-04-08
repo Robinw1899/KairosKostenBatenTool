@@ -5,8 +5,6 @@ namespace KairosWeb_Groep6.Models.Domain
     public class Jobcoach : Persoon
     {
         #region Properties
-        public string Wachtwoord { get; set; }
-
         public bool AlAangemeld { get; set; }
 
         public Organisatie Organisatie { get; set; }
