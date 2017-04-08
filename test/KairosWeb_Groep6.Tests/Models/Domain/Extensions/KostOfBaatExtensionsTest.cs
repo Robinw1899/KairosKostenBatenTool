@@ -21,20 +21,16 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [Fact]
         public void TestGetBy_GeenGevonden_ReturnsNull()
         {
-            List<KostOfBaat> loonkosten = new List<KostOfBaat>(_dbContext.Loonkosten);
-            KostOfBaat kostOfBaat = KostOfBaatExtensions.GetBy(loonkosten, 0);
-            Assert.Null(kostOfBaat);
+            Loonkost loonkost = KostOfBaatExtensions.GetBy(_dbContext.Loonkosten, 0);
+            Assert.Null(loonkost);
         }
 
         #region Loonkosten
         [Fact]
         public void TestGetBy_Loonkosten()
         {
-            List<KostOfBaat> loonkosten = new List<KostOfBaat>(_dbContext.Loonkosten);
-            KostOfBaat kostOfBaat = KostOfBaatExtensions.GetBy(loonkosten, 2);
+            Loonkost loonkost = KostOfBaatExtensions.GetBy(_dbContext.Loonkosten, 2);
 
-            // omzetten naar de juiste klasse:
-            Loonkost loonkost = (Loonkost)kostOfBaat;
             Assert.Equal(_dbContext.Secretaresse, loonkost);
         }
 
@@ -49,11 +45,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [Fact]
         public void TestGetBy_ExtaKosten()
         {
-            List<KostOfBaat>  extraKosten = new List<KostOfBaat>(_dbContext.ExtraKosten);
-            KostOfBaat kostOfBaat = KostOfBaatExtensions.GetBy(extraKosten, 3);
-
-            // omzetten naar de juiste klasse:
-            ExtraKost extrakost = (ExtraKost)kostOfBaat;
+            ExtraKost extrakost = KostOfBaatExtensions.GetBy(_dbContext.ExtraKosten, 3);
 
             Assert.Equal(400, extrakost.Bedrag);
             Assert.Equal("Boeken en ander studiemateriaal", extrakost.Beschrijving);
@@ -76,11 +68,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [Fact]
         public void TestGetBy_MedewerkerNiveauBaat()
         {
-            List<KostOfBaat> medewerkerNiveauBaten = new List<KostOfBaat>(_dbContext.MedewerkerNiveauBaten);
-            KostOfBaat kostOfBaat = KostOfBaatExtensions.GetBy(medewerkerNiveauBaten, 1);
-
-            // omzetten naar de juiste klasse:
-            MedewerkerNiveauBaat baat = (MedewerkerNiveauBaat)kostOfBaat;
+            MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(_dbContext.MedewerkerNiveauBaten, 1);
 
             Assert.Equal(2300, baat.BrutoMaandloonFulltime);
             Assert.Equal(35, baat.Uren);
@@ -97,10 +85,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [Fact]
         public void TestGetBy_Subsidie()
         {
-            List<KostOfBaat> subsidies = new List<KostOfBaat>(_dbContext.Subsidies);
-            KostOfBaat kostOfBaat = KostOfBaatExtensions.GetBy(subsidies, 2);
-            // omzetten naar de juiste klasse:
-            Subsidie subsidie = (Subsidie)kostOfBaat;
+            Subsidie subsidie = KostOfBaatExtensions.GetBy(_dbContext.Subsidies, 2);
 
             Assert.Equal(1500, subsidie.Bedrag);
         }
@@ -108,13 +93,46 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [Fact]
         public void TestGeefTotaal_Subsidie()
         {
-            List<KostOfBaat> subsidies = new List<KostOfBaat>(_dbContext.Subsidies);
-            // totaal van alle loonkosten:
-
-            double totaal = KostOfBaatExtensions.GeefTotaal(subsidies);
+            double totaal = KostOfBaatExtensions.GeefTotaal(_dbContext.Subsidies);
             totaal = Math.Round(totaal, 2);
 
-            Assert.Equal(1700.00, totaal);
+            Assert.Equal(26950.00, totaal);
+        }
+        #endregion
+
+        #region UitzendkrachtBesparingen
+        [Fact]
+        public void TestGetBy_UitzendkrachtBesparingen()
+        {
+            UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(_dbContext.UitzendKrachtBesparingen, 4);
+
+            Assert.Equal(5400, baat.Bedrag);
+        }
+
+        [Fact]
+        public void TestGeefTotaal_UitzendkrachtBesparingen()
+        {
+            double totaal = KostOfBaatExtensions.GeefTotaal(_dbContext.UitzendKrachtBesparingen);
+            totaal = Math.Round(totaal, 2);
+
+            Assert.Equal(17570.00, totaal);
+        }
+        #endregion
+
+        #region BegeleidingsKosten
+        [Fact]
+        public void TestGetBy_BegeleidingsKosten()
+        {
+            BegeleidingsKost kost = KostOfBaatExtensions.GetBy(_dbContext.BegeleidingsKosten, 2);
+
+            Assert.Equal(25, kost.Uren);
+            Assert.Equal(2500, kost.BrutoMaandloonBegeleider);
+        }
+
+        [Fact]
+        public void TestGeefTotaalThrowsException_BegeleidingsKosten()
+        {
+            Assert.Throws<InvalidOperationException>(() => KostOfBaatExtensions.GeefTotaal(_dbContext.BegeleidingsKosten));
         }
         #endregion
     }
