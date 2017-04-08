@@ -12,7 +12,7 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
         {
             get { return 0; }
             set { }
-        } // returned berekening
+        }
 
         [JsonProperty]
         public double Uren { get; set; }

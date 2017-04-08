@@ -10,7 +10,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
     {
         private Loonkost _loonkost;
 
-        private int aantalWerkuren;
+        private int _aantalWerkuren;
 
         private double patronaleBijdrage = 35D;
 
@@ -23,9 +23,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         }
 
         [Fact]
-        public void TestBedragThrowsInvalidOperationException()
+        public void TestSetBedrag_DoetNiets()
         {
-            aantalWerkuren = 37;
+            _aantalWerkuren = 37;
 
             _loonkost = new Loonkost
             {
@@ -37,27 +37,27 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 IBOPremie = 564.0D
             };
 
-            Assert.Throws<InvalidOperationException>(() => _loonkost.Bedrag);
+            Assert.Equal(0, _loonkost.Bedrag);
         }
 
         [Fact]
         public void TestBerekenBrutoloonPerMaand_GegevenOntbreekt_Returns0()
         {
             // Werkgever.AantalWerkuren ontbreekt (standaard 0)
-            aantalWerkuren = 0;
+            _aantalWerkuren = 0;
             _loonkost = new Loonkost
             {
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23
             };
 
-            Assert.Equal(0, _loonkost.BerekenBrutoloonPerMaand(aantalWerkuren, patronaleBijdrage));
+            Assert.Equal(0, _loonkost.BerekenBrutoloonPerMaand(_aantalWerkuren, patronaleBijdrage));
         }
 
         [Fact]
         public void TestBerekenBrutoloonPerMaand_GegevenGelijkAan0_Returns0()
         {
-            aantalWerkuren = 37;
+            _aantalWerkuren = 37;
 
             _loonkost = new Loonkost
             {
@@ -65,7 +65,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 AantalUrenPerWeek = 0
             };
 
-            Assert.Equal(0, _loonkost.BerekenBrutoloonPerMaand(aantalWerkuren, patronaleBijdrage));
+            Assert.Equal(0, _loonkost.BerekenBrutoloonPerMaand(_aantalWerkuren, patronaleBijdrage));
         }
 
         [Theory]
@@ -75,7 +75,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         public void TestBerekenBrutoloonPerMaand_AlleGegevensIngevuld
             (int werkuren, double brutoloon, int urenPerWeek, Doelgroep doelgroep, double expected)
         {
-            aantalWerkuren = werkuren;
+            _aantalWerkuren = werkuren;
 
             _loonkost = new Loonkost
             {
@@ -84,7 +84,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Doelgroep = doelgroep
             };
 
-            double brutoloonPerMaand = _loonkost.BerekenBrutoloonPerMaand(aantalWerkuren, patronaleBijdrage);
+            double brutoloonPerMaand = _loonkost.BerekenBrutoloonPerMaand(_aantalWerkuren, patronaleBijdrage);
             // afronden omdat je werkt met doubles, de excel is ook afgerond op 2 decimalen
             brutoloonPerMaand = Math.Round(brutoloonPerMaand, 2);
             Assert.Equal(expected, brutoloonPerMaand);
@@ -94,7 +94,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         public void TestBerekenGemiddeldeVOPPerMaand_GegevenOntbreekt_Returns0()
         {
             // doelgroep ontbreekt
-            aantalWerkuren = 37;
+            _aantalWerkuren = 37;
 
             _loonkost = new Loonkost
             {
@@ -102,13 +102,13 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 AantalUrenPerWeek = 23
             };
 
-            Assert.Equal(0,_loonkost.BerekenGemiddeldeVOPPerMaand(aantalWerkuren, patronaleBijdrage));
+            Assert.Equal(0,_loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, patronaleBijdrage));
         }
 
         [Fact]
         public void TestBerekenGemiddeldeVOPPerMaand_DoelgroepNull_Returns0()
         {
-            aantalWerkuren = 37;
+            _aantalWerkuren = 37;
 
             _loonkost = new Loonkost
             {
@@ -118,18 +118,18 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Ondersteuningspremie = 0.3D
             };
 
-            Assert.Equal(0, _loonkost.BerekenGemiddeldeVOPPerMaand(aantalWerkuren, patronaleBijdrage));
+            Assert.Equal(0, _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, patronaleBijdrage));
         }
 
         [Theory]
-        [InlineData(1800, 37, Doelgroep.LaaggeschooldTot25, 0.20D, 408.50)]
-        [InlineData(2200, 23, Doelgroep.MiddengeschooldTot25, 0.30D, 507.24)]
-        [InlineData(3540, 35, Doelgroep.Tussen55En60, 0.40D, 1699.49)]
+        [InlineData(1800, 37, Doelgroep.LaaggeschooldTot25, 20, 408.50)]
+        [InlineData(2200, 23, Doelgroep.MiddengeschooldTot25, 30, 507.24)]
+        [InlineData(3540, 35, Doelgroep.Tussen55En60, 40, 1699.49)]
         [InlineData(4300, 30, Doelgroep.Vanaf60, 0, 0)]
         public void TestBerekenGemiddeldeVOPPerMaand_AlleGegevensIngevuld
             (double brutoloon, double urenPerWeerk, Doelgroep doelgroep, double VOP, double expected)
         {
-            aantalWerkuren = 37;
+            _aantalWerkuren = 37;
 
             _loonkost = new Loonkost
             {
@@ -139,7 +139,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Ondersteuningspremie = VOP
             };
 
-            double gemiddeldeVopPerMaand = _loonkost.BerekenGemiddeldeVOPPerMaand(aantalWerkuren, patronaleBijdrage);
+            double gemiddeldeVopPerMaand = _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, patronaleBijdrage);
             // afronden omdat je werkt met doubles, de excel is ook afgerond op 2 decimalen
             gemiddeldeVopPerMaand = Math.Round(gemiddeldeVopPerMaand, 2);
             Assert.Equal(expected, gemiddeldeVopPerMaand);
@@ -149,7 +149,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         public void TestBerekenTotaleLoonkost_GegevenOntbreekt_Returns0()
         {
             // IBOPremie en AantalMaandenIBO ontbreken
-            aantalWerkuren = 37;
+            _aantalWerkuren = 37;
 
             _loonkost = new Loonkost
             {
@@ -159,13 +159,13 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Ondersteuningspremie = 0.20D
             };
 
-            Assert.Equal(0, _loonkost.BerekenTotaleLoonkost(aantalWerkuren, patronaleBijdrage));
+            Assert.Equal(0, _loonkost.BerekenTotaleLoonkost(_aantalWerkuren, patronaleBijdrage));
         }
 
         [Fact]
         public void TestBerekenTotaleLoonkost_DoelgroepNull_Returns0()
         {
-            aantalWerkuren = 37;
+            _aantalWerkuren = 37;
 
             _loonkost = new Loonkost
             {
@@ -177,25 +177,25 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 IBOPremie = 0D
             };
 
-            Assert.Equal(0, _loonkost.BerekenGemiddeldeVOPPerMaand(aantalWerkuren, patronaleBijdrage));
+            Assert.Equal(0, _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, patronaleBijdrage));
         }
 
         [Fact]
         public void TestBerekenTotaleLoonkost_AlleGegevensIngevuld()
         {
-            aantalWerkuren = 37;
+            _aantalWerkuren = 37;
 
             _loonkost = new Loonkost
             {
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
                 Doelgroep = Doelgroep.LaaggeschooldTot25,
-                Ondersteuningspremie = 0.20D,
+                Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0D
             };
 
-            double totaleLoonkost = _loonkost.BerekenTotaleLoonkost(aantalWerkuren, patronaleBijdrage);
+            double totaleLoonkost = _loonkost.BerekenTotaleLoonkost(_aantalWerkuren, patronaleBijdrage);
             // afronden omdat je werkt met doubles, de excel is ook afgerond op 2 decimalen
             totaleLoonkost = Math.Round(totaleLoonkost, 2);
             Assert.Equal(14272.00, totaleLoonkost);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Tests.Data;
@@ -12,9 +11,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
     {
         private readonly List<Loonkost> _loonkosten;
 
-        private int aantalWerkuren = 37;
+        private readonly int _aantalWerkuren = 37;
 
-        private double patronaleBijdrage = 35;
+        private readonly double _patronaleBijdrage = 35;
 
         public LoonkostExtensionsTest()
         {
@@ -25,7 +24,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [Fact]
         public void TestGeefTotaalBrutoloonPerMaandAlleLoonkosten_ReturnsBrutoloonAlleFuncties()
         {
-            double totaal = LoonkostExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(_loonkosten, aantalWerkuren, patronaleBijdrage);
+            double totaal = LoonkostExtensions
+                .GeefTotaalBrutolonenPerJaarAlleLoonkosten(_loonkosten, _aantalWerkuren, _patronaleBijdrage);
+
             totaal = Math.Round(totaal, 2);
             Assert.Equal(80430.81, totaal);
         }
