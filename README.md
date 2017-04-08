@@ -24,6 +24,9 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Patronale bijdrage ingevuld?
 * Nieuwe werkgever nakijken
 * Mappen dat email Persoon uniek is
+* Switch-functie cards naast elkaar of onder elkaar (eventueel)
+* E-mails (admin, registratie, wachtwoord vergeten) schrijven met HtmlTextWriter
+* Elk IndexViewModel een ViewModel property geven (Bind[Prefix = ...]) in de Controller voor parameter
 
 ### To do voor Java
 * Gebruikers in tabel --> ControlsFX
