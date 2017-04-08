@@ -30,5 +30,15 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
             totaal = Math.Round(totaal, 2);
             Assert.Equal(80430.81, totaal);
         }
+
+        [Fact]
+        public void TestGeefTotaalAlleLoonkosten_ReturnSumVanTotalenAlleLoonkosten()
+        {
+            double totaal = LoonkostExtensions
+                .GeefTotaalAlleLoonkosten(_loonkosten, _aantalWerkuren, _patronaleBijdrage);
+
+            totaal = Math.Round(totaal, 2);
+            Assert.Equal(57837.13, totaal);
+        }
     }
 }

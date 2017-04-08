@@ -37,8 +37,15 @@ namespace KairosWeb_Groep6.Tests.Data
 
         public List<Subsidie> Subsidies { get; set; }
 
+        public Departement Aldi { get; set; }
+
         public DummyApplicationDbContext()
         {
+            Aldi = new Departement("Verkoop")
+            {
+                Werkgever = new Werkgever("ALDI", "Arbeidstraat", 14, "", 9300, "Aalst", 37)
+            };
+
             MaakOrganisaties();
             MaakGebruikers();
             MaakLoonkosten();
@@ -77,7 +84,7 @@ namespace KairosWeb_Groep6.Tests.Data
                 BrutoMaandloonFulltime = 1800,
                 AantalUrenPerWeek = 37,
                 Doelgroep = Doelgroep.LaaggeschooldTot25,
-                Ondersteuningspremie = 0.20D,
+                Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0D
             };
@@ -88,7 +95,7 @@ namespace KairosWeb_Groep6.Tests.Data
                 BrutoMaandloonFulltime = 2200,
                 AantalUrenPerWeek = 23,
                 Doelgroep = Doelgroep.MiddengeschooldTot25,
-                Ondersteuningspremie = 0.20D,
+                Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0D
             };
@@ -99,7 +106,7 @@ namespace KairosWeb_Groep6.Tests.Data
                 BrutoMaandloonFulltime = 1900,
                 AantalUrenPerWeek = 35,
                 Doelgroep = Doelgroep.Tussen55En60,
-                Ondersteuningspremie = 0.20D,
+                Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0D
             };
