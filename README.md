@@ -27,6 +27,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Switch-functie cards naast elkaar of onder elkaar (eventueel)
 * E-mails (admin, registratie, wachtwoord vergeten) schrijven met HtmlTextWriter
 * Elk IndexViewModel een ViewModel property geven (Bind[Prefix = ...]) in de Controller voor parameter
+* Email wijzigen in aspnetusers wanneer Profiel wordt aangepast
 
 ### To do voor Java
 * Gebruikers in tabel --> ControlsFX
