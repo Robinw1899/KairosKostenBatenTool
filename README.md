@@ -21,7 +21,6 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 
 ## To do:
 ### To do voor webapplicatie
-* Evenwicht met totalen en niet met aantallen
 * Error.cshtml aanpassen naar een gepaste pagina voor gebruikers ipv voor ons. Nu staat er nog info op rond de Exception.
 * Trigger schrijven voor het updaten van een analyse --> automatisch DatumLaatsteAanpassing aanpassen
 * Patronale bijdrage ingevuld?
@@ -43,7 +42,6 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 
 ### Mogelijke aanpassingen voor de applicatie (opmerkingen van externe gebruikers)
 * Symbool(*) iets groter maken
-* Teken (ballonetje) om een bericht naar de admin te sturen veranderen (duidelijker) maken
 * Tooltip maken voor de symbolen op een pagina (waarvoor dient het symbool bv verzenden, pdf maken)
 * Vinkje bij bestaande werkgever groter of anders oplossen (klikken op de rij)
 * Zoekknop bij bestaande werkgever
