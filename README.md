@@ -23,9 +23,6 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 ### To do voor webapplicatie
 * Error.cshtml aanpassen naar een gepaste pagina voor gebruikers ipv voor ons. Nu staat er nog info op rond de Exception.
 * Trigger schrijven voor het updaten van een analyse --> automatisch DatumLaatsteAanpassing aanpassen
-* Patronale bijdrage ingevuld?
-* Nieuwe werkgever nakijken
-* Mappen dat email Persoon uniek is
 * Switch-functie cards naast elkaar of onder elkaar (eventueel)
 * E-mails (admin, registratie, wachtwoord vergeten) schrijven met HtmlTextWriter
 * Elk IndexViewModel een ViewModel property geven (Bind[Prefix = ...]) in de Controller voor parameter
