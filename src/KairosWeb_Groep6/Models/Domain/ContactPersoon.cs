@@ -4,10 +4,10 @@ namespace KairosWeb_Groep6.Models.Domain
 {
     public class ContactPersoon : Persoon
     {
-        #region Properties                 
-        public Werkgever Werkgever { get; set; } // nodig voor one-to-one-relatie
-        #endregion
 
+        #region Properties
+        public bool IsHoofdContactPersoon { get; set; }
+        #endregion
         #region Constructors
 
         public ContactPersoon()

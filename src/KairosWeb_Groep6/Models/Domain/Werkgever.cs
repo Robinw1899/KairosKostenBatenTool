@@ -26,11 +26,9 @@ namespace KairosWeb_Groep6.Models.Domain
         public double AantalWerkuren { get; set; }
 
         public double PatronaleBijdrage { get; set; } = 35D;
-        [NotMapped]
-        public List<ContactPersoon> ContactPersonen { get; set; }
-        [NotMapped]      
-        public ContactPersoon HoofdContactPersoon { get; set; }
       
+        public List<ContactPersoon> ContactPersonen { get; set; } = new List<ContactPersoon>();
+             
         public List<Departement> Departementen { get; set; }
         #endregion
 

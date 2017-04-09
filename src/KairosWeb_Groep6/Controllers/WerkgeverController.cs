@@ -196,9 +196,8 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult OverzichtDepartementenWerkgever(int id,string naam)
         {
 
-            Departement departement = _departementRepository.GetById(id);
-            IEnumerable<Departement> departementen = _departementRepository.GetByName(departement.Werkgever.Naam);
-
+            IEnumerable<Departement> departementen;
+            departementen = _departementRepository.GetListDepById(id);
             if (!(naam == null || naam.Equals("")))
                 departementen = departementen.Where(t=>t.Naam.Contains(naam));
           
@@ -226,12 +225,6 @@ namespace KairosWeb_Groep6.Controllers
             {
                 analyse = _analyseRepository.GetById(analyse.AnalyseId);
                 TempData["Error"] = "";
-                /* Departement departement = new Departement (model.Departement);
-                 departement.Werkgever =  _departementRepository.GetByName(model.Naam).First().Werkgever;
-                 _departementRepository.Add(departement);
-                 analyse.Departement = departement;
-                 _analyseRepository.Add(analyse);*/
-
                 Departement departement = new Departement(model.Departement);
 
                 Werkgever werkgever = _departementRepository.GetByName(model.Naam).First().Werkgever; // Zelfde werkgever maken
@@ -262,6 +255,26 @@ namespace KairosWeb_Groep6.Controllers
                 return RedirectToAction("Index", "Resultaat");
             }
           
+        }
+
+        public IActionResult VoegContactPersoonToe(int id)
+        {     
+            ContactPersoonViewModel model = new ContactPersoonViewModel();
+            model.WerkgeverId = id;
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult VoegContactPersoonToe(ContactPersoonViewModel cpViewModel)
+        {
+         
+            Werkgever werkgever = _werkgeverRepository.GetById(cpViewModel.WerkgeverId);
+            ContactPersoon cp = new ContactPersoon(cpViewModel.Voornaam, cpViewModel.Naam, cpViewModel.Email);
+          
+             werkgever.ContactPersonen.Add(cp);
+            _werkgeverRepository.Save();
+            _departementRepository.Save();
+
+           return RedirectToAction("Index");
         }
     }
 }

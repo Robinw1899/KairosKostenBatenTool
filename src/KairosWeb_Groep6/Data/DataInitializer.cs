@@ -42,27 +42,28 @@ namespace KairosWeb_Groep6.Data
                 ContactPersoon contactThomas = new ContactPersoon("Thomas", "Aelbrecht", "thomasaelbrecht@live.com");
                 ContactPersoon contactRobin = new ContactPersoon("Robin", "Coppens", "robin.coppens.w1899@student.hogent.be");
                 ContactPersoon contactDimi = new ContactPersoon("Dimmy", "Maenhout", "dimmy.maenhout@telenet.be");
-
                 List<ContactPersoon> contacten = new List<ContactPersoon>();
-               
-                contacten.Add(contactThomas);
-                contacten.Add(contactRobin);
-                contacten.Add(contactDimi);
 
-                List<Departement> departementen = new List<Departement>();
-                
+
+                contactThomas.IsHoofdContactPersoon = true;
+                contacten.Add(contactThomas);
+              
+                List<Departement> departementen = new List<Departement>();               
                 Werkgever werkgever = new Werkgever("VDAB", "Vooruitgangstraat", 1, 9300, "Aalst", 37);
-                werkgever.ContactPersonen = contacten;
-                werkgever.HoofdContactPersoon = contactThomas;               
+                werkgever.ContactPersonen = contacten;                       
                 Departement departement = new Departement("Onderhoudsdienst") { Werkgever = werkgever };
                 departementen.Add(departement);
                 werkgever.Departementen = departementen;
                 _departementRepository.Add(departement);
                 _werkgeverRepository.Add(werkgever);
 
+
+                contacten.Remove(contactThomas);
+                contactRobin.IsHoofdContactPersoon = true;
+                contacten.Add(contactRobin);   
+                
                 werkgever = new Werkgever("ALDI", "Leo Duboistraat", 20, 9280, "Lebbeke", 37);
-                werkgever.ContactPersonen = contacten;
-                werkgever.HoofdContactPersoon = contactRobin;
+                werkgever.ContactPersonen = contacten;               
                 departementen.Remove(departement);//verwijderen van vorige departement in de lijst
                 departement = new Departement("Aankoop") { Werkgever = werkgever };
                 departementen.Add(departement);//toevoegen van nieuw departement
@@ -70,9 +71,13 @@ namespace KairosWeb_Groep6.Data
                 _departementRepository.Add(departement);
                 _werkgeverRepository.Add(werkgever);
 
+
+                contacten.Remove(contactRobin);
+                contactDimi.IsHoofdContactPersoon = true;
+                contacten.Add(contactDimi);
+
                 werkgever = new Werkgever("Coolblue", "Medialaan", 1, 1000, "Brussel", 35);
-                werkgever.ContactPersonen = contacten;
-                werkgever.HoofdContactPersoon = contactDimi;
+                werkgever.ContactPersonen = contacten;            
                 departementen.Remove(departement);//verwijderen van vorige departement in de lijst
                 departement = new Departement("Human resources") { Werkgever = werkgever };
                 departementen.Add(departement);//toevoegen van nieuw departement

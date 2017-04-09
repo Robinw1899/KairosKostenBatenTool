@@ -205,13 +205,9 @@ namespace KairosWeb_Groep6.Data
             w.Property(t => t.Gemeente)
                 .IsRequired();
 
-            /*  w.HasOne(t => t.HoofdContactPersoon)
-                  .WithOne()
-                  .OnDelete(DeleteBehavior.Restrict);
-
-              w.HasOne(t => t.ContactPersonen)
-                  .WithOne()
-                  .OnDelete(DeleteBehavior.Restrict); */
+            w.HasMany(t => t.ContactPersonen)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Restrict); 
 
             w.HasMany(t => t.Departementen)
                 .WithOne()

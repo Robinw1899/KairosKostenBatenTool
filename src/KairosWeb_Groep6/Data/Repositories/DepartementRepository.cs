@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -36,14 +37,22 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(d => d.Werkgever)
                 .Where(d => d.Naam.Contains(naam))
                 .FirstOrDefault();
-        }   
-      
+        }
+
+        public IEnumerable<Departement> GetListDepByName(int id)
+        {
+            return _departementen.Include(d => d.Werkgever)
+                .Where(d => d.Werkgever.Naam.Equals(GetById(id).Werkgever.Naam))
+                .ToList();
+        }
+
         public Departement GetById(int id)
         {
             return _departementen
                 .Include(d => d.Werkgever)
                 .SingleOrDefault(w => w.DepartementId == id);
         }
+
 
         public void Add(Departement werkgever)
         {
@@ -58,6 +67,22 @@ namespace KairosWeb_Groep6.Data.Repositories
         public void Save()
         {
             _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<Departement> GetListDepById(int id)
+        {
+           return _departementen
+                .Include(d => d.Werkgever)
+                .Where(d => d.Werkgever.WerkgeverId == id)
+                .ToList();
+        }
+
+        public Werkgever GetWerkgById(int id)
+        {
+            return _departementen.Include(d => d.Werkgever)
+                .Where(d => d.Werkgever.WerkgeverId == id)
+                .Select(d=>d.Werkgever)
+                .First();
         }
     }
 }
