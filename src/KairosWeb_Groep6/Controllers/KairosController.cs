@@ -131,7 +131,7 @@ namespace KairosWeb_Groep6.Controllers
             return View("Index", model);
         }
 
-        #region Eerste keer aanmelden       
+        #region Eerste keer aanmelden
         public async Task<IActionResult> EersteKeerAanmelden()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
@@ -146,6 +146,7 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> EersteKeerAanmelden(EersteKeerAanmeldenViewModel model)
         {
             // Gebruiker meldt eerste keer aan, dus wachtwoord moet ingesteld worden
