@@ -11,6 +11,15 @@
     font-family: 'Asap', Cambria, sans-serif;
 }
 
+footer {
+    color: #97C900;
+    font-weight: bold;
+}
+
+hr {
+    border-color: #97C900;
+}
+
 /* Beetje padding zodat niet alles tegen de kant plakt */
 .body-content {
     padding-left: 15px;
