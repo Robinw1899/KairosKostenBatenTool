@@ -100,7 +100,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
 
             IDictionary<Soort, double> expected = new Dictionary<Soort, double>
             {
-                { Soort.MedewerkersZelfdeNiveau, 132432.81 }, // In DummyDb
+                { Soort.MedewerkersZelfdeNiveau, 266516.27 }, // In DummyDb
                 { Soort.MedewerkersHogerNiveau, 0 }, 
                 { Soort.UitzendkrachtBesparing, 17570.00 }, // In DummyDb
                 { Soort.ExtraOmzet, 0 },

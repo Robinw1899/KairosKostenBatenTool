@@ -24,11 +24,15 @@
     }
     else
     {
+        <div class="row" id="data">
+            @Html.Partial("_Analyses", Model)
+        </div>
+
+        <br />
         <div class="row">
-            @foreach (AnalyseViewModel a in Model.Analyses)
-            {
-                @Html.Partial("_AnalyseCard", a);
-            }
+            <div class="col-md-12 text-center">
+                <a class="btn btn-default" asp-action="ToonMeer" asp-route-id="@Model.Aantal" id="meer">Toon meer ...</a>
+            </div>
         </div>
     }
 </div>

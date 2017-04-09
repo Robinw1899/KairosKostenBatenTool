@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 
@@ -23,6 +24,8 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IJobcoachRepository _gebruikerRepository;
 
         private readonly IAnalyseRepository _analyseRepository;
+
+        private const int defaultAantal = 9;
         #endregion
 
         #region Constructors
@@ -39,11 +42,10 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(IndexViewModel model = null)
         {
             AnalyseFilter.ClearSession(HttpContext);
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            IndexViewModel model;
 
             if (user == null)
             {
@@ -52,21 +54,55 @@ namespace KairosWeb_Groep6.Controllers
             }
             else
             {
+                int aantal = 9;
+
+                if (model != null)
+                {
+                    aantal = model.Aantal == 0 ? 9 : model.Aantal;
+                }
+
                 Jobcoach jobcoach = _gebruikerRepository.GetByEmail(user.Email);
                 List<Analyse> analyses = new List<Analyse>();
+                jobcoach.Analyses = jobcoach
+                    .Analyses
+                    .NietInArchief()
+                    .OrderByDescending(t => t.DatumLaatsteAanpassing)
+                    .Take(aantal)
+                    .ToList();
 
-                foreach(Analyse a in jobcoach.Analyses.NietInArchief())
+                foreach (Analyse a in jobcoach.Analyses)
                 {
                     analyses.Add(_analyseRepository.GetById(a.AnalyseId));
                 }
 
                 jobcoach.Analyses = analyses;
 
-                model = new IndexViewModel(jobcoach);
+                model = new IndexViewModel(jobcoach)
+                {
+                    Aantal = aantal
+                };
             }
 
-            return View(model);
+            //if (IsAjaxRequest())
+            //{
+            //    return PartialView("_Analyses", model);
+            //}
+
+            return View("Index", model);
         }
+
+        #region Toon meer
+        public IActionResult ToonMeer(int id)
+        {
+            // id is aantal
+            IndexViewModel model = new IndexViewModel
+            {
+                Aantal = id + 9
+            };
+
+            return RedirectToAction("Index", model);
+        }
+        #endregion
 
         #region Eerste keer aanmelden       
         public async Task<IActionResult> EersteKeerAanmelden()
@@ -155,6 +191,11 @@ namespace KairosWeb_Groep6.Controllers
             return View(model);
         }
         #endregion
+
+        private bool IsAjaxRequest()
+        {
+            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+        }
     }
 }
 

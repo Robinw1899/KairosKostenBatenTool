@@ -22,10 +22,10 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         public void TestGeefTotaal_MedewerkerNiveauBaat()
         {
             double totaal = MedewerkerNiveauBaatExtensions
-                .GeefTotaalBrutolonenPerJaarAlleLoonkosten(_dbContext.MedewerkerNiveauBaten, _aantalWerkuren, _patronaleBijdrage);
+                .GeefTotaal(_dbContext.MedewerkerNiveauBaten, _aantalWerkuren, _patronaleBijdrage);
             totaal = Math.Round(totaal, 2);
 
-            Assert.Equal(132432.81, totaal);
+            Assert.Equal(266516.27, totaal);
         }
     }
 }

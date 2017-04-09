@@ -9,7 +9,7 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public Organisatie Organisatie { get; set; }
 
-        public ICollection<Analyse> Analyses { get; set; } = new List<Analyse>();
+        public IList<Analyse> Analyses { get; set; } = new List<Analyse>();
         #endregion
 
         public Jobcoach()
