@@ -158,8 +158,7 @@ namespace KairosWeb_Groep6.Controllers
             if (paswoordResetten.Succeeded)
             {
                 await _signInManager.SignOutAsync();
-                var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false,
-                    lockoutOnFailure: false);
+                var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
                 if (login.Succeeded)
                 {
