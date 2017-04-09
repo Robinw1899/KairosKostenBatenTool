@@ -7,6 +7,9 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * 80: de jobcoach moet het resultaat van de berekening in pdf kunnen opslaan, afdrukken of rechtstreeks via mail kunnen versturen naar werkgever
 * 110: administrator moet gebruikersaccounts kunnen aanpassen/verwijderen
 
+## Vragen voor klant
+* URL maken voor registreren, wachtwoord vergeten?
+
 ## Niet vergeten!
 * Vaak committen
 * Bij aanmaken nieuwe branch:
