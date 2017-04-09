@@ -1,6 +1,5 @@
 ﻿using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
-using KairosWeb_Groep6.Models.Domain.Kosten;
 using Xunit;
 
 namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions

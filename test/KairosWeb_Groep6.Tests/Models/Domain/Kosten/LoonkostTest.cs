@@ -32,7 +32,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
                 Doelgroep = Doelgroep.LaaggeschooldTot25,
-                Ondersteuningspremie = 0.20D,
+                Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0D
             };
@@ -115,7 +115,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
                 Doelgroep = null,
-                Ondersteuningspremie = 0.3D
+                Ondersteuningspremie = 30
             };
 
             Assert.Equal(0, _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, patronaleBijdrage));
@@ -156,7 +156,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
                 Doelgroep = Doelgroep.LaaggeschooldTot25,
-                Ondersteuningspremie = 0.20D
+                Ondersteuningspremie = 20
             };
 
             Assert.Equal(0, _loonkost.BerekenTotaleLoonkost(_aantalWerkuren, patronaleBijdrage));
@@ -172,7 +172,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
                 Doelgroep = null,
-                Ondersteuningspremie = 0D,
+                Ondersteuningspremie = 0,
                 AantalMaandenIBO = 0,
                 IBOPremie = 0D
             };

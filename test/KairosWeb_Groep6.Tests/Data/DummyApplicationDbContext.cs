@@ -155,19 +155,19 @@ namespace KairosWeb_Groep6.Tests.Data
                 {
                     Id = 4,
                     Uren = 23,
-                    Bedrag = 2500
+                    BrutoMaandloonFulltime = 2500
                 },
                 new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
                 {
                     Id = 5,
                     Uren = 37,
-                    Bedrag = 3500
+                    BrutoMaandloonFulltime = 3500
                 },
                 new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
                 {
                     Id = 6,
                     Uren = 28,
-                    Bedrag = 2750
+                    BrutoMaandloonFulltime = 2750
                 }
             };
         }

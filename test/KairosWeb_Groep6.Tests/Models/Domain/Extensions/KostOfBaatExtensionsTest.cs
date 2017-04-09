@@ -89,15 +89,6 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
 
             Assert.Equal(1500, subsidie.Bedrag);
         }
-
-        [Fact]
-        public void TestGeefTotaal_Subsidie()
-        {
-            double totaal = KostOfBaatExtensions.GeefTotaal(_dbContext.Subsidies);
-            totaal = Math.Round(totaal, 2);
-
-            Assert.Equal(26950.00, totaal);
-        }
         #endregion
 
         #region UitzendkrachtBesparingen
