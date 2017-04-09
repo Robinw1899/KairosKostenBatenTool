@@ -10,29 +10,29 @@
                 </div>
                 <div class="col-md-6 text-right headerButtons options" style="margin-top: 20px; padding-right: 0;">
                     <!--margin omdat de h3 dezelfde margin heeft-->
-                    <a asp-controller="Analyse" asp-action="OpenAnalyse" asp-route-id="@Model.AnalyseId" class="btn btn-default text-right">
-                        <span class="glyphicon glyphicon-pencil"></span>
+                    <a asp-controller="Analyse" asp-action="OpenAnalyse" asp-route-id="@Model.AnalyseId">
+                        <i class="fa fa-pencil" aria-hidden="true"></i> <!-- BEWERKEN -->
                     </a>
                     
                     @if (Model.InArchief)
                     {
-                        <a asp-controller="Archief" asp-action="HaalAnalyseUitArchief" asp-route-id="@Model.AnalyseId" class="btn btn-default text-right">
-                            <i class="fa fa-reply" aria-hidden="true"></i>
+                        <a asp-controller="Archief" asp-action="HaalAnalyseUitArchief" asp-route-id="@Model.AnalyseId">
+                            <i class="fa fa-reply" aria-hidden="true"></i> <!-- UIT ARCHIEF HALEN -->
                         </a>
                     }
                     else
                     {
-                        <a asp-controller="Analyse" asp-action="Archiveer" asp-route-id="@Model.AnalyseId" class="btn btn-default text-right">
-                            <i class="fa fa-archive" aria-hidden="true"></i>
+                        <a asp-controller="Analyse" asp-action="Archiveer" asp-route-id="@Model.AnalyseId" >
+                            <i class="fa fa-archive" aria-hidden="true"></i> <!-- ARCHIVEREN -->
                         </a>
                     }
 
-                    <a asp-controller="Resultaat" asp-action="MaakPdf" asp-route-id="@Model.AnalyseId" class="btn btn-default text-right">
+                    <a asp-controller="Resultaat" asp-action="MaakPdf" asp-route-id="@Model.AnalyseId">
                         <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <!-- PDF MAKEN -->
                     </a>
                     
-                    <a asp-controller="Analyse" asp-action="VerwijderAnalyse" asp-route-id="@Model.AnalyseId" class="btn btn-default text-right">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 
+                    <a asp-controller="Analyse" asp-action="VerwijderAnalyse" asp-route-id="@Model.AnalyseId">
+                        <i class="fa fa-trash" aria-hidden="true"></i> <!-- VERWIJDEREN -->
                     </a>
                 </div>
             </div>

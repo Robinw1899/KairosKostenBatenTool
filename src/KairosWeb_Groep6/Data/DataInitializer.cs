@@ -35,7 +35,7 @@ namespace KairosWeb_Groep6.Data
 
         public async Task InitializeData()
         {
-            _dbContext.Database.EnsureDeleted();
+            //_dbContext.Database.EnsureDeleted();
             if (_dbContext.Database.EnsureCreated())
             {
                 await InitializeUsers();

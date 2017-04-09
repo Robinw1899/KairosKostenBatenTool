@@ -16,6 +16,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public IEnumerable<AnalyseViewModel> Analyses { get; set; }
 
+        public int Aantal { get; set; }
+
         public IndexViewModel()
         {
             Analyses = new List<AnalyseViewModel>();

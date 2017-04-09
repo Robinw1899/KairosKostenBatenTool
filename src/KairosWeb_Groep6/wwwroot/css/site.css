@@ -182,6 +182,9 @@ li:hover .options i,
 .headerButtons a {
     background: none;
     border: none;
+    color: black;
+    margin-right: 10px;
+    text-decoration: none;
 }
 
 .headerButtons a span {
