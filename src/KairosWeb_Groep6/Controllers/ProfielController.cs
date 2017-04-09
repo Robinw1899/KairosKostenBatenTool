@@ -12,70 +12,69 @@ namespace KairosWeb_Groep6.Controllers
     [Authorize]
     public class ProfielController : Controller
     {
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJobcoachRepository _gebruikerRepository;
 
         public ProfielController(
             UserManager<ApplicationUser> userManager, 
-            IJobcoachRepository gebruikerRepository)
+            IJobcoachRepository gebruikerRepository,
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _gebruikerRepository = gebruikerRepository;
         }
 
         public IActionResult Index()
         {
-            Jobcoach gebruiker = _gebruikerRepository.GetByEmail(_userManager.GetUserAsync(User).Result.Email);
+            Jobcoach gebruiker = _gebruikerRepository.GetByEmail(HttpContext.User.Identity.Name);
 
             return View(new ProfielViewModel(gebruiker));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(ProfielViewModel model)
+        public async Task<IActionResult> Opslaan(ProfielViewModel model)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (model.OrganisatieNaam == null)
-                    {
-                        // Admin heeft gegevens gewijzigd
-                        Jobcoach gebruiker = _gebruikerRepository.GetById(model.GebruikerId);
-                        gebruiker.Naam = model.Naam;
-                        gebruiker.Voornaam = model.Voornaam;
-                        gebruiker.Emailadres = model.Email;
+                    Jobcoach jobcoach = _gebruikerRepository.GetById(model.GebruikerId);
+                    jobcoach.Emailadres = model.Email;
+                    jobcoach.Organisatie.Naam = model.OrganisatieNaam;
+                    jobcoach.Organisatie.Gemeente = model.Gemeente;
 
+                    if (model.NrOrganisatie != null)
+                        jobcoach.Organisatie.Nummer = (int)model.NrOrganisatie;
+
+                    if (model.Postcode != null)
+                        jobcoach.Organisatie.Postcode = (int)model.Postcode;
+
+                    jobcoach.Organisatie.Straat = model.StraatOrganisatie;
+                    jobcoach.Organisatie.Bus = model.BusOrganisatie;
+
+                    if (!model.Email.Equals(HttpContext.User.Identity.Name))
+                    {// email is gewijzigd
                         var user = await _userManager.GetUserAsync(User);
-                        string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        string token = await _userManager.GenerateChangeEmailTokenAsync(user, model.Email);
 
                         await _userManager.ChangeEmailAsync(user, model.Email, token);
 
-                        _gebruikerRepository.Save();
+                        user.UserName = model.Email;
+
+                        await _userManager.UpdateAsync(user);
+
+                        // Dus opnieuw inloggen
+                        await _signInManager.SignOutAsync();
+                        TempData["message"] =
+                            "Je hebt je e-mailadres gewijzigd. Gelieve opnieuw in te loggen met dit e-mailadres, " +
+                            "zo is alles correct gewijzigd.";
+
+                        return RedirectToAction(nameof(Index));
                     }
-                    else
-                    {
-                        // Jobcoach heeft gegevens gewijzigd
-                        Jobcoach jobcoach = _gebruikerRepository.GetById(model.GebruikerId);
-                        jobcoach.Emailadres = model.Email;
-                        jobcoach.Organisatie.Naam = model.OrganisatieNaam;
-                        jobcoach.Organisatie.Gemeente = model.Gemeente;
 
-                        if (model.NrOrganisatie != null)
-                            jobcoach.Organisatie.Nummer = (int)model.NrOrganisatie;
-
-                        if (model.Postcode != null)
-                            jobcoach.Organisatie.Postcode = (int)model.Postcode;
-
-                        jobcoach.Organisatie.Straat = model.StraatOrganisatie;
-                        jobcoach.Organisatie.Bus = model.BusOrganisatie;
-
-                        var user = await _userManager.GetUserAsync(User);
-                        string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-
-                        await _userManager.ChangeEmailAsync(user, model.Email, token);
-
-                        _gebruikerRepository.Save();
-                    }
+                    _gebruikerRepository.Save();
 
                     TempData["message"] = "Uw profiel is succesvol gewijzigd.";
 
@@ -87,7 +86,7 @@ namespace KairosWeb_Groep6.Controllers
                 }
             }
 
-            return View(model);
+            return RedirectToAction("Index");
         }
     }
 }

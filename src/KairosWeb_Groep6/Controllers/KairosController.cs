@@ -83,11 +83,6 @@ namespace KairosWeb_Groep6.Controllers
                 };
             }
 
-            //if (IsAjaxRequest())
-            //{
-            //    return PartialView("_Analyses", model);
-            //}
-
             return View("Index", model);
         }
 
@@ -101,6 +96,45 @@ namespace KairosWeb_Groep6.Controllers
             };
 
             return RedirectToAction("Index", model);
+        }
+        #endregion
+
+        #region Zoek
+
+        [HttpPost]
+        public IActionResult Zoek(string zoekterm)
+        {
+            string email = HttpContext.User.Identity.Name;
+            Jobcoach jobcoach = _gebruikerRepository.GetByEmail(email);
+
+            if (jobcoach != null)
+            {
+                jobcoach.SelecteerMatchendeAnalyse(zoekterm);
+                jobcoach.Analyses = jobcoach
+                    .Analyses
+                    .NietInArchief()
+                    .OrderByDescending(t => t.DatumLaatsteAanpassing)
+                    .Take(9)
+                    .ToList();
+
+                List<Analyse> analyses = new List<Analyse>();
+
+                foreach (Analyse a in jobcoach.Analyses)
+                {
+                    analyses.Add(_analyseRepository.GetById(a.AnalyseId));
+                }
+
+                jobcoach.Analyses = analyses;
+            }
+            // anders worden alle analyses getoond
+
+            IndexViewModel model = new IndexViewModel(jobcoach)
+            {
+                Aantal = 9
+            };
+
+            ViewData["zoeken"] = "zoeken";
+            return View("Index", model);
         }
         #endregion
 
@@ -124,8 +158,7 @@ namespace KairosWeb_Groep6.Controllers
             if (paswoordResetten.Succeeded)
             {
                 await _signInManager.SignOutAsync();
-                var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false,
-                    lockoutOnFailure: false);
+                var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
                 if (login.Succeeded)
                 {

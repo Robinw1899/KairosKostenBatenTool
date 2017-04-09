@@ -1,26 +1,58 @@
-﻿@using KairosWeb_Groep6.Models.KairosViewModels
-@model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
 @{
-    ViewData["title"] = "Archief";
+    ViewData["title"] = ViewData["zoeken"] == null ? "Archief" : "Zoekresultaten";
+    var klasse = ViewData["zoeken"] == null ? "col-md-12" : "col-md-9";
 }
 
 <div>
-    <h3>@ViewData["title"]</h3>
-    <hr />
+    <div class="page-header" style="overflow: auto;">
+        <!--Overflow omdat anders de border boven de h3 en knop staat-->
+        <div class="col-md-7">
+            <h3>@ViewData["title"]</h3>
+        </div>
+        <div class="col-md-5" style="margin-top: 20px;">
+            @if (ViewData["zoeken"] != null)
+            {// als we gezocht hebben knop tonen
+                <div class="col-md-3">
+                    <a class="btn btn-default" asp-action="Index" asp-controller="Archief">Toon alles</a>
+                </div>
+            }
+
+            <div class="@klasse">
+                <!--margin omdat de h3 dezelfde margin heeft-->
+                <form asp-action="Zoek" method="post">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Zoek analyses" id="zoekterm" name="zoekterm">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default">Zoek</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
     @if (Model == null || !Model.Analyses.Any())
     {
-        <p style="font-size: 1.2em;">
-            Er zijn nog geen analyses in het archief. Klik op het 
-            <i class="fa fa-archive" aria-hidden="true"></i>-icoon bij elke analyse om een analyse te archiveren.
-        </p>
+        if (ViewData["zoeken"] == null)
+        {
+            <p style="font-size: 1.2em;">
+                Er zijn nog geen analyses in het archief. Klik op het
+                <i class="fa fa-archive" aria-hidden="true"></i>-icoon bij elke analyse om een analyse te archiveren.
+            </p>
+        }
     }
     else
     {
+        <div class="row" id="data">
+            @Html.Partial("_Analyses", Model)
+        </div>
+
+        <br />
         <div class="row">
-            @foreach (AnalyseViewModel a in Model.Analyses)
-            {
-                @Html.Partial("_AnalyseCard", a);
-            }
+            <div class="col-md-12 text-center">
+                <a class="btn btn-default" asp-action="ToonMeer" asp-route-id="@Model.Aantal" id="meer">Toon meer ...</a>
+            </div>
         </div>
     }
 </div>

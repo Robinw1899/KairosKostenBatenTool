@@ -12,6 +12,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public string Werkgever { get; set; }
 
+        public string Gemeente { get; set; }
+
         public double KostenTotaal { get; set; }
 
         public double BatenTotaal { get; set; }
@@ -39,6 +41,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
             {
                 Departement = analyse.Departement.Naam;
                 Werkgever = analyse.Departement.Werkgever.Naam;
+                Gemeente = analyse.Departement.Werkgever.Gemeente;
             }
             else
             {
