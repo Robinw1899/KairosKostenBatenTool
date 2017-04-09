@@ -28,6 +28,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Elk IndexViewModel een ViewModel property geven (Bind[Prefix = ...]) in de Controller voor parameter + meer PartialViews
 
 ### To do voor Java
+* Wachtwoord vergeten
 
 ### Andere (lastenboek, etc.)
 * Afgewerkte UC's opschrijven
