@@ -190,6 +190,9 @@ namespace KairosWeb_Groep6.Data
             p.Property(t => t.Emailadres)
                 .IsRequired();
 
+            p.HasIndex(t => t.Emailadres)
+                .IsUnique();
+
             p.HasDiscriminator<string>("Discriminator")
                 .HasValue<Persoon>("Persoon")
                 .HasValue<ContactPersoon>("ContactPersoon")
