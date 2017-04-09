@@ -21,11 +21,9 @@ namespace KairosWeb_Groep6.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
 
-        private readonly IJobcoachRepository _gebruikerRepository;
+        private readonly IJobcoachRepository _jobcoachRepository;
 
         private readonly IAnalyseRepository _analyseRepository;
-
-        private const int defaultAantal = 9;
         #endregion
 
         #region Constructors
@@ -37,7 +35,7 @@ namespace KairosWeb_Groep6.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _gebruikerRepository = gebruikerRepository;
+            _jobcoachRepository = gebruikerRepository;
             _analyseRepository = analyseRepository;
         }
         #endregion
@@ -61,7 +59,7 @@ namespace KairosWeb_Groep6.Controllers
                     aantal = model.Aantal == 0 ? 9 : model.Aantal;
                 }
 
-                Jobcoach jobcoach = _gebruikerRepository.GetByEmail(user.Email);
+                Jobcoach jobcoach = _jobcoachRepository.GetByEmail(user.Email);
                 List<Analyse> analyses = new List<Analyse>();
                 jobcoach.Analyses = jobcoach
                     .Analyses
@@ -86,7 +84,6 @@ namespace KairosWeb_Groep6.Controllers
             return View("Index", model);
         }
 
-        #region Toon meer
         public IActionResult ToonMeer(int id)
         {
             // id is aantal
@@ -97,15 +94,12 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction("Index", model);
         }
-        #endregion
-
-        #region Zoek
 
         [HttpPost]
         public IActionResult Zoek(string zoekterm)
         {
             string email = HttpContext.User.Identity.Name;
-            Jobcoach jobcoach = _gebruikerRepository.GetByEmail(email);
+            Jobcoach jobcoach = _jobcoachRepository.GetByEmail(email);
 
             if (jobcoach != null)
             {
@@ -136,13 +130,17 @@ namespace KairosWeb_Groep6.Controllers
             ViewData["zoeken"] = "zoeken";
             return View("Index", model);
         }
-        #endregion
 
         #region Eerste keer aanmelden       
         public async Task<IActionResult> EersteKeerAanmelden()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            EersteKeerAanmeldenViewModel model = new EersteKeerAanmeldenViewModel {Email = user.Email};
+            Jobcoach jobcoach = _jobcoachRepository.GetByEmail(user.UserName);
+            EersteKeerAanmeldenViewModel model = new EersteKeerAanmeldenViewModel
+            {
+                Email = user.Email,
+                AlAangemeld = jobcoach.AlAangemeld
+            };
 
             return View(model);
         }
@@ -162,9 +160,9 @@ namespace KairosWeb_Groep6.Controllers
 
                 if (login.Succeeded)
                 {
-                    Jobcoach gebruiker = _gebruikerRepository.GetByEmail(model.Email);
+                    Jobcoach gebruiker = _jobcoachRepository.GetByEmail(model.Email);
                     gebruiker.AlAangemeld = true;
-                    _gebruikerRepository.Save();
+                    _jobcoachRepository.Save();
 
                     return RedirectToAction(nameof(Index), "Kairos");
                 }
@@ -224,11 +222,6 @@ namespace KairosWeb_Groep6.Controllers
             return View(model);
         }
         #endregion
-
-        private bool IsAjaxRequest()
-        {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
-        }
     }
 }
 

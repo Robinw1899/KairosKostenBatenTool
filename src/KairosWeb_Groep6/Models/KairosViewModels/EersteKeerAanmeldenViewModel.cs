@@ -19,5 +19,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         [Display(Name = "Bevestig wachtwoord")]
         [Compare("Password", ErrorMessage = "Het wachtwoord en bevestigingswachtwoord komen niet overeen.")]
         public string ConfirmPassword { get; set; }
+
+        public bool AlAangemeld { get; set; }
     }
 }

@@ -362,7 +362,6 @@ namespace KairosWeb_Groep6.Controllers
                 Random random = new Random();
                 var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
                 var jobcoach = _jobcoachRepository.GetByEmail(user.Email);
-                jobcoach.AlAangemeld = false;
                 _jobcoachRepository.Save();
 
                 string name = jobcoach.Voornaam ?? "";

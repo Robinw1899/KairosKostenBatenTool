@@ -1,6 +1,9 @@
 ﻿using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
+using System;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
@@ -25,7 +28,7 @@ namespace KairosWeb_Groep6.Models.Domain
         {
             var message = CreateBaseMessage();
             message.To.Add(new MailboxAddress(name, email));
-            message.Subject = "Paswoord KAIROS kosten-baten tool vergetenPaswoord KAIROS kosten-baten tool vergeten";
+            message.Subject = "Paswoord KAIROS kosten-baten tool vergeten";
 
             var builder = new BodyBuilder();
             builder.HtmlBody = CreateForgotPasswordMail(name, password);
@@ -94,14 +97,12 @@ namespace KairosWeb_Groep6.Models.Domain
         private static string CreateForgotPasswordMail(string name, string password)
         {
             return CreateHtmlHead() + 
-            @"
+            @"s
             <body>"
             + string.Format(@"<p>Beste  {0}!</p>", name)
             +
                 @"<p>Je hebt aangegeven dat je jouw paswoord vergeten bent.</p>
-                   <p>Het onderstaande nieuwe paswoord kan je gebruiken om in te loggen. Nadat je bent ingelogd, kan je jouw pas paswoord wijzigen.</p>
-                  <p><strong>Je doorloopt hierdoor opnieuw de procedure van een eerste keer aanmelden!</strong> 
-                    Uiteraard ben je géén analyses of andere gegevens kwijt.</p>"
+                   <p>Het onderstaande nieuwe paswoord kan je gebruiken om in te loggen. Nadat je bent ingelogd, kan je jouw pas paswoord wijzigen.</p>"
 
             + string.Format(
                 @"<p>Jouw nieuw paswoord is: <strong>{0}</strong>.</p>", password)
