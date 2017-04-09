@@ -25,38 +25,41 @@ namespace KairosWeb_Groep6.Filters
                 _analyse = _analyseRepository.GetById(_analyse.AnalyseId);
             }
            
-            context.ActionArguments["analyse"] = _analyse;
+            context.ActionArguments["analyseId"] = _analyse.AnalyseId;
             base.OnActionExecuting(context);
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            WriteAnalyseToSession(context.HttpContext, _analyse);
+            WriteAnalyseToSession(context.HttpContext, _analyse.AnalyseId);
             base.OnActionExecuted(context);
         }
 
-        private Analyse ReadAnalyseFromSession(HttpContext context)
+        private int ReadAnalyseFromSession(HttpContext context)
         {
             Analyse analyse = context.Session.GetString("analyse") == null
                 ? new Analyse()
-                : JsonConvert.DeserializeObject<Analyse>(context.Session.GetString("analyse"));
-
-            return analyse;
+                : JsonConvert.DeserializeObject<Analyse>(context.Session.GetString("analyseId"));
+            
+            /*if(analyse == null)
+                return -1;
+            return analyse.AnalyseId;*/
+            return (analyse == null ? -1 : analyse.AnalyseId);
         }
 
-        private void WriteAnalyseToSession(HttpContext context, Analyse analyse)
+        private void WriteAnalyseToSession(HttpContext context, Analyse analyse)//niet zeker of hier een int moet meegegeven worden/
         {
-            context.Session.SetString("analyse", JsonConvert.SerializeObject(analyse));
+            context.Session.SetString("analyseId", JsonConvert.SerializeObject(analyse.AnalyseId));
         }
 
         public static void ClearSession(HttpContext context)
         {
-            context.Session.Remove("analyse");
+            context.Session.Remove("analyseId");
         }
 
         public static void SetAnalyseInSession(HttpContext context, Analyse analyse)
         {
-            context.Session.SetString("analyse", JsonConvert.SerializeObject(analyse));
+            context.Session.SetString("analyseId", JsonConvert.SerializeObject(analyse.AnalyseId));
         }
     }
 }
