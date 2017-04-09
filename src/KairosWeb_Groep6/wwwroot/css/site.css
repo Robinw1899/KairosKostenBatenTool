@@ -205,12 +205,15 @@ li:hover .options i,
 .kostenBatenNav li a i {
     margin-right: 100px;
 }
-h6#infoTekstVerplichteVelden{
+h6#infoTekstVerplichteVelden {
     color: #97C900;
+    font-size: 1em;
 }
-/*voor de * in html*/
+
+/* Zorgt voor de *'jes achter elk label van een verplicht veld '*/
 .required .control-label:after {
     content: "*";
+    font-size: 1.2em;
     /*font-weight: bold;*/
     color: #97C900;
     position: absolute;
