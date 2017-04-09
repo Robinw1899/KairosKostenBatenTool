@@ -25,13 +25,10 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Trigger schrijven voor het updaten van een analyse --> automatisch DatumLaatsteAanpassing aanpassen
 * Switch-functie cards naast elkaar of onder elkaar (eventueel)
 * E-mails (admin, registratie, wachtwoord vergeten) schrijven met HtmlTextWriter
-* Elk IndexViewModel een ViewModel property geven (Bind[Prefix = ...]) in de Controller voor parameter
+* Elk IndexViewModel een ViewModel property geven (Bind[Prefix = ...]) in de Controller voor parameter + meer PartialViews
 * Email wijzigen in aspnetusers wanneer Profiel wordt aangepast
 
 ### To do voor Java
-* Gebruikers in tabel --> ControlsFX
-* Validatie van ingevoerde gegevens: regex, enz.
-* Tooltips iconen
 
 ### Andere (lastenboek, etc.)
 * Afgewerkte UC's opschrijven
