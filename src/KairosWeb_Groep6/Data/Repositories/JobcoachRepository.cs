@@ -28,6 +28,8 @@ namespace KairosWeb_Groep6.Data.Repositories
             return _jobcoaches
                 .Include(g => g.Organisatie)
                 .Include(g => g.Analyses)
+                    .ThenInclude(g => g.Departement)
+                            .ThenInclude(d => d.Werkgever)
                 .SingleOrDefault(g => g.Emailadres.Equals(email));
         }
 
@@ -36,6 +38,8 @@ namespace KairosWeb_Groep6.Data.Repositories
             return _jobcoaches
                 .Include(g => g.Organisatie)
                 .Include(g => g.Analyses)
+                    .ThenInclude(g => g.Departement)
+                        .ThenInclude(d => d.Werkgever)
                 .SingleOrDefault(g => g.PersoonId == id);
         }
 

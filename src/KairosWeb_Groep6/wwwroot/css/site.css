@@ -16,8 +16,8 @@ footer {
     font-weight: bold;
 }
 
-hr {
-    border-color: #97C900;
+.page-header, hr {
+    border-color: #97C900 !important;
 }
 
 /* Beetje padding zodat niet alles tegen de kant plakt */

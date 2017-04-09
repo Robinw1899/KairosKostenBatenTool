@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+
 namespace KairosWeb_Groep6.Models.Domain
 {
     public class Werkgever
@@ -45,6 +48,24 @@ namespace KairosWeb_Groep6.Models.Domain
             Gemeente = gemeente;
             AantalWerkuren = aantalWerkuren;
             PatronaleBijdrage = patronaleBijdrage;
+        }
+        #endregion
+
+        #region Methods
+
+        public bool Contains(string zoekterm)
+        {
+            if (Naam.IndexOf(zoekterm, StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return true;
+            }
+
+            if (Gemeente.IndexOf(zoekterm, StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return true;
+            }
+
+            return false;
         }
         #endregion
     }

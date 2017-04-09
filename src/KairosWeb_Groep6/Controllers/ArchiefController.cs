@@ -16,12 +16,15 @@ namespace KairosWeb_Groep6.Controllers
     {
         #region Properties
         private readonly IAnalyseRepository _analyseRepository;
+        private readonly IJobcoachRepository _gebruikerRepository;
         #endregion
 
         #region Constructors
-        public ArchiefController(IAnalyseRepository analyseRepository)
+        public ArchiefController(IAnalyseRepository analyseRepository,
+            IJobcoachRepository gebruikerRepository)
         {
             _analyseRepository = analyseRepository;
+            _gebruikerRepository = gebruikerRepository;
         }
         #endregion
 
@@ -58,6 +61,42 @@ namespace KairosWeb_Groep6.Controllers
                 return View("Error", errorViewModel);
             }
 
+            return View("Index", model);
+        }
+
+
+        [HttpPost]
+        public IActionResult Zoek(string zoekterm)
+        {
+            string email = HttpContext.User.Identity.Name;
+            Jobcoach jobcoach = _gebruikerRepository.GetByEmail(email);
+
+            if (jobcoach != null)
+            {
+                jobcoach.SelecteerMatchendeAnalyse(zoekterm);
+                jobcoach.Analyses = jobcoach
+                    .Analyses
+                    .InArchief()
+                    .OrderByDescending(t => t.DatumLaatsteAanpassing)
+                    .Take(9)
+                    .ToList();
+
+                List<Analyse> analyses = new List<Analyse>();
+
+                foreach (Analyse a in jobcoach.Analyses)
+                {
+                    analyses.Add(_analyseRepository.GetById(a.AnalyseId));
+                }
+
+                jobcoach.Analyses = analyses;
+            }
+
+            IndexViewModel model = new IndexViewModel(jobcoach)
+            {
+                Aantal = 9
+            };
+
+            ViewData["zoeken"] = "zoeken";
             return View("Index", model);
         }
 
