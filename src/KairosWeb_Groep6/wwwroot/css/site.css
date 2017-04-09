@@ -185,18 +185,11 @@ li:hover .options i,
     color: black;
     margin-right: 10px;
     text-decoration: none;
-}
-
-.headerButtons a span {
-    font-size: 1.2em;
-}
-
-.headerButtons a i {
     font-size: 1.3em;
 }
 
-.headerButtons .btn {
-    padding: 6px 8px;
+.headerButtons i:hover {
+    color: #97C900;
 }
 
 /* Opmaak van de navigatie van de kosten en baten */
