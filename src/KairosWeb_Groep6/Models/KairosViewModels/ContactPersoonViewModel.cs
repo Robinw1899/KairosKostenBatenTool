@@ -40,7 +40,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public ContactPersoonViewModel(ContactPersoon contactPersoon, int id)
         {
-            PersoonId = contactPersoon.PersoonId;
+            PersoonId = contactPersoon.ContactPersoonId;
 
             Voornaam = contactPersoon.Voornaam;
 

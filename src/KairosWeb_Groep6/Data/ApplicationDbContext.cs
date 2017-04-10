@@ -38,10 +38,29 @@ namespace KairosWeb_Groep6.Data
             builder.Entity<Organisatie>(MapOrganisatie);
             builder.Entity<Departement>(MapDepartement);
             builder.Entity<Werkgever>(MapWerkgever);
-            builder.Entity<Analyse>(MapAnalyse);          
-            //builder.Entity<ContactPersoon>(MapContactPersoon);
+            builder.Entity<Analyse>(MapAnalyse);
+            builder.Entity<ContactPersoon>(MapContactPersoon);
             builder.Entity<Introductietekst>(MapIntroductietekst);
             builder.Entity<Paragraaf>(MapParagraaf);
+        }
+
+        private static void MapContactPersoon(EntityTypeBuilder<ContactPersoon> c)
+        {
+            c.ToTable("ContactPersoon");
+
+            c.HasKey(t => t.ContactPersoonId);
+
+            c.Property(t => t.Naam)
+                .IsRequired();
+
+            c.Property(t => t.Voornaam)
+                .IsRequired();
+
+            c.Property(t => t.Emailadres)
+                .IsRequired();
+
+            c.HasIndex(t => t.Emailadres)
+                .IsUnique();
         }
 
         private static void MapParagraaf(EntityTypeBuilder<Paragraaf> p)
@@ -200,7 +219,6 @@ namespace KairosWeb_Groep6.Data
 
             p.HasDiscriminator<string>("Discriminator")
                 .HasValue<Persoon>("Persoon")
-                .HasValue<ContactPersoon>("ContactPersoon")
                 .HasValue<Jobcoach>("Jobcoach");
         }
 
