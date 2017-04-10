@@ -226,6 +226,9 @@ namespace KairosWeb_Groep6.Data
         {
             j.ToTable("Jobcoach");
 
+            j.Property(t => t.Wachtwoord)
+                .IsRequired(false);
+
             j.Property(t => t.AlAangemeld)
                 .IsRequired();
 
@@ -235,7 +238,8 @@ namespace KairosWeb_Groep6.Data
 
             j.HasMany(t => t.Analyses)
                 .WithOne()
-                .IsRequired(false);
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
         }
 
         private static void MapWerkgever(EntityTypeBuilder<Werkgever> w)
