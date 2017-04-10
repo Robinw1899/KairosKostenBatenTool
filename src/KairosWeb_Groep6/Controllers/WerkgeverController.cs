@@ -106,9 +106,6 @@ namespace KairosWeb_Groep6.Controllers
                 TempData["Error"] = "De Werkgever " + model.Naam +  "met als departement" + model.Departement +" bestaat al.";
                 return RedirectToAction("NieuweWerkgever");
             }
-            else
-                TempData["Error"] = "";
-
            
            departement = new Departement(model.Departement);
 

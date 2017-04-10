@@ -12,6 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Departementen\**" />
+    <Content Remove="Views\Departementen\**" />
+    <EmbeddedResource Remove="Views\Departementen\**" />
+    <None Remove="Views\Departementen\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot/js\semantic.min.js" />
   </ItemGroup>
 
@@ -64,10 +71,6 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.0" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Departementen\" />
   </ItemGroup>
 
 </Project>
