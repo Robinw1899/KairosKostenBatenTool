@@ -74,6 +74,8 @@ namespace KairosWeb_Groep6
             services.AddScoped<IJobcoachRepository, JobcoachRepository>();
             services.AddScoped<IDepartementRepository, DepartementRepository>();
             services.AddScoped<IAnalyseRepository, AnalyseRepository>();
+            services.AddScoped<IWerkgeverRepository, WerkgeverRepository>();
+            // services.AddScoped<IContactPersoonRepository, ContactPersoonRepository>();
             services.AddScoped<IIntroductietekstRepository, IntroductietekstRepository>();
         }
 
@@ -81,7 +83,7 @@ namespace KairosWeb_Groep6
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
             ILoggerFactory loggerFactory, ApplicationDbContext context, 
             UserManager<ApplicationUser> userManager, IJobcoachRepository gebruikerRepository,
-            IDepartementRepository werkgeverRepository, IAnalyseRepository analyseRepository,
+            IDepartementRepository departementRepository, IAnalyseRepository analyseRepository, IWerkgeverRepository werkgeverRepository,
             IIntroductietekstRepository introductietekstRepository)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
@@ -117,6 +119,10 @@ namespace KairosWeb_Groep6
                     template: "{controller=Kairos}/{action=Index}/{id?}");
             });
 
+            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
+                                                              departementRepository, analyseRepository,werkgeverRepository,
+                                                             introductietekstRepository);
+            initializer.InitializeData().Wait();
             //DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
             //    werkgeverRepository, analyseRepository, introductietekstRepository);
             //initializer.InitializeData().Wait();

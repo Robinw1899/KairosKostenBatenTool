@@ -1,6 +1,8 @@
 ﻿@model KairosWeb_Groep6.Models.KairosViewModels.WerkgeverViewModel
 @{
     ViewData["Title"] = "Nieuwe werkgever";
+  
+
 }
 
 <div>
@@ -10,8 +12,7 @@
 <div class="col-md-offset-1">
     <div class="page-header">
         <h3>@ViewData["Title"]</h3>
-    </div>
-
+    </div> 
     <form asp-action="NieuweWerkgever" method="post" class="form-horizontal">
 
         <h6 id="infoTekstVerplichteVelden" style="color: #97C900">Velden aangeduid met een * zijn verplicht in te vullen</h6>

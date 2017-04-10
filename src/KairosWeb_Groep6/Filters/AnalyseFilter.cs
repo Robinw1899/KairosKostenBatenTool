@@ -45,8 +45,9 @@ namespace KairosWeb_Groep6.Filters
         }
 
         private void WriteAnalyseToSession(HttpContext context, Analyse analyse)
-        {
-            context.Session.SetString("analyse", JsonConvert.SerializeObject(analyse));
+        {         
+            //referenceloopHandling.Ignore gaat geen object serializen als het een object van zichzelf is
+            context.Session.SetString("analyse", JsonConvert.SerializeObject(analyse,new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore}));
         }
 
         public static void ClearSession(HttpContext context)
@@ -56,7 +57,7 @@ namespace KairosWeb_Groep6.Filters
 
         public static void SetAnalyseInSession(HttpContext context, Analyse analyse)
         {
-            context.Session.SetString("analyse", JsonConvert.SerializeObject(analyse));
+            context.Session.SetString("analyse", JsonConvert.SerializeObject(analyse, new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore }));
         }
     }
 }

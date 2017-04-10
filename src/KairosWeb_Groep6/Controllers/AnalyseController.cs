@@ -67,6 +67,7 @@ namespace KairosWeb_Groep6.Controllers
             {
                 Analyse analyse = _analyseRepository.GetById(id);
                 _analyseRepository.Remove(analyse);
+
                 _analyseRepository.Save();
 
                 if (analyse.Departement == null)
