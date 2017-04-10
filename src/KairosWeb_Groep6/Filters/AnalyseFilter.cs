@@ -9,7 +9,7 @@ namespace KairosWeb_Groep6.Filters
     public class AnalyseFilter : ActionFilterAttribute
     {
         private readonly IAnalyseRepository _analyseRepository;
-        private Analyse _analyse;
+        private int _analyseId;
 
         public AnalyseFilter(IAnalyseRepository repo)
         {
@@ -18,38 +18,36 @@ namespace KairosWeb_Groep6.Filters
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
-            _analyse = ReadAnalyseFromSession(context.HttpContext);
+            _analyseId = ReadAnalyseFromSession(context.HttpContext);
+            Analyse analyse = new Analyse();
 
-            if(_analyse.AnalyseId != 0)
+            if(_analyseId != 0)
             {// geen nieuwe analyse
-                _analyse = _analyseRepository.GetById(_analyse.AnalyseId);
+                analyse = _analyseRepository.GetById(_analyseId);
             }
            
-            context.ActionArguments["analyseId"] = _analyse.AnalyseId;
+            context.ActionArguments["analyse"] = analyse;
             base.OnActionExecuting(context);
         }
 
         public override void OnActionExecuted(ActionExecutedContext context)
         {
-            WriteAnalyseToSession(context.HttpContext, _analyse.AnalyseId);
+            WriteAnalyseToSession(context.HttpContext, _analyseId);
             base.OnActionExecuted(context);
         }
 
         private int ReadAnalyseFromSession(HttpContext context)
         {
-            Analyse analyse = context.Session.GetString("analyse") == null
-                ? new Analyse()
-                : JsonConvert.DeserializeObject<Analyse>(context.Session.GetString("analyseId"));
-            
-            /*if(analyse == null)
-                return -1;
-            return analyse.AnalyseId;*/
-            return (analyse == null ? -1 : analyse.AnalyseId);
+            int analyseid = context.Session.GetString("analyseid") == null
+                ? 0
+                : JsonConvert.DeserializeObject<int>(context.Session.GetString("analyseId"));
+
+            return analyseid;
         }
 
-        private void WriteAnalyseToSession(HttpContext context, Analyse analyse)//niet zeker of hier een int moet meegegeven worden/
+        private void WriteAnalyseToSession(HttpContext context, int analyseId)//niet zeker of hier een int moet meegegeven worden/
         {
-            context.Session.SetString("analyseId", JsonConvert.SerializeObject(analyse.AnalyseId));
+            context.Session.SetString("analyseId", JsonConvert.SerializeObject(analyseId));
         }
 
         public static void ClearSession(HttpContext context)
