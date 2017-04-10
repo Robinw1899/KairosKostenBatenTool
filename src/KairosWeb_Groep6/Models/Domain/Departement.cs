@@ -1,4 +1,6 @@
-﻿namespace KairosWeb_Groep6.Models.Domain
+﻿using System;
+
+namespace KairosWeb_Groep6.Models.Domain
 {
     public class Departement
     {
@@ -20,6 +22,18 @@
         public Departement(string naam)
         {
             Naam = naam;
+        }
+        #endregion
+
+        #region Methods
+        public bool Contains(string zoekterm)
+        {
+            if (Naam.IndexOf(zoekterm, StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                return true;
+            }
+
+            return false;
         }
         #endregion
     }

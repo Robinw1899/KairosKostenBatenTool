@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
+using KairosWeb_Groep6.Models.Domain.Extensions;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -19,7 +21,7 @@ namespace KairosWeb_Groep6.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
 
-        private readonly IJobcoachRepository _gebruikerRepository;
+        private readonly IJobcoachRepository _jobcoachRepository;
 
         private readonly IAnalyseRepository _analyseRepository;
         #endregion
@@ -33,16 +35,15 @@ namespace KairosWeb_Groep6.Controllers
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _gebruikerRepository = gebruikerRepository;
+            _jobcoachRepository = gebruikerRepository;
             _analyseRepository = analyseRepository;
         }
         #endregion
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(IndexViewModel model = null)
         {
             AnalyseFilter.ClearSession(HttpContext);
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            IndexViewModel model;
 
             if (user == null)
             {
@@ -51,32 +52,101 @@ namespace KairosWeb_Groep6.Controllers
             }
             else
             {
-                Jobcoach jobcoach = _gebruikerRepository.GetByEmail(user.Email);
-                List<Analyse> analyses = new List<Analyse>();
+                int aantal = 9;
 
-                foreach(Analyse a in jobcoach.Analyses)
+                if (model != null)
+                {
+                    aantal = model.Aantal == 0 ? 9 : model.Aantal;
+                }
+
+                Jobcoach jobcoach = _jobcoachRepository.GetByEmail(user.Email);
+                List<Analyse> analyses = new List<Analyse>();
+                jobcoach.Analyses = jobcoach
+                    .Analyses
+                    .NietInArchief()
+                    .OrderByDescending(t => t.DatumLaatsteAanpassing)
+                    .Take(aantal)
+                    .ToList();
+
+                foreach (Analyse a in jobcoach.Analyses)
                 {
                     analyses.Add(_analyseRepository.GetById(a.AnalyseId));
                 }
 
                 jobcoach.Analyses = analyses;
 
-                model = new IndexViewModel(jobcoach);
+                model = new IndexViewModel(jobcoach)
+                {
+                    Aantal = aantal
+                };
             }
 
-            return View(model);
+            return View("Index", model);
         }
 
-        #region Eerste keer aanmelden       
+        public IActionResult ToonMeer(int id)
+        {
+            // id is aantal
+            IndexViewModel model = new IndexViewModel
+            {
+                Aantal = id + 9
+            };
+
+            return RedirectToAction("Index", model);
+        }
+
+        [HttpPost]
+        public IActionResult Zoek(string zoekterm)
+        {
+            string email = HttpContext.User.Identity.Name;
+            Jobcoach jobcoach = _jobcoachRepository.GetByEmail(email);
+
+            if (jobcoach != null)
+            {
+                jobcoach.SelecteerMatchendeAnalyse(zoekterm);
+                jobcoach.Analyses = jobcoach
+                    .Analyses
+                    .NietInArchief()
+                    .OrderByDescending(t => t.DatumLaatsteAanpassing)
+                    .Take(9)
+                    .ToList();
+
+                List<Analyse> analyses = new List<Analyse>();
+
+                foreach (Analyse a in jobcoach.Analyses)
+                {
+                    analyses.Add(_analyseRepository.GetById(a.AnalyseId));
+                }
+
+                jobcoach.Analyses = analyses;
+            }
+            // anders worden alle analyses getoond
+
+            IndexViewModel model = new IndexViewModel(jobcoach)
+            {
+                Aantal = 9
+            };
+
+            ViewData["zoeken"] = "zoeken";
+            return View("Index", model);
+        }
+
+        #region Eerste keer aanmelden
         public async Task<IActionResult> EersteKeerAanmelden()
         {
             ApplicationUser user = await _userManager.GetUserAsync(User);
-            EersteKeerAanmeldenViewModel model = new EersteKeerAanmeldenViewModel {Email = user.Email};
+            Jobcoach jobcoach = _jobcoachRepository.GetByEmail(user.UserName);
+            EersteKeerAanmeldenViewModel model = new EersteKeerAanmeldenViewModel
+            {
+                Email = user.Email,
+                AlAangemeld = jobcoach.AlAangemeld
+            };
 
             return View(model);
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> EersteKeerAanmelden(EersteKeerAanmeldenViewModel model)
         {
             // Gebruiker meldt eerste keer aan, dus wachtwoord moet ingesteld worden
@@ -87,14 +157,13 @@ namespace KairosWeb_Groep6.Controllers
             if (paswoordResetten.Succeeded)
             {
                 await _signInManager.SignOutAsync();
-                var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false,
-                    lockoutOnFailure: false);
+                var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
                 if (login.Succeeded)
                 {
-                    Jobcoach gebruiker = _gebruikerRepository.GetByEmail(model.Email);
+                    Jobcoach gebruiker = _jobcoachRepository.GetByEmail(model.Email);
                     gebruiker.AlAangemeld = true;
-                    _gebruikerRepository.Save();
+                    _jobcoachRepository.Save();
 
                     return RedirectToAction(nameof(Index), "Kairos");
                 }

@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Linq;
+using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.OpleidingsKosten;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
+    [Authorize]
+    [ServiceFilter(typeof(AnalyseFilter))]
     public class OpleidingsKostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
@@ -38,8 +42,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 // de baat bestaat reeds:
                 OpleidingsKost kost = new OpleidingsKost
                 {
-                    //Id = model.Id,
-                    Id = 1,
                     Type = model.Type,
                     Soort = model.Soort,
                     Beschrijving = model.Beschrijving,

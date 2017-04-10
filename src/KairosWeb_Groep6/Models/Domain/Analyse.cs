@@ -22,6 +22,8 @@ namespace KairosWeb_Groep6.Models.Domain
         [JsonProperty]
         // bij aanmaak van analyse ook steeds op vandaag zetten
         public DateTime DatumLaatsteAanpassing { get; set; } = DateTime.Now;
+
+        public bool InArchief { get; set; } = false;
         #endregion
 
         #region Kosten
@@ -153,7 +155,7 @@ namespace KairosWeb_Groep6.Models.Domain
             // Medewerkers zelfde niveau
             if (Departement != null)
             {
-                totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                totaal = MedewerkerNiveauBaatExtensions.GeefTotaal(
                                                         MedewerkersZelfdeNiveauBaat,
                                                         Departement.Werkgever.AantalWerkuren,
                                                         Departement.Werkgever.PatronaleBijdrage);
@@ -168,7 +170,7 @@ namespace KairosWeb_Groep6.Models.Domain
             // Medewerkers hoger niveau
             if (Departement != null)
             {
-                totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                totaal = MedewerkerNiveauBaatExtensions.GeefTotaal(
                                                         MedewerkersHogerNiveauBaat,
                                                         Departement.Werkgever.AantalWerkuren,
                                                         Departement.Werkgever.PatronaleBijdrage);

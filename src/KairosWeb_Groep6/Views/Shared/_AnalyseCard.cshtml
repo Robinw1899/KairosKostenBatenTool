@@ -1,0 +1,57 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.AnalyseViewModel
+
+<div class="col-sm-12 col-md-6 col-lg-4">
+    <div class="card">
+        <div>
+            <div style="overflow: auto;">
+                <!--Overflow omdat anders de border boven de h3 en knop staat-->
+                <div class="col-md-6" style="padding-left: 0;">
+                    <h3>@Model.Werkgever</h3>
+                </div>
+                <div class="col-md-6 text-right headerButtons options text-right" style="margin-top: 20px; padding-right: 0;">
+                    <!--margin omdat de h3 dezelfde margin heeft-->
+                    @if (!Model.InArchief)
+                    {
+                        <a asp-controller="Analyse" asp-action="OpenAnalyse" asp-route-id="@Model.AnalyseId">
+                            <i class="fa fa-pencil" aria-hidden="true"></i> <!-- BEWERKEN -->
+                        </a>
+                    }
+                    
+                    @if (Model.InArchief)
+                    {
+                        <a asp-controller="Archief" asp-action="HaalAnalyseUitArchief" asp-route-id="@Model.AnalyseId">
+                            <i class="fa fa-reply" aria-hidden="true"></i> <!-- UIT ARCHIEF HALEN -->
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Analyse" asp-action="Archiveer" asp-route-id="@Model.AnalyseId" >
+                            <i class="fa fa-archive" aria-hidden="true"></i> <!-- ARCHIVEREN -->
+                        </a>
+                    }
+
+                    <a asp-controller="Resultaat" asp-action="MaakPdf" asp-route-id="@Model.AnalyseId">
+                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <!-- PDF MAKEN -->
+                    </a>
+                    
+                    <a asp-controller="Analyse" asp-action="VerwijderAnalyse" asp-route-id="@Model.AnalyseId">
+                        <i class="fa fa-trash" aria-hidden="true"></i> <!-- VERWIJDEREN -->
+                    </a>
+                </div>
+            </div>
+            <p>@Model.Departement - @Model.Gemeente</p>
+            <div class="progress">
+                <div class="progress-bar progress-bar-success" role="progressbar"
+                     style="width: @(Math.Round(((Model.BatenTotaal / (Model.BatenTotaal + Model.KostenTotaal)) * 100), 0))%">
+                </div>
+                <div class="progress-bar progress-bar-danger" role="progressbar"
+                     style="width: @(Math.Round(((Model.KostenTotaal / (Model.BatenTotaal + Model.KostenTotaal)) * 100), 0))%">
+                </div>
+            </div>
+
+            <div class="text-center resultaat alert @Model.KlasseTotaal">
+                <b>@Model.NettoResultaat.ToString("C")</b>
+            </div>
+        </div>
+    </div>
+</div>

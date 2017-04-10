@@ -1,6 +1,9 @@
 ﻿using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
+using System;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
@@ -21,14 +24,14 @@ namespace KairosWeb_Groep6.Models.Domain
             return gelukt;
         }
 
-        public static async Task<bool> SendForgotPasswordMail(string name, string email, string password)
+        public static async Task<bool> SendForgotPasswordMail(string name, string email, string password, string url)
         {
             var message = CreateBaseMessage();
             message.To.Add(new MailboxAddress(name, email));
-            message.Subject = "Paswoord KAIROS kosten-baten tool vergetenPaswoord KAIROS kosten-baten tool vergeten";
+            message.Subject = "Paswoord KAIROS kosten-baten tool vergeten";
 
             var builder = new BodyBuilder();
-            builder.HtmlBody = CreateForgotPasswordMail(name, password);
+            builder.HtmlBody = CreateForgotPasswordMail(name, password, url);
 
             message.Body = builder.ToMessageBody();
 
@@ -91,20 +94,18 @@ namespace KairosWeb_Groep6.Models.Domain
             return true;
         }
 
-        private static string CreateForgotPasswordMail(string name, string password)
+        private static string CreateForgotPasswordMail(string name, string password, string url)
         {
             return CreateHtmlHead() + 
-            @"
+            @"s
             <body>"
-            + string.Format(@"<p>Beste  {0}!</p>", name)
+            + string.Format(@"<p>Beste  {0}</p>", name)
             +
                 @"<p>Je hebt aangegeven dat je jouw paswoord vergeten bent.</p>
-                   <p>Het onderstaande nieuwe paswoord kan je gebruiken om in te loggen. Nadat je bent ingelogd, kan je jouw pas paswoord wijzigen.</p>
-                  <p><strong>Je doorloopt hierdoor opnieuw de procedure van een eerste keer aanmelden!</strong> 
-                    Uiteraard ben je géén analyses of andere gegevens kwijt.</p>"
+                   <p>Het onderstaande nieuwe paswoord kan je gebruiken om in te loggen. Nadat je bent ingelogd, kan je jouw pas paswoord wijzigen.</p>"
 
             + string.Format(
-                @"<p>Jouw nieuw paswoord is: <strong>{0}</strong>.</p>", password)
+                @"<p><a href='{0}'>Je kan hier je wachtwoord wijzigen.</a></p>", url)
             +
                 @"
                     <p class='no-margin'>Hartelijke groet</p>
@@ -119,7 +120,7 @@ namespace KairosWeb_Groep6.Models.Domain
             return CreateHtmlHead() +
             @"
             <body>"
-            + string.Format(@"<p>Beste  {0}!</p>", name)
+            + string.Format(@"<p>Beste  {0}</p>", name)
             +
                 @"<p>Leuk dat je gebruik wil maken van onze tool om werkgevers meer inzicht te geven in de kosten en baten bij het tewerkstellen van personen met een grote afstand tot de arbeidsmarkt.</p>
                 <p>Je kan nu inloggen op <a href='http://localhost:25242'>localhost:25242</a> met deze gebruikersnaam en paswoord:</p>"

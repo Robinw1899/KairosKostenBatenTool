@@ -232,7 +232,6 @@ namespace KairosWeb_Groep6.Controllers
                 if (result.Succeeded)
                 {
                     Jobcoach gebruiker = _gebruikerRepository.GetByEmail(user.Email);
-                    gebruiker.Wachtwoord = model.NewPassword;
                     _gebruikerRepository.Save();
                     TempData["message"] = "Je wachtwoord is succesvol gewijzigd!";
                     await _signInManager.SignInAsync(user, isPersistent: false);

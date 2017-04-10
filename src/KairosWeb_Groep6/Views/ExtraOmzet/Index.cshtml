@@ -19,16 +19,19 @@
     </p>
 
     <form asp-controller="ExtraOmzet" asp-action="Opslaan" method="post" class="form-horizontal">
+
+        <h6 id="infoTekstVerplichteVelden" class="paddingtekst">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+
         <div asp-validation-summary="All" class="text-danger"></div>
 
         <input asp-for="Id"/>
         <input asp-for="Soort"/>
         <input asp-for="Type"/>
-
-        <div class="row">
+        
+        <div class="row required">
             <div class="col-md-12">
                 <div class="col-md-4">
-                    <label asp-for="JaarbedragOmzetverlies"></label>
+                    <label class="control-label" asp-for="JaarbedragOmzetverlies"></label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-eur" aria-hidden="true"></i>
@@ -39,7 +42,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label asp-for="Besparing"></label>
+                    <label class="control-label" asp-for="Besparing"></label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-eur" aria-hidden="true"></i>

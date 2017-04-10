@@ -76,13 +76,15 @@ namespace KairosWeb_Groep6
             services.AddScoped<IAnalyseRepository, AnalyseRepository>();
             services.AddScoped<IWerkgeverRepository, WerkgeverRepository>();
             // services.AddScoped<IContactPersoonRepository, ContactPersoonRepository>();
+            services.AddScoped<IIntroductietekstRepository, IntroductietekstRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
             ILoggerFactory loggerFactory, ApplicationDbContext context, 
             UserManager<ApplicationUser> userManager, IJobcoachRepository gebruikerRepository,
-            IDepartementRepository departementRepository, IAnalyseRepository analyseRepository, IWerkgeverRepository werkgeverRepository)
+            IDepartementRepository departementRepository, IAnalyseRepository analyseRepository, IWerkgeverRepository werkgeverRepository,
+            IIntroductietekstRepository introductietekstRepository)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -106,9 +108,9 @@ namespace KairosWeb_Groep6
           
             app.UseSession();
 
-            context.Database.EnsureDeleted();
+            //context.Database.EnsureDeleted();
 
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
 
             app.UseMvc(routes =>
             {
@@ -117,8 +119,13 @@ namespace KairosWeb_Groep6
                     template: "{controller=Kairos}/{action=Index}/{id?}");
             });
 
-            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,departementRepository, analyseRepository,werkgeverRepository);
+            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
+                                                              departementRepository, analyseRepository,werkgeverRepository,
+                                                             introductietekstRepository);
             initializer.InitializeData().Wait();
+            //DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
+            //    werkgeverRepository, analyseRepository, introductietekstRepository);
+            //initializer.InitializeData().Wait();
         }
     }
 }

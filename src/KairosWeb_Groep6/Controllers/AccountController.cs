@@ -23,6 +23,7 @@ namespace KairosWeb_Groep6.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly IJobcoachRepository _jobcoachRepository;
+        private readonly IIntroductietekstRepository _introductietekstRepository;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -30,7 +31,8 @@ namespace KairosWeb_Groep6.Controllers
             IEmailSender emailSender,
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
-            IJobcoachRepository jobcoachRepository)
+            IJobcoachRepository jobcoachRepository,
+            IIntroductietekstRepository introductietekstRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -38,6 +40,7 @@ namespace KairosWeb_Groep6.Controllers
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _jobcoachRepository = jobcoachRepository;
+            _introductietekstRepository = introductietekstRepository;
         }
 
         //
@@ -48,7 +51,14 @@ namespace KairosWeb_Groep6.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;
             TempData["Actie"] = "Aanmelden"; // nodig om de partials niet te laden
-            return View();
+            Introductietekst tekst = _introductietekstRepository.GetIntroductietekst();
+
+            LoginViewModel model = new LoginViewModel
+            {
+                Introductietekst = tekst
+            };
+
+            return View(model);
         }
 
         //
@@ -92,6 +102,10 @@ namespace KairosWeb_Groep6.Controllers
                 {
                     ModelState.AddModelError(string.Empty, "Deze combinatie email en wachtwoord is ongeldig, probeer opnieuw.");
                     TempData["Actie"] = "Aanmelden"; // nodig om de partials niet te laden
+                    Introductietekst tekst = _introductietekstRepository.GetIntroductietekst();
+
+                    model.Introductietekst = tekst;
+
                     return View(model);
                 }
             }
@@ -147,10 +161,7 @@ namespace KairosWeb_Groep6.Controllers
                 {
                     Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
                             model.NrOrganisatie, model.Bus, model.Postcode, model.Gemeente);
-                    Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie)
-                    {
-                        Wachtwoord = password
-                    };
+                    Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie);
                     _jobcoachRepository.Add(jobcoach);
                     _jobcoachRepository.Save();
 
@@ -351,16 +362,19 @@ namespace KairosWeb_Groep6.Controllers
                 Random random = new Random();
                 var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
                 var jobcoach = _jobcoachRepository.GetByEmail(user.Email);
-                jobcoach.AlAangemeld = false;
                 _jobcoachRepository.Save();
 
                 string name = jobcoach.Voornaam ?? "";
-                bool mailVerzendenGelukt = await EmailSender.SendForgotPasswordMail(name, jobcoach.Emailadres, password);
+                string code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                string url = Url.Action("ResetPassword", "Account", new { email = jobcoach.Emailadres}, protocol: HttpContext.Request.Scheme);
+
+                bool mailVerzendenGelukt = await EmailSender.SendForgotPasswordMail(name, jobcoach.Emailadres, password, url);
 
                 if (mailVerzendenGelukt)
                 {
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                     await _userManager.ResetPasswordAsync(user, token, password);
+                    TempData["Actie"] = "Registreer";
 
                     return View("ForgotPasswordConfirmation");
                 }
@@ -388,9 +402,11 @@ namespace KairosWeb_Groep6.Controllers
         // GET: /Account/ResetPassword
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult ResetPassword(string code = null)
+        public IActionResult ResetPassword(string email)
         {
-            return code == null ? View("Error") : View();
+            TempData["Actie"] = "Registreer";
+            ResetPasswordViewModel model = new ResetPasswordViewModel {Email = email};
+            return View(model);
         }
 
         //
@@ -400,6 +416,7 @@ namespace KairosWeb_Groep6.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
+            TempData["Actie"] = "Registreer";
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -408,12 +425,13 @@ namespace KairosWeb_Groep6.Controllers
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+                return RedirectToAction(nameof(ResetPasswordConfirmation), "Account");
             }
-            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
+                return RedirectToAction(nameof(ResetPasswordConfirmation), "Account");
             }
             AddErrors(result);
             return View();

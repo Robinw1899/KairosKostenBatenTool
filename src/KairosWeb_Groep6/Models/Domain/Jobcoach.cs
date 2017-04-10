@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
     public class Jobcoach : Persoon
     {
         #region Properties
-        public string Wachtwoord { get; set; }
-
         public bool AlAangemeld { get; set; }
 
         public Organisatie Organisatie { get; set; }
 
-        public ICollection<Analyse> Analyses { get; set; } = new List<Analyse>();
+        public IList<Analyse> Analyses { get; set; } = new List<Analyse>();
         #endregion
 
         public Jobcoach()
@@ -31,5 +30,30 @@ namespace KairosWeb_Groep6.Models.Domain
             Organisatie = organisatie;
             Analyses = new List<Analyse>();
         }
+
+        #region Methods
+
+        public void SelecteerMatchendeAnalyse(string zoekterm)
+        {
+            if (!string.IsNullOrEmpty(zoekterm))
+            {
+                List<Analyse> analysesDepartementen = Analyses
+                    .Where(t => t.Departement != null)
+                    .Where(t => t.Departement.Contains(zoekterm))
+                    .ToList();
+
+                List<Analyse> analysesWerkgever = Analyses
+                    .Where(t => t.Departement != null)
+                    .Where(t => t.Departement.Werkgever.Contains(zoekterm))
+                    .ToList();
+
+                // alles in één lijst steken
+                List<Analyse> analyses = new List<Analyse>(analysesDepartementen);
+                analyses.AddRange(analysesWerkgever);
+
+                Analyses = analyses;
+            }
+        }
+        #endregion
     }
 }

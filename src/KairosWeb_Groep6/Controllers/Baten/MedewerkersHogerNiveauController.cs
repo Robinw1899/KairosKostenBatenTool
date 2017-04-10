@@ -160,7 +160,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             }
 
             if(analyse.Departement != null) { 
-                double totaal = MedewerkerNiveauBaatExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                double totaal = MedewerkerNiveauBaatExtensions.GeefTotaal(
                     analyse.MedewerkersHogerNiveauBaat,
                     analyse.Departement.Werkgever.AantalWerkuren,
                     analyse.Departement.Werkgever.PatronaleBijdrage);

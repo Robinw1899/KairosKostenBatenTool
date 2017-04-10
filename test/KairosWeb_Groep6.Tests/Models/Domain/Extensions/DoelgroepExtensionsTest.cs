@@ -1,5 +1,4 @@
 ﻿using System;
-using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using Xunit;
@@ -177,6 +176,40 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
             double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             doelgroepVermindering = Math.Round(doelgroepVermindering, 2);
             Assert.Equal(expected, doelgroepVermindering);
+        }
+        #endregion
+
+        #region Omschrijving        
+
+        [Theory]
+        [InlineData(Doelgroep.LaaggeschooldTot25, "Wn's < 25 jaar laaggeschoold")]
+        [InlineData(Doelgroep.MiddengeschooldTot25, "Wn's < 25 jaar middengeschoold")]
+        [InlineData(Doelgroep.Tussen55En60, "Wn's ≥ 55 en < 60 jaar")]
+        [InlineData(Doelgroep.Vanaf60, "Wns ≥ 60 jaar")]
+        [InlineData(Doelgroep.Andere, "Andere")]
+        [InlineData(null, "")]
+        public void TestGeefOmschrijving(Doelgroep? doelgroep, string expected)
+        {
+            string omschrijving = DoelgroepExtensions.GeefOmschrijving(doelgroep);
+
+            Assert.Equal(expected, omschrijving);
+        }
+        #endregion
+
+        #region Minimum brutoloon
+
+        [Theory]
+        [InlineData(Doelgroep.LaaggeschooldTot25, 2500)]
+        [InlineData(Doelgroep.MiddengeschooldTot25, 2500)]
+        [InlineData(Doelgroep.Tussen55En60, 4466.66)]
+        [InlineData(Doelgroep.Vanaf60, 4466.66)]
+        [InlineData(Doelgroep.Andere, 0)]
+        [InlineData(null, 0)]
+        public void TestGetMinBrutoLoon(Doelgroep doelgroep, double expected)
+        {
+            double minBrutoLoon = DoelgroepExtensions.GetMinBrutoLoon(doelgroep);
+
+            Assert.Equal(expected, minBrutoLoon);
         }
         #endregion
     }

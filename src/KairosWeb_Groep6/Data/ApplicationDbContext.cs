@@ -21,7 +21,8 @@ namespace KairosWeb_Groep6.Data
         public DbSet<Werkgever> Werkgevers { get; set; }
 
         //public DbSet<ContactPersoon> ContactPersonen { get; set; }
-     
+
+        public DbSet<Introductietekst> Introteksten { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -39,9 +40,40 @@ namespace KairosWeb_Groep6.Data
             builder.Entity<Werkgever>(MapWerkgever);
             builder.Entity<Analyse>(MapAnalyse);          
             //builder.Entity<ContactPersoon>(MapContactPersoon);
+            builder.Entity<Introductietekst>(MapIntroductietekst);
+            builder.Entity<Paragraaf>(MapParagraaf);
         }
 
-       
+        private static void MapParagraaf(EntityTypeBuilder<Paragraaf> p)
+        {
+            p.ToTable("Paragraaf");
+
+            p.HasKey(t => t.ParagraafId);
+
+            p.Property(t => t.Volgnummer)
+                .IsRequired();
+
+            p.Property(t => t.Tekst)
+                .IsRequired();
+        }
+
+        private static void MapIntroductietekst(EntityTypeBuilder<Introductietekst> i)
+        {
+            i.ToTable("Introductietekst");
+
+            i.HasKey(t => t.IntroductietekstId);
+
+            i.Property(t => t.Titel)
+                .IsRequired();
+
+            i.Property(t => t.Vraag)
+                .IsRequired();
+
+            i.HasMany(t => t.Paragrafen)
+                .WithOne()
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+        }
 
         private void MapDepartement(EntityTypeBuilder<Departement> d)
         {
@@ -62,6 +94,10 @@ namespace KairosWeb_Groep6.Data
             a.ToTable("Analyse");
 
             a.HasKey(t => t.AnalyseId);
+
+            a.Property(t => t.InArchief)
+                .HasDefaultValue(false)
+                .IsRequired();
 
             a.HasOne(t => t.Departement)
                 .WithMany()
@@ -159,6 +195,9 @@ namespace KairosWeb_Groep6.Data
             p.Property(t => t.Emailadres)
                 .IsRequired();
 
+            p.HasIndex(t => t.Emailadres)
+                .IsUnique();
+
             p.HasDiscriminator<string>("Discriminator")
                 .HasValue<Persoon>("Persoon")
                 .HasValue<ContactPersoon>("ContactPersoon")
@@ -170,9 +209,6 @@ namespace KairosWeb_Groep6.Data
             j.ToTable("Jobcoach");
 
             j.Property(t => t.AlAangemeld)
-                .IsRequired();
-
-            j.Property(t => t.Wachtwoord)
                 .IsRequired();
 
             j.HasOne(t => t.Organisatie)

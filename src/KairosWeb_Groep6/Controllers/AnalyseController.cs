@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
@@ -84,6 +85,48 @@ namespace KairosWeb_Groep6.Controllers
                 TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw.";
             }
             
+
+            return RedirectToAction("Index", "Kairos");
+        }
+
+        public IActionResult Archiveer(int id)
+        {
+            try
+            {
+                Analyse analyse = _analyseRepository.GetById(id);
+
+                if (analyse != null)
+                {
+                    // uit archief halen + datum laatste aanpassing aanpassen
+                    analyse.InArchief = true;
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+
+                    // alles opslaan in de databank
+                    _analyseRepository.Save();
+
+                    if (analyse.Departement == null)
+                    {
+                        TempData["message"] = "De analyse is succesvol gearchiveerd.";
+                    }
+                    else
+                    {
+                        TempData["message"] =
+                            $"De analyse van {analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}" +
+                            " is succesvol gearchiveerd.";
+                    }
+                }
+                else
+                {
+                    TempData["error"] = "Gelieve een geldige analyse te selecteren";
+                }
+               
+            }
+            catch (Exception e)
+            {
+                TempData["error"] = e.Message;
+                ErrorViewModel errorViewModel = new ErrorViewModel { Exception = e };
+                return View("Error", errorViewModel);
+            }
 
             return RedirectToAction("Index", "Kairos");
         }

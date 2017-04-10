@@ -11,30 +11,42 @@
     font-family: 'Asap', Cambria, sans-serif;
 }
 
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
+footer {
+    color: #97C900;
+    font-weight: bold;
+}
+
+.page-header, hr {
+    border-color: #97C900 !important;
+}
+
+/* Beetje padding zodat niet alles tegen de kant plakt */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
     background-color: #FAFAFA;
 }
 
-/* Set widths on the form inputs since otherwise they're 100% wide */
+/* De kleur van de navbar instellen */
+.navbar-inverse {
+    background-color: #FAFAFA;
+    border-color: #E5E5E5;
+}
+
+/* Klasse voor inputfields die niet de volledige breedte moeten innemen */
 .input-maxwidth {
     max-width: 280px;
 }
 
+
+/* Elke knop een groene kleur geven */
 .btn-info,
 .btn-succes {
     background-color: #97C900 !important;
     border-color: #97C900 !important;
 }
 
-.navbar-inverse {
-    background-color: #FAFAFA;
-    border-color: #E5E5E5;
-}
-
+/* Wat dingen goed zetten voor de kleur van de navbar */
 .navbar-nav > li > a,
 .navbar-brand,
 .navbar-nav > li > button {
@@ -42,6 +54,7 @@
     font-weight: bold !important;
 }
 
+/* Het logo wat goed zetten */
 a.navbar-brand {
     padding-top: 5px;
 }
@@ -49,6 +62,8 @@ a.navbar-brand {
 .navbar-brand img {
     max-width: 100px;
 }
+
+/* De introductietekst op de loginpagina wat opmakens */
 .intro {
     display: none;
     background-color: #FFFFFF;
@@ -59,34 +74,11 @@ a.navbar-brand {
     border-radius: 3px;
 }
 
-textarea#Bericht {
-    /*Opmerking form*/
-    width: 600px;
-    height: 300px;
-    max-width: none;
-}
-input#Onderwerp {
-    /*Opmerking form*/
-    width: 600px;
-    max-width: none;
-}
-.buttonsMinPlus {
-    align-items: right;
-}
-#icons-h4 {
-    text-align: right;
-    display: inline-block;
-}
-
+/* De navigtie van de analyse centreren */
 .nav-tabs > li {
     float:none;
     display:inline-block;
-    *display:inline;
     zoom:1;
-}
-
-.nav-tabs {
-    text-align:center;
 }
 
 .nav-analyse {
@@ -96,19 +88,18 @@ input#Onderwerp {
     margin-top: 20px;
 }
 
+/* De links in de navigatie van de analyse opmaken */
+.nav-analyse a {
+    color: black !important;
+}
+
 .nav-analyse .active a {
     background-color: #97c900 !important;
+    color: white !important;
+    font-weight: bold;
 }
 
-form.formOpmerking.form-horizontal.call {
-    width: 900px;
-}
-
-.NieuweOfBestaandeWerkgeverButtons{
-    /*Buttons om te kiezen tussen Nieuwe of BsetaandeWerkgever*/
-    text-align: center;
-}
-
+/* De + bij elke kost of baat opmaken */
 .addOption {
     overflow: auto;
     padding: 10px;
@@ -119,32 +110,38 @@ form.formOpmerking.form-horizontal.call {
     margin: 0 15px;
 }
 
+/* De opties voor een rij in een tabel centreren */
 .options {
     text-align: center;
 }
 
 /*Ervoor zorgen dat de opties rechts in de tabel verschijnen en verdwijnen:*/
-tr .options i,
-li .options i {
+.options i,
+.options span{
     -ms-opacity: 0;
     opacity: 0;
 }
 
 tr:hover .options i,
-li:hover .options i {
+li:hover .options i,
+.card:hover .options i,
+.card:hover .options span {
     -ms-opacity: 1;
     opacity: 1;
 }
 
+/* De tooltips van de kosten en baten een max-width geven */
 .tooltip-inner {
     max-width: 450px;
     width: 450px;
 }
 
+/* Klasse om de padding uit te schakelen */
 .noPadding {
     padding: 0;
 }
 
+/* Kleuren voor de tabel van BegeleidingsKost */
 .lichtpaars {
     background-color: rgba(177, 161, 198, 0.5);
 }
@@ -170,10 +167,12 @@ li:hover .options i {
     background-color: lightgrey;
 }
 
+/* Klasse om ervoor te zorgen dat alle content in de div of andere tag zit */
 .overflow {
     overflow: auto;
 }
 
+/* Opmaak voor de card van een analyse */
 .card {
     margin-top: 20px;
     padding: 10px 20px;
@@ -183,27 +182,59 @@ li:hover .options i {
     box-shadow: 0 1px 3px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
 }
 
+/* Opmaak van het resultaat */
 .resultaat {
     font-size: 1.5em;
 }
 
+/* Opmaak van de knoppen die in de header staan van bv. Resultaat */
 .headerButtons a {
     background: none;
     border: none;
-}
-
-.headerButtons a span, .headerButtons a i {
+    color: black;
+    margin-right: 10px;
+    text-decoration: none;
     font-size: 1.3em;
 }
 
+.headerButtons i:hover {
+    color: #97C900;
+}
+
+/* Opmaak van de navigatie van de kosten en baten */
 .kostenBatenNav li a i {
     margin-right: 100px;
 }
+h6#infoTekstVerplichteVelden {
+    color: #97C900;
+    font-size: 1em;
+}
 
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none
-    }
+/* Zorgt voor de *'jes achter elk label van een verplicht veld '*/
+.required .control-label:after {
+    content: "*";
+    font-size: 1.2em;
+    /*font-weight: bold;*/
+    color: #97C900;
+    position: absolute;
+    margin-left: 1px;
+    /*top: 7px;*/ //hierdoor werden sommige * onderaan geplaatst
+}
+.paddingtekst {
+    padding-left: 15px;
+}
+
+.kostenBatenNav a,
+.kostenBatenNav a:active{
+    color: black;
+}
+
+.kostenBatenNav a:hover {
+    color: #97C900 !important;
+    font-weight: bold;
+}
+
+.kostenBatenNav a::before {
+    content: "\f040";
+    font-family: FontAwesome;
 }

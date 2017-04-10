@@ -1,6 +1,4 @@
 ﻿using KairosWeb_Groep6.Models.Domain;
-using KairosWeb_Groep6.Models.KairosViewModels.Baten;
-using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 using System.Linq;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels
@@ -14,17 +12,17 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public string Werkgever { get; set; }
 
+        public string Gemeente { get; set; }
+
         public double KostenTotaal { get; set; }
 
         public double BatenTotaal { get; set; }
 
         public double NettoResultaat { get; set; }
 
+        public bool InArchief { get; set; }
+
         public string KlasseTotaal { get; set; } // klasse die de kleur van het nettores aangeeft
-
-        public KostenIndexViewModel KostenInfo { get; set; }
-
-        public BatenIndexViewModel BatenInfo { get; set; }
         #endregion
 
         #region Constructor
@@ -37,19 +35,19 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         {
             AnalyseId = analyse.AnalyseId;
 
+            InArchief = analyse.InArchief;
+
             if(analyse.Departement != null)
             {
                 Departement = analyse.Departement.Naam;
                 Werkgever = analyse.Departement.Werkgever.Naam;
+                Gemeente = analyse.Departement.Werkgever.Gemeente;
             }
             else
             {
                 Werkgever = "Werkgever nog niet ingevuld";
                 Departement = "Departement nog niet ingevuld";
             }
-
-            KostenInfo = new KostenIndexViewModel(analyse);
-            BatenInfo = new BatenIndexViewModel(analyse);
 
             KostenTotaal =  analyse.GeefTotalenKosten()
                                      .Sum(x => x.Value);
@@ -64,13 +62,13 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
             {
                 KlasseTotaal = "alert-danger";
             }
-            else if (NettoResultaat == 0)
+            else if (NettoResultaat > 0)
             {
-                KlasseTotaal = "alert-warning";
+                KlasseTotaal = "alert-success";
             }
             else
             {
-                KlasseTotaal = "alert-success";
+                KlasseTotaal = "alert-warning";
             }
         }
         #endregion

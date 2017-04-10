@@ -26,7 +26,7 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
 
         private static void ControleerGegevensOntbreken(double brutoloon, double aantalUrenPerWeek, double aantalWerkuren, double patronaleBijdrage)
         {
-            if (aantalWerkuren == 0)
+            if (aantalWerkuren <= 0)
             {
                 throw new InvalidOperationException("Gelieve het aantal werkuren per week in te vullen bij de werkgever.");
             }
@@ -47,7 +47,7 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
             }
         }
 
-        private static double GetMinBrutoLoon(Doelgroep doelgroep)
+        public static double GetMinBrutoLoon(Doelgroep doelgroep)
         {
             double minBrutoloon = 0;
 
