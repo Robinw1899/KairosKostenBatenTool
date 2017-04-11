@@ -58,10 +58,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
 
         public LoonkostenIndexViewModel()
         {
-
+            Type = Type.Kost;
+            Soort = Soort.Loonkost;
         }
 
         public LoonkostenIndexViewModel(Loonkost loon)
+            : this()
         {
             Id = loon.Id;
             Beschrijving = loon.Beschrijving;

@@ -23,14 +23,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         public OverurenBesparingViewModel()
         {
-            
+            Type = Type.Baat;
+            Soort = Soort.OverurenBesparing;
         }
 
         public OverurenBesparingViewModel(OverurenBesparing besparing)
+            : this()
         {
             Id = besparing.Id;
-            Type = besparing.Type;
-            Soort = besparing.Soort;
             Bedrag = besparing.Bedrag;
         }
     }

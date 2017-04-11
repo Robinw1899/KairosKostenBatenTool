@@ -41,6 +41,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.OpleidingsKosten)
                 .Include(a => a.OverurenBesparing)
                 .Include(a => a.Subsidie)
+                .Include(a => a.LogistiekeBesparing)
                 .Include(a => a.UitzendKrachtBesparingen)
                 .Include(a => a.VoorbereidingsKosten)
                 .Where(a => a.InArchief == false)
@@ -68,6 +69,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.OpleidingsKosten)
                 .Include(a => a.OverurenBesparing)
                 .Include(a => a.Subsidie)
+                .Include(a => a.LogistiekeBesparing)
                 .Include(a => a.UitzendKrachtBesparingen)
                 .Include(a => a.VoorbereidingsKosten)
                 .Where(a => a.InArchief) // == true mag weggelaten worden
@@ -95,6 +97,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.OpleidingsKosten)
                 .Include(a => a.OverurenBesparing)
                 .Include(a => a.Subsidie)
+                .Include(a => a.LogistiekeBesparing)
                 .Include(a => a.UitzendKrachtBesparingen)
                 .Include(a => a.VoorbereidingsKosten)
                 .SingleOrDefault(a => a.AnalyseId == id);

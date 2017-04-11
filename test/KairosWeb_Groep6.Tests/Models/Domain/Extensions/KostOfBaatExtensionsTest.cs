@@ -85,9 +85,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [Fact]
         public void TestGetBy_Subsidie()
         {
-            Subsidie subsidie = KostOfBaatExtensions.GetBy(_dbContext.Subsidies, 2);
+            Subsidie subsidie = _dbContext.Subsidie;
 
-            Assert.Equal(1500, subsidie.Bedrag);
+            Assert.Equal(3500, subsidie.Bedrag);
         }
         #endregion
 

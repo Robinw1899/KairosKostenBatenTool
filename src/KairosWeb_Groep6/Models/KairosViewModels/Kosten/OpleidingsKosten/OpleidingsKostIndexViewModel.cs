@@ -3,9 +3,8 @@ using KairosWeb_Groep6.Models.Domain.Kosten;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.OpleidingsKosten
 {
@@ -34,13 +33,13 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.OpleidingsKosten
 
         public OpleidingsKostIndexViewModel()
         {
-
+            Type = Type.Kost;
+            Soort = Soort.OpleidingsKost;
         }
         public OpleidingsKostIndexViewModel(OpleidingsKost kost)
+            : this()
         {
             Id = kost.Id;
-            Type = kost.Type;
-            Soort = kost.Soort;
             Beschrijving = kost.Beschrijving;
             Bedrag = kost.Bedrag;
         }

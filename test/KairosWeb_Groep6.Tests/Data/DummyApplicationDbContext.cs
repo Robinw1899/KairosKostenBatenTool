@@ -35,7 +35,9 @@ namespace KairosWeb_Groep6.Tests.Data
 
         public List<UitzendKrachtBesparing> UitzendKrachtBesparingen { get; set; }
 
-        public List<Subsidie> Subsidies { get; set; }
+        public Subsidie Subsidie { get; set; }
+
+        public LogistiekeBesparing LogistiekeBesparing { get; set; }
 
         public Departement Aldi { get; set; }
 
@@ -51,9 +53,10 @@ namespace KairosWeb_Groep6.Tests.Data
             MaakLoonkosten();
             MaakExtraKosten();
             MaakMedewerkerNiveauBaten();
-            MaakSubsidies();
+            MaakSubsidie();
             MaakUitzendKrachtBesparingen();
             MaakBegeleidingsKosten();
+            MaakLogistiekeBesparing();
         }
 
         private void MaakOrganisaties()
@@ -172,19 +175,12 @@ namespace KairosWeb_Groep6.Tests.Data
             };
         }
 
-        private void MaakSubsidies()
+        private void MaakSubsidie()
         {
-            Subsidies = new List<Subsidie>
-            {
-                new Subsidie {Id = 1, Bedrag = 200},
-                new Subsidie {Id = 2, Bedrag = 1500},
-                new Subsidie {Id = 3, Bedrag = 3500},
-                new Subsidie {Id = 4, Bedrag = 15000},
-                new Subsidie {Id = 5, Bedrag = 6750}
-            };
+            Subsidie = new Subsidie {Id = 3, Bedrag = 3500};
         }
 
-        public void MaakUitzendKrachtBesparingen()
+        private void MaakUitzendKrachtBesparingen()
         {
             UitzendKrachtBesparingen = new List<UitzendKrachtBesparing>
             {
@@ -221,7 +217,7 @@ namespace KairosWeb_Groep6.Tests.Data
             };
         }
 
-        public void MaakBegeleidingsKosten()
+        private void MaakBegeleidingsKosten()
         {
             BegeleidingsKosten = new List<BegeleidingsKost>
             {
@@ -243,6 +239,15 @@ namespace KairosWeb_Groep6.Tests.Data
                     Uren = 30,
                     BrutoMaandloonBegeleider = 2870
                 }
+            };
+        }
+
+        private void MaakLogistiekeBesparing()
+        {
+            LogistiekeBesparing = new LogistiekeBesparing
+            {
+                TransportKosten = 3000,
+                LogistiekHandlingsKosten = 2000
             };
         }
     }

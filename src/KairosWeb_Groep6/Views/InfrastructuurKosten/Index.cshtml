@@ -1,6 +1,7 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenViewModels.InfrastructuurKostenIndexViewModel
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenViewModels.InfrastructuurKostenIndexViewModel
 @{
-    ViewData["Title"] = "Infrastructuurkosten";
+    ViewData["Title"] = Model.Soort.GeefOmschrijving();
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
     ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
 }
@@ -15,8 +16,7 @@
     </div>
 
     <p>
-        Welke extra kosten inzake infrastructuur zal het tewerkstellen van deze medewerker(s) met zich meebrengen?
-        (bv. aanpassingen werkpost, extra infrastructuur ten gevolge van reshoring of insourcing,…)
+        @Model.Soort.GeefVraag()
     </p>
 
     <div id="data">

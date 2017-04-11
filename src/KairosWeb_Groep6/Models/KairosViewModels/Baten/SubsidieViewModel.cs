@@ -23,14 +23,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         public SubsidieViewModel()
         {
-            
+            Type = Type.Baat;
+            Soort = Soort.Subsidie;
         }
 
         public SubsidieViewModel(Subsidie subsidie)
+            : this()
         {
             Id = subsidie.Id;
-            Type = subsidie.Type;
-            Soort = subsidie.Soort;
             Bedrag = subsidie.Bedrag;
         }
     }

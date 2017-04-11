@@ -34,14 +34,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.ExtraKostViewModels
 
         public ExtraKostenIndexViewModel()
         {
-
+            Type = Type.Kost;
+            Soort = Soort.ExtraKost;
         }
 
         public ExtraKostenIndexViewModel(ExtraKost kost)
+            : this()
         {
             Id = kost.Id;
-            Type = kost.Type;
-            Soort = kost.Soort;
             Beschrijving = kost.Beschrijving;
             Bedrag = kost.Bedrag;
         }

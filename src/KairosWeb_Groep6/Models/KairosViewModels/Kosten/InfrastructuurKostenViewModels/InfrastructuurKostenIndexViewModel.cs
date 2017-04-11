@@ -28,7 +28,16 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenVi
 
         public int ToonFormulier { get; set; } = 0;
 
-        public IEnumerable<InfrastructuurKostenViewModel> ViewModels { get; set; } 
+        public IEnumerable<InfrastructuurKostenViewModel> ViewModels { get; set; }
+        #endregion
+
+        #region Constructors
+
+        public InfrastructuurKostenIndexViewModel()
+        {
+            Type = Type.Baat;
+            Soort = Soort.InfrastructuurKost;
+        }
         #endregion
     }
 }

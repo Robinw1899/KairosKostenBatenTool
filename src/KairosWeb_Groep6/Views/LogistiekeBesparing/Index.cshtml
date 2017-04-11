@@ -1,14 +1,14 @@
 ﻿@using KairosWeb_Groep6.Models.Domain.Extensions
-@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraOmzetViewModel
+@model KairosWeb_Groep6.Models.KairosViewModels.Baten.LogistiekeBesparingViewModel
 @{
-    ViewData["Title"] = Model.Soort.GeefOmschrijving();
+    ViewData["title"] = Model.Soort.GeefOmschrijving();
 }
 
 <div class="container">
     <div>
         @Html.Partial("_Tabs")
     </div>
-  
+
     <div class="page-header">
         <h3>@ViewData["title"]</h3>
     </div>
@@ -17,49 +17,38 @@
         @Model.Soort.GeefVraag()
     </p>
 
-    <form asp-controller="ExtraOmzet" asp-action="Opslaan" method="post" class="form-horizontal">
+    <form asp-controller="LogistiekeBesparing" asp-action="Opslaan" method="post" class="form-horizontal">
 
         <h6 id="infoTekstVerplichteVelden" class="paddingtekst">Velden aangeduid met een * zijn verplicht in te vullen</h6>
 
         <div asp-validation-summary="All" class="text-danger"></div>
 
-        <input asp-for="Id"/>
-        <input asp-for="Soort"/>
-        <input asp-for="Type"/>
-        
-        <div class="row required">
-            <div class="col-md-12">
-                <div class="col-md-4">
-                    <label class="control-label" asp-for="JaarbedragOmzetverlies"></label>
+        <input asp-for="Id" />
+        <input asp-for="Soort" />
+        <input asp-for="Type" />
+
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">
+                <div class="col-md-4 required">
+                    <label class="control-label" asp-for="TransportKosten"></label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-eur" aria-hidden="true"></i>
                         </span>
-                        <input asp-for="JaarbedragOmzetverlies" class="form-control input-maxwidth" id="jaarbedrag" placeholder="Jaarbedrag omzetverlies" />
+                        <input asp-for="TransportKosten" class="form-control input-maxwidth" id="transport" />
                     </div>
-                    <span asp-validation-for="JaarbedragOmzetverlies" class="text-danger"></span>
+                    <span asp-validation-for="TransportKosten" class="text-danger"></span>
                 </div>
 
-                <div class="col-md-4">
-                    <label class="control-label" asp-for="Besparing"></label>
+                <div class="col-md-4 required">
+                    <label class="control-label" asp-for="LogistiekHandlingsKosten"></label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-eur" aria-hidden="true"></i>
                         </span>
-                        <input asp-for="Besparing" class="form-control input-maxwidth" id="besparing" placeholder="% besparing" />
+                        <input asp-for="LogistiekHandlingsKosten" class="form-control input-maxwidth" id="loghandling" />
                     </div>
-                    <span asp-validation-for="Besparing" class="text-danger"></span>
-                </div>
-
-                <div class="col-md-4">
-                    <label asp-for="Bedrag"></label>
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="fa fa-eur" aria-hidden="true"></i>
-                        </span>
-                        <input type="text" class="form-control input-maxwidth" disabled="disabled" value="@(Model.Bedrag.ToString("C"))" />
-                    </div>
-                    <span asp-validation-for="Bedrag" class="text-danger"></span>
+                    <span asp-validation-for="LogistiekHandlingsKosten" class="text-danger"></span>
                 </div>
             </div>
         </div>
@@ -67,11 +56,11 @@
 
         <!--buttons add-->
         <div class="row">
-            <div class="col-md-12 text-center">
+            <div class="col-md-offset-2 col-md-10 text-center">
                 <a asp-controller="Baten" asp-action="Index" class="btn btn-default">Annuleer</a>
-                @if (Model.JaarbedragOmzetverlies <= 0 || Model.Besparing <= 0)
+                @if (Model.TransportKosten > 0 || Model.LogistiekHandlingsKosten > 0)
                 {
-                    <a asp-controller="ExtraOmzet" asp-action="Verwijder" class="btn btn-danger" style="margin-left: 15px">Verwijder</a>
+                    <a asp-controller="LogistiekeBesparing" asp-action="Verwijder" class="btn btn-danger" style="margin-left: 15px">Verwijder</a>
                 }
                 <button type="submit" class="btn btn-info" style="margin-left: 15px">Opslaan</button>
             </div>
@@ -94,9 +83,12 @@
 
 @section Scripts{
     <script>
-        if (@Model.JaarbedragOmzetverlies <= 0) {
-            $("#jaarbedrag").val("");
-            $("#besparing").val("");
+        if (@Model.TransportKosten <= 0) {
+            $("#transport").val("");
+        }
+
+        if (@Model.LogistiekHandlingsKosten <= 0) {
+            $("#loghandling").val("");
         }
 
         $("#baten").addClass("active");

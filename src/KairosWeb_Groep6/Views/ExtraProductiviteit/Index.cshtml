@@ -1,6 +1,7 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraProductiviteitViewModel
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraProductiviteitViewModel
 @{
-    ViewData["Title"] = "Extra productiviteit";
+    ViewData["Title"] = Model.Soort.GeefOmschrijving();
 }
 
 <div class="container">
@@ -13,8 +14,7 @@
     </div>
 
     <p>
-        Hoeveel extra productiviteit denkt de werkgever jaarlijks te kunnen maken door inzet van mensen
-        met een grote afstand tot de arbeidsmarkt?
+        @Model.Soort.GeefVraag()
     </p>
 
     <form asp-action="Opslaan" method="post" class="form-horizontal">
@@ -71,9 +71,7 @@
 
 @section Scripts{
     <script>
-        if (@Model.Bedrag > 0) {
-            siteView.toonFormulier();
-        } else {
+        if (@Model.Bedrag <= 0) {
             $("#jaarbedrag").val("");
         }
 

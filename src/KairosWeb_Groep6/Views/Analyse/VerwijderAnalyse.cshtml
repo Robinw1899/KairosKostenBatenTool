@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["title"] = "Bevestig het verwijderen";
+    var action = "Index";
+    var controller = ViewData["returnUrl"].Equals("resultaat") ? "Resultaat" : "Kairos";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>@ViewData["title"]</h3>
+        <br/>
+
+        @if (ViewData["werkgever"] != null)
+        {
+            <p>Ben je zeker dat je de analyse van @ViewData["werkgever"] wil verwijderen</p>
+        }
+        else
+        {
+            <p>Ben je zeker dat je deze analyse wil verwijderen?</p>
+        }
+
+        <form asp-action="VerwijderAnalyse" asp-route-id="@ViewData["analyseId"]" method="post">
+            <div class="form-group">
+                <input class="btn btn-info col-md-1" type="submit" value="Ja" style="margin-right: 20px;"/>
+                <a class="btn btn-default col-md-1" asp-action="@action" asp-controller="@controller">
+                    <!--asp-route-id="@*@ViewData["analyseId"]*@"-->
+                    Nee
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

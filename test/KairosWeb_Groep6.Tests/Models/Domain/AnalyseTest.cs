@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Models.Domain;
+using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Tests.Data;
 using Xunit;
 
@@ -29,7 +30,6 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
 
             int aantalSoorten = totalen.Count;
 
-            Assert.False(totalen.Any(t => t.Value > 0)); // er mag geen enkel totaal groter zijn dan 0
             Assert.Equal(8, aantalSoorten);
         }
 
@@ -76,21 +76,19 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
             IDictionary<Soort, double> totalen = _analyse.GeefTotalenBaten();
 
             ICollection<Soort> soorten = totalen.Keys;
-            int aantalSoorten = soorten.Distinct().Count();
 
             Assert.False(totalen.Any(t => t.Value > 0)); // er mag geen enkel totaal groter zijn dan 0
-            Assert.Equal(9, aantalSoorten);
         }
 
         [Fact]
-        public void TestGeefTotalenBaten_8SoortenInDictionary()
+        public void TestGeefTotalenBaten_11SoortenInDictionary()
         {
             _analyse = new Analyse();
             IDictionary<Soort, double> totalen = _analyse.GeefTotalenBaten();
 
             int aantalSoorten = totalen.Count;
 
-            Assert.Equal(9, aantalSoorten);
+            Assert.Equal(11, aantalSoorten);
         }
 
         [Fact]
@@ -100,6 +98,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
 
             IDictionary<Soort, double> expected = new Dictionary<Soort, double>
             {
+                { Soort.LoonkostSubsidies, 0},
                 { Soort.MedewerkersZelfdeNiveau, 266516.27 }, // In DummyDb
                 { Soort.MedewerkersHogerNiveau, 0 }, 
                 { Soort.UitzendkrachtBesparing, 17570.00 }, // In DummyDb
@@ -107,7 +106,8 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
                 { Soort.ExtraProductiviteit, 0 },
                 { Soort.OverurenBesparing, 0 },
                 { Soort.ExterneInkoop, 0 },
-                { Soort.Subsidie, 200 }, // In DummyDb
+                { Soort.Subsidie, 3500 }, // In DummyDb
+                { Soort.LogistiekeBesparing, 5000 },
                 { Soort.ExtraBesparing, 0 }
             };
 
@@ -116,7 +116,8 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
                 Departement = dbContext.Aldi,
                 MedewerkersZelfdeNiveauBaat = dbContext.MedewerkerNiveauBaten,
                 UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen,
-                Subsidie = dbContext.Subsidies[0]
+                Subsidie = dbContext.Subsidie,
+                LogistiekeBesparing = dbContext.LogistiekeBesparing
             };
 
             IDictionary<Soort, double> totalen = _analyse.GeefTotalenBaten();

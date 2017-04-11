@@ -1,6 +1,7 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels.MedewerkerNiveauIndexViewModel
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels.MedewerkerNiveauIndexViewModel
 @{
-    ViewData["title"] = "Medewerkers op zelfde niveau vervangen";
+    ViewData["title"] = Model.Soort.GeefOmschrijving();
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
     ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
 }
@@ -14,7 +15,9 @@
         <h3>@ViewData["title"]</h3>
     </div>
 
-    <p>Zullen er (deels) medewerkers op hetzelfde niveau als de nieuwe medewerker vervangen worden?</p>
+    <p>
+        @Model.Soort.GeefVraag()
+    </p>
 
     <div id="data">
         @{

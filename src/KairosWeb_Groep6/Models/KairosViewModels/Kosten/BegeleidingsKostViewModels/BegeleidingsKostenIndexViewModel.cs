@@ -32,5 +32,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewMo
 
         public IEnumerable<BegeleidingsKostViewModel> ViewModels { get; set; }
         #endregion
+
+        #region Constructors
+
+        public BegeleidingsKostenIndexViewModel()
+        {
+            Type = Type.Kost;
+            Soort = Soort.BegeleidingsKost;
+        }
+        #endregion
     }
 }

@@ -34,14 +34,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModels
         #region Constructors
         public EnclaveKostenIndexViewModel()
         {
-
+            Type = Type.Kost;
+            Soort = Soort.EnclaveKost;
         }
 
         public EnclaveKostenIndexViewModel(EnclaveKost kost)
+            : this()
         {
-            Id = kost.Id;
-            Type = kost.Type;
-            Soort = kost.Soort;
+            Id = kost.Id;            
             Beschrijving = kost.Beschrijving;
             Bedrag = kost.Bedrag;
         }

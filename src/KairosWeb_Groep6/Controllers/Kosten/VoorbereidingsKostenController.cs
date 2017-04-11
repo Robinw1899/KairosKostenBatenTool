@@ -139,8 +139,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             VoorbereidingsKostIndexViewModel model = new VoorbereidingsKostIndexViewModel()
             {
-                Type = Type.Kost,
-                Soort = Soort.ExtraKost,
                 ViewModels = analyse
                                 .VoorbereidingsKosten
                                 .Select(m => new VoorbereidingsKostViewModel(m))

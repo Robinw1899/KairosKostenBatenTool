@@ -77,7 +77,8 @@ namespace KairosWeb_Groep6.Models.Domain
         
         public Subsidie Subsidie { get; set; }
 
-        
+        public LogistiekeBesparing LogistiekeBesparing { get; set; }
+
         public List<ExtraBesparing> ExtraBesparingen { get; set; } = new List<ExtraBesparing>();
         #endregion
 
@@ -151,6 +152,20 @@ namespace KairosWeb_Groep6.Models.Domain
         {
             IDictionary<Soort, double> resultaat = new Dictionary<Soort, double>();
             double totaal = 0;
+
+            if (Departement != null)
+            {
+                totaal = LoonkostExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                                                        Loonkosten,
+                                                        Departement.Werkgever.AantalWerkuren,
+                                                        Departement.Werkgever.PatronaleBijdrage);
+
+                totaal -= LoonkostExtensions.GeefTotaalAlleLoonkosten(
+                                                        Loonkosten,
+                                                        Departement.Werkgever.AantalWerkuren,
+                                                        Departement.Werkgever.PatronaleBijdrage);
+            }
+            resultaat.Add(Soort.LoonkostSubsidies, totaal);
 
             // Medewerkers zelfde niveau
             if (Departement != null)
@@ -234,6 +249,17 @@ namespace KairosWeb_Groep6.Models.Domain
                 totaal = 0;
             }
             resultaat.Add(Soort.Subsidie, totaal);
+
+            // Logistieke besparing
+            if (LogistiekeBesparing != null)
+            {
+                totaal = LogistiekeBesparing.LogistiekHandlingsKosten + LogistiekeBesparing.TransportKosten;
+            }
+            else
+            {
+                totaal = 0;
+            }
+            resultaat.Add(Soort.LogistiekeBesparing, totaal);
 
             // Extra besparingen
             totaal = KostOfBaatExtensions.GeefTotaal(ExtraBesparingen);

@@ -34,14 +34,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.VoorbereidingsKostView
         #region Constructors    
         public VoorbereidingsKostIndexViewModel()
         {
-            
+            Type = Type.Kost;
+            Soort = Soort.VoorbereidingsKost;
         }
 
         public VoorbereidingsKostIndexViewModel(VoorbereidingsKost kost)
+            : this()
         {
             Id = kost.Id;
-            Type = kost.Type;
-            Soort = kost.Soort;
             Beschrijving = kost.Beschrijving;
             Bedrag = kost.Bedrag;
         }

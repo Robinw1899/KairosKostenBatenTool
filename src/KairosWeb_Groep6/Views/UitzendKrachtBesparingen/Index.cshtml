@@ -1,6 +1,7 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingViewModels.UitzendKrachtBesparingIndexViewModel
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingViewModels.UitzendKrachtBesparingIndexViewModel
 @{
-    ViewData["title"] = "Besparing op uitzendkrachten";
+    ViewData["title"] = Model.Soort.GeefOmschrijving();
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
     ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
 }
@@ -14,7 +15,9 @@
         <h3>@ViewData["title"]</h3>
     </div>
 
-    <p>Welke besparing denkt de werkgever jaarlijks te kunnen maken op uitzendkrachten?</p>
+    <p>
+        @Model.Soort.GeefVraag()
+    </p>
 
     <div id="data">
         @{
