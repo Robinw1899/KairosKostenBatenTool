@@ -47,7 +47,6 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult Opslaan(Analyse analyse, WerkgeverViewModel model)
         {
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
             Departement departement = _departementRepository.GetById(model.DepartementId);
             Werkgever werkgever = departement.Werkgever;
 
@@ -81,8 +80,6 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult NieuweWerkgever(Analyse analyse)
         {
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
-
             // nieuwe werkgever aanmaken voor de analyse
             analyse.Departement = new Departement();
             analyse.Departement.Werkgever = new Werkgever();
@@ -99,7 +96,6 @@ namespace KairosWeb_Groep6.Controllers
         [HttpPost]
         public IActionResult NieuweWerkgever(Analyse analyse, WerkgeverViewModel model)
         {
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
             Departement departement = _departementRepository.GetDepByName(model.Departement);
             if (_departementRepository.GetByName(model.Naam) != null && departement != null && departement.Werkgever.Gemeente == model.Gemeente)
             {
@@ -173,13 +169,13 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult SelecteerBestaandeWerkgever(Analyse analyse, int id)
         {// nog verder veranderen naar redirect naar ResultaatController
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
-
             //de werkgever is geselecteerd je moet dus naar overzicht departementen gaan voor specifieke werkgever
             Departement departement = _departementRepository.GetById(id);
             analyse.Departement = departement;
 
             _analyseRepository.Save();
+
+            AnalyseFilter.SetAnalyseInSession(HttpContext, analyse);
 
             return RedirectToAction("Index", "Resultaat");
         }
@@ -222,8 +218,6 @@ namespace KairosWeb_Groep6.Controllers
                 return RedirectToAction("NieuwDepartement");
             } else
             {
-                analyse = _analyseRepository.GetById(analyse.AnalyseId);
-                TempData["Error"] = "";
                 Departement departement = new Departement(model.Departement);
 
                 Werkgever werkgever = _departementRepository.GetByName(model.Naam).First().Werkgever; // Zelfde werkgever maken
