@@ -1,5 +1,4 @@
-﻿using System;
-using KairosWeb_Groep6.Models.Domain;
+﻿using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
@@ -38,7 +37,7 @@ namespace KairosWeb_Groep6.Filters
 
         private int ReadAnalyseFromSession(HttpContext context)
         {
-            int analyseid = context.Session.GetString("analyseid") == null
+            int analyseid = context.Session.GetString("analyseId") == null
                 ? 0
                 : JsonConvert.DeserializeObject<int>(context.Session.GetString("analyseId"));
 
