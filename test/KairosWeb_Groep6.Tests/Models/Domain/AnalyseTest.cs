@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Models.Domain;
+using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Tests.Data;
 using Xunit;
 
@@ -79,18 +80,18 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
             int aantalSoorten = soorten.Distinct().Count();
 
             Assert.False(totalen.Any(t => t.Value > 0)); // er mag geen enkel totaal groter zijn dan 0
-            Assert.Equal(9, aantalSoorten);
+            Assert.Equal(10, aantalSoorten);
         }
 
         [Fact]
-        public void TestGeefTotalenBaten_8SoortenInDictionary()
+        public void TestGeefTotalenBaten_10SoortenInDictionary()
         {
             _analyse = new Analyse();
             IDictionary<Soort, double> totalen = _analyse.GeefTotalenBaten();
 
             int aantalSoorten = totalen.Count;
 
-            Assert.Equal(9, aantalSoorten);
+            Assert.Equal(10, aantalSoorten);
         }
 
         [Fact]
@@ -107,7 +108,8 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
                 { Soort.ExtraProductiviteit, 0 },
                 { Soort.OverurenBesparing, 0 },
                 { Soort.ExterneInkoop, 0 },
-                { Soort.Subsidie, 200 }, // In DummyDb
+                { Soort.Subsidie, 3500 }, // In DummyDb
+                { Soort.LogistiekeBesparing, 5000 },
                 { Soort.ExtraBesparing, 0 }
             };
 
@@ -116,7 +118,8 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
                 Departement = dbContext.Aldi,
                 MedewerkersZelfdeNiveauBaat = dbContext.MedewerkerNiveauBaten,
                 UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen,
-                Subsidie = dbContext.Subsidies[0]
+                Subsidie = dbContext.Subsidie,
+                LogistiekeBesparing = dbContext.LogistiekeBesparing
             };
 
             IDictionary<Soort, double> totalen = _analyse.GeefTotalenBaten();

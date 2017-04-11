@@ -4,9 +4,9 @@
     {
         #region Properties
         // beschrijving en bedrag worden niet gebruikt
-        public int TransportKosten { get; set; }
+        public double TransportKosten { get; set; } // B.10.1
 
-        public int LogistiekHandlingsKosten { get; set; }
+        public double LogistiekHandlingsKosten { get; set; } // B.10.2
         #endregion
 
         #region Constructors

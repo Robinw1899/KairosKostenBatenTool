@@ -77,6 +77,8 @@ namespace KairosWeb_Groep6.Models.Domain
         [JsonProperty]
         public Subsidie Subsidie { get; set; }
 
+        public LogistiekeBesparing LogistiekeBesparing { get; set; }
+
         [JsonProperty]
         public List<ExtraBesparing> ExtraBesparingen { get; set; } = new List<ExtraBesparing>();
         #endregion
@@ -234,6 +236,17 @@ namespace KairosWeb_Groep6.Models.Domain
                 totaal = 0;
             }
             resultaat.Add(Soort.Subsidie, totaal);
+
+            // Logistieke besparing
+            if (LogistiekeBesparing != null)
+            {
+                totaal = LogistiekeBesparing.LogistiekHandlingsKosten + LogistiekeBesparing.TransportKosten;
+            }
+            else
+            {
+                totaal = 0;
+            }
+            resultaat.Add(Soort.LogistiekeBesparing, totaal);
 
             // Extra besparingen
             totaal = KostOfBaatExtensions.GeefTotaal(ExtraBesparingen);
