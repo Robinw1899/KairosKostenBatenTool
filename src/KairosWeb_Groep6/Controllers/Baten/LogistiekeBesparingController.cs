@@ -4,9 +4,11 @@ using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
+    [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
     public class LogistiekeBesparingController : Controller
     {
