@@ -33,16 +33,16 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
         #region Constructors
         public LogistiekeBesparingViewModel()
         {
-            
+            Type = Type.Baat;
+            Soort = Soort.LogistiekeBesparing;
         }
 
         public LogistiekeBesparingViewModel(LogistiekeBesparing baat)
+            : this()
         {
             if (baat != null)
             {
                 Id = baat.Id;
-                Type = baat.Type;
-                Soort = baat.Soort;
                 TransportKosten = baat.TransportKosten;
                 LogistiekHandlingsKosten = baat.LogistiekHandlingsKosten;
             }

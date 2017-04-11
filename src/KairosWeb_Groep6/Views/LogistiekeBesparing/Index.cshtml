@@ -14,7 +14,7 @@
     </div>
 
     <p>
-        Wat zijn de transport- en logistieke handlingskosten van eventueel uitbesteedde zaken?
+        @Model.Soort.GeefVraag()
     </p>
 
     <form asp-controller="LogistiekeBesparing" asp-action="Opslaan" method="post" class="form-horizontal">
