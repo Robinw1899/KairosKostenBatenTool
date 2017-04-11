@@ -28,11 +28,6 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
-        public IActionResult Index()
-        {
-            return RedirectToAction("Index", "Baten");
-        }
-
         [ServiceFilter(typeof(AnalyseFilter))]
         [ServiceFilter(typeof(JobcoachFilter))]
         public IActionResult NieuweAnalyse(Analyse analyse, Jobcoach jobcoach)
@@ -61,23 +56,47 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", "Resultaat");
         }
 
-        public IActionResult VerwijderAnalyse(int id)
+        public IActionResult VerwijderAnalyse(int id, string from)
+        {
+            Analyse analyse = _analyseRepository.GetById(id);
+
+            ViewData["analyseId"] = id;
+
+            if (analyse.Departement != null)
+            {
+                ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+            }
+
+            ViewData["returnUrl"] = from;
+
+            return View();
+        }
+
+
+
+        [HttpPost]
+        [ActionName("VerwijderAnalyse")]
+        public IActionResult VerwijderAnalyseBevestigd(int id)
         {
             try
             {
                 Analyse analyse = _analyseRepository.GetById(id);
-                _analyseRepository.Remove(analyse);
 
-                _analyseRepository.Save();
+                if (analyse != null)
+                {
+                    _analyseRepository.Remove(analyse);
 
-                if (analyse.Departement == null)
-                {
-                    TempData["message"] = "De analyse is succesvol verwijderd.";
-                }
-                else
-                {
-                    TempData["message"] = $"De analyse van {analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}" +
-                                          " is succesvol verwijderd.";
+                    _analyseRepository.Save();
+
+                    if (analyse.Departement == null)
+                    {
+                        TempData["message"] = "De analyse is succesvol verwijderd.";
+                    }
+                    else
+                    {
+                        TempData["message"] = $"De analyse van {analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}" +
+                                              " is succesvol verwijderd.";
+                    }
                 }
             }
             catch
