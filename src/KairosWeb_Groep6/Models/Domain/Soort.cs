@@ -21,6 +21,7 @@
         OverurenBesparing,
         ExterneInkoop,
         Subsidie,
+        LogistiekeBesparing,
         ExtraBesparing
     }
 }
