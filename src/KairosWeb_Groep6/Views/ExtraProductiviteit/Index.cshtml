@@ -71,9 +71,7 @@
 
 @section Scripts{
     <script>
-        if (@Model.Bedrag > 0) {
-            siteView.toonFormulier();
-        } else {
+        if (@Model.Bedrag <= 0) {
             $("#jaarbedrag").val("");
         }
 

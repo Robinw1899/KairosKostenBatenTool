@@ -95,9 +95,7 @@
 
 @section Scripts{
     <script>
-        if (@Model.JaarbedragOmzetverlies > 0) {
-            siteView.toonFormulier();
-        } else {
+        if (@Model.JaarbedragOmzetverlies <= 0) {
             $("#jaarbedrag").val("");
             $("#besparing").val("");
         }

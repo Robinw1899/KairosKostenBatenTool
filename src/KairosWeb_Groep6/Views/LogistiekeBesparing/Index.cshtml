@@ -35,7 +35,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-eur" aria-hidden="true"></i>
                         </span>
-                        <input asp-for="TransportKosten" class="form-control input-maxwidth"/>
+                        <input asp-for="TransportKosten" class="form-control input-maxwidth" id="transport" />
                     </div>
                     <span asp-validation-for="TransportKosten" class="text-danger"></span>
                 </div>
@@ -46,7 +46,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-eur" aria-hidden="true"></i>
                         </span>
-                        <input asp-for="LogistiekHandlingsKosten" class="form-control input-maxwidth" />
+                        <input asp-for="LogistiekHandlingsKosten" class="form-control input-maxwidth" id="loghandling" />
                     </div>
                     <span asp-validation-for="LogistiekHandlingsKosten" class="text-danger"></span>
                 </div>
@@ -83,6 +83,14 @@
 
 @section Scripts{
     <script>
+        if (@Model.TransportKosten <= 0) {
+            $("#transport").val("");
+        }
+
+        if (@Model.LogistiekHandlingsKosten <= 0) {
+            $("#loghandling").val("");
+        }
+
         $("#baten").addClass("active");
 
     </script>
