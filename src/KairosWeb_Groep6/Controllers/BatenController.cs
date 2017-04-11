@@ -55,6 +55,11 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", "Subsidie");
         }
 
+        public IActionResult LogistiekeBesparing()
+        {
+            return RedirectToAction("Index", "LogistiekeBesparing");
+        }
+
         public IActionResult ExtraBesparingen()
         {
             return RedirectToAction("Index", "ExtraBesparingen");

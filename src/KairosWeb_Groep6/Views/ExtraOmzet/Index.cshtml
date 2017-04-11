@@ -70,7 +70,7 @@
         <div class="row">
             <div class="col-md-12 text-center">
                 <a asp-controller="Baten" asp-action="Index" class="btn btn-default">Annuleer</a>
-                @if (Model.JaarbedragOmzetverlies != 0 || Model.Besparing != 0)
+                @if (Model.JaarbedragOmzetverlies <= 0 || Model.Besparing <= 0)
                 {
                     <a asp-controller="ExtraOmzet" asp-action="Verwijder" class="btn btn-danger" style="margin-left: 15px">Verwijder</a>
                 }

@@ -112,6 +112,17 @@
             </a>
         </li>
         <li>
+            <a asp-controller="Baten" asp-action="LogistiekeBesparing"
+               data-toggle="tooltip" data-placement="bottom"
+               title="Wat zijn de transport- en logistieke handlingskosten van eventueel uitbesteedde zaken?">
+                Logistieke besparing
+                @if (Model.LogistiekeBesparingIngevuld)
+                {
+                    <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
+                }
+            </a>
+        </li>
+        <li>
             <a asp-controller="Baten" asp-action="ExtraBesparingen"
                data-toggle="tooltip" data-placement="bottom"
                title="Aan welke besparingen kan er nog meer gedacht worden?">

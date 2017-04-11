@@ -21,6 +21,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         public bool SubsidieIngevuld { get; set; }
 
+        public bool LogistiekeBesparingIngevuld { get; set; }
+
         public bool ExtraBesparingenIngevuld { get; set; }
         #endregion
 
@@ -70,6 +72,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
             if (analyse.Subsidie != null && analyse.Subsidie.Bedrag > 0)
             {
                 SubsidieIngevuld = true;
+            }
+
+            if (analyse.LogistiekeBesparing != null && 
+                (analyse.LogistiekeBesparing.TransportKosten > 0 || analyse.LogistiekeBesparing.LogistiekHandlingsKosten > 0))
+            {
+                LogistiekeBesparingIngevuld = true;
             }
 
             if (analyse.ExtraBesparingen.Count != 0)

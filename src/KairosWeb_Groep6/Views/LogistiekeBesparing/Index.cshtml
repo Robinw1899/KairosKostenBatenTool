@@ -1,0 +1,91 @@
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Baten.LogistiekeBesparingViewModel
+@{
+    ViewData["title"] = Model.Soort.GeefOmschrijving();
+}
+
+<div class="container">
+    <div>
+        @Html.Partial("_Tabs")
+    </div>
+
+    <div class="page-header">
+        <h3>@ViewData["title"]</h3>
+    </div>
+
+    <p>
+        Wat zijn de transport- en logistieke handlingskosten van eventueel uitbesteedde zaken?
+    </p>
+
+    <form asp-controller="LogistiekeBesparing" asp-action="Opslaan" method="post" class="form-horizontal">
+
+        <h6 id="infoTekstVerplichteVelden" class="paddingtekst">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <input asp-for="Id" />
+        <input asp-for="Soort" />
+        <input asp-for="Type" />
+
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">
+                <div class="col-md-4 required">
+                    <label class="control-label" asp-for="TransportKosten"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-eur" aria-hidden="true"></i>
+                        </span>
+                        <input asp-for="TransportKosten" class="form-control input-maxwidth"/>
+                    </div>
+                    <span asp-validation-for="TransportKosten" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-4 required">
+                    <label class="control-label" asp-for="LogistiekHandlingsKosten"></label>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="fa fa-eur" aria-hidden="true"></i>
+                        </span>
+                        <input asp-for="LogistiekHandlingsKosten" class="form-control input-maxwidth" />
+                    </div>
+                    <span asp-validation-for="LogistiekHandlingsKosten" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <!--buttons add-->
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <a asp-controller="Baten" asp-action="Index" class="btn btn-default">Annuleer</a>
+                @if (Model.TransportKosten > 0 || Model.LogistiekHandlingsKosten > 0)
+                {
+                    <a asp-controller="ExtraOmzet" asp-action="Verwijder" class="btn btn-danger" style="margin-left: 15px">Verwijder</a>
+                }
+                <button type="submit" class="btn btn-info" style="margin-left: 15px">Opslaan</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="row">
+    <div class="col-xs-10 col-md-9">
+        <a asp-controller="Baten" asp-action="UitzendKrachtBesparingen" style="margin-left: 15px" class="btn btn-default">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Uitzendkracht besparingen
+        </a>
+    </div>
+    <div class="col-xs-2 col-md-3 text-right">
+        <a asp-controller="Baten" asp-action="ExtraProductiviteit" class="btn btn-info">
+            Extra productiviteit <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $("#baten").addClass("active");
+
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
