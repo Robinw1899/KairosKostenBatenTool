@@ -27,6 +27,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(Soort.OverurenBesparing, "Besparingen op overuren")]
         [InlineData(Soort.ExterneInkoop, "Externe inkopen, transportskosten en logistieke handlingskosten")]
         [InlineData(Soort.Subsidie, "Subsidie")]
+        [InlineData(Soort.LogistiekeBesparing, "Logistieke besparing")]
         [InlineData(Soort.ExtraBesparing, "Extra besparingen")]
         public void TestGeefOmschrijving(Soort soort, string expected)
         {

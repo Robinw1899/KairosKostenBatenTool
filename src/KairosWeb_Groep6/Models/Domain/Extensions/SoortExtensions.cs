@@ -41,6 +41,8 @@
                     return "Externe inkopen, transportskosten en logistieke handlingskosten";
                 case Soort.Subsidie:
                     return "Subsidie";
+                case Soort.LogistiekeBesparing:
+                    return "Logistieke besparing";
                 case Soort.ExtraBesparing:
                     return "Extra besparingen";
                 
