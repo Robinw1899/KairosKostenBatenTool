@@ -19,6 +19,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(Soort.ExtraKost, "Extra kosten")]
 
         // BATEN
+        [InlineData(Soort.LoonkostSubsidies, "Totale loonkostsubsidies (VOP, IBO en doelgroepvermindering)")]
         [InlineData(Soort.MedewerkersZelfdeNiveau, "Medewerkers op zelfde niveau vervangen")]
         [InlineData(Soort.MedewerkersHogerNiveau, "Medewerkers op hoger niveau vervangen")]
         [InlineData(Soort.UitzendkrachtBesparing, "Besparingen op uitzendkrachten")]

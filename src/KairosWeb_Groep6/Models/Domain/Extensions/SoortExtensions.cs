@@ -25,6 +25,8 @@
                     return "Extra kosten";
 
                 // Baten
+                case Soort.LoonkostSubsidies:
+                    return "Totale loonkostsubsidies (VOP, IBO en doelgroepvermindering)";
                 case Soort.MedewerkersZelfdeNiveau:
                     return "Medewerkers op zelfde niveau vervangen";
                 case Soort.MedewerkersHogerNiveau:

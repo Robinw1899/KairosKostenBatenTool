@@ -13,6 +13,7 @@
         ExtraKost,
         
         /* SOORTEN BATEN */
+        LoonkostSubsidies,
         MedewerkersZelfdeNiveau,
         MedewerkersHogerNiveau,
         UitzendkrachtBesparing,

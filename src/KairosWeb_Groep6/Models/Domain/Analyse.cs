@@ -154,6 +154,20 @@ namespace KairosWeb_Groep6.Models.Domain
             IDictionary<Soort, double> resultaat = new Dictionary<Soort, double>();
             double totaal = 0;
 
+            if (Departement != null)
+            {
+                totaal = LoonkostExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                                                        Loonkosten,
+                                                        Departement.Werkgever.AantalWerkuren,
+                                                        Departement.Werkgever.PatronaleBijdrage);
+
+                totaal -= LoonkostExtensions.GeefTotaalAlleLoonkosten(
+                                                        Loonkosten,
+                                                        Departement.Werkgever.AantalWerkuren,
+                                                        Departement.Werkgever.PatronaleBijdrage);
+            }
+            resultaat.Add(Soort.LoonkostSubsidies, totaal);
+
             // Medewerkers zelfde niveau
             if (Departement != null)
             {

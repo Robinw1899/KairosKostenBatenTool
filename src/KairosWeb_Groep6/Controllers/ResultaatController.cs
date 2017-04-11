@@ -4,6 +4,8 @@ using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using KairosWeb_Groep6.Models.Domain.Extensions;
+using KairosWeb_Groep6.Models.Domain.Kosten;
 
 namespace KairosWeb_Groep6.Controllers
 {
