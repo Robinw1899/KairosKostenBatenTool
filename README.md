@@ -27,6 +27,10 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Switch-functie cards naast elkaar of onder elkaar (eventueel)
 * E-mails (admin, registratie, wachtwoord vergeten) schrijven met HtmlTextWriter
 * Elk IndexViewModel een ViewModel property geven (Bind[Prefix = ...]) in de Controller voor parameter + meer PartialViews
+* Tooltip maken voor de symbolen op een pagina (waarvoor dient het symbool bv verzenden, pdf maken)
+* Vinkje bij bestaande werkgever groter of anders oplossen (klikken op de rij)
+* Zoekknop bij bestaande werkgever
+* Berekende velden duidelijker aangeven
 
 ### To do voor Java
 * Wachtwoord vergeten
@@ -34,13 +38,6 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 ### Andere (lastenboek, etc.)
 * Afgewerkte UC's opschrijven
 * Admin moet niet inloggen op webapp
-
-### Mogelijke aanpassingen voor de applicatie (opmerkingen van externe gebruikers)
-* Symbool(*) iets groter maken
-* Tooltip maken voor de symbolen op een pagina (waarvoor dient het symbool bv verzenden, pdf maken)
-* Vinkje bij bestaande werkgever groter of anders oplossen (klikken op de rij)
-* Zoekknop bij bestaande werkgever
-* Berekende velden duidelijker aangeven
 
 ## Retrospective
 ### Wat ging goed?
