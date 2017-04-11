@@ -1,4 +1,6 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.BatenIndexViewModel
+﻿@using KairosWeb_Groep6.Models.Domain
+@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Baten.BatenIndexViewModel
 @{
     ViewData["title"] = "Baten";
 }
@@ -20,8 +22,8 @@
         <li>
             <a asp-controller="Baten" asp-action="MedewerkerZelfdeNiveau"
                data-toggle="tooltip" data-placement="bottom"
-               title="Zullen er (deels) medewerkers op hetzelfde niveau als de nieuwe medewerker vervangen worden?">
-                Medewerkers op zelfde niveau vervangen
+               title="@Soort.MedewerkersZelfdeNiveau.GeefVraag()">
+                @Soort.MedewerkersZelfdeNiveau.GeefOmschrijving()
                 @if (Model.MedewerkersZelfdeNiveauBaatIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -31,8 +33,8 @@
         <li>
             <a asp-controller="Baten" asp-action="MedewerkerHogerNiveau"
                data-toggle="tooltip" data-placement="bottom"
-               title="Zullen er (deels) medewerkers op een hoger niveau als de nieuwe medewerker vervangen worden?">
-                Medewerkers op hoger niveau vervangen
+               title="@Soort.MedewerkersHogerNiveau.GeefVraag()">
+                @Soort.MedewerkersHogerNiveau.GeefOmschrijving()
                 @if (Model.MedewerkersHogerNiveauBaatIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -42,8 +44,8 @@
         <li>
             <a asp-controller="Baten" asp-action="UitzendKrachtBesparingen"
                data-toggle="tooltip" data-placement="bottom"
-               title="Welke besparing denkt de werkgever jaarlijks te kunnen maken op uitzendkrachten?">
-                Besparingen op uitzendkrachten
+               title="@Soort.UitzendkrachtBesparing.GeefVraag()">
+                @Soort.UitzendkrachtBesparing.GeefOmschrijving()
                 @if (Model.UitzendKrachtBesparingenIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -53,9 +55,8 @@
         <li>
             <a asp-controller="Baten" asp-action="ExtraOmzet"
                data-toggle="tooltip" data-placement="bottom"
-               title="Mist de werkgever vandaag omzet doordat hij personeel tekort komt?
-               Hoeveel meer omzet denkt de werkgever jaarlijks te kunnen realiseren door inzet van mensen met een grote afstand tot de arbeidsmarkt?">
-                Extra omzet
+               title="@Soort.ExtraOmzet.GeefVraag()">
+                @Soort.ExtraOmzet.GeefOmschrijving()
                 @if (Model.ExtraOmzetIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -65,9 +66,8 @@
         <li>
             <a asp-controller="Baten" asp-action="ExtraProductiviteit"
                data-toggle="tooltip" data-placement="bottom"
-               title="Hoeveel extra productiviteit denkt de werkgever jaarlijks
-               te kunnen maken door inzet van mensen met een grote afstand tot de arbeidsmarkt?">
-                Extra productiviteit
+               title="@Soort.ExtraProductiviteit.GeefVraag()">
+                @Soort.ExtraProductiviteit.GeefOmschrijving()
                 @if (Model.ExtraProductiviteitIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -77,8 +77,8 @@
         <li>
             <a asp-controller="Baten" asp-action="OverurenBesparingen"
                data-toggle="tooltip" data-placement="bottom"
-               title="Hoeveel denkt de werkgever jaarlijks te kunnen besparen op overuren door inzet van mensen met een grote afstand tot de arbeidsmarkt?">
-                Besparingen op overuren
+               title="@Soort.OverurenBesparing.GeefVraag()">
+                @Soort.OverurenBesparing.GeefOmschrijving()
                 @if (Model.OverurenBesparingIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -88,12 +88,8 @@
         <li>
             <a asp-controller="Baten" asp-action="ExterneInkopen"
                data-toggle="tooltip" data-placement="bottom"
-               title="Welke zaken koopt de werkgever vandaag extern in?
-               Hoeveel betaalt de werkgever vandaag jaarlijks aan het uitbesteden van werk?
-               Wat zijn de transportkosten van eventueel uitbesteedde zaken?
-               Wat zijn de logistieke handlingskosten van eventueel uitbesteedde zaken?
-               Hoeveel denkt de werkgever te kunnen besparen?">
-                Externe inkopen, transportskosten en logistieke handlingskosten
+               title="@Soort.ExterneInkoop.GeefVraag()">
+                @Soort.ExterneInkoop.GeefOmschrijving()
                 @if (Model.ExterneInkopenIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -103,8 +99,8 @@
         <li>
             <a asp-controller="Baten" asp-action="Subsidies"
                data-toggle="tooltip" data-placement="bottom"
-               title="Welk bedrag krijgt de werkgever aan subsidie voor eventuele aanpassingen aan de werkomgeving?">
-                Subsidie
+               title="@Soort.Subsidie.GeefVraag()">
+                @Soort.Subsidie.GeefOmschrijving()
                 @if (Model.SubsidieIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -114,8 +110,8 @@
         <li>
             <a asp-controller="Baten" asp-action="LogistiekeBesparing"
                data-toggle="tooltip" data-placement="bottom"
-               title="Wat zijn de transport- en logistieke handlingskosten van eventueel uitbesteedde zaken?">
-                Logistieke besparing
+               title="@Soort.LogistiekeBesparing.GeefVraag()">
+                @Soort.LogistiekeBesparing.GeefOmschrijving()
                 @if (Model.LogistiekeBesparingIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -125,8 +121,8 @@
         <li>
             <a asp-controller="Baten" asp-action="ExtraBesparingen"
                data-toggle="tooltip" data-placement="bottom"
-               title="Aan welke besparingen kan er nog meer gedacht worden?">
-                Extra besparingen
+               title="@Soort.ExtraBesparing.GeefVraag()">
+                @Soort.ExtraBesparing.GeefOmschrijving()
                 @if (Model.ExtraBesparingenIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
