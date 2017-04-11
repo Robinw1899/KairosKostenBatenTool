@@ -36,7 +36,7 @@
                 case Soort.ExtraOmzet:
                     return "Inperking omzetverlies";
                 case Soort.ExtraProductiviteit:
-                    return "Productiviteitwinst";
+                    return "Productiviteitswinst";
                 case Soort.OverurenBesparing:
                     return "Besparingen op overuren";
                 case Soort.ExterneInkoop:
@@ -95,7 +95,7 @@
                 case Soort.LogistiekeBesparing:
                     return "Wat zijn de transport- en logistieke handlingskosten van eventueel uitbesteedde zaken?";
                 case Soort.ExtraBesparing:
-                    return "Aan welke besparingen kan er nog meer gedacht worden? Vul de bedragen in per jaar";
+                    return "Aan welke besparingen kan er nog meer gedacht worden? Vul de bedragen in per jaar.";
 
                 default:
                     return "";

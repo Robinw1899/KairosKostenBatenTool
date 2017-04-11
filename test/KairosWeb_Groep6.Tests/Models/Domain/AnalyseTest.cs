@@ -30,7 +30,6 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
 
             int aantalSoorten = totalen.Count;
 
-            Assert.False(totalen.Any(t => t.Value > 0)); // er mag geen enkel totaal groter zijn dan 0
             Assert.Equal(8, aantalSoorten);
         }
 
@@ -77,21 +76,19 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
             IDictionary<Soort, double> totalen = _analyse.GeefTotalenBaten();
 
             ICollection<Soort> soorten = totalen.Keys;
-            int aantalSoorten = soorten.Distinct().Count();
 
             Assert.False(totalen.Any(t => t.Value > 0)); // er mag geen enkel totaal groter zijn dan 0
-            Assert.Equal(10, aantalSoorten);
         }
 
         [Fact]
-        public void TestGeefTotalenBaten_10SoortenInDictionary()
+        public void TestGeefTotalenBaten_11SoortenInDictionary()
         {
             _analyse = new Analyse();
             IDictionary<Soort, double> totalen = _analyse.GeefTotalenBaten();
 
             int aantalSoorten = totalen.Count;
 
-            Assert.Equal(10, aantalSoorten);
+            Assert.Equal(11, aantalSoorten);
         }
 
         [Fact]
@@ -101,6 +98,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
 
             IDictionary<Soort, double> expected = new Dictionary<Soort, double>
             {
+                { Soort.LoonkostSubsidies, 0},
                 { Soort.MedewerkersZelfdeNiveau, 266516.27 }, // In DummyDb
                 { Soort.MedewerkersHogerNiveau, 0 }, 
                 { Soort.UitzendkrachtBesparing, 17570.00 }, // In DummyDb
