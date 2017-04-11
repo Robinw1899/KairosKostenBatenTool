@@ -10,5 +10,6 @@ namespace KairosWeb_Groep6.Models.Domain
         void Add(Analyse analyse);
         void Remove(Analyse analyse);
         void Save();
+        void Save(int id);
     }
 }
