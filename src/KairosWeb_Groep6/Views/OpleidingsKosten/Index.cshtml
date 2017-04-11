@@ -1,6 +1,7 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.OpleidingsKosten.OpleidingsKostIndexViewModel
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.OpleidingsKosten.OpleidingsKostIndexViewModel
 @{
-    ViewData["title"] = "Opleidingskost";
+    ViewData["title"] = Model.Soort.GeefOmschrijving();
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
     ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
 }
@@ -14,7 +15,9 @@
         <h3>@ViewData["title"]</h3>
     </div>
 
-    <p>Welke extra opleidingskosten zal de werkgever hebben om de nieuwe krachten op het gewenste niveau te krijgen?</p>
+    <p>
+        @Model.Soort.GeefVraag()
+    </p>
 
     <div id="data">
         @{

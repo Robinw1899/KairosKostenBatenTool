@@ -32,13 +32,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         public ExtraOmzetViewModel()
         {
+            Type = Type.Baat;
+            Soort = Soort.ExtraOmzet;
         }
 
         public ExtraOmzetViewModel(ExtraOmzet omzet)
+            : this()
         {
             Id = omzet.Id;
-            Type = omzet.Type;
-            Soort = omzet.Soort;
             JaarbedragOmzetverlies = omzet.JaarbedragOmzetverlies;
             Besparing = omzet.Besparing;
             Bedrag = omzet.Bedrag;

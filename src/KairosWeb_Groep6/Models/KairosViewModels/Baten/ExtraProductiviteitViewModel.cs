@@ -23,14 +23,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         public ExtraProductiviteitViewModel()
         {
-
+            Type = Type.Baat;
+            Soort = Soort.ExtraProductiviteit;
         }
 
         public ExtraProductiviteitViewModel(ExtraProductiviteit productiviteit)
+            : this()
         {
             Id = productiviteit.Id;
-            Type = productiviteit.Type;
-            Soort = productiviteit.Soort;
             Bedrag = productiviteit.Bedrag;
         }
     }

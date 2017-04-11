@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels
 {
@@ -29,14 +30,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels
 
         public ExterneInkopenIndexViewModel()
         {
-            
+            Type = Type.Baat;
+            Soort = Soort.ExterneInkoop;
         }
 
         public ExterneInkopenIndexViewModel(ExterneInkoop inkoop)
+            : this()
         {
             Id = inkoop.Id;
-            Type = inkoop.Type;
-            Soort = inkoop.Soort;
             Beschrijving = inkoop.Beschrijving;
             Bedrag = inkoop.Bedrag;
         }

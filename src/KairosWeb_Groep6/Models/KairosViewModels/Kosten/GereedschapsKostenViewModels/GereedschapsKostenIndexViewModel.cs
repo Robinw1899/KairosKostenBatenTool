@@ -30,5 +30,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.GereedschapsKostenView
 
         public IEnumerable<GereedschapsKostenViewModel> ViewModels { get; set; }
         #endregion
+
+        #region Constructors
+
+        public GereedschapsKostenIndexViewModel()
+        {
+            Type = Type.Kost;
+            Soort = Soort.GereedschapsKost;
+        }
+        #endregion
     }
 }

@@ -33,14 +33,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraBesparingViewModel
 
         public ExtraBesparingIndexViewModel()
         {
-            
+            Type = Type.Baat;
+            Soort = Soort.ExtraBesparing;
         }
 
         public ExtraBesparingIndexViewModel(ExtraBesparing besparing)
+            : this()
         {
             Id = besparing.Id;
-            Type = besparing.Type;
-            Soort = besparing.Soort;
             Beschrijving = besparing.Beschrijving;
             Bedrag = besparing.Bedrag;
         }

@@ -1,7 +1,8 @@
-﻿@using KairosWeb_Groep6.Models.Domain.Kosten
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
+@using KairosWeb_Groep6.Models.Domain.Kosten
 @model KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels.LoonkostenIndexViewModel
 @{
-    ViewData["title"] = "Loonkost";
+    ViewData["title"] = Model.Soort.GeefOmschrijving();
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
     ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
 }
@@ -15,7 +16,9 @@
         <h3>@ViewData["title"]</h3>
     </div>
 
-    <p>Welke (nieuwe) functie(s) vul je in?</p>
+    <p>
+        @Model.Soort.GeefVraag()
+    </p>
 
     <div id="data">
         @{

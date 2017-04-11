@@ -1,6 +1,7 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels.ExterneInkopenIndexViewModel
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels.ExterneInkopenIndexViewModel
 @{
-    ViewData["Title"] = "Externe inkopen";
+    ViewData["Title"] = Model.Soort.GeefOmschrijving();
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
     ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
 }
@@ -15,11 +16,12 @@
     </div>
 
     <p>
-        Welke zaken koopt de werkgever vandaag extern in? Op welke kan worden bespaard door de inzet van mensen
+        @Model.Soort.GeefVraag()
+        <!--Welke zaken koopt de werkgever vandaag extern in? Op welke kan worden bespaard door de inzet van mensen
         met een grote afstand tot de arbeidsmarkt? Denk hierbij aan bijvoorbeeld uitbesteedde productie, schoonmaak,
         groendienst, enz. Hoeveel betaalt de werkgever vandaag jaarlijks aan het uitbesteden van werk?
         Wat zijn de transportkosten van eventueel uitbesteedde zaken? Wat zijn de logistieke handlingskosten van
-        eventueel uitbesteedde zaken? Hoeveel denkt de werkgever te kunnen besparen?
+        eventueel uitbesteedde zaken? Hoeveel denkt de werkgever te kunnen besparen?-->
     </p>
 
     <div id="data">

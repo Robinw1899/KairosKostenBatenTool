@@ -1,6 +1,7 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraOmzetViewModel
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraOmzetViewModel
 @{
-    ViewData["Title"] = "Extra omzet";
+    ViewData["Title"] = Model.Soort.GeefOmschrijving();
 }
 
 <div class="container">
@@ -13,9 +14,7 @@
     </div>
 
     <p>
-        Mist de werkgever vandaag omzet doordat hij personeel tekort komt?
-        Hoeveel meer omzet denkt de werkgever jaarlijks te kunnen realiseren door inzet van
-        mensen met een grote afstand tot de arbeidsmarkt?
+        @Model.Soort.GeefVraag()
     </p>
 
     <form asp-controller="ExtraOmzet" asp-action="Opslaan" method="post" class="form-horizontal">

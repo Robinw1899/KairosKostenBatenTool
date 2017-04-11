@@ -27,5 +27,11 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingV
         public int ToonFormulier { get; set; } = 0;
 
         public IEnumerable<UitzendKrachtBesparingViewModel> ViewModels { get; set; }
+
+        public UitzendKrachtBesparingIndexViewModel()
+        {
+            Type = Type.Baat;
+            Soort = Soort.UitzendkrachtBesparing;
+        }
     }
 }

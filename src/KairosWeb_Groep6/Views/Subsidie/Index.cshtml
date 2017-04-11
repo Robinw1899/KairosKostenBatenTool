@@ -1,6 +1,7 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.SubsidieViewModel
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Baten.SubsidieViewModel
 @{
-    ViewData["title"] = "Subsidie";
+    ViewData["title"] = Model.Soort.GeefOmschrijving();
 }
 
 <div>
@@ -13,7 +14,7 @@
     </div>
 
     <p>
-        Welk bedrag krijgt de werkgever aan subsidie voor eventuele aanpassingen aan de werkomgeving?
+        @Model.Soort.GeefVraag()
     </p>
 
     <form asp-controller="Subsidie" asp-action="Opslaan" id="form" method="post">

@@ -140,8 +140,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             EnclaveKostenIndexViewModel model = new EnclaveKostenIndexViewModel()
             {
-                Type = Type.Baat,
-                Soort = Soort.Loonkost,
                 ViewModels = analyse
                                 .EnclaveKosten
                                 .Select(m => new EnclaveKostenViewModel(m))                

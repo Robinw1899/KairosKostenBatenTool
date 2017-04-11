@@ -1,7 +1,8 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModels.BegeleidingsKostenIndexViewModel
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModels.BegeleidingsKostenIndexViewModel
 
 @{
-    ViewData["Title"] = "Begeleidingskosten";
+    ViewData["Title"] = Model.Soort.GeefOmschrijving();
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
     ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
 }
@@ -24,7 +25,9 @@
         </div>
     </div>
 
-    <p>Welke kosten zal de werkgevers jaarlijks hebben aan extra administratie en interne begeleiding tijdens de tewerkstelling?</p>
+    <p>
+        @Model.Soort.GeefVraag()
+    </p>
 
     <br />
 
