@@ -15,19 +15,25 @@ namespace KairosWeb_Groep6.Data
         private readonly IJobcoachRepository _gebruikerRepository;
         private readonly IDepartementRepository _departementRepository;
         private readonly IAnalyseRepository _analyseRepository;
+        private readonly IWerkgeverRepository _werkgeverRepository;
+        private readonly IIntroductietekstRepository _introductietekstRepository;
 
         public DataInitializer(
             ApplicationDbContext dbContext,
             UserManager<ApplicationUser> userManager, 
             IJobcoachRepository gebruikerRepository,
-            IDepartementRepository werkgeverRepository,
-            IAnalyseRepository analyseRepository)
+            IDepartementRepository departementRepository,
+            IAnalyseRepository analyseRepository,
+            IWerkgeverRepository werkgeverRepository,
+            IIntroductietekstRepository introductietekstRepository)
         {
             _dbContext = dbContext;
             _userManager = userManager;
             _gebruikerRepository = gebruikerRepository;
-            _departementRepository = werkgeverRepository;
+            _departementRepository = departementRepository;
             _analyseRepository = analyseRepository;
+            _werkgeverRepository = werkgeverRepository;
+            _introductietekstRepository = introductietekstRepository;
         }
 
         public async Task InitializeData()
@@ -36,23 +42,62 @@ namespace KairosWeb_Groep6.Data
             if (_dbContext.Database.EnsureCreated())
             {
                 await InitializeUsers();
+                ContactPersoon contactThomas = new ContactPersoon("Thomas", "Aelbrecht", "thomasaelbrecht@live.com");
+                ContactPersoon contactRobin = new ContactPersoon("Robin", "Coppens", "robin.coppens.w1899@student.hogent.be");
+                ContactPersoon contactDimi = new ContactPersoon("Dimmy", "Maenhout", "dimmy.maenhout@telenet.be");
+                List<ContactPersoon> contacten = new List<ContactPersoon>();
 
-                Werkgever werkgever = new Werkgever("VDAB", "Vooruitgangstraat", 1, 9300, "Aalst", 37);
-                _departementRepository.Add(new Departement("Onderhoudsdienst") {Werkgever = werkgever});
+                contactThomas.IsHoofdContactPersoon = true;
+                contacten.Add(contactThomas);
+              
+                List<Departement> departementen = new List<Departement>();               
+                Werkgever werkgever = new Werkgever("VDAB", "Vooruitgangstraat", 1, "",9300, "Aalst", 37);
+                werkgever.ContactPersonen = contacten;                       
+                Departement departement = new Departement("Onderhoudsdienst") { Werkgever = werkgever };
+                departementen.Add(departement);
+                werkgever.Departementen = departementen;
+                _departementRepository.Add(departement);
+                _werkgeverRepository.Add(werkgever);
 
-                werkgever = new Werkgever("ALDI", "Leo Duboistraat", 20, 9280, "Lebbeke", 37);
-                _departementRepository.Add(new Departement("Aankoop") { Werkgever = werkgever });
 
-                werkgever = new Werkgever("Coolblue", "Medialaan", 1, 1000, "Brussel", 35);
-                _departementRepository.Add(new Departement("Human resources") { Werkgever = werkgever });
+                contacten.Remove(contactThomas);
+                contactRobin.IsHoofdContactPersoon = true;
+                contacten.Add(contactRobin);   
+                
+                werkgever = new Werkgever("ALDI", "Leo Duboistraat", 20,"", 9280, "Lebbeke", 37);
+                werkgever.ContactPersonen = contacten;               
+                departementen.Remove(departement);//verwijderen van vorige departement in de lijst
+                departement = new Departement("Aankoop") { Werkgever = werkgever };
+                departementen.Add(departement);//toevoegen van nieuw departement
+                werkgever.Departementen = departementen;
+                _departementRepository.Add(departement);
+                _werkgeverRepository.Add(werkgever);
 
+
+                contacten.Remove(contactRobin);
+                contactDimi.IsHoofdContactPersoon = true;
+                contacten.Add(contactDimi);
+
+                werkgever = new Werkgever("Coolblue", "Medialaan", 1,"", 1000, "Brussel", 35);
+                werkgever.ContactPersonen = contacten;            
+                departementen.Remove(departement);//verwijderen van vorige departement in de lijst
+                departement = new Departement("Human resources") { Werkgever = werkgever };
+                departementen.Add(departement);//toevoegen van nieuw departement
+                werkgever.Departementen = departementen;
+                _departementRepository.Add(departement);
+                _werkgeverRepository.Add(werkgever);
+              
+                InitializeIntrotekst();
+              
                 _departementRepository.Save();
+                _werkgeverRepository.Save();
 
                 Jobcoach thomas = _gebruikerRepository.GetByEmail("thomasaelbrecht@live.com");
 
                 Analyse analyse = new Analyse();
 
-                analyse.Departement = new Departement("Verkoop") { Werkgever = werkgever };
+                departement = new Departement("Verkoop") { Werkgever = werkgever };
+                analyse.Departement = departement ;
 
                 analyse.Loonkosten = MaakLoonkosten();
 
@@ -73,6 +118,55 @@ namespace KairosWeb_Groep6.Data
             _dbContext.SaveChanges();
         }
 
+        private void InitializeIntrotekst()
+        {
+            Introductietekst tekst = new Introductietekst
+            {
+                Titel = "Introductie",
+                Vraag = "Wat is Kairos?"
+            };
+
+            tekst.Paragrafen.Add(new Paragraaf
+            {
+                Volgnummer = 1,
+                Tekst = "Waarom zou een werkgever investeren in het tewerkstellen van personen met een " +
+                        "grote afstand tot de arbeidsmarkt en/of functiecreatie? We zijn geneigd te denken " +
+                        "dat we - ook managers en bedrijfsleiders - erg rationele wezens zijn, die (grote) " +
+                        "beslissingen weloverwogen maken. Maar... zijn menselijke beslissingen wel zo " +
+                        "rationeel als we denken?"
+            });
+
+            tekst.Paragrafen.Add(new Paragraaf
+            {
+                Volgnummer = 2,
+                Tekst = "Niet echt. Mensen beslissen op basis van eigen kennis, ervaring, inschattingsvermogen " +
+                        "en intuïtie. We gaan er vanuit dat we daarmee in staat zijn om consistente en evenwichtige " +
+                        "beslissingen te nemen of, anders gezegd, een rationele afweging te maken. De waarheid is " +
+                        "echter heel anders. Veel van onze besluitvorming wordt door een automatische piloot-functie " +
+                        "van onze hersenen gedaan. Met als gevolg dat wij, en ook werkgevers, veel beslissingen nemen" +
+                        " op basis van vooroordelen in plaats van alle beschikbare informatie in overweging te nemen."
+            });
+
+            tekst.Paragrafen.Add(new Paragraaf
+            {
+                Volgnummer = 3,
+                Tekst = "Het maken van een business case kan helpen om de besluitvorming te verbeteren, want het " +
+                        "geeft betrouwbare, op feiten gebaseerde informatie en vermindert de subjectiviteit in " +
+                        "beoordeling en besluitvorming.  De kans dat de werkgever op jouw aanbod zal ingaan, vergroot " +
+                        "naarmate je deze vraag duidelijk en zakelijk onderbouwd weet te beantwoorden."
+            });
+
+            tekst.Paragrafen.Add(new Paragraaf
+            {
+                Volgnummer = 4,
+                Tekst = "Met dit model kan je werkgevers inzicht geven in de economische waarde van het werken " +
+                        "met mensen met een grote afstand tot de arbeidsmarkt."
+            });
+
+            _introductietekstRepository.Add(tekst);
+            _introductietekstRepository.Save();
+        }
+
         private async Task InitializeUsers()
         {
             string voornaam = "Thomas";
@@ -88,7 +182,7 @@ namespace KairosWeb_Groep6.Data
             };
 
             Organisatie organisatie = new Organisatie("HoGent", "Arbeidstraat", 14, "",  9300, "Aalst");
-            Jobcoach jobcoach = new Jobcoach(naam, voornaam, email, organisatie) { AlAangemeld = true, Wachtwoord = "kairos2017" };
+            Jobcoach jobcoach = new Jobcoach(naam, voornaam, email, organisatie) { AlAangemeld = true};
             _gebruikerRepository.Add(jobcoach);
 
             await _userManager.CreateAsync(user, "kairos2017");
@@ -105,7 +199,7 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true, Wachtwoord = "kairos2017" };
+            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true};
             _gebruikerRepository.Add(jobcoach);
 
             await _userManager.CreateAsync(user, "kairos2017");
@@ -122,7 +216,7 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true, Wachtwoord = "kairos2017" };
+            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true };
             _gebruikerRepository.Add(jobcoach);
 
             await _userManager.CreateAsync(user, "kairos2017");

@@ -11,6 +11,15 @@
     font-family: 'Asap', Cambria, sans-serif;
 }
 
+footer {
+    color: #97C900;
+    font-weight: bold;
+}
+
+.page-header, hr {
+    border-color: #97C900 !important;
+}
+
 /* Beetje padding zodat niet alles tegen de kant plakt */
 .body-content {
     padding-left: 15px;
@@ -107,14 +116,16 @@ a.navbar-brand {
 }
 
 /*Ervoor zorgen dat de opties rechts in de tabel verschijnen en verdwijnen:*/
-tr .options i,
-li .options i {
+.options i,
+.options span{
     -ms-opacity: 0;
     opacity: 0;
 }
 
 tr:hover .options i,
-li:hover .options i {
+li:hover .options i,
+.card:hover .options i,
+.card:hover .options span {
     -ms-opacity: 1;
     opacity: 1;
 }
@@ -180,22 +191,29 @@ li:hover .options i {
 .headerButtons a {
     background: none;
     border: none;
+    color: black;
+    margin-right: 10px;
+    text-decoration: none;
+    font-size: 1.3em;
 }
 
-.headerButtons a span, .headerButtons a i {
-    font-size: 1.3em;
+.headerButtons i:hover {
+    color: #97C900;
 }
 
 /* Opmaak van de navigatie van de kosten en baten */
 .kostenBatenNav li a i {
     margin-right: 100px;
 }
-h6#infoTekstVerplichteVelden{
+h6#infoTekstVerplichteVelden {
     color: #97C900;
+    font-size: 1em;
 }
-/*voor de * in html*/
+
+/* Zorgt voor de *'jes achter elk label van een verplicht veld '*/
 .required .control-label:after {
     content: "*";
+    font-size: 1.2em;
     /*font-weight: bold;*/
     color: #97C900;
     position: absolute;

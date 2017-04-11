@@ -12,6 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Departementen\**" />
+    <Content Remove="Views\Departementen\**" />
+    <EmbeddedResource Remove="Views\Departementen\**" />
+    <None Remove="Views\Departementen\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot/js\semantic.min.js" />
   </ItemGroup>
 
@@ -51,6 +58,7 @@
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="1.1.0" />
+    <PackageReference Include="Shaman.EPPlus" Version="1.0.1.2" />
     <PackageReference Include="System.Net.Mail" Version="1.0.0-rtm-00002" />
   </ItemGroup>
 

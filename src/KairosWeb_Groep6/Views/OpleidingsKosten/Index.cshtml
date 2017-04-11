@@ -35,7 +35,7 @@
         <input asp-for="Id" />
         <input asp-for="Type"/>
         <input asp-for="Soort"/>
-        <div class="row col-md-offset-2">
+        <div class="row col-md-offset-2 form-group">
             <div class="col-md-4 required">
                 <label asp-for="Beschrijving" class="control-label"></label>
                 <div class="input-group">
@@ -59,12 +59,11 @@
             </div>
 
             <br />
-
-            <div class="row col-md-offset-2">
-                <div class="col-md-8 text-right">
-                    <a class="btn btn-default" id="closeForm">Annuleer</a>
-                    <button type="submit" class="btn btn-info" style="margin-left: 15px">@ViewData["action"]</button>
-                </div>
+        </div>
+        <div class="row col-md-offset-2">
+            <div class="col-md-8 text-right">
+                <a class="btn btn-default" id="closeForm">Annuleer</a>
+                <button type="submit" class="btn btn-info" style="margin-left: 15px">@ViewData["action"]</button>
             </div>
         </div>
     </form>
@@ -92,7 +91,7 @@
             $("#Bedrag").val("");
         }
 
-        $("#Kosten").addClass("active");
+        $("#kosten").addClass("active");
     </script>
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

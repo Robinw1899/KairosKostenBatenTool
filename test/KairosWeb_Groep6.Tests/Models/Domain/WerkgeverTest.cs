@@ -1,5 +1,4 @@
-﻿using System;
-using KairosWeb_Groep6.Models.Domain;
+﻿using KairosWeb_Groep6.Models.Domain;
 using Xunit;
 
 namespace KairosWeb_Groep6.Tests.Models.Domain

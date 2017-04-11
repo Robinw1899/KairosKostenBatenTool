@@ -16,24 +16,24 @@
     </div>
     <div class="col-md-3 text-right headerButtons" style="margin-top: 20px;">
         <!--margin omdat de h3 dezelfde margin heeft-->
-        <a asp-controller="Resultaat" asp-action="Afdrukken" class="btn btn-default">
-            <span class="glyphicon glyphicon-print"></span> <!-- AFDRUKKEN -->
+        <a asp-controller="Resultaat" asp-action="Afdrukken">
+            <i class="fa fa-print" aria-hidden="true"></i> <!-- AFDRUKKEN -->
         </a>
 
-        <a asp-controller="Resultaat" asp-action="Mail" class="btn btn-default">
-            <span class="glyphicon glyphicon-envelope"></span> <!-- MAILEN -->
+        <a asp-controller="Resultaat" asp-action="Mail">
+            <i class="fa fa-envelope" aria-hidden="true"></i> <!-- MAILEN -->
         </a>
 
-        <a asp-controller="Resultaat" asp-action="Opslaan" asp-route-id="@Model.AnalyseId" class="btn btn-default">
-            <span class="glyphicon glyphicon-floppy-disk"></span> <!-- OPSLAAN -->
+        <a asp-controller="Resultaat" asp-action="Opslaan" asp-route-id="@Model.AnalyseId">
+            <i class="fa fa-floppy-o" aria-hidden="true"></i> <!-- OPSLAAN -->
         </a>
 
-        <a asp-controller="Resultaat" asp-action="MaakPdf" class="btn btn-default">
+        <a asp-controller="Resultaat" asp-action="MaakPdf">
             <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <!-- PDF MAKEN -->
         </a>
         
-        <a asp-controller="Analyse" asp-action="VerwijderAnalyse" asp-route-id="@Model.AnalyseId" class="btn btn-default">
-            <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> <!-- ANALYSE VERWIJDEREN -->
+        <a asp-controller="Analyse" asp-action="VerwijderAnalyse" asp-route-id="@Model.AnalyseId">
+            <i class="fa fa-trash" aria-hidden="true"></i> <!-- ANALYSE VERWIJDEREN -->
         </a>
     </div>
 </div>

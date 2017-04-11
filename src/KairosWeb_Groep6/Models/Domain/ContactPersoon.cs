@@ -1,9 +1,19 @@
-﻿namespace KairosWeb_Groep6.Models.Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace KairosWeb_Groep6.Models.Domain
 {
-    public class ContactPersoon : Persoon
+    public class ContactPersoon
     {
+
         #region Properties
-        public Werkgever Werkgever { get; set; } // nodig voor one-to-one-relatie
+        public int ContactPersoonId { get; set; }
+
+        public string Naam { get; set; }
+
+        public string Voornaam { get; set; }
+
+        public string Emailadres { get; set; }
+        public bool IsHoofdContactPersoon { get; set; }
         #endregion
 
         #region Constructors
@@ -13,9 +23,10 @@
             
         }
         public ContactPersoon(string voornaam, string naam, string email)
-            : base(voornaam, naam, email)
         {
-
+            Voornaam = voornaam;
+            Naam = naam;
+            Emailadres = email;
         }
         #endregion
     }

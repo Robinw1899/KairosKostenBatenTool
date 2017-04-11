@@ -18,6 +18,12 @@ namespace KairosWeb_Groep6.Data
 
         public DbSet<Analyse> Analyses { get; set; }
 
+        public DbSet<Werkgever> Werkgevers { get; set; }
+
+        //public DbSet<ContactPersoon> ContactPersonen { get; set; }
+
+        public DbSet<Introductietekst> Introteksten { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -33,6 +39,59 @@ namespace KairosWeb_Groep6.Data
             builder.Entity<Departement>(MapDepartement);
             builder.Entity<Werkgever>(MapWerkgever);
             builder.Entity<Analyse>(MapAnalyse);
+            builder.Entity<ContactPersoon>(MapContactPersoon);
+            builder.Entity<Introductietekst>(MapIntroductietekst);
+            builder.Entity<Paragraaf>(MapParagraaf);
+        }
+
+        private static void MapContactPersoon(EntityTypeBuilder<ContactPersoon> c)
+        {
+            c.ToTable("ContactPersoon");
+
+            c.HasKey(t => t.ContactPersoonId);
+
+            c.Property(t => t.Naam)
+                .IsRequired();
+
+            c.Property(t => t.Voornaam)
+                .IsRequired();
+
+            c.Property(t => t.Emailadres)
+                .IsRequired();
+
+            c.HasIndex(t => t.Emailadres)
+                .IsUnique();
+        }
+
+        private static void MapParagraaf(EntityTypeBuilder<Paragraaf> p)
+        {
+            p.ToTable("Paragraaf");
+
+            p.HasKey(t => t.ParagraafId);
+
+            p.Property(t => t.Volgnummer)
+                .IsRequired();
+
+            p.Property(t => t.Tekst)
+                .IsRequired();
+        }
+
+        private static void MapIntroductietekst(EntityTypeBuilder<Introductietekst> i)
+        {
+            i.ToTable("Introductietekst");
+
+            i.HasKey(t => t.IntroductietekstId);
+
+            i.Property(t => t.Titel)
+                .IsRequired();
+
+            i.Property(t => t.Vraag)
+                .IsRequired();
+
+            i.HasMany(t => t.Paragrafen)
+                .WithOne()
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         private void MapDepartement(EntityTypeBuilder<Departement> d)
@@ -54,6 +113,10 @@ namespace KairosWeb_Groep6.Data
             a.ToTable("Analyse");
 
             a.HasKey(t => t.AnalyseId);
+
+            a.Property(t => t.InArchief)
+                .HasDefaultValue(false)
+                .IsRequired();
 
             a.HasOne(t => t.Departement)
                 .WithMany()
@@ -151,9 +214,11 @@ namespace KairosWeb_Groep6.Data
             p.Property(t => t.Emailadres)
                 .IsRequired();
 
+            p.HasIndex(t => t.Emailadres)
+                .IsUnique();
+
             p.HasDiscriminator<string>("Discriminator")
                 .HasValue<Persoon>("Persoon")
-                .HasValue<ContactPersoon>("ContactPersoon")
                 .HasValue<Jobcoach>("Jobcoach");
         }
 
@@ -161,10 +226,10 @@ namespace KairosWeb_Groep6.Data
         {
             j.ToTable("Jobcoach");
 
-            j.Property(t => t.AlAangemeld)
-                .IsRequired();
-
             j.Property(t => t.Wachtwoord)
+                .IsRequired(false);
+
+            j.Property(t => t.AlAangemeld)
                 .IsRequired();
 
             j.HasOne(t => t.Organisatie)
@@ -173,7 +238,8 @@ namespace KairosWeb_Groep6.Data
 
             j.HasMany(t => t.Analyses)
                 .WithOne()
-                .IsRequired(false);
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
         }
 
         private static void MapWerkgever(EntityTypeBuilder<Werkgever> w)
@@ -196,6 +262,16 @@ namespace KairosWeb_Groep6.Data
 
             w.Property(t => t.Gemeente)
                 .IsRequired();
+
+            w.HasMany(t => t.ContactPersonen)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Restrict); 
+
+            w.HasMany(t => t.Departementen)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
         }
+       
+
     }
 }

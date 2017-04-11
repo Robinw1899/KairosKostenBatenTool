@@ -71,5 +71,19 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
             AantalWerkuren = werkgever.AantalWerkuren;
             PatronaleBijdrage = werkgever.PatronaleBijdrage;  
         }
+        public WerkgeverViewModel(Werkgever werkgever)
+        {
+            WerkgeverId = werkgever.WerkgeverId;
+            Naam = werkgever.Naam;
+            Straat = werkgever.Straat;
+            Nummer = werkgever.Nummer;
+            Bus = werkgever.Bus;
+            Postcode = werkgever.Postcode;
+            Gemeente = werkgever.Gemeente;
+
+            AantalWerkuren = werkgever.AantalWerkuren;
+            PatronaleBijdrage = werkgever.PatronaleBijdrage;
+
+        }
     }
 }

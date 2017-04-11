@@ -21,7 +21,7 @@ namespace KairosWeb_Groep6.Data.Repositories
             _analyses = dbContext.Analyses;
         }
 
-        public IEnumerable<Analyse> GetAll()
+        public IEnumerable<Analyse> GetAnalysesNietInArchief()
         {
             return _analyses
                 .Include(a => a.Departement)
@@ -35,6 +35,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.GereedschapsKosten)
                 .Include(a => a.InfrastructuurKosten)
                 .Include(a => a.Loonkosten)
+                .Include(a => a.ExtraKosten)
                 .Include(a => a.MedewerkersHogerNiveauBaat)
                 .Include(a => a.MedewerkersZelfdeNiveauBaat)
                 .Include(a => a.OpleidingsKosten)
@@ -42,6 +43,34 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.Subsidie)
                 .Include(a => a.UitzendKrachtBesparingen)
                 .Include(a => a.VoorbereidingsKosten)
+                .Where(a => a.InArchief == false)
+                .AsNoTracking()
+                .ToList();
+        }
+
+        public IEnumerable<Analyse> GetAnalysesUitArchief()
+        {
+            return _analyses
+                .Include(a => a.Departement)
+                    .ThenInclude(d => d.Werkgever)
+                .Include(a => a.BegeleidingsKosten)
+                .Include(a => a.EnclaveKosten)
+                .Include(a => a.ExterneInkopen)
+                .Include(a => a.ExtraBesparingen)
+                .Include(a => a.ExtraOmzet)
+                .Include(a => a.ExtraProductiviteit)
+                .Include(a => a.GereedschapsKosten)
+                .Include(a => a.InfrastructuurKosten)
+                .Include(a => a.Loonkosten)
+                .Include(a => a.ExtraKosten)
+                .Include(a => a.MedewerkersHogerNiveauBaat)
+                .Include(a => a.MedewerkersZelfdeNiveauBaat)
+                .Include(a => a.OpleidingsKosten)
+                .Include(a => a.OverurenBesparing)
+                .Include(a => a.Subsidie)
+                .Include(a => a.UitzendKrachtBesparingen)
+                .Include(a => a.VoorbereidingsKosten)
+                .Where(a => a.InArchief) // == true mag weggelaten worden
                 .AsNoTracking()
                 .ToList();
         }

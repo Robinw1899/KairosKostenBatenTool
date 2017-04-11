@@ -1,0 +1,32 @@
+﻿@using KairosWeb_Groep6.Models.Domain
+@model IEnumerable<Departement>
+
+@if (!Model.Any())
+{
+    <p class="alert alert-info animated shake">Er zijn geen departementen gevonden voor deze werkgever. Probeer een andere zoekterm of maak een niew departement aan.</p>
+}
+else
+{
+    <table class="table table-condensed table-bordered">
+        <tr>
+            <th></th>
+            <th>Departement</th>                  
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <div class="options">
+                        <!--Deze action moet normaal naar de navigatie gaan voor baten-->
+                        <a asp-action="SelecteerBestaandeWerkgever" asp-route-id="@item.DepartementId">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </td>
+                <td>@item.Naam</td>
+               
+            </tr>
+        }
+    </table>
+}
