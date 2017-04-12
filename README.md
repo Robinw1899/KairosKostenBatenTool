@@ -10,6 +10,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 ## Vragen voor klant
 * URL maken voor registreren, wachtwoord vergeten?
 * B.2. in Excel Resultaat is fout
+* Is een terugknop echt nodig in de desktopapplicatie?
 
 ## Niet vergeten!
 * Vaak committen
