@@ -31,6 +31,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Vinkje bij bestaande werkgever groter of anders oplossen (klikken op de rij)
 * Zoekknop bij bestaande werkgever
 * Berekende velden duidelijker aangeven
+* Infrastructuurkost omvormen naar PersoneelsKost
 
 ## Retrospective
 ### Wat ging goed?
