@@ -5,7 +5,6 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 ## Opgenomen priors in sprint 4
 * 30: de jobcoach moet een berekening maken voor één specifieke werkgever
 * 80: de jobcoach moet het resultaat van de berekening in pdf kunnen opslaan, afdrukken of rechtstreeks via mail kunnen versturen naar werkgever
-* 110: administrator moet gebruikersaccounts kunnen aanpassen/verwijderen
 
 ## Vragen voor klant
 * URL maken voor registreren, wachtwoord vergeten?
@@ -32,13 +31,6 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Vinkje bij bestaande werkgever groter of anders oplossen (klikken op de rij)
 * Zoekknop bij bestaande werkgever
 * Berekende velden duidelijker aangeven
-
-### To do voor Java
-* Wachtwoord vergeten
-
-### Andere (lastenboek, etc.)
-* Afgewerkte UC's opschrijven
-* Admin moet niet inloggen op webapp
 
 ## Retrospective
 ### Wat ging goed?
