@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
-using KairosWeb_Groep6.Models.KairosViewModels.Kosten.ExtraKostViewModels;
+using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
@@ -22,24 +22,26 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             _analyseRepository = analyseRepository;
         }
 
+        #region Index
         public IActionResult Index(Analyse analyse)
         {
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
-
-            ExtraKostenIndexViewModel model = MaakModel(analyse);
-
-            if (IsAjaxRequest())
-            {
-                PlaatsTotaalInViewData(analyse);
-                return PartialView("_OverzichtTabel", model.ViewModels);
-            }
+            IEnumerable<ExtraKostViewModel> viewModels = MaakModel(analyse);
 
             PlaatsTotaalInViewData(analyse);
 
-            return View(model);
+            return View(viewModels);
+        }
+        #endregion
+
+        #region VoegToe
+        public IActionResult VoegToe()
+        {
+            ExtraKostViewModel model = new ExtraKostViewModel();
+            return PartialView("_Formulier", model);
         }
 
-        public IActionResult VoegToe(Analyse analyse, ExtraKostenIndexViewModel model)
+        [HttpPost]
+        public IActionResult VoegToe(Analyse analyse, ExtraKostViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -51,107 +53,122 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     Bedrag = model.Bedrag
                 };
 
-                analyse.ExtraKosten.Add(kost);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                try
+                {
+                    analyse.ExtraKosten.Add(kost);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
 
-                model = MaakModel(analyse);
-
-                TempData["message"] = "De kost is succesvol toegevoegd.";
+                    TempData["message"] = "De kost is succesvol toegevoegd.";
+                }
+                catch
+                {
+                    ViewData["error"] = "Er ging iets mis, probeer later opnieuw";
+                }
             }
 
             PlaatsTotaalInViewData(analyse);
 
-            return RedirectToAction("Index", model);
+            return RedirectToAction("Index");
         }
+        #endregion
 
+        #region Bewerk
         public IActionResult Bewerk(Analyse analyse, int id)
-        {// id is het id van de baat die moet bewerkt wordens
-            ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
-
-            ExtraKostenIndexViewModel model = MaakModel(analyse);
-
-            if (kost != null)
+        {// id is het id van de kost die moet bewerkt wordens
+            try
             {
+                ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
+                ExtraKostViewModel model = new ExtraKostViewModel();
+
                 // parameters voor formulier instellen
-                model.Id = id;
-                model.Type = kost.Type;
-                model.Soort = kost.Soort;
-                model.Beschrijving = kost.Beschrijving;
-                model.Bedrag = kost.Bedrag;
-                model.ViewModels = analyse.ExtraKosten
-                    .Select(m => new ExtraKostViewModel(m));
-                model.ToonFormulier = 1;
+                if (kost != null)
+                {
+                    model.Id = id;
+                    model.Type = kost.Type;
+                    model.Soort = kost.Soort;
+                    model.Beschrijving = kost.Beschrijving;
+                    model.Bedrag = kost.Bedrag;
+
+                    return PartialView("_Formulier", model);
+                }
+            }
+            catch
+            {
+                ViewData["error"] = "Er ging iets mis, probeer later opnieuw";
             }
 
-            PlaatsTotaalInViewData(analyse);
+            ViewData["error"] = "Deze kost bestaat niet";
 
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, ExtraKostenIndexViewModel model)
+        public IActionResult Bewerk(Analyse analyse, ExtraKostViewModel model)
         {
-            ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, model.Id);
-
-            if (ModelState.IsValid && kost != null)
+            try
             {
-                // parameters voor formulier instellen
-                kost.Id = model.Id;
-                kost.Type = model.Type;
-                kost.Soort = model.Soort;
-                kost.Beschrijving = model.Beschrijving;
-                kost.Bedrag = model.Bedrag;
+                ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, model.Id);
 
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                if (ModelState.IsValid && kost != null)
+                {
+                    kost.Id = model.Id;
+                    kost.Type = model.Type;
+                    kost.Soort = model.Soort;
+                    kost.Beschrijving = model.Beschrijving;
+                    kost.Bedrag = model.Bedrag;
 
-                model = MaakModel(analyse);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
 
-                TempData["message"] = "De kost is succesvol opgeslaan.";
+                    TempData["message"] = "De kost is succesvol opgeslaan.";
+                }
+            }
+            catch
+            {
+                ViewData["error"] = "Er ging iets mis, probeer later opnieuw";
             }
 
             PlaatsTotaalInViewData(analyse);
 
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
+        #endregion
 
+        #region Verwijder
         public IActionResult Verwijder(Analyse analyse, int id)
-        {// id is het id van de baat die moet verwijderd worden
-            ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
-
-            if (kost != null)
+        {// id is het id van de kost die moet verwijderd worden
+            try
             {
-                analyse.ExtraKosten.Remove(kost);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
-            }
+                ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
 
-            ExtraKostenIndexViewModel model = MaakModel(analyse);
+                if (kost != null)
+                {
+                    analyse.ExtraKosten.Remove(kost);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+                }
+            }
+            catch
+            {
+                ViewData["error"] = "Er ging iets mis, probeer later opnieuw";
+                PlaatsTotaalInViewData(analyse);
+                return RedirectToAction("Index");
+            }
+            
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = "De kost is succesvol verwijderd.";
-
-            return View("Index", model);
+            return PartialView("_OverzichtTabel", MaakModel(analyse));
         }
+        #endregion
 
-        private ExtraKostenIndexViewModel MaakModel(Analyse analyse)
+        #region Helpers
+        private IEnumerable<ExtraKostViewModel> MaakModel(Analyse analyse)
         {
-            ExtraKostenIndexViewModel model = new ExtraKostenIndexViewModel()
-            {
-                Type = Type.Kost,
-                Soort = Soort.ExtraKost,
-                ViewModels = analyse
-                                .ExtraKosten
-                                .Select(m => new ExtraKostViewModel(m))
-            };
-
-            return model;
-        }
-
-        private bool IsAjaxRequest()
-        {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            return analyse
+                .ExtraKosten
+                .Select(m => new ExtraKostViewModel(m))
+                .ToList();
         }
 
         private void PlaatsTotaalInViewData(Analyse analyse)
@@ -165,5 +182,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
             ViewData["totaal"] = totaal.ToString("C");
         }
+        #endregion
     }
 }

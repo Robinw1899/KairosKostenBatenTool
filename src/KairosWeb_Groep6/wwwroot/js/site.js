@@ -64,6 +64,33 @@
         if (localStorage != null) {
             localStorage.setItem("intro", "");
         }
+    },
+    initFunctionsKostenEnBaten: function() {
+        $("#add").click(function (event) {
+            event.preventDefault();
+            $.get("/ExtraKosten/VoegToe",
+                function (data) {
+                    $("#divForm").html(data);
+                    siteView.toonFormulier();
+                });
+        });
+
+        $("#bewerk").click(function (event) {
+            event.preventDefault();
+            $.get($(this).attr("href"),
+                function (data) {
+                    $("#divForm").html(data);
+                    siteView.toonFormulier();
+                });
+        });
+
+        $("#verwijder").click(function (event) {
+            event.preventDefault();
+            $.get($(this).attr("href"),
+                function (data) {
+                    $("#data").html(data);
+                });
+        });
     }
 };
 

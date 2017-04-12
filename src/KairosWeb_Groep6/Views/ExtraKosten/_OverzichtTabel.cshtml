@@ -1,4 +1,4 @@
-﻿@using KairosWeb_Groep6.Models.KairosViewModels.Kosten.ExtraKostViewModels
+﻿@using KairosWeb_Groep6.Models.KairosViewModels.Kosten
 @model IEnumerable<ExtraKostViewModel>
 
 <table class="table table-bordered table-condensed table-responsive">
@@ -26,8 +26,8 @@
                 <td>@kost.Bedrag.ToString("C")</td>
                 <td>
                     <div class="options">
-                        <a asp-action="Bewerk" asp-route-id="@kost.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <a asp-action="Verwijder" asp-route-id="@kost.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        <a asp-action="Bewerk" asp-route-id="@kost.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a asp-action="Verwijder" asp-route-id="@kost.Id" id="verwijder"><i class="fa fa-trash" aria-hidden="true"></i></a>
                     </div>
                 </td>
             </tr>

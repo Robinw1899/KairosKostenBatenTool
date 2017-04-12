@@ -3,7 +3,7 @@ using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.ExtraKostViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 {
     public class ExtraKostViewModel
     {
