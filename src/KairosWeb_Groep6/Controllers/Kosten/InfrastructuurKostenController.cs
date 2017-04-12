@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -6,8 +7,7 @@ using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
-using KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenViewModels;
-using Type = KairosWeb_Groep6.Models.Domain.Type;
+using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
@@ -22,20 +22,26 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             _analyseRepository = analyseRepository;
         }
 
+        #region Index
         public IActionResult Index(Analyse analyse)
         {
-            InfrastructuurKostenIndexViewModel model = MaakModel(analyse);
+            IEnumerable<InfrastructuurKostViewModel> viewModels = MaakModel(analyse);
 
-            if (IsAjaxRequest())
-            {
-                PlaatsTotaalInViewData(analyse);
-                return PartialView("_OverzichtTabel", model.ViewModels);
-            }
+            PlaatsTotaalInViewData(analyse);
 
-            return View(model);
+            return View(viewModels);
+        }
+        #endregion
+
+        #region VoegToe
+        public IActionResult VoegToe()
+        {
+            InfrastructuurKostViewModel model = new InfrastructuurKostViewModel();
+            return PartialView("_Formulier", model);
         }
 
-        public IActionResult VoegToe(Analyse analyse, InfrastructuurKostenIndexViewModel model)
+        [HttpPost]
+        public IActionResult VoegToe(Analyse analyse, InfrastructuurKostViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -47,107 +53,121 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     Bedrag = model.Bedrag
                 };
 
-                analyse.InfrastructuurKosten.Add(kost);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                try
+                {
+                    analyse.InfrastructuurKosten.Add(kost);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
 
-                model = MaakModel(analyse);
-
-                TempData["message"] = "De kost is succesvol toegevoegd.";
+                    TempData["message"] = "De kost is succesvol toegevoegd.";
+                }
+                catch
+                {
+                    TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+                }
             }
 
             PlaatsTotaalInViewData(analyse);
 
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
+        #endregion
 
+        #region Bewerk
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            InfrastructuurKost kost = KostOfBaatExtensions.GetBy(analyse.InfrastructuurKosten, id);
-
-            InfrastructuurKostenIndexViewModel model = MaakModel(analyse);
-
-            if (kost != null)
+            try
             {
-                // parameters voor formulier instellen
-                model.Id = id;
-                model.Type = kost.Type;
-                model.Soort = kost.Soort;
-                model.Beschrijving = kost.Beschrijving;
-                model.Bedrag = kost.Bedrag;
-                model.ViewModels = analyse.InfrastructuurKosten
-                                            .Select(m => new InfrastructuurKostenViewModel(m));
-                model.ToonFormulier = 1;
+                InfrastructuurKost kost = KostOfBaatExtensions.GetBy(analyse.InfrastructuurKosten, id);
+
+                InfrastructuurKostViewModel model = new InfrastructuurKostViewModel();
+
+                if (kost != null)
+                {
+                    // parameters voor formulier instellen
+                    model.Id = id;
+                    model.Type = kost.Type;
+                    model.Soort = kost.Soort;
+                    model.Beschrijving = kost.Beschrijving;
+                    model.Bedrag = kost.Bedrag;
+                }
+
+                return PartialView("_Formulier", model);
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
             }
 
-            PlaatsTotaalInViewData(analyse);
-
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, InfrastructuurKostenIndexViewModel model)
+        public IActionResult Bewerk(Analyse analyse, InfrastructuurKostViewModel model)
         {
-            InfrastructuurKost kost = KostOfBaatExtensions.GetBy(analyse.InfrastructuurKosten, model.Id);
-
-            if (ModelState.IsValid && kost != null)
+            try
             {
-                // parameters voor formulier instellen
-                kost.Id = model.Id;
-                kost.Type = model.Type;
-                kost.Soort = model.Soort;
-                kost.Beschrijving = model.Beschrijving;
-                kost.Bedrag = model.Bedrag;
+                InfrastructuurKost kost = KostOfBaatExtensions.GetBy(analyse.InfrastructuurKosten, model.Id);
 
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                if (ModelState.IsValid && kost != null)
+                {
+                    kost.Id = model.Id;
+                    kost.Type = model.Type;
+                    kost.Soort = model.Soort;
+                    kost.Beschrijving = model.Beschrijving;
+                    kost.Bedrag = model.Bedrag;
 
-                model = MaakModel(analyse);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
 
-                TempData["message"] = "De kost is succesvol opgeslaan.";
+                    TempData["message"] = "De kost is succesvol opgeslaan.";
+                }
             }
-
+            catch
+            {
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+            }
+           
             PlaatsTotaalInViewData(analyse);
 
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
+        #endregion
 
+        #region Verwijder
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            InfrastructuurKost kost = KostOfBaatExtensions.GetBy(analyse.InfrastructuurKosten, id);
-
-            if (kost != null)
+            try
             {
-                analyse.InfrastructuurKosten.Remove(kost);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
-            }
+                InfrastructuurKost kost = KostOfBaatExtensions.GetBy(analyse.InfrastructuurKosten, id);
 
-            InfrastructuurKostenIndexViewModel model = MaakModel(analyse);
+                if (kost != null)
+                {
+                    analyse.InfrastructuurKosten.Remove(kost);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+                }
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+                PlaatsTotaalInViewData(analyse);
+                return RedirectToAction("Index");
+            }
+            
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = "De kost is succesvol verwijderd.";
-
-            return View("Index", model);
+            return PartialView("_OverzichtTabel", MaakModel(analyse));
         }
+        #endregion
 
-        private InfrastructuurKostenIndexViewModel MaakModel(Analyse analyse)
+        #region Helpers
+        private IEnumerable<InfrastructuurKostViewModel> MaakModel(Analyse analyse)
         {
-            InfrastructuurKostenIndexViewModel model = new InfrastructuurKostenIndexViewModel()
-            {
-                Type = Type.Kost,
-                Soort = Soort.InfrastructuurKost,
-                ViewModels = analyse
-                                .InfrastructuurKosten
-                                .Select(m => new InfrastructuurKostenViewModel(m))
-            };
-
-            return model;
-        }
-
-        private bool IsAjaxRequest()
-        {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            return analyse
+                .InfrastructuurKosten
+                .Select(m => new InfrastructuurKostViewModel(m))
+                .ToList();
         }
 
         private void PlaatsTotaalInViewData(Analyse analyse)
@@ -161,5 +181,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
             ViewData["totaal"] = totaal.ToString("C");
         }
+        #endregion
     }
 }

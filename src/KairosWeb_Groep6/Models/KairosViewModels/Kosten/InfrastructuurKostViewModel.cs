@@ -1,15 +1,11 @@
 ﻿using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 {
-    public class InfrastructuurKostenViewModel
+    public class InfrastructuurKostViewModel
     {
         #region Properties
         [HiddenInput]
@@ -31,12 +27,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostenVi
         #endregion
 
         #region Constructors
-        public InfrastructuurKostenViewModel()
+        public InfrastructuurKostViewModel()
         {
 
         }
 
-        public InfrastructuurKostenViewModel(InfrastructuurKost kost)
+        public InfrastructuurKostViewModel(InfrastructuurKost kost)
         {
             Id = kost.Id;
             Type = kost.Type;

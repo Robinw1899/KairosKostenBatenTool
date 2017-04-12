@@ -23,63 +23,67 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         }
 
         #region Index
+
         public IActionResult Index(Analyse analyse)
         {
-            IEnumerable<ExtraKostViewModel> viewModels = MaakModel(analyse);
+            var viewModels = MaakModel(analyse);
 
             PlaatsTotaalInViewData(analyse);
 
             return View(viewModels);
         }
+
         #endregion
 
         #region VoegToe
         public IActionResult VoegToe()
         {
-            ExtraKostViewModel model = new ExtraKostViewModel();
+            var model = new ExtraKostViewModel();
             return PartialView("_Formulier", model);
         }
 
         [HttpPost]
         public IActionResult VoegToe(Analyse analyse, ExtraKostViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                ExtraKost kost = new ExtraKost
+                if (ModelState.IsValid)
                 {
-                    Type = model.Type,
-                    Soort = model.Soort,
-                    Beschrijving = model.Beschrijving,
-                    Bedrag = model.Bedrag
-                };
+                    var kost = new ExtraKost
+                    {
+                        Type = model.Type,
+                        Soort = model.Soort,
+                        Beschrijving = model.Beschrijving,
+                        Bedrag = model.Bedrag
+                    };
 
-                try
-                {
                     analyse.ExtraKosten.Add(kost);
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
 
                     TempData["message"] = "De kost is succesvol toegevoegd.";
                 }
-                catch
-                {
-                    TempData["error"] = "Er ging iets mis, probeer later opnieuw";
-                }
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
             }
 
             PlaatsTotaalInViewData(analyse);
 
             return RedirectToAction("Index");
         }
+
         #endregion
 
         #region Bewerk
         public IActionResult Bewerk(Analyse analyse, int id)
-        {// id is het id van de kost die moet bewerkt wordens
+        {
+            // id is het id van de kost die moet bewerkt wordens
             try
             {
-                ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
-                ExtraKostViewModel model = new ExtraKostViewModel();
+                var kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
+                var model = new ExtraKostViewModel();
 
                 // parameters voor formulier instellen
                 if (kost != null)
@@ -106,7 +110,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             try
             {
-                ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, model.Id);
+                var kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, model.Id);
 
                 if (ModelState.IsValid && kost != null)
                 {
@@ -131,14 +135,17 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
             return RedirectToAction("Index");
         }
+
         #endregion
 
         #region Verwijder
+
         public IActionResult Verwijder(Analyse analyse, int id)
-        {// id is het id van de kost die moet verwijderd worden
+        {
+            // id is het id van de kost die moet verwijderd worden
             try
             {
-                ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
+                var kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
 
                 if (kost != null)
                 {
@@ -153,14 +160,16 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 PlaatsTotaalInViewData(analyse);
                 return RedirectToAction("Index");
             }
-            
+
             PlaatsTotaalInViewData(analyse);
 
             return PartialView("_OverzichtTabel", MaakModel(analyse));
         }
+
         #endregion
 
         #region Helpers
+
         private IEnumerable<ExtraKostViewModel> MaakModel(Analyse analyse)
         {
             return analyse
@@ -172,14 +181,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         private void PlaatsTotaalInViewData(Analyse analyse)
         {
             if (analyse.ExtraKosten.Count == 0)
-            {
                 ViewData["totaal"] = 0;
-            }
 
-            double totaal = KostOfBaatExtensions.GeefTotaal(analyse.ExtraKosten);
+            var totaal = KostOfBaatExtensions.GeefTotaal(analyse.ExtraKosten);
 
             ViewData["totaal"] = totaal.ToString("C");
         }
+
         #endregion
     }
 }
