@@ -1,9 +1,7 @@
 ﻿using KairosWeb_Groep6.Models.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace KairosWeb_Groep6.Data.Repositories
 {
@@ -40,8 +38,8 @@ namespace KairosWeb_Groep6.Data.Repositories
         public IEnumerable<Werkgever> GetByName(string naam)
         {
             return _werkgevers
+                .Include(w => w.Departementen)
                 .Where(w => w.Naam.Contains(naam))
-                .Include(w=>w.Departementen)
                 .ToList();
         }
 

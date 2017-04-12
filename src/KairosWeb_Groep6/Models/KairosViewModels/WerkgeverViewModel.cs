@@ -54,36 +54,27 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         }
 
         public WerkgeverViewModel(Departement departement)
+            : this(departement.Werkgever)
         {
-            Departement = departement.Naam;
             DepartementId = departement.DepartementId;
-
-            Werkgever werkgever = departement.Werkgever;
-
-            WerkgeverId = werkgever.WerkgeverId;
-            Naam = werkgever.Naam;
-            Straat = werkgever.Straat;
-            Nummer = werkgever.Nummer;
-            Bus = werkgever.Bus;
-            Postcode = werkgever.Postcode;
-            Gemeente = werkgever.Gemeente;
-
-            AantalWerkuren = werkgever.AantalWerkuren;
-            PatronaleBijdrage = werkgever.PatronaleBijdrage;  
+            Departement = departement.Naam;
         }
+
         public WerkgeverViewModel(Werkgever werkgever)
         {
-            WerkgeverId = werkgever.WerkgeverId;
-            Naam = werkgever.Naam;
-            Straat = werkgever.Straat;
-            Nummer = werkgever.Nummer;
-            Bus = werkgever.Bus;
-            Postcode = werkgever.Postcode;
-            Gemeente = werkgever.Gemeente;
+            if (werkgever != null)
+            {
+                WerkgeverId = werkgever.WerkgeverId;
+                Naam = werkgever.Naam;
+                Straat = werkgever.Straat;
+                Nummer = werkgever.Nummer;
+                Bus = werkgever.Bus;
+                Postcode = werkgever.Postcode;
+                Gemeente = werkgever.Gemeente;
 
-            AantalWerkuren = werkgever.AantalWerkuren;
-            PatronaleBijdrage = werkgever.PatronaleBijdrage;
-
+                AantalWerkuren = werkgever.AantalWerkuren;
+                PatronaleBijdrage = werkgever.PatronaleBijdrage;
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.WerkgeverViewModel
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.BestaandDepartementViewModel
 @{
     ViewData["Title"] = "Departementen";
 }
@@ -9,7 +9,7 @@
 <p>Vul een zoekterm in en druk op enter.</p>
 
 <div class="row">
-    <form asp-action="OverzichtDepartementenWerkgever" method="post" id="form">
+    <form asp-action="ZoekDepartementen" method="post" id="form" asp-route-id="@Model.WerkgeverId">
         <div class="form-group col-md-offset-2">
             <label for="naam" class="control-label">Zoekterm</label>
             <div class="">
@@ -25,14 +25,15 @@
 <br />
 
 <div class="row" id="data" style="margin: 0 10px;">
-
+    @Html.Partial("_Departementen", Model.Departementen)
 </div>
 
 
 
 <div class="row">
     <div class="col-xs-12 col-md-12 text-right">
-        <a asp-controller="Werkgever" asp-action="NieuwDepartement" asp-route-id=@Model.DepartementId style="margin-left: 15px" class="btn btn-info">
+        <a asp-controller="Werkgever" asp-action="NieuwDepartement" asp-route-id="@Model.WerkgeverId"
+           style="margin-left: 15px" class="btn btn-info">
             Nieuw departement <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </a>
     </div>

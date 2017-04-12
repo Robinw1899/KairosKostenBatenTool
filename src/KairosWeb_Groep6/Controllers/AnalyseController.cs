@@ -28,24 +28,24 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
-        [ServiceFilter(typeof(AnalyseFilter))]
         [ServiceFilter(typeof(JobcoachFilter))]
-        public IActionResult NieuweAnalyse(Analyse analyse, Jobcoach jobcoach)
+        public IActionResult NieuweAnalyse(Jobcoach jobcoach)
         {//hier word gekozen tussen een nieuwe of bestaande werkgever
-            if (analyse.AnalyseId == 0)
-            {
-                _analyseRepository.Add(analyse);
-                _analyseRepository.Save();
+            Analyse analyse = new Analyse();
 
-                if (jobcoach != null)
-                {
-                    jobcoach = _jobcoachRepository.GetById(jobcoach.PersoonId);
-                    jobcoach.Analyses.Add(analyse);
-                    _jobcoachRepository.Save();
-                }
+            _analyseRepository.Add(analyse);
+            _analyseRepository.Save();
+
+            if (jobcoach != null)
+            {
+                jobcoach = _jobcoachRepository.GetById(jobcoach.PersoonId);
+                jobcoach.Analyses.Add(analyse);
+                _jobcoachRepository.Save();
             }
+
+            AnalyseFilter.SetAnalyseInSession(HttpContext, analyse);
             
-            return View();
+            return RedirectToAction("SelecteerWerkgever", "Werkgever");
         }
 
         public IActionResult OpenAnalyse(int id)

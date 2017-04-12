@@ -1,5 +1,4 @@
-﻿@using KairosWeb_Groep6.Models.Domain
-@model IEnumerable<Departement>
+﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.DepartementViewModel>
 
 @if (!Model.Any())
 {
@@ -19,7 +18,8 @@ else
                 <td>
                     <div class="options">
                         <!--Deze action moet normaal naar de navigatie gaan voor baten-->
-                        <a asp-action="SelecteerBestaandeWerkgever" asp-route-id="@item.DepartementId">
+                        <a asp-action="SelecteerBestaandeWerkgever" asp-route-id="@item.DepartementId"
+                           asp-route-werkgeverid="@item.WerkgeverId">
                             <i class="fa fa-check" aria-hidden="true"></i>
                         </a>
                     </div>

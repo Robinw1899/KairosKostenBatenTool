@@ -76,6 +76,40 @@ namespace KairosWeb_Groep6.Models.Domain
 
             return false;
         }
+
+        protected bool Equals(Werkgever other)
+        {
+            // gegenereerde code
+            if (other == null)
+            {
+                return false;
+            }
+
+            return string.Equals(Naam, other.Naam) 
+                && string.Equals(Straat, other.Straat) 
+                && Nummer == other.Nummer 
+                && string.Equals(Bus, other.Bus) 
+                && Postcode == other.Postcode 
+                && string.Equals(Gemeente, other.Gemeente) 
+                && AantalWerkuren.Equals(other.AantalWerkuren);
+        }
+
+        public override int GetHashCode()
+        {
+            // gegenereerde code
+            unchecked
+            {
+                var hashCode = (Naam != null ? Naam.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Straat != null ? Straat.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ Nummer.GetHashCode();
+                hashCode = (hashCode * 397) ^ (Bus != null ? Bus.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ Postcode;
+                hashCode = (hashCode * 397) ^ (Gemeente != null ? Gemeente.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ AantalWerkuren.GetHashCode();
+                return hashCode;
+            }
+        }
+
         #endregion
     }
 }
