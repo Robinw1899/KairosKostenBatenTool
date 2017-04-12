@@ -17,15 +17,28 @@
     <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
-                <a asp-area="" asp-controller="Profiel" asp-action="Index" title="Manage" style="margin-top: 5px;">Hallo, @ViewData["gebruikersnaam"]!</a>
+                <a asp-area="" asp-controller="Profiel" asp-action="Index" 
+                   data-toggle="tooltip" data-placement="bottom"
+                   title="Ga naar je profiel" style="margin-top: 5px;">Hallo, @ViewData["gebruikersnaam"]!</a>
             </li>
             <li>
-                <a asp-area="" asp-controller="Kairos" asp-action="Opmerking">
+                <a asp-area="" asp-controller="Kairos" asp-action="Opmerking"
+                   data-toggle="tooltip" data-placement="bottom"
+                   title="Ga naar je profiel">
+                    <i class="fa fa-cogs fa-2x" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a asp-area="" asp-controller="Kairos" asp-action="Opmerking"
+                   data-toggle="tooltip" data-placement="bottom"
+                   title="Stuur een vraag/opmerking naar de administrator">
                     <i class="fa fa-envelope-o fa-2x" aria-hidden="true"></i>
                 </a>
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">
+                <button type="submit" class="btn btn-link navbar-btn navbar-link"
+                        data-toggle="tooltip" data-placement="bottom"
+                        title="Meld je af van de applicatie">
                     <i class="fa fa-power-off fa-2x" aria-hidden="true"></i>
                 </button>
             </li>

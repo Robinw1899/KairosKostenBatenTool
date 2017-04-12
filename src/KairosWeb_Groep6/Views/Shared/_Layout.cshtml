@@ -39,7 +39,9 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Kairos" asp-action="Index" class="navbar-brand">
+                <a asp-area="" asp-controller="Kairos" asp-action="Index" class="navbar-brand" 
+                   data-toggle="tooltip" data-placement="bottom"
+                   title="Ga terug naar de homepagina">
                     <img src="/images/logo's/kairos_wordmark_normal.png" alt="Logo Kairos"/>
                 </a>
             </div>
@@ -47,9 +49,21 @@
                 <ul class="nav navbar-nav">
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <li><a asp-area="" asp-controller="Kairos" asp-action="Index"><i class="fa fa-home fa-2x" aria-hidden="true"></i></a></li>
-                        <li><a asp-area="" asp-controller="Analyse" asp-action="NieuweAnalyse"><i class="fa fa-line-chart fa-2x" aria-hidden="true"></i></a></li>
-                        <li><a asp-area="" asp-controller="Archief" asp-action="Index"><i class="fa fa-archive fa-2x" aria-hidden="true"></i></a></li>
+                        <li><a asp-area="" asp-controller="Kairos" asp-action="Index"
+                               data-toggle="tooltip" data-placement="bottom"
+                               title="Ga terug naar de homepagina">
+                            <i class="fa fa-home fa-2x" aria-hidden="true"></i>
+                        </a></li>
+                        <li><a asp-area="" asp-controller="Analyse" asp-action="NieuweAnalyse"
+                               data-toggle="tooltip" data-placement="bottom"
+                               title="Maak een nieuwe analyse">
+                            <i class="fa fa-line-chart fa-2x" aria-hidden="true"></i>
+                        </a></li>
+                        <li><a asp-area="" asp-controller="Archief" asp-action="Index"
+                               data-toggle="tooltip" data-placement="bottom"
+                               title="Ga naar het archief van de analyses">
+                            <i class="fa fa-archive fa-2x" aria-hidden="true"></i>
+                        </a></li>
                     }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
@@ -99,5 +113,10 @@
 </environment>
 
 @RenderSection("scripts", false)
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 </body>
 </html>

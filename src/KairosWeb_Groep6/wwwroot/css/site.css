@@ -130,8 +130,14 @@ li:hover .options i,
     opacity: 1;
 }
 
-/* De tooltips van de kosten en baten een max-width geven */
+/* De andere tooltips een max-width geven */
 .tooltip-inner {
+    max-width: 150px;
+    width: 150px;
+}
+
+/* De tooltips van de kosten en baten een max-width geven */
+.kostenBatenNav .tooltip-inner {
     max-width: 450px;
     width: 450px;
 }
