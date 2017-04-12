@@ -7,7 +7,6 @@ using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
@@ -98,11 +97,11 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             if (ModelState.IsValid && kost != null)
             {
                 // parameters voor formulier instellen
-                model.Id = kost.Id;
-                model.Type = kost.Type;
-                model.Beschrijving = kost.Beschrijving;
-                model.Soort = kost.Soort;
-                model.Bedrag = kost.Bedrag;
+                kost.Id = model.Id;
+                kost.Type = model.Type;
+                kost.Beschrijving = model.Beschrijving;
+                kost.Soort = model.Soort;
+                kost.Bedrag = model.Bedrag;
 
                 analyse.DatumLaatsteAanpassing = DateTime.Now;
                 _analyseRepository.Save();
