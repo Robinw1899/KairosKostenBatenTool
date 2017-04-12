@@ -98,8 +98,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 TempData["error"] = "Er ging iets mis, probeer later opnieuw";
             }
 
-            TempData["error"] = "Deze kost bestaat niet";
-
             return RedirectToAction("Index");
         }
 
@@ -127,6 +125,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             catch
             {
                 TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+                PlaatsTotaalInViewData(analyse);
+                return RedirectToAction("Index");
             }
 
             PlaatsTotaalInViewData(analyse);

@@ -3,9 +3,9 @@ using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.GereedschapsKostenViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 {
-    public class GereedschapsKostenViewModel
+    public class GereedschapsKostViewModel
     {
         #region Properties
         [HiddenInput]
@@ -28,12 +28,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.GereedschapsKostenView
         #endregion
 
         #region Constructors
-        public GereedschapsKostenViewModel()
+        public GereedschapsKostViewModel()
         {
             
         }
 
-        public GereedschapsKostenViewModel(GereedschapsKost kost)
+        public GereedschapsKostViewModel(GereedschapsKost kost)
         {
             Id = kost.Id;
             Type = kost.Type;
