@@ -11,6 +11,17 @@
     font-family: 'Asap', Cambria, sans-serif;
 }
 
+/* Klasse die aangeeft wat er getoond moet worden in de navigatie op mobiele toestellen */
+.mobile {
+    font-size: 1.5em;
+    margin: auto 15px;
+}
+
+/* Klasse die aangeeft wat er enkel getoond moet worden op grote schermen */
+.desktop {
+    display: none !important;
+}
+
 footer {
     color: #97C900;
     font-weight: bold;
@@ -243,4 +254,14 @@ h6#infoTekstVerplichteVelden {
 .kostenBatenNav a::before {
     content: "\f040";
     font-family: FontAwesome;
+}
+
+@media only screen and (min-width: 1024px) {
+    .mobile {
+        display: none;
+    }
+
+    .desktop {
+        display: inline;
+    }
 }
