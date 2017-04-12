@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
@@ -36,7 +37,7 @@ namespace KairosWeb_Groep6.Controllers
         {
             if (analyse.Departement == null || analyse.Departement.Naam.Length == 0)
             {
-                // er is nog geen werkgever, doorsturen naar nieuwe analyse
+                // er is nog geen werkgever, vragen om een werkgever te selecteren
                 return RedirectToAction("SelecteerWerkgever");
             }
 
@@ -75,19 +76,14 @@ namespace KairosWeb_Groep6.Controllers
 
         public IActionResult SelecteerWerkgever()
         {
-            return RedirectToAction("NieuweAnalyse", "Analyse");
+            return View("SelecteerWerkgever");
         }
 
+        #region Nieuwe werkgever
         public IActionResult NieuweWerkgever(Analyse analyse)
         {
-            // nieuwe werkgever aanmaken voor de analyse
-            analyse.Departement = new Departement();
-            analyse.Departement.Werkgever = new Werkgever();
-
             // model aanmaken
             WerkgeverViewModel model = new WerkgeverViewModel{PatronaleBijdrage = 35};
-
-            _analyseRepository.Save();
 
             // view returnen
             return View(model);
@@ -96,32 +92,39 @@ namespace KairosWeb_Groep6.Controllers
         [HttpPost]
         public IActionResult NieuweWerkgever(Analyse analyse, WerkgeverViewModel model)
         {
-            Departement departement = _departementRepository.GetDepByName(model.Departement);
-            if (_departementRepository.GetByName(model.Naam) != null && departement != null && departement.Werkgever.Gemeente == model.Gemeente)
-            {
-                TempData["Error"] = "De Werkgever " + model.Naam +  "met als departement" + model.Departement +" bestaat al.";
-                return RedirectToAction("NieuweWerkgever");
-            }
-           
-           departement = new Departement(model.Departement);
+            Departement departement = _departementRepository.GetByName(model.Departement);
 
-            Werkgever werkgever = new Werkgever(); // nieuwe werkgever aanmaken
-
-            werkgever.Naam = model.Naam;
+            // de werkgever al aanmaken, zodat straks de controle kan gebeuren
+            Werkgever werkgever = new Werkgever
+            {  // nieuwe werkgever aanmaken
+                Naam = model.Naam,
+                Postcode = model.Postcode,
+                Gemeente = model.Gemeente,
+                AantalWerkuren = model.AantalWerkuren,
+                PatronaleBijdrage = model.PatronaleBijdrage
+            };
 
             if (model.Straat != null && model.Nummer != 0)
             {
+                // straat en nummer zijn niet verplicht,
+                // maar als ze ingevuld zijn, instellen in de werkgever
                 werkgever.Straat = model.Straat;
                 werkgever.Nummer = model.Nummer;
                 werkgever.Bus = model.Bus;
             }
 
-            werkgever.Postcode = model.Postcode;
-            werkgever.Gemeente = model.Gemeente;
-            werkgever.AantalWerkuren = model.AantalWerkuren;
-            werkgever.PatronaleBijdrage = model.PatronaleBijdrage;
+            bool result = ControleerBestaandDepartement(departement, werkgever);
 
-            departement.Werkgever = werkgever;
+            if (result)
+            {
+                TempData["Error"] = "De werkgever " + model.Naam + " met als departement " + model.Departement + " bestaat al.";
+
+                // terugsturen naar het formulier
+                return RedirectToAction("NieuweWerkgever", model);
+            }
+
+            // anders maken we een nieuw departement aan
+            departement = new Departement(model.Departement) {Werkgever = werkgever};
 
             // alles instellen
             _departementRepository.Add(departement);
@@ -135,41 +138,23 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction("Index", "Resultaat");
         }
+        #endregion
 
-        public IActionResult AnnuleerNieuweWerkgever(Analyse analyse)
-        {
-            analyse.Departement = null;
-            _analyseRepository.Save();
-
-            return RedirectToAction("NieuweAnalyse", "Analyse");
-        }
-
+        #region Bestaande wergever
         public IActionResult BestaandeWerkgever()
         {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult BestaandeWerkgever(string naam)
-        {
-            IEnumerable<Departement> werkgevers;
-
-            if (naam == null || naam.Equals(""))
-                werkgevers = _departementRepository.GetAll();
-            else
+            IEnumerable<Werkgever> werkgevers = _werkgeverRepository.GetAll().Take(10).ToList();
+            BestaandeWerkgeverViewModel model = new BestaandeWerkgeverViewModel
             {
-                werkgevers = _departementRepository.GetByName(naam);
-            }
+                Werkgevers = werkgevers.Select(w => new WerkgeverViewModel(w))
+                                        .ToList()
+            };
 
-            List<WerkgeverViewModel> viewModels = werkgevers.Select(w => new WerkgeverViewModel(w))
-                .ToList();
-
-            return PartialView("_Werkgevers", viewModels);
+            return View(model);
         }
 
-        public IActionResult SelecteerBestaandeWerkgever(Analyse analyse, int id)
-        {// nog verder veranderen naar redirect naar ResultaatController
-            //de werkgever is geselecteerd je moet dus naar overzicht departementen gaan voor specifieke werkgever
+        public IActionResult SelecteerBestaandeWerkgever(Analyse analyse, int id, int werkgeverid)
+        { // id is het id van het departement dat geselecteerd werd
             Departement departement = _departementRepository.GetById(id);
             analyse.Departement = departement;
 
@@ -179,77 +164,131 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction("Index", "Resultaat");
         }
+        #endregion
 
-        public IActionResult OverzichtDepartementenWerkgever(int id)
-        {
-            Departement departement = _departementRepository.GetById(id);
-            WerkgeverViewModel model = new WerkgeverViewModel(departement);
-            return View(model);
-        }
+        #region Zoekmethoden
+        public IActionResult ZoekDepartementen(int id, string naam)
+        { // id is id van werkgever
+            IEnumerable<Departement> departementen = _departementRepository.GetAllVanWerkgever(id);
 
-        [HttpPost]
-        public IActionResult OverzichtDepartementenWerkgever(int id,string naam)
-        {
-
-            IEnumerable<Departement> departementen;
-            departementen = _departementRepository.GetListDepById(id);
-            if (!(naam == null || naam.Equals("")))
-                departementen = departementen.Where(t=>t.Naam.Contains(naam));
-          
-
-            return PartialView("_departementen", departementen);
-        }
-
-        public IActionResult NieuwDepartement(int id)
-        {
-            Departement departement = _departementRepository.GetById(id);
-            WerkgeverViewModel model = new WerkgeverViewModel(departement);
-            //het geselecteerd departement niet laten tonen
-            return View(model);
-        }
-
-        [HttpPost]
-        [ActionName("NieuwDepartement")]
-        public IActionResult NieuwDepartementPost(Analyse analyse,WerkgeverViewModel model)
-        {
-            if (_departementRepository.GetDepByName(model.Departement) != null && _departementRepository.GetByName(model.Naam) != null)
+            if (naam != null)
             {
-                TempData["Error"] = "Het departement " + model.Departement + "van de werkgever " + model.Naam + " bestaat al";
-                return RedirectToAction("NieuwDepartement");
-            } else
-            {
-                Departement departement = new Departement(model.Departement);
-
-                Werkgever werkgever = _departementRepository.GetByName(model.Naam).First().Werkgever; // Zelfde werkgever maken
-
-                werkgever.Naam = model.Naam;
-
-                if (model.Straat != null && model.Nummer != 0)
-                {
-                    werkgever.Straat = model.Straat;
-                    werkgever.Nummer = model.Nummer;
-                    werkgever.Bus = model.Bus;
-                }
-
-                werkgever.Postcode = model.Postcode;
-                werkgever.Gemeente = model.Gemeente;
-
-                departement.Werkgever = werkgever;
-
-                // alles instellen
-                _departementRepository.Add(departement);
-                analyse.Departement = departement;
-
-                // alles opslaan
-                _departementRepository.Save();
-                _analyseRepository.Save();
-
-
-                return RedirectToAction("Index", "Resultaat");
+                departementen = departementen
+                    .Where(d => d.Naam.IndexOf(naam, StringComparison.OrdinalIgnoreCase) >= 0); // departementen filteren
             }
-          
+
+            var models = departementen.Select(d => new DepartementViewModel(d)
+            {
+                WerkgeverId = id
+            });
+
+            return PartialView("_Departementen", models);
         }
 
+        [HttpPost]
+        public IActionResult ZoekWerkgever(string naam)
+        {
+            IEnumerable<Werkgever> werkgevers;
+
+            if (naam == null || naam.Equals(""))
+                werkgevers = _werkgeverRepository.GetAll();
+            else
+            {
+                werkgevers = _werkgeverRepository.GetByName(naam);
+            }
+
+            List<WerkgeverViewModel> viewModels = werkgevers.Select(w => new WerkgeverViewModel(w))
+                .ToList();
+
+            return PartialView("_Werkgevers", viewModels);
+        }
+        #endregion
+
+        #region Bestaand departement
+        public IActionResult BestaandDepartement(int id)
+        {// id is is het id van de werkgever
+            IEnumerable<Departement> departementen = _departementRepository.GetAllVanWerkgever(id);
+
+            BestaandDepartementViewModel model = new BestaandDepartementViewModel
+            {
+                WerkgeverId = id,
+                Departementen = departementen
+                    .Select(d => new DepartementViewModel(d)
+                    {
+                        WerkgeverId = id
+                    })
+                    .AsEnumerable()
+            };
+
+            return View(model);
+        }
+        #endregion
+
+        #region Nieuw departement
+        public IActionResult NieuwDepartement(int id)
+        { 
+            // id is het id van de werkgever
+            // werkgever ophalen
+            Werkgever werkgever = _werkgeverRepository.GetById(id);
+
+            // viewmodel aanmaken
+            WerkgeverViewModel model = new WerkgeverViewModel(werkgever);
+            
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult NieuwDepartement(Analyse analyse, WerkgeverViewModel model)
+        {
+            Departement departement = _departementRepository.GetByName(model.Departement);
+            Werkgever werkgever = new Werkgever
+            {  // nieuwe werkgever aanmaken
+                Naam = model.Naam,
+                Postcode = model.Postcode,
+                Gemeente = model.Gemeente,
+                AantalWerkuren = model.AantalWerkuren,
+                PatronaleBijdrage = model.PatronaleBijdrage
+            };
+
+            if (model.Straat != null && model.Nummer != 0)
+            {
+                // straat en nummer zijn niet verplicht,
+                // maar als ze ingevuld zijn, instellen in de werkgever
+                werkgever.Straat = model.Straat;
+                werkgever.Nummer = model.Nummer;
+                werkgever.Bus = model.Bus;
+            }
+
+            bool result = ControleerBestaandDepartement(departement, werkgever);
+
+            if (result)
+            {
+                TempData["Error"] = "De werkgever " + model.Naam + " met als departement " + model.Departement + " bestaat al.";
+
+                // terugsturen naar het formulier
+                return RedirectToAction("NieuweWerkgever", model);
+            }
+
+            departement = new Departement(model.Departement);
+
+            werkgever = _werkgeverRepository.GetById(model.WerkgeverId);
+
+            departement.Werkgever = werkgever;
+
+            // alles instellen
+            _departementRepository.Add(departement);
+            analyse.Departement = departement;
+
+            // alles opslaan
+            _departementRepository.Save();
+            _analyseRepository.Save();
+
+
+            return RedirectToAction("Index", "Resultaat");
+        }
+        #endregion
+
+        #region Contactpersonen
         public IActionResult VoegContactPersoonToe(int id)
         {     
             ContactPersoonViewModel model = new ContactPersoonViewModel();
@@ -269,5 +308,30 @@ namespace KairosWeb_Groep6.Controllers
 
            return RedirectToAction("Index");
         }
+        #endregion
+
+        #region Helpers
+        private bool ControleerBestaandDepartement(Departement departement, Werkgever werkgever)
+        {
+            if (departement != null)
+            {
+                // het departement bestaat al, kijken of de werkgever ook al bestaat
+                Werkgever other = departement.Werkgever;
+
+                if (string.Equals(werkgever.Naam, other.Naam)
+                    && string.Equals(werkgever.Straat, other.Straat)
+                    && werkgever.Nummer == other.Nummer
+                    && werkgever.Postcode == other.Postcode
+                    && string.Equals(werkgever.Gemeente, other.Gemeente)
+                    && werkgever.AantalWerkuren.Equals(other.AantalWerkuren))
+                {
+                    // beiden bestaan al
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        #endregion
     }
 }

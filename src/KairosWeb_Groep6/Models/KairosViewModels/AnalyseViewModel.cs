@@ -45,8 +45,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
             }
             else
             {
-                Werkgever = "Werkgever nog niet ingevuld";
-                Departement = "Departement nog niet ingevuld";
+                Werkgever = "Onbekend";
+                Departement = "Onbekend";
             }
 
             KostenTotaal =  analyse.GeefTotalenKosten()

@@ -11,39 +11,34 @@ namespace KairosWeb_Groep6.Data.Repositories
         private readonly ApplicationDbContext _dbContext;
         private readonly DbSet<Departement> _departementen;
 
-        public DepartementRepository(ApplicationDbContext _context)
+        public DepartementRepository(ApplicationDbContext context)
         {
-            _dbContext = _context;
-            _departementen = _context.Departementen;
+            _dbContext = context;
+            _departementen = context.Departementen;
         }
+
         public IEnumerable<Departement> GetAll()
         {
             return _departementen
                 .Include(d => d.Werkgever)
-                .AsNoTracking();
-        }
-
-        public IEnumerable<Departement> GetByName(string naam)
-        {
-            return _departementen
-                .Include(d => d.Werkgever)
-                .Where(d => d.Werkgever.Naam.Contains(naam))
+                .AsNoTracking()
                 .ToList();
         }
 
-        public Departement GetDepByName(string naam)
+        public IEnumerable<Departement> GetAllVanWerkgever(int id)
         {
             return _departementen
                 .Include(d => d.Werkgever)
-                .Where(d => d.Naam.Contains(naam))
-                .FirstOrDefault();
+                .Where(d => d.Werkgever != null)
+                .Where(d => d.Werkgever.WerkgeverId == id)
+                .ToList();
         }
 
-        public IEnumerable<Departement> GetListDepByName(int id)
+        public Departement GetByName(string name)
         {
-            return _departementen.Include(d => d.Werkgever)
-                .Where(d => d.Werkgever.Naam.Equals(GetById(id).Werkgever.Naam))
-                .ToList();
+            return _departementen
+                .Include(d => d.Werkgever)
+                .FirstOrDefault(d => d.Naam.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
         public Departement GetById(int id)
@@ -52,7 +47,6 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(d => d.Werkgever)
                 .SingleOrDefault(w => w.DepartementId == id);
         }
-
 
         public void Add(Departement werkgever)
         {
@@ -67,22 +61,6 @@ namespace KairosWeb_Groep6.Data.Repositories
         public void Save()
         {
             _dbContext.SaveChanges();
-        }
-
-        public IEnumerable<Departement> GetListDepById(int id)
-        {
-           return _departementen
-                .Include(d => d.Werkgever)
-                .Where(d => d.Werkgever.WerkgeverId == id)
-                .ToList();
-        }
-
-        public Werkgever GetWerkgById(int id)
-        {
-            return _departementen.Include(d => d.Werkgever)
-                .Where(d => d.Werkgever.WerkgeverId == id)
-                .Select(d=>d.Werkgever)
-                .First();
         }
     }
 }
