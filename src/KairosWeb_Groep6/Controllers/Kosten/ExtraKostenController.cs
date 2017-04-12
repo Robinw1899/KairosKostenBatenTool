@@ -63,7 +63,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 }
                 catch
                 {
-                    ViewData["error"] = "Er ging iets mis, probeer later opnieuw";
+                    TempData["error"] = "Er ging iets mis, probeer later opnieuw";
                 }
             }
 
@@ -95,10 +95,10 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             }
             catch
             {
-                ViewData["error"] = "Er ging iets mis, probeer later opnieuw";
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
             }
 
-            ViewData["error"] = "Deze kost bestaat niet";
+            TempData["error"] = "Deze kost bestaat niet";
 
             return RedirectToAction("Index");
         }
@@ -126,7 +126,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             }
             catch
             {
-                ViewData["error"] = "Er ging iets mis, probeer later opnieuw";
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -151,7 +151,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             }
             catch
             {
-                ViewData["error"] = "Er ging iets mis, probeer later opnieuw";
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
                 PlaatsTotaalInViewData(analyse);
                 return RedirectToAction("Index");
             }

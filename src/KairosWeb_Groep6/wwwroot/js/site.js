@@ -66,16 +66,7 @@
         }
     },
     initFunctionsKostenEnBaten: function() {
-        $("#add").click(function (event) {
-            event.preventDefault();
-            $.get("/ExtraKosten/VoegToe",
-                function (data) {
-                    $("#divForm").html(data);
-                    siteView.toonFormulier();
-                });
-        });
-
-        $("#bewerk").click(function (event) {
+        $("a#add").click(function (event) {
             event.preventDefault();
             $.get($(this).attr("href"),
                 function (data) {
@@ -84,7 +75,16 @@
                 });
         });
 
-        $("#verwijder").click(function (event) {
+        $("a#bewerk").click(function(event) {
+            event.preventDefault();
+            $.get($(this).attr("href"),
+                function(data) {
+                    $("#divForm").html(data);
+                    siteView.toonFormulier();
+                });
+        });
+
+        $("a#verwijder").click(function (event) {
             event.preventDefault();
             $.get($(this).attr("href"),
                 function (data) {

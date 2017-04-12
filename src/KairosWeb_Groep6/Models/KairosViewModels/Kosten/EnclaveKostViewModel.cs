@@ -3,9 +3,9 @@ using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 {
-    public class EnclaveKostenViewModel
+    public class EnclaveKostViewModel
     {
         #region Properties
         [HiddenInput]
@@ -27,11 +27,11 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModels
         #endregion
 
         #region Constructors
-        public EnclaveKostenViewModel()
+        public EnclaveKostViewModel()
         {
 
         }
-        public EnclaveKostenViewModel(EnclaveKost kost)
+        public EnclaveKostViewModel(EnclaveKost kost)
         {
             Id = kost.Id;
             Type = kost.Type;

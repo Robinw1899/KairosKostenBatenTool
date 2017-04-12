@@ -1,5 +1,4 @@
-﻿@using KairosWeb_Groep6.Models.KairosViewModels.Kosten
-@model IEnumerable<ExtraKostViewModel>
+﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.ExtraKostViewModel>
 
 <table class="table table-bordered table-condensed table-responsive">
     <tr>
@@ -19,7 +18,7 @@
     }
     else
     {
-        foreach (ExtraKostViewModel kost in Model)
+        foreach (var kost in Model)
         {
             <tr>
                 <td>@kost.Beschrijving</td>
