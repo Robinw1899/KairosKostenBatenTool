@@ -123,9 +123,6 @@ namespace KairosWeb_Groep6
             //                                                  departementRepository, analyseRepository,werkgeverRepository,
             //                                                 introductietekstRepository);
             //initializer.InitializeData().Wait();
-            //DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
-            //    werkgeverRepository, analyseRepository, introductietekstRepository);
-            //initializer.InitializeData().Wait();
         }
     }
 }
