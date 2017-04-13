@@ -1,0 +1,52 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.BestaandeContactPersoonViewModel
+@{
+    ViewData["Title"] = "Contact personen";
+}
+<div class="page-header">
+    <h3>@ViewData["Title"]</h3>
+</div>
+
+
+
+@if (!Model.ContactPersonen.Any())
+{
+    <p class="alert alert-info animated shake">Er zijn geen contact personen gevonden. Probeer een andere zoekterm of maak een nieuwe werkgever aan.</p>
+}
+else
+{
+    <table class="table table-condensed table-bordered">
+        <tr>            
+            <th>Naam</th>
+            <th>Voornaam</th>
+            <th>E-mail</th>
+        </tr>
+    
+        @foreach (var item in Model.ContactPersonen)
+        {
+            <tr>
+                <td>@item.Naam</td>
+                <td>@item.Voornaam</td>
+                <td>@item.Email</td>               
+            </tr>
+        }
+    </table>
+}
+<br />
+
+
+<div class="row">
+    <div class="col-xs-12 col-md-12 text-right">     
+        <input type="submit" value="Zoek" class="btn btn-info" />
+        <a asp-controller="Werkgever" asp-action="Index" class="btn btn-default" style="margin-left: 15px;">Terug</a>      
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>       
+        $("#werkgever").addClass("active");
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
