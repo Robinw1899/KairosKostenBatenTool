@@ -1,16 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
+using Microsoft.AspNetCore.Mvc;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 {
     public class BegeleidingsKostViewModel
     {
         #region Properties
+        [HiddenInput]
         public int Id { get; set; }
 
+        [HiddenInput]
         public Type Type { get; set; }
 
+        [HiddenInput]
         public Soort Soort { get; set; }
 
         [Required(ErrorMessage = "Gelieve een aantal uren op te geven")]
@@ -21,6 +25,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewMo
         [Display(Name = "Bruto maandloon begeleider")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bruto maandloon op te geven.")]
         public double BrutoMaandloonBegeleider { get; set; }
+
         [Display(Name = "Jaarbedrag")]
         public double Bedrag { get; set; } // jaarbedrag van de huidige BegeleidingsKost
         #endregion

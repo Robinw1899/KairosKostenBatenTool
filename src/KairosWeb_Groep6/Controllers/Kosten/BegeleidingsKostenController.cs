@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
-using KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModels;
+using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Type = KairosWeb_Groep6.Models.Domain.Type;
@@ -22,149 +23,155 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             _analyseRepository = analyseRepository;
         }
 
+        #region Index
         public IActionResult Index(Analyse analyse)
         {
-            BegeleidingsKostenIndexViewModel model = MaakModel(analyse);
-
-            if (IsAjaxRequest())
-            {
-                PlaatsTotaalInViewData(analyse);
-                return PartialView("_OverzichtTabel", model.ViewModels);
-            }
-
             PlaatsTotaalInViewData(analyse);
 
-            return View(model);
+            return View(MaakModel(analyse));
         }
+        #endregion
 
-        public IActionResult VoegToe(Analyse analyse, BegeleidingsKostenIndexViewModel model)
+        #region VoegToe
+        public IActionResult VoegToe()
         {
-            if (ModelState.IsValid)
-            {
-                // de baat bestaat reeds:
-                BegeleidingsKost kost = new BegeleidingsKost
-                {
-                    Type = model.Type,
-                    Soort = model.Soort,
-                    Uren = model.Uren,
-                    BrutoMaandloonBegeleider = model.BrutoMaandloonBegeleider
-                };
-
-                analyse.BegeleidingsKosten.Add(kost);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
-
-                model = MaakModel(analyse);
-
-                TempData["message"] = "De kost is succesvol toegevoegd.";
-            }
-
-            PlaatsTotaalInViewData(analyse);
-
-            return View("Index", model);
-        }
-
-        public IActionResult Bewerk(Analyse analyse, int id)
-        {// id is het id van de baat die moet bewerkt wordens
-            BegeleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, id);
-
-            BegeleidingsKostenIndexViewModel model = MaakModel(analyse);
-
-            if (kost != null)
-            {
-                // parameters voor formulier instellen
-                model.Id = id;
-                model.Type = kost.Type;
-                model.Soort = kost.Soort;
-                model.Uren = kost.Uren;
-                model.BrutoMaandloonBegeleider = kost.BrutoMaandloonBegeleider;
-                model.ViewModels = analyse.BegeleidingsKosten
-                    .Select(m => new BegeleidingsKostViewModel(m)
-                    {
-                        Bedrag = m.GeefJaarbedrag(analyse.Departement.Werkgever.PatronaleBijdrage)
-                    });
-                model.ToonFormulier = 1;
-            }
-
-            PlaatsTotaalInViewData(analyse);
-
-            return View("Index", model);
+            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel();
+            return PartialView("_Formulier", model);
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, BegeleidingsKostenIndexViewModel model)
-        {// id is het id van de baat die moet bewerkt worden
-            BegeleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, model.Id);
-
-            if (ModelState.IsValid && kost != null)
+        public IActionResult VoegToe(Analyse analyse, BegeleidingsKostViewModel model)
+        {
+            try
             {
-                // parameters voor formulier instellen
-                kost.Id = model.Id;
-                kost.Type = model.Type;
-                kost.Soort = model.Soort;
-                kost.Uren = model.Uren;
-                kost.BrutoMaandloonBegeleider = model.BrutoMaandloonBegeleider;
+                if (ModelState.IsValid)
+                {
+                    BegeleidingsKost kost = new BegeleidingsKost
+                    {
+                        Type = model.Type,
+                        Soort = model.Soort,
+                        Uren = model.Uren,
+                        BrutoMaandloonBegeleider = model.BrutoMaandloonBegeleider
+                    };
 
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                    analyse.BegeleidingsKosten.Add(kost);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
 
-                model = MaakModel(analyse);
-
-                TempData["message"] = "De kost is succesvol opgeslaan.";
+                    TempData["message"] = "De kost is succesvol toegevoegd.";
+                }
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
             }
 
-            PlaatsTotaalInViewData(analyse);
+            return RedirectToAction("Index");
+        }
+        #endregion
 
-            return View("Index", model);
+        #region Bewerk
+        public IActionResult Bewerk(Analyse analyse, int id)
+        {// id is het id van de baat die moet bewerkt wordens
+            try
+            {
+                BegeleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, id);
+                BegeleidingsKostViewModel model = new BegeleidingsKostViewModel();
+
+                if (kost != null)
+                {
+                    // parameters voor formulier instellen
+                    model.Id = id;
+                    model.Type = kost.Type;
+                    model.Soort = kost.Soort;
+                    model.Uren = kost.Uren;
+                    model.BrutoMaandloonBegeleider = kost.BrutoMaandloonBegeleider;
+
+                    return PartialView("_Formulier", model);
+                }
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+            }
+
+            return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public IActionResult Bewerk(Analyse analyse, BegeleidingsKostViewModel model)
+        {// id is het id van de baat die moet bewerkt worden
+            try
+            {
+                BegeleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, model.Id);
+
+                if (ModelState.IsValid && kost != null)
+                {
+                    kost.Id = model.Id;
+                    kost.Type = model.Type;
+                    kost.Soort = model.Soort;
+                    kost.Uren = model.Uren;
+                    kost.BrutoMaandloonBegeleider = model.BrutoMaandloonBegeleider;
+
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+
+                    TempData["message"] = "De kost is succesvol opgeslaan.";
+                }
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+            }
+
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Verwijder
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            BegeleidingsKost baat = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, id);
-            if (baat != null)
+            try
             {
-                analyse.BegeleidingsKosten.Remove(baat);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                BegeleidingsKost baat = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, id);
+                if (baat != null)
+                {
+                    analyse.BegeleidingsKosten.Remove(baat);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+                }
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+                return RedirectToAction("Index");
             }
 
-            BegeleidingsKostenIndexViewModel model = MaakModel(analyse);
-            PlaatsTotaalInViewData(analyse);
-
-            TempData["message"] = "De kost is succesvol verwijderd.";
-
-            return View("Index", model);
+            return PartialView("_OverzichtTabel", MaakModel(analyse));
         }
+        #endregion
 
+        #region Info --> Toelichting
         public IActionResult Info()
         {
             // Deze methode toont een pagina met de tabel van tabblad 4 van de Excel
             // = de toelichting van de begeleidingskosten
             return View();
         }
+        #endregion
 
-        private BegeleidingsKostenIndexViewModel MaakModel(Analyse analyse)
+        #region Helpers
+        private IEnumerable<BegeleidingsKostViewModel> MaakModel(Analyse analyse)
         {
-            BegeleidingsKostenIndexViewModel model = new BegeleidingsKostenIndexViewModel
-            {
-                Type = Type.Kost,
-                Soort = Soort.BegeleidingsKost,
-                ViewModels = analyse
-                                .BegeleidingsKosten
-                                .Select(m => new BegeleidingsKostViewModel(m)
-                                                {
-                                                    Bedrag = analyse.Departement == null
-                                                        ? 0 : 
-                                                        m.GeefJaarbedrag(analyse.Departement.Werkgever.PatronaleBijdrage)
-                                                })
-            };
-
-            return model;
-        }
-
-        private bool IsAjaxRequest()
-        {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            return analyse
+                .BegeleidingsKosten
+                .Select(m => new BegeleidingsKostViewModel(m)
+                {
+                    Bedrag = analyse.Departement == null
+                        ? 0
+                        : m.GeefJaarbedrag(analyse.Departement.Werkgever.PatronaleBijdrage)
+                })
+                .ToList();
         }
 
         private void PlaatsTotaalInViewData(Analyse analyse)
@@ -188,5 +195,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                                     "berekend worden bij deze kost.";
             }
         }
+        #endregion
     }
 }
