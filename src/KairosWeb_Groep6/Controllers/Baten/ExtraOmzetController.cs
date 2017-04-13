@@ -10,7 +10,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
     [ServiceFilter(typeof(AnalyseFilter))]
     public class ExtraOmzetController : Controller
     {
-
         private readonly IAnalyseRepository _analyseRepository;
 
         public ExtraOmzetController(IAnalyseRepository analyseRepository)
@@ -18,61 +17,74 @@ namespace KairosWeb_Groep6.Controllers.Baten
             _analyseRepository = analyseRepository;
         }
 
+        #region Index
         public IActionResult Index(Analyse analyse)
         {
             ExtraOmzetViewModel model = MaakModel(analyse);
 
             return View(model);
         }
+        #endregion
 
+        #region Opslaan
         public IActionResult Opslaan(Analyse analyse, ExtraOmzetViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                ExtraOmzet baat = new ExtraOmzet
-                {
-                    Type = model.Type,
-                    Soort = model.Soort,
-                    JaarbedragOmzetverlies = model.JaarbedragOmzetverlies,
-                    Besparing = model.Besparing
-                };
-
-                analyse.ExtraOmzet = baat;
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
-
-                model = MaakModel(analyse);
-
-                TempData["message"] = "De baat is succesvol opgeslaan.";
-            }
-
-            return View("Index", model);
-        }
-
-        public IActionResult Verwijder(Analyse analyse)
-        {
-            // Baat eruit halen
-            analyse.ExtraOmzet = null;
-
-            // Datum updaten
-            analyse.DatumLaatsteAanpassing = DateTime.Now;
-
-            // Opslaan
             try
             {
+                if (ModelState.IsValid)
+                {
+                    ExtraOmzet baat = new ExtraOmzet
+                    {
+                        Type = model.Type,
+                        Soort = model.Soort,
+                        JaarbedragOmzetverlies = model.JaarbedragOmzetverlies,
+                        Besparing = model.Besparing
+                    };
+
+                    analyse.ExtraOmzet = baat;
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+
+                    model = MaakModel(analyse);
+
+                    TempData["message"] = "De baat is succesvol opgeslaan.";
+                }
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+            }
+            
+            return PartialView("_Formulier", model);
+        }
+        #endregion
+
+        #region Verwijder
+        public IActionResult Verwijder(Analyse analyse)
+        {
+            try
+            {
+                // Baat eruit halen
+                analyse.ExtraOmzet = null;
+
+                // Datum updaten
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
+
+                // Opslaan
                 _analyseRepository.Save();
                 TempData["message"] = "De baat is succesvol verwijderd.";
             }
             catch
             {
-                TempData["error"] = "Er ging iets mis tijdens het verwijderen, probeer het later opnieuw.";
+                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+                return RedirectToAction("Index");
             }
 
-            ExtraOmzetViewModel model = MaakModel(analyse);
-
-            return View("Index", model);
+            return PartialView("_Formulier", MaakModel(analyse));
         }
+        #endregion
 
+        #region Helpers
         private ExtraOmzetViewModel MaakModel(Analyse analyse)
         {
             if (analyse.ExtraOmzet == null)
@@ -82,5 +94,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
             return new ExtraOmzetViewModel(analyse.ExtraOmzet);
         }
+        #endregion
     }
 }
