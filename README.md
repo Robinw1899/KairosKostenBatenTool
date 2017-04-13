@@ -25,6 +25,8 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 ### To do voor webapplicatie
 * Vinkje bij bestaande werkgever groter of anders oplossen (klikken op de rij)
 * Infrastructuurkost omvormen naar PersoneelsKost
+* Vorige en volgende knop browser uitschakelen
+* Responsive maken
 
 ## Retrospective
 ### Wat ging goed?
