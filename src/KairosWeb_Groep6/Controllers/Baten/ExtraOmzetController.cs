@@ -50,7 +50,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             }
             catch
             {
-                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+                TempData["error"] = "Er ging iets mis tijdens het opslaan, probeer later opnieuw";
             }
 
             return RedirectToAction("Index");
@@ -74,7 +74,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             }
             catch
             {
-                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+                TempData["error"] = "Er ging iets mis tijdens het verwijderen, probeer later opnieuw";
             }
 
             return RedirectToAction("Index");
