@@ -3,10 +3,11 @@ using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 {
     public class ExterneInkoopViewModel
     {
+        #region Properties
         [HiddenInput]
         public int Id { get; set; }
         [HiddenInput]
@@ -21,7 +22,9 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels
         [Display(Name = "Jaarbedrag")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het aantal uur op te geven.")]
         public double Bedrag { get; set; }
+        #endregion
 
+        #region Constructors
         public ExterneInkoopViewModel()
         {
             
@@ -35,5 +38,6 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModels
             Beschrijving = baat.Beschrijving;
             Bedrag = baat.Bedrag;
         }
+        #endregion
     }
 }
