@@ -23,7 +23,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         }
 
         #region Index
-
         public IActionResult Index(Analyse analyse)
         {
             var viewModels = MaakModel(analyse);
@@ -68,8 +67,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 TempData["error"] = "Er ging iets mis, probeer later opnieuw";
             }
-
-            PlaatsTotaalInViewData(analyse);
 
             return RedirectToAction("Index");
         }
@@ -131,8 +128,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 TempData["error"] = "Er ging iets mis, probeer later opnieuw";
             }
 
-            PlaatsTotaalInViewData(analyse);
-
             return RedirectToAction("Index");
         }
 
@@ -157,7 +152,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             catch
             {
                 TempData["error"] = "Er ging iets mis, probeer later opnieuw";
-                PlaatsTotaalInViewData(analyse);
                 return RedirectToAction("Index");
             }
 

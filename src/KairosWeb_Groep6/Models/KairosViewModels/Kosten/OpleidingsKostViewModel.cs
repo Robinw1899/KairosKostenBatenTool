@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
-using KairosWeb_Groep6.Models.Domain;
+﻿using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
+using System;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.VoorbereidingsKostViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 {
-    public class VoorbereidingsKostViewModel
+    public class OpleidingsKostViewModel
     {
         #region Properties
         [HiddenInput]
@@ -17,22 +19,22 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.VoorbereidingsKostView
         [HiddenInput]
         public Soort Soort { get; set; }
 
-        [Required(ErrorMessage = "Gelieve een type op te geven")]
         [Display(Name = "Type")]
+        [Required(ErrorMessage = "Gelieve een (korte) beschrijving op te geven")]
         public string Beschrijving { get; set; }
-
-        [Required(ErrorMessage = "Gelieve een bedrag in te vullen")]
-        [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te vullen voor het bedrag")]
+      
+        [Required(ErrorMessage = "Gelieve een bedrag op te geven")]
+        [Range(0, Double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal op te geven voor het bedrag")]
         public double Bedrag { get; set; }
         #endregion
 
         #region Constructors
-        public VoorbereidingsKostViewModel()
+        public OpleidingsKostViewModel()
         {
             
         }
 
-        public VoorbereidingsKostViewModel(VoorbereidingsKost kost)
+        public OpleidingsKostViewModel(OpleidingsKost kost)
         {
             Id = kost.Id;
             Type = kost.Type;

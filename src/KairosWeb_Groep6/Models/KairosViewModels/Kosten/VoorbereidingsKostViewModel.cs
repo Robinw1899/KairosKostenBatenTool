@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.VoorbereidingsKostViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 {
-    public class VoorbereidingsKostIndexViewModel
+    public class VoorbereidingsKostViewModel
     {
         #region Properties
         [HiddenInput]
@@ -18,30 +17,26 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.VoorbereidingsKostView
         [HiddenInput]
         public Soort Soort { get; set; }
 
-        [Display(Name = "Type")]
         [Required(ErrorMessage = "Gelieve een type op te geven")]
+        [Display(Name = "Type")]
         public string Beschrijving { get; set; }
 
         [Required(ErrorMessage = "Gelieve een bedrag in te vullen")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te vullen voor het bedrag")]
         public double Bedrag { get; set; }
-
-        public int ToonFormulier { get; set; } = 0;
-
-        public IEnumerable<VoorbereidingsKostViewModel> ViewModels { get; set; }
         #endregion
 
-        #region Constructors    
-        public VoorbereidingsKostIndexViewModel()
+        #region Constructors
+        public VoorbereidingsKostViewModel()
         {
-            Type = Type.Kost;
-            Soort = Soort.VoorbereidingsKost;
+            
         }
 
-        public VoorbereidingsKostIndexViewModel(VoorbereidingsKost kost)
-            : this()
+        public VoorbereidingsKostViewModel(VoorbereidingsKost kost)
         {
             Id = kost.Id;
+            Type = kost.Type;
+            Soort = kost.Soort;
             Beschrijving = kost.Beschrijving;
             Bedrag = kost.Bedrag;
         }
