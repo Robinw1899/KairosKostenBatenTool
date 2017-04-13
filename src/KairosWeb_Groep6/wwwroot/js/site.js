@@ -91,26 +91,6 @@
                     $("#data").html(data);
                 });
         });
-    },
-    initFunctionsEnkelvoudigeBaten: function() {
-        // voor de baten die geen lijst zijn
-        $("#form").submit(function() {
-            $.post(this.action,
-                $(this).serialize(),
-                function(data) {
-                    $("#divForm").html(data);
-                });
-
-            return false; // default action vermijden
-        });
-
-        $("a#verwijder").click(function (event) {
-            event.preventDefault();
-            $.get($(this).attr("href"),
-                function (data) {
-                    $("#divForm").html(data);
-                });
-        });
     }
 };
 

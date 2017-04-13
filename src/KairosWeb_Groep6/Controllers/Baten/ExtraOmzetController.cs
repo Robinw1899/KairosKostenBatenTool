@@ -45,8 +45,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
 
-                    model = MaakModel(analyse);
-
                     TempData["message"] = "De baat is succesvol opgeslaan.";
                 }
             }
@@ -54,8 +52,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 TempData["error"] = "Er ging iets mis, probeer later opnieuw";
             }
-            
-            return PartialView("_Formulier", model);
+
+            return RedirectToAction("Index");
         }
         #endregion
 
@@ -77,10 +75,9 @@ namespace KairosWeb_Groep6.Controllers.Baten
             catch
             {
                 TempData["error"] = "Er ging iets mis, probeer later opnieuw";
-                return RedirectToAction("Index");
             }
 
-            return PartialView("_Formulier", MaakModel(analyse));
+            return RedirectToAction("Index");
         }
         #endregion
 
