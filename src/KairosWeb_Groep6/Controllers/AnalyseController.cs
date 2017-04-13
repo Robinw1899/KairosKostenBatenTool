@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
-using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +25,7 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
+        #region NieuweAnalyse
         [ServiceFilter(typeof(JobcoachFilter))]
         public IActionResult NieuweAnalyse(Jobcoach jobcoach)
         {//hier word gekozen tussen een nieuwe of bestaande werkgever
@@ -47,7 +45,9 @@ namespace KairosWeb_Groep6.Controllers
             
             return RedirectToAction("SelecteerWerkgever", "Werkgever");
         }
+        #endregion
 
+        #region OpenAnalyse
         public IActionResult OpenAnalyse(int id)
         {
             Analyse analyse = _analyseRepository.GetById(id); // analyse instellen in Session
@@ -55,7 +55,9 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction("Index", "Resultaat");
         }
+        #endregion
 
+        #region VerwijderAnalyse
         public IActionResult VerwijderAnalyse(int id, string from)
         {
             Analyse analyse = _analyseRepository.GetById(id);
@@ -71,8 +73,6 @@ namespace KairosWeb_Groep6.Controllers
 
             return View();
         }
-
-
 
         [HttpPost]
         [ActionName("VerwijderAnalyse")]
@@ -104,10 +104,11 @@ namespace KairosWeb_Groep6.Controllers
                 TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw.";
             }
             
-
             return RedirectToAction("Index", "Kairos");
         }
+        #endregion
 
+        #region Archiveer
         public IActionResult Archiveer(int id)
         {
             try
@@ -142,10 +143,11 @@ namespace KairosWeb_Groep6.Controllers
             }
             catch (Exception e)
             {
-                TempData["error"] = e.Message;
+                TempData["error"] = "Er liep iets mis, probeer later opnieuw";
             }
 
             return RedirectToAction("Index", "Kairos");
         }
+        #endregion
     }
 }
