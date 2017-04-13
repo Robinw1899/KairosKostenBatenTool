@@ -8,7 +8,6 @@ using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {

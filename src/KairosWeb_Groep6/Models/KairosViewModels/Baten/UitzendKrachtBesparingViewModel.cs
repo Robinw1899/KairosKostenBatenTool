@@ -1,14 +1,14 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using Microsoft.AspNetCore.Mvc;
 using Type = KairosWeb_Groep6.Models.Domain.Type;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 {
     public class UitzendKrachtBesparingViewModel
     {
+        #region Properties
         [HiddenInput]
         public int Id { get; set; }
 
@@ -25,7 +25,9 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingV
         [Display(Name = "Jaarbedrag")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positieve waarde op te geven voor het bedrag.")]
         public double Bedrag { get; set; }
+        #endregion
 
+        #region Constructors        
         public UitzendKrachtBesparingViewModel()
         {
             
@@ -39,5 +41,6 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingV
             Beschrijving = baat.Beschrijving;
             Bedrag = baat.Bedrag;
         }
+        #endregion
     }
 }

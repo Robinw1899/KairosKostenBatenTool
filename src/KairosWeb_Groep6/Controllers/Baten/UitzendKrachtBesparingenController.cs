@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
-using KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingViewModels;
+using KairosWeb_Groep6.Models.KairosViewModels.Baten;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
+    [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
     public class UitzendKrachtBesparingenController : Controller
     {
@@ -20,131 +22,146 @@ namespace KairosWeb_Groep6.Controllers.Baten
             _analyseRepository = analyseRepository;
         }
 
+        #region Index
         public IActionResult Index(Analyse analyse)
         {
-            UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);
-
-            if (IsAjaxRequest())
-            {
-                PlaatsTotaalInViewData(analyse);
-                return PartialView("_OverzichtTabel", model.ViewModels);
-            }
-
-            return View(model);
-        }
-
-        public IActionResult VoegToe(Analyse analyse, UitzendKrachtBesparingIndexViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                // de baat bestaat reeds:
-                UitzendKrachtBesparing baat = new UitzendKrachtBesparing
-                {
-                    Type = model.Type,
-                    Soort = model.Soort,
-                    Beschrijving = model.Beschrijving,
-                    Bedrag = model.Bedrag
-                };
-
-                analyse.UitzendKrachtBesparingen.Add(baat);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
-
-                model = MaakModel(analyse);
-
-                TempData["message"] = "De baat is succesvol toegevoegd.";
-            }
+            IEnumerable<UitzendKrachtBesparingViewModel> viewModels = MaakModel(analyse);
 
             PlaatsTotaalInViewData(analyse);
 
-            return RedirectToAction("Index", model);
+            return View(viewModels);
         }
+        #endregion
 
-        public IActionResult Bewerk(Analyse analyse, int id)
+        #region VoegToe
+        public IActionResult VoegToe()
         {
-            UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, id);
-
-            UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);
-
-            if (baat != null)
-            {
-                // gegevens analyse die bewerkt wordt invullen:
-                model.Id = id;
-                model.Type = baat.Type;
-                model.Soort = baat.Soort;
-                model.Beschrijving = baat.Beschrijving;
-                model.Bedrag = baat.Bedrag;
-                model.ToonFormulier = 1;
-            }
-
-            PlaatsTotaalInViewData(analyse);
-
-            return View("Index", model);
+            UitzendKrachtBesparingViewModel model = new UitzendKrachtBesparingViewModel();
+            return PartialView("_Formulier", model);
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, UitzendKrachtBesparingIndexViewModel model)
+        public IActionResult VoegToe(Analyse analyse, UitzendKrachtBesparingViewModel model)
         {
-            UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, model.Id);
-
-            if (ModelState.IsValid && baat != null)
+            try
             {
-                // baat updaten
-                baat.Id = model.Id;
-                baat.Type = model.Type;
-                baat.Soort = model.Soort;
-                baat.Beschrijving = model.Beschrijving;
-                baat.Bedrag = model.Bedrag;
+                if (ModelState.IsValid)
+                {
+                    UitzendKrachtBesparing baat = new UitzendKrachtBesparing
+                    {
+                        Type = model.Type,
+                        Soort = model.Soort,
+                        Beschrijving = model.Beschrijving,
+                        Bedrag = model.Bedrag
+                    };
 
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                    analyse.UitzendKrachtBesparingen.Add(baat);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
 
-                model = MaakModel(analyse);
-                PlaatsTotaalInViewData(analyse);
+                    TempData["message"] = Meldingen.VoegToeSuccesvolBaat;
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.VoegToeFoutmeldingBaat;
+            }
 
-                TempData["message"] = "De baat is succesvol opgeslaan.";
-                
-                return RedirectToAction("Index", model);
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Bewerk
+        public IActionResult Bewerk(Analyse analyse, int id)
+        {
+            try
+            {
+                UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, id);
+
+                UitzendKrachtBesparingViewModel model = new UitzendKrachtBesparingViewModel();
+
+                if (baat != null)
+                {
+                    model.Id = id;
+                    model.Type = baat.Type;
+                    model.Soort = baat.Soort;
+                    model.Beschrijving = baat.Beschrijving;
+                    model.Bedrag = baat.Bedrag;
+
+                    return PartialView("_Formulier", model);
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.OphalenFoutmeldingBaat;
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Bewerk(Analyse analyse, UitzendKrachtBesparingViewModel model)
+        {
+            try
+            {
+                UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, model.Id);
+
+                if (ModelState.IsValid && baat != null)
+                {
+                    baat.Id = model.Id;
+                    baat.Type = model.Type;
+                    baat.Soort = model.Soort;
+                    baat.Beschrijving = model.Beschrijving;
+                    baat.Bedrag = model.Bedrag;
+
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+
+                    TempData["message"] = Meldingen.OpslaanSuccesvolBaat;
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.OpslaanFoutmeldingBaat;
+            }
+            
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Verwijder
+        public IActionResult Verwijder(Analyse analyse, int id)
+        {
+            try
+            {
+                UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, id);
+
+                if (baat != null)
+                {
+                    analyse.UitzendKrachtBesparingen.Remove(baat);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.VerwijderFoutmeldingBaat;
+                return RedirectToAction("Index");
             }
 
             PlaatsTotaalInViewData(analyse);
 
-            return View("Index", model);
+            return PartialView("_OverzichtTabel", MaakModel(analyse));
         }
+        #endregion
 
-        public IActionResult Verwijder(Analyse analyse, int id)
+        #region Helpers
+        private IEnumerable<UitzendKrachtBesparingViewModel> MaakModel(Analyse analyse)
         {
-            UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, id);
-
-            analyse.UitzendKrachtBesparingen.Remove(baat);
-            analyse.DatumLaatsteAanpassing = DateTime.Now;
-            _analyseRepository.Save();
-
-            UitzendKrachtBesparingIndexViewModel model = MaakModel(analyse);
-            PlaatsTotaalInViewData(analyse);
-
-            TempData["message"] = "De baat is succesvol verwijderd.";
-
-            return View("Index", model);
-        }
-
-        private bool IsAjaxRequest()
-        {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
-        }
-
-        private UitzendKrachtBesparingIndexViewModel MaakModel(Analyse analyse)
-        {
-            UitzendKrachtBesparingIndexViewModel model = new UitzendKrachtBesparingIndexViewModel
-            {
-                Type = Type.Baat,
-                Soort = Soort.UitzendkrachtBesparing,
-                ViewModels = analyse
-                                .UitzendKrachtBesparingen
-                                .Select(m => new UitzendKrachtBesparingViewModel(m))
-            };
-
-            return model;
+            return analyse
+                .UitzendKrachtBesparingen
+                .Select(m => new UitzendKrachtBesparingViewModel(m))
+                .ToList();
         }
 
         private void PlaatsTotaalInViewData(Analyse analyse)
@@ -159,5 +176,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
             ViewData["totaal"] = totaal.ToString("C");
         }
+        #endregion
     }
 }
