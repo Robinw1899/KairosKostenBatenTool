@@ -107,7 +107,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             try
             {
                 EnclaveKost kost = KostOfBaatExtensions.GetBy(analyse.EnclaveKosten, model.Id);
-
+                
                 if (ModelState.IsValid && kost != null)
                 {
                     kost.Id = model.Id;
