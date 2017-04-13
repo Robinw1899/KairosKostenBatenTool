@@ -44,12 +44,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
 
-                    TempData["message"] = "De baat is succesvol opgeslaan.";
+                    TempData["message"] = Meldingen.OpslaanSuccesvolBaat;
                 }
             }
             catch
             {
-                TempData["error"] = "Er ging iets mis tijdens het opslaan, probeer later opnieuw";
+                TempData["error"] = Meldingen.OpslaanFoutmeldingBaat;
             }
 
             return RedirectToAction("Index");
@@ -69,11 +69,11 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
                 // Opslaan
                 _analyseRepository.Save();
-                TempData["message"] = "De baat is succesvol verwijderd.";
+                TempData["message"] = Meldingen.VerwijderSuccesvolBaat;
             }
             catch
             {
-                TempData["error"] = "Er ging iets mis tijdens het verwijderen, probeer later opnieuw";
+                TempData["error"] = Meldingen.VerwijderFoutmeldingBaat;
             }
 
             return RedirectToAction("Index");
