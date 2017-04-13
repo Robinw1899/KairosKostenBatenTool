@@ -4,10 +4,11 @@ using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Mvc;
 using Type = KairosWeb_Groep6.Models.Domain.Type;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 {
     public class LoonkostViewModel
     {
+        #region Properties
         [HiddenInput]
         public int Id { get; set; }
 
@@ -47,7 +48,9 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
         public Doelgroep? Doelgroep { get; set; }
 
         public double Bedrag { get; set; }
+        #endregion
 
+        #region Constructors
         public LoonkostViewModel()
         {
             
@@ -65,5 +68,6 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels
             IBOPremie = loon.IBOPremie;
             Doelgroep = loon.Doelgroep;
         }
+        #endregion
     }
 }

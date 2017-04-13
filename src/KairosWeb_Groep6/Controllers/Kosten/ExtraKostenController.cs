@@ -134,7 +134,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #endregion
 
         #region Verwijder
-
         public IActionResult Verwijder(Analyse analyse, int id)
         {
             // id is het id van de kost die moet verwijderd worden
