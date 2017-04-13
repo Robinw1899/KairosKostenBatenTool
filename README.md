@@ -10,6 +10,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * URL maken voor registreren, wachtwoord vergeten?
 * B.2. in Excel Resultaat is fout
 * Is een terugknop echt nodig in de desktopapplicatie?
+* Switch-functie cards naast elkaar of onder elkaar
 
 ## Niet vergeten!
 * Vaak committen
@@ -22,11 +23,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 
 ## To do:
 ### To do voor webapplicatie
-* Error.cshtml aanpassen naar een gepaste pagina voor gebruikers ipv voor ons. Nu staat er nog info op rond de Exception.
-* Trigger schrijven voor het updaten van een analyse --> automatisch DatumLaatsteAanpassing aanpassen
-* Switch-functie cards naast elkaar of onder elkaar (eventueel)
 * Vinkje bij bestaande werkgever groter of anders oplossen (klikken op de rij)
-* Berekende velden duidelijker aangeven
 * Infrastructuurkost omvormen naar PersoneelsKost
 
 ## Retrospective
