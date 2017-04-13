@@ -59,7 +59,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
 
-                    TempData["message"] = "De kost is succesvol toegevoegd.";
+                    TempData["message"] = Meldingen.VoegToeSuccesvolKost;
                 }
             }
             catch
@@ -119,7 +119,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
 
-                    TempData["message"] = "De kost is succesvol opgeslaan.";
+                    TempData["message"] = Meldingen.OpslaanSuccesvolKost;
                 }
             }
             catch
