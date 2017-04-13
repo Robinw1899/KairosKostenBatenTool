@@ -1,5 +1,4 @@
-﻿@using KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels
-@model IEnumerable<MedewerkerNiveauBaatViewModel>
+﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModel>
 
 <table class="table table-bordered table-condensed table-responsive">
     <tr>
@@ -20,7 +19,7 @@
     }
     else
     {
-        foreach (MedewerkerNiveauBaatViewModel baat in Model)
+        foreach (var baat in Model)
         {
             <tr>
                 <td>@baat.Uren</td>
@@ -28,8 +27,8 @@
                 <td>@baat.Bedrag.ToString("C")</td>
                 <td>
                     <div class="options">
-                        <a asp-action="Bewerk" asp-route-id="@baat.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <a asp-action="Verwijder" asp-route-id="@baat.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        <a asp-action="Bewerk" asp-route-id="@baat.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a asp-action="Verwijder" asp-route-id="@baat.Id" id="verwijder"><i class="fa fa-trash" aria-hidden="true"></i></a>
                     </div>
                 </td>
             </tr>

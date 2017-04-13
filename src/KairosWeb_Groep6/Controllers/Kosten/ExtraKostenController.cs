@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
-using KairosWeb_Groep6.Models.KairosViewModels.Kosten.ExtraKostViewModels;
+using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
@@ -22,148 +22,162 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             _analyseRepository = analyseRepository;
         }
 
+        #region Index
         public IActionResult Index(Analyse analyse)
         {
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
-
-            ExtraKostenIndexViewModel model = MaakModel(analyse);
-
-            if (IsAjaxRequest())
-            {
-                PlaatsTotaalInViewData(analyse);
-                return PartialView("_OverzichtTabel", model.ViewModels);
-            }
+            var viewModels = MaakModel(analyse);
 
             PlaatsTotaalInViewData(analyse);
 
-            return View(model);
+            return View(viewModels);
         }
 
-        public IActionResult VoegToe(Analyse analyse, ExtraKostenIndexViewModel model)
+        #endregion
+
+        #region VoegToe
+        public IActionResult VoegToe()
         {
-            if (ModelState.IsValid)
-            {
-                ExtraKost kost = new ExtraKost
-                {
-                    Type = model.Type,
-                    Soort = model.Soort,
-                    Beschrijving = model.Beschrijving,
-                    Bedrag = model.Bedrag
-                };
-
-                analyse.ExtraKosten.Add(kost);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
-
-                model = MaakModel(analyse);
-
-                TempData["message"] = "De kost is succesvol toegevoegd.";
-            }
-
-            PlaatsTotaalInViewData(analyse);
-
-            return RedirectToAction("Index", model);
-        }
-
-        public IActionResult Bewerk(Analyse analyse, int id)
-        {// id is het id van de baat die moet bewerkt wordens
-            ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
-
-            ExtraKostenIndexViewModel model = MaakModel(analyse);
-
-            if (kost != null)
-            {
-                // parameters voor formulier instellen
-                model.Id = id;
-                model.Type = kost.Type;
-                model.Soort = kost.Soort;
-                model.Beschrijving = kost.Beschrijving;
-                model.Bedrag = kost.Bedrag;
-                model.ViewModels = analyse.ExtraKosten
-                    .Select(m => new ExtraKostViewModel(m));
-                model.ToonFormulier = 1;
-            }
-
-            PlaatsTotaalInViewData(analyse);
-
-            return View("Index", model);
+            var model = new ExtraKostViewModel();
+            return PartialView("_Formulier", model);
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, ExtraKostenIndexViewModel model)
+        public IActionResult VoegToe(Analyse analyse, ExtraKostViewModel model)
         {
-            ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, model.Id);
-
-            if (ModelState.IsValid && kost != null)
+            try
             {
+                if (ModelState.IsValid)
+                {
+                    var kost = new ExtraKost
+                    {
+                        Type = model.Type,
+                        Soort = model.Soort,
+                        Beschrijving = model.Beschrijving,
+                        Bedrag = model.Bedrag
+                    };
+
+                    analyse.ExtraKosten.Add(kost);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+
+                    TempData["message"] = Meldingen.VoegToeSuccesvolKost;
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.VoegToeFoutmeldingKost;
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Bewerk
+        public IActionResult Bewerk(Analyse analyse, int id)
+        {
+            // id is het id van de kost die moet bewerkt wordens
+            try
+            {
+                var kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
+                var model = new ExtraKostViewModel();
+
                 // parameters voor formulier instellen
-                kost.Id = model.Id;
-                kost.Type = model.Type;
-                kost.Soort = model.Soort;
-                kost.Beschrijving = model.Beschrijving;
-                kost.Bedrag = model.Bedrag;
+                if (kost != null)
+                {
+                    model.Id = id;
+                    model.Type = kost.Type;
+                    model.Soort = kost.Soort;
+                    model.Beschrijving = kost.Beschrijving;
+                    model.Bedrag = kost.Bedrag;
 
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
-
-                model = MaakModel(analyse);
-
-                TempData["message"] = "De kost is succesvol opgeslaan.";
+                    return PartialView("_Formulier", model);
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.OphalenFoutmeldingKost;
             }
 
-            PlaatsTotaalInViewData(analyse);
-
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public IActionResult Bewerk(Analyse analyse, ExtraKostViewModel model)
+        {
+            try
+            {
+                var kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, model.Id);
+
+                if (ModelState.IsValid && kost != null)
+                {
+                    kost.Id = model.Id;
+                    kost.Type = model.Type;
+                    kost.Soort = model.Soort;
+                    kost.Beschrijving = model.Beschrijving;
+                    kost.Bedrag = model.Bedrag;
+
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+
+                    TempData["message"] = Meldingen.OpslaanSuccesvolKost;
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        #endregion
+
+        #region Verwijder
         public IActionResult Verwijder(Analyse analyse, int id)
-        {// id is het id van de baat die moet verwijderd worden
-            ExtraKost kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
-
-            if (kost != null)
+        {
+            // id is het id van de kost die moet verwijderd worden
+            try
             {
-                analyse.ExtraKosten.Remove(kost);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                var kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
+
+                if (kost != null)
+                {
+                    analyse.ExtraKosten.Remove(kost);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.VerwijderFoutmeldingKost;
             }
 
-            ExtraKostenIndexViewModel model = MaakModel(analyse);
-            PlaatsTotaalInViewData(analyse);
-
-            TempData["message"] = "De kost is succesvol verwijderd.";
-
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
 
-        private ExtraKostenIndexViewModel MaakModel(Analyse analyse)
-        {
-            ExtraKostenIndexViewModel model = new ExtraKostenIndexViewModel()
-            {
-                Type = Type.Kost,
-                Soort = Soort.ExtraKost,
-                ViewModels = analyse
-                                .ExtraKosten
-                                .Select(m => new ExtraKostViewModel(m))
-            };
+        #endregion
 
-            return model;
-        }
+        #region Helpers
 
-        private bool IsAjaxRequest()
+        private IEnumerable<ExtraKostViewModel> MaakModel(Analyse analyse)
         {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            return analyse
+                .ExtraKosten
+                .Select(m => new ExtraKostViewModel(m))
+                .ToList();
         }
 
         private void PlaatsTotaalInViewData(Analyse analyse)
         {
             if (analyse.ExtraKosten.Count == 0)
-            {
                 ViewData["totaal"] = 0;
-            }
 
-            double totaal = KostOfBaatExtensions.GeefTotaal(analyse.ExtraKosten);
+            var totaal = KostOfBaatExtensions.GeefTotaal(analyse.ExtraKosten);
 
             ViewData["totaal"] = totaal.ToString("C");
         }
+
+        #endregion
     }
 }

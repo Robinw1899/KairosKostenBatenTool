@@ -1,11 +1,7 @@
-﻿using System;
-using KairosWeb_Groep6.Models.Domain.Extensions;
+﻿using KairosWeb_Groep6.Models.Domain.Extensions;
 
 namespace KairosWeb_Groep6.Models.Domain.Kosten
 {
-    /**
-     * Dit komt overeen met kost 1.1 van de Excel.
-     */
     public class Loonkost : KostOfBaat
     {
         #region Properties

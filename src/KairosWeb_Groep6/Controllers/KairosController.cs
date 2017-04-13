@@ -40,6 +40,7 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
+        #region Index
         public async Task<IActionResult> Index(IndexViewModel model = null)
         {
             AnalyseFilter.ClearSession(HttpContext);
@@ -48,9 +49,11 @@ namespace KairosWeb_Groep6.Controllers
             if (user == null)
             {
                 TempData["error"] = "Gelieve je eerst aan te melden alvorens deze pagina te bezoeken.";
-                model = new IndexViewModel();
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("Login", "Account");
             }
-            else
+
+            try
             {
                 int aantal = 9;
 
@@ -80,10 +83,16 @@ namespace KairosWeb_Groep6.Controllers
                     Aantal = aantal
                 };
             }
+            catch
+            {
+                TempData["error"] = "Er liep iets mis, probeer later opnieuw";
+            }
 
             return View("Index", model);
         }
+        #endregion
 
+        #region ToonMeer
         public IActionResult ToonMeer(int id)
         {
             // id is aantal
@@ -94,42 +103,54 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction("Index", model);
         }
+        #endregion
 
+        #region Zoek analyse
         [HttpPost]
         public IActionResult Zoek(string zoekterm)
         {
-            string email = HttpContext.User.Identity.Name;
-            Jobcoach jobcoach = _jobcoachRepository.GetByEmail(email);
-
-            if (jobcoach != null)
+            try
             {
-                jobcoach.SelecteerMatchendeAnalyse(zoekterm);
-                jobcoach.Analyses = jobcoach
-                    .Analyses
-                    .NietInArchief()
-                    .OrderByDescending(t => t.DatumLaatsteAanpassing)
-                    .Take(9)
-                    .ToList();
+                string email = HttpContext.User.Identity.Name;
+                Jobcoach jobcoach = _jobcoachRepository.GetByEmail(email);
 
-                List<Analyse> analyses = new List<Analyse>();
-
-                foreach (Analyse a in jobcoach.Analyses)
+                if (jobcoach != null)
                 {
-                    analyses.Add(_analyseRepository.GetById(a.AnalyseId));
+                    jobcoach.SelecteerMatchendeAnalyse(zoekterm);
+                    jobcoach.Analyses = jobcoach
+                        .Analyses
+                        .NietInArchief()
+                        .OrderByDescending(t => t.DatumLaatsteAanpassing)
+                        .Take(9)
+                        .ToList();
+
+                    List<Analyse> analyses = new List<Analyse>();
+
+                    foreach (Analyse a in jobcoach.Analyses)
+                    {
+                        analyses.Add(_analyseRepository.GetById(a.AnalyseId));
+                    }
+
+                    jobcoach.Analyses = analyses;
                 }
+                // anders worden alle analyses getoond
 
-                jobcoach.Analyses = analyses;
+                IndexViewModel model = new IndexViewModel(jobcoach)
+                {
+                    Aantal = 9
+                };
+
+                ViewData["zoeken"] = "zoeken";
+                return View("Index", model);
             }
-            // anders worden alle analyses getoond
-
-            IndexViewModel model = new IndexViewModel(jobcoach)
+            catch
             {
-                Aantal = 9
-            };
+                TempData["error"] = "Er liep iets mis, probeer later opnieuw.";
+            }
 
-            ViewData["zoeken"] = "zoeken";
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
+        #endregion
 
         #region Eerste keer aanmelden
         public async Task<IActionResult> EersteKeerAanmelden()
@@ -149,24 +170,31 @@ namespace KairosWeb_Groep6.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> EersteKeerAanmelden(EersteKeerAanmeldenViewModel model)
         {
-            // Gebruiker meldt eerste keer aan, dus wachtwoord moet ingesteld worden
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            string code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var paswoordResetten = await _userManager.ResetPasswordAsync(user, code, model.Password);
-
-            if (paswoordResetten.Succeeded)
+            try
             {
-                await _signInManager.SignOutAsync();
-                var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+                // Gebruiker meldt eerste keer aan, dus wachtwoord moet ingesteld worden
+                ApplicationUser user = await _userManager.GetUserAsync(User);
+                string code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var paswoordResetten = await _userManager.ResetPasswordAsync(user, code, model.Password);
 
-                if (login.Succeeded)
+                if (paswoordResetten.Succeeded)
                 {
-                    Jobcoach gebruiker = _jobcoachRepository.GetByEmail(model.Email);
-                    gebruiker.AlAangemeld = true;
-                    _jobcoachRepository.Save();
+                    await _signInManager.SignOutAsync();
+                    var login = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
-                    return RedirectToAction(nameof(Index), "Kairos");
+                    if (login.Succeeded)
+                    {
+                        Jobcoach gebruiker = _jobcoachRepository.GetByEmail(model.Email);
+                        gebruiker.AlAangemeld = true;
+                        _jobcoachRepository.Save();
+
+                        return RedirectToAction(nameof(Index), "Kairos");
+                    }
                 }
+            }
+            catch
+            {
+                TempData["error"] = "Er liep iets is, probeer later opnieuw";
             }
 
             return RedirectToAction(nameof(AccountController.Login), "Account");
@@ -176,9 +204,8 @@ namespace KairosWeb_Groep6.Controllers
         #region Opmerking
         public IActionResult Opmerking()
         {
-           
-            // return de view met een OpmerkingViewModel met een leeg onderwerp en leeg bericht
-            return View(new OpmerkingViewModel("", ""));
+            OpmerkingViewModel model = new OpmerkingViewModel();
+            return View(model);
         }
 
         [HttpPost]
@@ -217,7 +244,6 @@ namespace KairosWeb_Groep6.Controllers
                     TempData["error"] = "Er is onverwacht iets fout gelopen, onze excuses voor het ongemak! " +
                                         "Probeer het later opnieuw.";
                 }
-
             }
 
             // als we hier komen, is er iets mislukt, we tonen de pagina opnieuw

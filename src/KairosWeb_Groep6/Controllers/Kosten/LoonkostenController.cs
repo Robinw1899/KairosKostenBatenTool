@@ -5,7 +5,7 @@ using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.Domain.Kosten;
-using KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonKostViewModels;
+using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Type = KairosWeb_Groep6.Models.Domain.Type;
@@ -23,161 +23,164 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             _analyseRepository = analyseRepository;
         }
 
-        public IActionResult Index(Analyse analyse, bool foutgegeven = false)
+        #region Index
+        public IActionResult Index(Analyse analyse)
         {
-            LoonkostenIndexViewModel model = MaakModel(analyse);
-
-            if (IsAjaxRequest())
-            {
-                PlaatsTotaalInViewData(analyse);
-                return PartialView("_OverzichtTabel", model.ViewModels);
-            }
-
             PlaatsTotaalInViewData(analyse);
 
-            return View(model);
+            return View(MaakModel(analyse));
+        }
+        #endregion
+
+        #region VoegToe
+        public IActionResult VoegToe()
+        {
+            LoonkostViewModel model = new LoonkostViewModel();
+            return PartialView("_Formulier", model);
         }
 
         [HttpPost]
-        public IActionResult VoegToe(Analyse analyse, Jobcoach jobcoach, LoonkostenIndexViewModel model)
+        public IActionResult VoegToe(Analyse analyse, Jobcoach jobcoach, LoonkostViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Loonkost kost = new Loonkost
+                if (ModelState.IsValid)
                 {
-                    Beschrijving = model.Beschrijving,
-                    AantalUrenPerWeek = model.AantalUrenPerWeek,
-                    BrutoMaandloonFulltime = model.BrutoMaandloonFulltime,
-                    Doelgroep = model.Doelgroep,
-                    Ondersteuningspremie = model.Ondersteuningspremie,
-                    AantalMaandenIBO = model.AantalMaandenIBO,
-                    IBOPremie = model.IBOPremie
-                };
+                    Loonkost kost = new Loonkost
+                    {
+                        Beschrijving = model.Beschrijving,
+                        AantalUrenPerWeek = model.AantalUrenPerWeek,
+                        BrutoMaandloonFulltime = model.BrutoMaandloonFulltime,
+                        Doelgroep = model.Doelgroep,
+                        Ondersteuningspremie = model.Ondersteuningspremie,
+                        AantalMaandenIBO = model.AantalMaandenIBO,
+                        IBOPremie = model.IBOPremie
+                    };
 
-                analyse.Loonkosten.Add(kost);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                    analyse.Loonkosten.Add(kost);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
 
-                model = MaakModel(analyse);
-
-                TempData["message"] = "De kost is succesvol toegevoegd.";
+                    TempData["message"] = Meldingen.VoegToeSuccesvolKost;
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.VoegToeFoutmeldingKost;
             }
 
-            PlaatsTotaalInViewData(analyse);
-
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
+        #endregion
 
+        #region Bewerk
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            analyse = _analyseRepository.GetById(analyse.AnalyseId);
-
-            Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, id);
-
-            LoonkostenIndexViewModel model = MaakModel(analyse);
-
-            if (kost != null)
+            try
             {
-                // parameters voor formulier instellen
-                model.Id = id;
-                model.Beschrijving = kost.Beschrijving;
-                model.AantalUrenPerWeek = kost.AantalUrenPerWeek;
-                model.BrutoMaandloonFulltime = kost.BrutoMaandloonFulltime;
-                model.Doelgroep = kost.Doelgroep;
-                model.Ondersteuningspremie = kost.Ondersteuningspremie;
-                model.AantalMaandenIBO = kost.AantalMaandenIBO;
-                model.IBOPremie = kost.IBOPremie;
-                model.ToonFormulier = 1;
+                Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, id);
+
+                LoonkostViewModel model = new LoonkostViewModel();
+
+                if (kost != null)
+                {
+                    // parameters voor formulier instellen
+                    model.Id = id;
+                    model.Beschrijving = kost.Beschrijving;
+                    model.AantalUrenPerWeek = kost.AantalUrenPerWeek;
+                    model.BrutoMaandloonFulltime = kost.BrutoMaandloonFulltime;
+                    model.Doelgroep = kost.Doelgroep;
+                    model.Ondersteuningspremie = kost.Ondersteuningspremie;
+                    model.AantalMaandenIBO = kost.AantalMaandenIBO;
+                    model.IBOPremie = kost.IBOPremie;
+
+                    return PartialView("_Formulier", model);
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.OphalenFoutmeldingKost;
             }
 
-            PlaatsTotaalInViewData(analyse);
-
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, LoonkostenIndexViewModel model)
+        public IActionResult Bewerk(Analyse analyse, LoonkostViewModel model)
         {
-            Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, model.Id);
-
-            if (ModelState.IsValid && kost != null)
+            try
             {
-                // parameters voor formulier instellen
-                kost.Id = model.Id;
-                kost.Beschrijving = model.Beschrijving;
-                kost.AantalUrenPerWeek = model.AantalUrenPerWeek;
-                kost.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
-                kost.Doelgroep = model.Doelgroep;
-                kost.Ondersteuningspremie = model.Ondersteuningspremie;
-                kost.AantalMaandenIBO = model.AantalMaandenIBO;
+                Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, model.Id);
 
-                model = MaakModel(analyse);
-
-                if (kost.Doelgroep == null)
+                if (ModelState.IsValid && kost != null)
                 {
-                    TempData["error"] =
-                        "Opgelet! U heeft nog geen doelgroep geselecteerd. Er zal dus nog geen resultaat " +
-                        "berekend worden bij deze kost.";
+                    kost.Id = model.Id;
+                    kost.Beschrijving = model.Beschrijving;
+                    kost.AantalUrenPerWeek = model.AantalUrenPerWeek;
+                    kost.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
+                    kost.Doelgroep = model.Doelgroep;
+                    kost.Ondersteuningspremie = model.Ondersteuningspremie;
+                    kost.AantalMaandenIBO = model.AantalMaandenIBO;
+                    kost.IBOPremie = model.IBOPremie;
+
+                    if (kost.Doelgroep == null)
+                    {
+                        TempData["error"] =
+                            "Opgelet! U heeft nog geen doelgroep geselecteerd. Er zal dus nog geen resultaat " +
+                            "berekend worden bij deze kost.";
+                    }
+
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+
+                    TempData["message"] = Meldingen.OpslaanSuccesvolKost;
                 }
-
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
-
-                TempData["message"] = "De kost is succesvol opgeslaan.";
             }
-            PlaatsTotaalInViewData(analyse);
+            catch
+            {
+                TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+            }
 
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
+        #endregion
 
+        #region Verwijder
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, id);
-
-            if (kost != null)
+            try
             {
-                analyse.Loonkosten.Remove(kost);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, id);
+
+                if (kost != null)
+                {
+                    analyse.Loonkosten.Remove(kost);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.VerwijderFoutmeldingKost;
             }
 
-            LoonkostenIndexViewModel model = MaakModel(analyse);
-            PlaatsTotaalInViewData(analyse);
-
-            TempData["message"] = "De kost is succesvol verwijderd.";
-
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
-        private LoonkostenIndexViewModel MaakModel(Analyse analyse)
+        #endregion
+
+        #region Helpers
+        private IEnumerable<LoonkostViewModel> MaakModel(Analyse analyse)
         {
-            Array values = Enum.GetValues(typeof(Doelgroep));
-            IList<Doelgroep> doelgroepen = new List<Doelgroep>();
-
-            foreach (Doelgroep value in values)
-            {
-                doelgroepen.Add(value);
-            }
-
-            LoonkostenIndexViewModel model = new LoonkostenIndexViewModel()
-            {
-                Type = Type.Kost,
-                Soort = Soort.Loonkost,
-                ViewModels = analyse
-                                .Loonkosten
-                                .Select(m => new LoonkostViewModel(m)
-                    {
-                        Bedrag = analyse.Departement == null
-                        ? 0 : 
-                        m.BerekenTotaleLoonkost(analyse.Departement.Werkgever.AantalWerkuren, analyse.Departement.Werkgever.PatronaleBijdrage)
-                    })
-            };
-
-            return model;
-        }
-
-        private bool IsAjaxRequest()
-        {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            return analyse
+                .Loonkosten
+                .Select(m => new LoonkostViewModel(m)
+                {
+                    Bedrag = analyse.Departement == null
+                        ? 0
+                        : m.BerekenTotaleLoonkost(analyse.Departement.Werkgever.AantalWerkuren,
+                            analyse.Departement.Werkgever.PatronaleBijdrage)
+                })
+                .ToList();
         }
 
         private void PlaatsTotaalInViewData(Analyse analyse)
@@ -210,6 +213,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                                     "berekend worden bij deze kost.";
             }
         }
+        #endregion
     }
 }
 

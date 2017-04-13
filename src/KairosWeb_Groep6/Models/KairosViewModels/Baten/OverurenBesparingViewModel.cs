@@ -7,6 +7,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 {
     public class OverurenBesparingViewModel
     {
+        #region Properties
         [HiddenInput]
         public int Id { get; set; }
 
@@ -20,7 +21,9 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
         [Display(Name = "Jaarbedrag")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bedrag op te geven.")]
         public double Bedrag { get; set; }
+        #endregion
 
+        #region Constructors
         public OverurenBesparingViewModel()
         {
             Type = Type.Baat;
@@ -33,5 +36,6 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
             Id = besparing.Id;
             Bedrag = besparing.Bedrag;
         }
+        #endregion
     }
 }

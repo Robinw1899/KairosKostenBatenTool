@@ -19,7 +19,7 @@
 
 /* Klasse die aangeeft wat er enkel getoond moet worden op grote schermen */
 .desktop {
-    display: none !important;
+    display: none;
 }
 
 footer {
@@ -262,6 +262,6 @@ h6#infoTekstVerplichteVelden {
     }
 
     .desktop {
-        display: inline;
+        display: inline !important;
     }
 }

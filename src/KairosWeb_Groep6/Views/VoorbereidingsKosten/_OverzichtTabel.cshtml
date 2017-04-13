@@ -1,5 +1,4 @@
-﻿@using KairosWeb_Groep6.Models.KairosViewModels.Kosten.VoorbereidingsKostViewModels
-@model IEnumerable<VoorbereidingsKostViewModel>
+﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.VoorbereidingsKostViewModel>
 
 <table class="table table-bordered table-condensed table-responsive">
     <tr>
@@ -19,15 +18,15 @@
     }
     else
     {
-        foreach (VoorbereidingsKostViewModel kost in Model)
+        foreach (var kost in Model)
         {
             <tr>
                 <td>@kost.Beschrijving</td>
                 <td>@kost.Bedrag.ToString("C")</td>
                 <td>
                     <div class="options">
-                        <a asp-action="Bewerk" asp-route-id="@kost.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <a asp-action="Verwijder" asp-route-id="@kost.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        <a asp-action="Bewerk" asp-route-id="@kost.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a asp-action="Verwijder" asp-route-id="@kost.Id" id="verwijder"><i class="fa fa-trash" aria-hidden="true"></i></a>
                     </div>
                 </td>
             </tr>

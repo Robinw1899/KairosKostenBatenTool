@@ -64,6 +64,25 @@
         if (localStorage != null) {
             localStorage.setItem("intro", "");
         }
+    },
+    initFunctionsKostenEnBaten: function() {
+        $("a#add").click(function (event) {
+            event.preventDefault();
+            $.get($(this).attr("href"),
+                function (data) {
+                    $("#divForm").html(data);
+                    siteView.toonFormulier();
+                });
+        });
+
+        $("a#bewerk").click(function(event) {
+            event.preventDefault();
+            $.get($(this).attr("href"),
+                function(data) {
+                    $("#divForm").html(data);
+                    siteView.toonFormulier();
+                });
+        });
     }
 };
 

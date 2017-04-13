@@ -19,66 +19,68 @@ namespace KairosWeb_Groep6.Controllers.Baten
             _analyseRepository = analyseRepository;
         }
 
+        #region Index
         public IActionResult Index(Analyse analyse)
         {
             LogistiekeBesparingViewModel model = new LogistiekeBesparingViewModel(analyse.LogistiekeBesparing);
 
             return View(model);
         }
+        #endregion
 
+        #region Opslaan
         public IActionResult Opslaan(Analyse analyse, LogistiekeBesparingViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                LogistiekeBesparing baat = new LogistiekeBesparing
-                {
-                    Type = model.Type,
-                    Soort = model.Soort,
-                    TransportKosten = model.TransportKosten,
-                    LogistiekHandlingsKosten = model.LogistiekHandlingsKosten
-                };
-
-                analyse.LogistiekeBesparing = baat;
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-
-                try
-                {
-                    _analyseRepository.Save();
-                    TempData["message"] = "De baat is succesvol opgeslaan.";
-                }
-                catch
-                {
-                    TempData["error"] = "Er ging iets mis tijdens het verwijderen, probeer het later opnieuw.";
-                }
-
-                model = new LogistiekeBesparingViewModel(analyse.LogistiekeBesparing);
-            }
-
-            return View("Index", model);
-        }
-
-        public IActionResult Verwijder(Analyse analyse)
-        {
-            // Baat eruit halen
-            analyse.LogistiekeBesparing = null;
-
-            // Datum updaten
-            analyse.DatumLaatsteAanpassing = DateTime.Now;
-
-            // Opslaan
             try
             {
-                _analyseRepository.Save();
-                TempData["message"] = "De baat is succesvol verwijderd.";
+                if (ModelState.IsValid)
+                {
+                    LogistiekeBesparing baat = new LogistiekeBesparing
+                    {
+                        Type = model.Type,
+                        Soort = model.Soort,
+                        TransportKosten = model.TransportKosten,
+                        LogistiekHandlingsKosten = model.LogistiekHandlingsKosten
+                    };
+
+                    analyse.LogistiekeBesparing = baat;
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+                }
+
+                TempData["message"] = Meldingen.OpslaanSuccesvolBaat;
             }
             catch
             {
-                TempData["error"] = "Er ging iets mis tijdens het verwijderen, probeer het later opnieuw.";
+                TempData["error"] = Meldingen.OpslaanFoutmeldingBaat;
             }
 
-            LogistiekeBesparingViewModel model = new LogistiekeBesparingViewModel(analyse.LogistiekeBesparing);
-
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
+        #endregion
+
+        #region Verwijder
+        public IActionResult Verwijder(Analyse analyse)
+        {
+            try
+            {
+                // Baat eruit halen
+                analyse.LogistiekeBesparing = null;
+
+                // Datum updaten
+                analyse.DatumLaatsteAanpassing = DateTime.Now;
+
+                // Opslaan
+                _analyseRepository.Save();
+                TempData["message"] = Meldingen.VerwijderSuccesvolBaat;
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.VerwijderFoutmeldingBaat;
+            }
+
+            return RedirectToAction("Index");
+        }
+        #endregion
     }
 }

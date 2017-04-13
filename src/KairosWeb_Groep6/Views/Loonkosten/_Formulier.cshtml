@@ -1,0 +1,112 @@
+﻿@using KairosWeb_Groep6.Models.Domain.Kosten
+@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonkostViewModel
+@{
+    var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
+    ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
+}
+
+<form asp-action="@action" id="form" style="display: none" method="post">
+    <h6 id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    
+    <input asp-for="Id" />
+    <input asp-for="Type" />
+    <input asp-for="Soort" />
+
+    <div class="row">
+        <div class="form-group overflow">
+            <div class="col-md-4 required">
+                <label asp-for="Beschrijving" class="control-label"></label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-font" aria-hidden="true"></i>
+                    </span>
+                    <input asp-for="Beschrijving" class="form-control" placeholder="Functie" id="functie">
+                </div>
+            </div>
+            <div class="col-md-4 required">
+                <label asp-for="AantalUrenPerWeek" class="control-label"></label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    </span>
+                    <input asp-for="AantalUrenPerWeek" class="form-control"
+                           placeholder="Aantal uren per week" id="urenPerWeek">
+                </div>
+            </div>
+            <div class="col-md-4 required">
+                <label asp-for="BrutoMaandloonFulltime" class="control-label"></label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-eur" aria-hidden="true"></i>
+                    </span>
+                    <input asp-for="BrutoMaandloonFulltime" class="form-control"
+                           placeholder="Brutomaandloon (fulltime)" id="brutoMaandloon">
+                </div>
+            </div>
+        </div>
+        <div class="form-group overflow">
+            <div class="col-md-4 required">
+                <label asp-for="Doelgroep" class="control-label"></label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                    </span>
+                    <select asp-for="Doelgroep" asp-items="@(Html.GetEnumSelectList<Doelgroep>())" class="form-control">
+                        <option value="">-- selecteer een doelgroep --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4 required">
+                <label asp-for="Ondersteuningspremie" class="control-label"></label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-percent" aria-hidden="true"></i>
+                    </span>
+                    <select asp-for="Ondersteuningspremie" class="form-control">
+                        <option value="0">0%</option>
+                        <option value="20">20%</option>
+                        <option value="30">30%</option>
+                        <option value="40">40%</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4 required">
+                <label asp-for="AantalMaandenIBO" class="control-label"></label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-eur" aria-hidden="true"></i>
+                    </span>
+                    <input asp-for="AantalMaandenIBO" class="form-control"
+                           placeholder="Aantal maanden IBO" id="maandenIBO">
+                </div>
+            </div>
+        </div>
+        <div class="form-group overflow">
+            <div class="col-md-4 required">
+                <label asp-for="IBOPremie" class="control-label"></label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-eur" aria-hidden="true"></i>
+                    </span>
+                    <input asp-for="IBOPremie" class="form-control"
+                           placeholder="Totale productiviteitspremie IBO" id="IBOpremie">
+                </div>
+            </div>
+            <div class="col-md-8 text-right">
+                <a class="btn btn-default" onclick="siteView.verbergFormulier()">Annuleer</a>
+                <button type="submit" class="btn btn-info" style="margin-left: 15px">@ViewData["action"]</button>
+            </div>
+        </div>
+    </div>
+    <br />
+</form>
+
+<script>
+    if (siteView) {
+        siteView.initFunctionsKostenEnBaten();
+    }
+</script>
+
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

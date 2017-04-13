@@ -1,0 +1,64 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraOmzetViewModel
+
+<form asp-controller="ExtraOmzet" asp-action="Opslaan" method="post" class="form-horizontal" id="form">
+
+    <h6 id="infoTekstVerplichteVelden" class="paddingtekst">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input asp-for="Id" />
+    <input asp-for="Soort" />
+    <input asp-for="Type" />
+
+    <div class="row required">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <label class="control-label" asp-for="JaarbedragOmzetverlies"></label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-eur" aria-hidden="true"></i>
+                    </span>
+                    <input asp-for="JaarbedragOmzetverlies" class="form-control input-maxwidth" id="jaarbedrag" placeholder="Jaarbedrag omzetverlies" />
+                </div>
+                <span asp-validation-for="JaarbedragOmzetverlies" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label class="control-label" asp-for="Besparing"></label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-eur" aria-hidden="true"></i>
+                    </span>
+                    <input asp-for="Besparing" class="form-control input-maxwidth" id="besparing" placeholder="% besparing" />
+                </div>
+                <span asp-validation-for="Besparing" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-4">
+                <label asp-for="Bedrag"></label>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-eur" aria-hidden="true"></i>
+                    </span>
+                    <input type="text" class="form-control input-maxwidth" disabled="disabled" value="@(Model.Bedrag.ToString("C"))" />
+                </div>
+                <span asp-validation-for="Bedrag" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <a asp-controller="Baten" asp-action="Index" class="btn btn-default">Annuleer</a>
+            @if (Model.JaarbedragOmzetverlies > 0 || Model.Besparing > 0)
+            {
+                <a asp-controller="ExtraOmzet" asp-action="Verwijder" class="btn btn-danger" style="margin-left: 15px"
+                   id="verwijder">Verwijder</a>
+            }
+            <button type="submit" class="btn btn-info" style="margin-left: 15px">Opslaan</button>
+        </div>
+    </div>
+</form>
+
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

@@ -28,7 +28,7 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
-        #region Methods
+        #region Index
         public IActionResult Index(Jobcoach jobcoach)
         {
             IndexViewModel model = new IndexViewModel();
@@ -54,52 +54,62 @@ namespace KairosWeb_Groep6.Controllers
                     TempData["error"] = "Gelieve eerst in te loggen alvorens deze pagina te bezoeken.";
                 }
             }
-            catch (Exception e)
+            catch
             {
-                TempData["error"] = e.Message;
-                ErrorViewModel errorViewModel = new ErrorViewModel {Exception = e};
-                return View("Error", errorViewModel);
+                TempData["error"] = "Er ging onverwacht iets fout, probeer later opnieuw";
             }
 
             return View("Index", model);
         }
+        #endregion
 
-
+        #region Zoek analyse
         [HttpPost]
         public IActionResult Zoek(string zoekterm)
         {
-            string email = HttpContext.User.Identity.Name;
-            Jobcoach jobcoach = _gebruikerRepository.GetByEmail(email);
-
-            if (jobcoach != null)
+            try
             {
-                jobcoach.SelecteerMatchendeAnalyse(zoekterm);
-                jobcoach.Analyses = jobcoach
-                    .Analyses
-                    .InArchief()
-                    .OrderByDescending(t => t.DatumLaatsteAanpassing)
-                    .Take(9)
-                    .ToList();
+                string email = HttpContext.User.Identity.Name;
+                Jobcoach jobcoach = _gebruikerRepository.GetByEmail(email);
 
-                List<Analyse> analyses = new List<Analyse>();
-
-                foreach (Analyse a in jobcoach.Analyses)
+                if (jobcoach != null)
                 {
-                    analyses.Add(_analyseRepository.GetById(a.AnalyseId));
+                    jobcoach.SelecteerMatchendeAnalyse(zoekterm);
+                    jobcoach.Analyses = jobcoach
+                        .Analyses
+                        .InArchief()
+                        .OrderByDescending(t => t.DatumLaatsteAanpassing)
+                        .Take(9)
+                        .ToList();
+
+                    List<Analyse> analyses = new List<Analyse>();
+
+                    foreach (Analyse a in jobcoach.Analyses)
+                    {
+                        analyses.Add(_analyseRepository.GetById(a.AnalyseId));
+                    }
+
+                    jobcoach.Analyses = analyses;
                 }
 
-                jobcoach.Analyses = analyses;
+                IndexViewModel model = new IndexViewModel(jobcoach)
+                {
+                    Aantal = 9
+                };
+
+                ViewData["zoeken"] = "zoeken";
+                return View("Index", model);
+            }
+            catch
+            {
+                TempData["error"] = "Er ging onverwacht iets fout, probeer later opnieuw";
             }
 
-            IndexViewModel model = new IndexViewModel(jobcoach)
-            {
-                Aantal = 9
-            };
-
-            ViewData["zoeken"] = "zoeken";
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
+        #endregion
 
+        #region Methoden voor de opties bij een AnalyseCard        
         public IActionResult HaalAnalyseUitArchief(int id)
         {
             try
@@ -123,11 +133,9 @@ namespace KairosWeb_Groep6.Controllers
                                           " is succesvol uit het archief gehaald.";
                 }
             }
-            catch (Exception e)
+            catch
             {
-                TempData["error"] = e.Message;
-                ErrorViewModel errorViewModel = new ErrorViewModel { Exception = e };
-                return View("Error", errorViewModel);
+                TempData["error"] = "Er ging onverwacht iets fout, probeer later opnieuw";
             }
 
             return RedirectToAction("Index");

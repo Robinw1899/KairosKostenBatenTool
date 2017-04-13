@@ -1,0 +1,40 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraProductiviteitViewModel
+
+<form asp-action="Opslaan" method="post" class="form-horizontal">
+
+    <h6 class="col-md-offset-2 paddingtekst" id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input asp-for="Id" />
+    <input asp-for="Soort" />
+    <input asp-for="Type" />
+
+    <div class="row col-md-offset-2 required">
+        <div class="col-md-4">
+            <label asp-for="Bedrag" class="control-label"></label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-eur" aria-hidden="true"></i>
+                </span>
+                <input asp-for="Bedrag" class="form-control" id="jaarbedrag" placeholder="Jaarbedrag" />
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row col-md-offset-2">
+        <div class="col-md-4 text-right">
+            <a asp-controller="Baten" asp-action="Index" class="btn btn-default" id="closeForm">Annuleer</a>
+            @if (Model.Bedrag > 0)
+            {
+                <a asp-controller="ExtraProductiviteit" asp-action="Verwijder" class="btn btn-danger" style="margin-left: 15px"
+                   id="verwijder">Verwijder</a>
+            }
+            <button type="submit" class="btn btn-info" style="margin-left: 15px">Opslaan</button>
+        </div>
+    </div>
+</form>
+
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

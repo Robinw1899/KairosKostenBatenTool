@@ -10,6 +10,5 @@
             Soort = Soort.UitzendkrachtBesparing;
         }
         #endregion
-
     }
 }
