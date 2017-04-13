@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using Microsoft.AspNetCore.Mvc;
 using Type = KairosWeb_Groep6.Models.Domain.Type;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraBesparingViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 {
-    public class ExtraBesparingIndexViewModel
+    public class ExtraBesparingViewModel
     {
+        #region Properties
         [HiddenInput]
         public int Id { get; set; }
 
@@ -19,30 +19,27 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraBesparingViewModel
         public Soort Soort { get; set; }
 
         [Required(ErrorMessage = "Gelieve een beschrijving op te geven.")]
-        [Display(Name = "Type besparing")]
         public string Beschrijving { get; set; }
 
         [Required(ErrorMessage = "Gelieve het bedrag op te geven.")]
-        [Display(Name = "Jaarbedrag")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bedrag op te geven.")]
         public double Bedrag { get; set; }
+        #endregion
 
-        public int ToonFormulier { get; set; } = 0;
-
-        public IEnumerable<ExtraBesparingViewModel> ViewModels { get; set; }
-
-        public ExtraBesparingIndexViewModel()
+        #region Constructors
+        public ExtraBesparingViewModel()
         {
-            Type = Type.Baat;
-            Soort = Soort.ExtraBesparing;
+            
         }
 
-        public ExtraBesparingIndexViewModel(ExtraBesparing besparing)
-            : this()
+        public ExtraBesparingViewModel(ExtraBesparing besparing)
         {
             Id = besparing.Id;
+            Type = besparing.Type;
+            Soort = besparing.Soort;
             Beschrijving = besparing.Beschrijving;
             Bedrag = besparing.Bedrag;
         }
+        #endregion
     }
 }

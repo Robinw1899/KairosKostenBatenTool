@@ -1,148 +1,167 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
-using KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraBesparingViewModels;
-using Type = KairosWeb_Groep6.Models.Domain.Type;
+using KairosWeb_Groep6.Models.KairosViewModels.Baten;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
+    [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
     public class ExtraBesparingenController : Controller
     {
-
         private readonly IAnalyseRepository _analyseRepository;
 
         public ExtraBesparingenController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
- 
+
+        #region Index
         public IActionResult Index(Analyse analyse)
         {
-            ExtraBesparingIndexViewModel model = MaakModel(analyse);
+            IEnumerable<ExtraBesparingViewModel> model = MaakModel(analyse);
 
-            if (IsAjaxRequest())
-            {
-                PlaatsTotaalInViewData(analyse);
-                return PartialView("_OverzichtTabel", model.ViewModels);
-            }
+            PlaatsTotaalInViewData(analyse);
 
             return View(model);
         }
+        #endregion
 
-        public IActionResult VoegToe(Analyse analyse, ExtraBesparingIndexViewModel model)
+        #region VoegToe
+        public IActionResult VoegToe()
         {
-            if (ModelState.IsValid)
-            {
-                // de baat bestaat reeds:
-                ExtraBesparing baat = new ExtraBesparing()
-                {
-                    Type = model.Type,
-                    Soort = model.Soort,
-                    Beschrijving = model.Beschrijving,
-                    Bedrag = model.Bedrag
-                };
-
-                analyse.ExtraBesparingen.Add(baat);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
-
-                model = MaakModel(analyse);
-
-                TempData["message"] = "De baat is succesvol toegevoegd.";
-            }
-
-            return RedirectToAction("Index", model);
-        }
-
-        public IActionResult Bewerk(Analyse analyse, int id)
-        {// id is het id van de baat die moet bewerkt wordens
-            ExtraBesparing baat = KostOfBaatExtensions.GetBy(analyse.ExtraBesparingen, id);
-
-            ExtraBesparingIndexViewModel model = MaakModel(analyse);
-
-            if (baat != null)
-            {
-                // parameters voor formulier instellen
-                model.Id = id;
-                model.Type = baat.Type;
-                model.Soort = baat.Soort;
-                model.Beschrijving = baat.Beschrijving;
-                model.Bedrag = baat.Bedrag;
-                model.ToonFormulier = 1;
-            }
-
-            PlaatsTotaalInViewData(analyse);
-
-            return View("Index", model);
+            ExtraBesparingViewModel model = new ExtraBesparingViewModel();
+            return PartialView("_Formulier", model);
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, ExtraBesparingIndexViewModel model)
-        {// id is het id van de baat die moet bewerkt worden
-            ExtraBesparing baat = KostOfBaatExtensions.GetBy(analyse.ExtraBesparingen, model.Id);
-
-            if (ModelState.IsValid && baat != null)
+        public IActionResult VoegToe(Analyse analyse, ExtraBesparingViewModel model)
+        {
+            try
             {
-                // parameters voor formulier instellen
-                baat.Id = model.Id;
-                baat.Type = model.Type;
-                baat.Soort = model.Soort;
-                baat.Beschrijving = model.Beschrijving;
-                baat.Bedrag = model.Bedrag;
+                if (ModelState.IsValid)
+                {
+                    ExtraBesparing baat = new ExtraBesparing()
+                    {
+                        Type = model.Type,
+                        Soort = model.Soort,
+                        Beschrijving = model.Beschrijving,
+                        Bedrag = model.Bedrag
+                    };
 
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                    analyse.ExtraBesparingen.Add(baat);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
 
-                model = MaakModel(analyse);
-
-                TempData["message"] = "De baat is succesvol opgeslaan.";
+                    TempData["message"] = Meldingen.VoegToeSuccesvolBaat;
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.VoegToeFoutmeldingBaat;
             }
 
-            PlaatsTotaalInViewData(analyse);
+            return RedirectToAction("Index");
+        }
+        #endregion
 
-            return View("Index", model);
+        #region Bewerk        
+        public IActionResult Bewerk(Analyse analyse, int id)
+        {// id is het id van de baat die moet bewerkt wordens
+            try
+            {
+                ExtraBesparing baat = KostOfBaatExtensions.GetBy(analyse.ExtraBesparingen, id);
+                ExtraBesparingViewModel model = new ExtraBesparingViewModel();
+
+                if (baat != null)
+                {
+                    // parameters voor formulier instellen
+                    model.Id = id;
+                    model.Type = baat.Type;
+                    model.Soort = baat.Soort;
+                    model.Beschrijving = baat.Beschrijving;
+                    model.Bedrag = baat.Bedrag;
+
+                    return PartialView("_Formulier", model);
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.OphalenFoutmeldingBaat;
+            }
+
+            return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public IActionResult Bewerk(Analyse analyse, ExtraBesparingViewModel model)
+        {// id is het id van de baat die moet bewerkt worden
+            try
+            {
+                ExtraBesparing baat = KostOfBaatExtensions.GetBy(analyse.ExtraBesparingen, model.Id);
+
+                if (ModelState.IsValid && baat != null)
+                {
+                    baat.Id = model.Id;
+                    baat.Type = model.Type;
+                    baat.Soort = model.Soort;
+                    baat.Beschrijving = model.Beschrijving;
+                    baat.Bedrag = model.Bedrag;
+
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+
+                    TempData["message"] = Meldingen.OpslaanSuccesvolBaat;
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.OpslaanFoutmeldingBaat;
+            }
+
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Verwijder
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            ExtraBesparing baat = KostOfBaatExtensions.GetBy(analyse.ExtraBesparingen, id);
-            if (baat != null)
+            try
             {
-                analyse.ExtraBesparingen.Remove(baat);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                ExtraBesparing baat = KostOfBaatExtensions.GetBy(analyse.ExtraBesparingen, id);
+
+                if (baat != null)
+                {
+                    analyse.ExtraBesparingen.Remove(baat);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.VerwijderFoutmeldingBaat;
+                return RedirectToAction("Index");
             }
 
-            ExtraBesparingIndexViewModel model = MaakModel(analyse);
             PlaatsTotaalInViewData(analyse);
 
-            TempData["message"] = "De baat is succesvol verwijderd.";
-
-            return View("Index", model);
+            return PartialView("_OverzichtTabel", MaakModel(analyse));
         }
+        #endregion
 
-        private ExtraBesparingIndexViewModel MaakModel(Analyse analyse)
+        #region Helpers
+        private IEnumerable<ExtraBesparingViewModel> MaakModel(Analyse analyse)
         {
-            ExtraBesparingIndexViewModel model = new ExtraBesparingIndexViewModel
-            {
-                Type = Type.Baat,
-                Soort = Soort.ExtraBesparing,
-                ViewModels = analyse
-                                .ExtraBesparingen
-                                .Select(m => new ExtraBesparingViewModel(m))
-            };
-
-            return model;
-        }
-
-        private bool IsAjaxRequest()
-        {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            return analyse
+                .ExtraBesparingen
+                .Select(m => new ExtraBesparingViewModel(m))
+                .ToList();
         }
 
         private void PlaatsTotaalInViewData(Analyse analyse)
@@ -157,5 +176,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
             ViewData["totaal"] = totaal.ToString("C");
         }
+        #endregion
     }
 }
