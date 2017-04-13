@@ -63,7 +63,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             }
             catch
             {
-                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+                TempData["error"] = Meldingen.VoegToeFoutmeldingKost;
             }
 
             return RedirectToAction("Index");
@@ -92,7 +92,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             }
             catch
             {
-                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+                TempData["error"] = Meldingen.OphalenFoutmeldingKost;
             }
 
             return RedirectToAction("Index");
@@ -121,7 +121,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             }
             catch
             {
-                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+                TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
             }
 
             return RedirectToAction("Index");
@@ -143,7 +143,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             }
             catch
             {
-                TempData["error"] = "Er ging iets mis, probeer later opnieuw";
+                TempData["error"] = Meldingen.VerwijderFoutmeldingKost;
                 return RedirectToAction("Index");
             }
 
