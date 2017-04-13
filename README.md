@@ -27,6 +27,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Infrastructuurkost omvormen naar PersoneelsKost
 * Vorige en volgende knop browser uitschakelen
 * Responsive maken
+* Toon meer uitbreiden met melding als alles al getoond wordt (knop wordt dan ook verborgen)
 
 ## Retrospective
 ### Wat ging goed?
