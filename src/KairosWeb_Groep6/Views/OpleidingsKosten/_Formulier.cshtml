@@ -38,10 +38,16 @@
     </div>
     <div class="row col-md-offset-2">
         <div class="col-md-8 text-right">
-            <a class="btn btn-default" id="closeForm">Annuleer</a>
+            <a class="btn btn-default" onclick="siteView.verbergFormulier()">Annuleer</a>
             <button type="submit" class="btn btn-info" style="margin-left: 15px">@ViewData["action"]</button>
         </div>
     </div>
 </form>
+
+<script>
+    if (siteView) {
+        siteView.initFunctionsKostenEnBaten();
+    }
+</script>
 
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

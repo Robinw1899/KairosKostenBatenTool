@@ -4,10 +4,11 @@ using KairosWeb_Groep6.Models.Domain.Baten;
 using Microsoft.AspNetCore.Mvc;
 using Type = KairosWeb_Groep6.Models.Domain.Type;
 
-namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels
+namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 {
     public class MedewerkerNiveauBaatViewModel
     {
+        #region Properties
         [HiddenInput]
         public int Id { get; set; }
 
@@ -29,18 +30,23 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatVie
         public double BrutoMaandloonFulltime { get; set; }
 
         public double Bedrag { get; set; }
+        #endregion
 
-        public MedewerkerNiveauBaatViewModel(KostOfBaat kostOfBaat)
+        #region Constructors
+        public MedewerkerNiveauBaatViewModel()
         {
-            MedewerkerNiveauBaat baat = (MedewerkerNiveauBaat)kostOfBaat;
+            
+        }
 
+        public MedewerkerNiveauBaatViewModel(MedewerkerNiveauBaat baat)
+        {
             Id = baat.Id;
             Type = baat.Type;
             Soort = baat.Soort;
-            //Beschrijving = baat.Beschrijving;
             Uren = baat.Uren;
             BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
             Bedrag = baat.Bedrag;
         }
+        #endregion
     }
 }

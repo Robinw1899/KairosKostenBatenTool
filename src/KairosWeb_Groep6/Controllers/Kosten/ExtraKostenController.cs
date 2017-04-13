@@ -151,12 +151,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             catch
             {
                 TempData["error"] = Meldingen.VerwijderFoutmeldingKost;
-                return RedirectToAction("Index");
             }
 
-            PlaatsTotaalInViewData(analyse);
-
-            return PartialView("_OverzichtTabel", MaakModel(analyse));
+            return RedirectToAction("Index");
         }
 
         #endregion

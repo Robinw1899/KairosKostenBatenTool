@@ -1,4 +1,4 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.UitzendKrachtBesparingViewModel
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModel
 @{
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
     ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
@@ -14,24 +14,24 @@
     <input asp-for="Type" />
     <input asp-for="Soort" />
 
-    <div class="row col-md-offset-2 required">
+    <div class="row col-md-offset-2">
         <div class="col-md-4 required">
-            <label asp-for="Beschrijving" class="control-label"></label>
+            <label asp-for="Uren" class="control-label"></label>
             <div class="input-group">
                 <span class="input-group-addon">
-                    <i class="fa fa-font" aria-hidden="true"></i>
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
                 </span>
-                <input asp-for="Beschrijving" class="form-control" placeholder="Beschrijving" id="beschrijving">
+                <input asp-for="Uren" class="form-control" placeholder="Uren" id="uren">
             </div>
         </div>
         <div class="col-md-4 required">
-            <label asp-for="Bedrag" class="control-label"></label>
+            <label asp-for="BrutoMaandloonFulltime" class="control-label"></label>
             <div class="input-group">
                 <span class="input-group-addon">
                     <i class="fa fa-eur" aria-hidden="true"></i>
                 </span>
-                <input asp-for="Bedrag" class="form-control"
-                       placeholder="Jaarbedrag" id="bedrag">
+                <input asp-for="BrutoMaandloonFulltime" class="form-control"
+                       placeholder="Bruto maandloon (fulltime)" id="brutoloon">
             </div>
         </div>
     </div>

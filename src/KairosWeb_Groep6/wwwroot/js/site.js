@@ -83,14 +83,6 @@
                     siteView.toonFormulier();
                 });
         });
-
-        $("a#verwijder").click(function (event) {
-            event.preventDefault();
-            $.get($(this).attr("href"),
-                function (data) {
-                    $("#data").html(data);
-                });
-        });
     }
 };
 

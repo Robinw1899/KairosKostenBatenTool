@@ -44,4 +44,10 @@
     </div>
 </form>
 
+<script>
+    if (siteView) {
+        siteView.initFunctionsKostenEnBaten();
+    }
+</script>
+
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

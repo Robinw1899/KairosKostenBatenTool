@@ -57,8 +57,6 @@ namespace KairosWeb_Groep6.Controllers
             catch (Exception e)
             {
                 TempData["error"] = e.Message;
-                ErrorViewModel errorViewModel = new ErrorViewModel {Exception = e};
-                return View("Error", errorViewModel);
             }
 
             return View("Index", model);
@@ -126,8 +124,6 @@ namespace KairosWeb_Groep6.Controllers
             catch (Exception e)
             {
                 TempData["error"] = e.Message;
-                ErrorViewModel errorViewModel = new ErrorViewModel { Exception = e };
-                return View("Error", errorViewModel);
             }
 
             return RedirectToAction("Index");

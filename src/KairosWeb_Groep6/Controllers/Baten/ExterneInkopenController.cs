@@ -147,12 +147,9 @@ namespace KairosWeb_Groep6.Controllers.Baten
             catch
             {
                 TempData["error"] = Meldingen.VerwijderFoutmeldingBaat;
-                return RedirectToAction("Index");
             }
 
-            PlaatsTotaalInViewData(analyse);
-
-            return PartialView("_OverzichtTabel", MaakModel(analyse));
+            return RedirectToAction("Index");
         }
         #endregion
 
