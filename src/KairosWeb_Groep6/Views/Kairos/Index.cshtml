@@ -33,36 +33,38 @@
             </div>
         </div>
     </div>
+    
+    <div class="row">
+        @if (Model == null || !Model.Analyses.Any())
+        {
+            if (ViewData["zoeken"] == null)
+            {
+                <p style="font-size: 1.2em;">
+                    Er zijn nog geen analyses om te tonen. Klik op de <i class="fa fa-plus" aria-hidden="true"></i> hieronder
+                    of op het <i class="fa fa-line-chart" aria-hidden="true"></i>-icoon hierboven om een nieuwe analyse toe te voegen.
+                </p>
+            }
+        }
 
-    @if (Model == null || !Model.Analyses.Any())
-    {
-        if (ViewData["zoeken"] == null)
-         {
-             <p style="font-size: 1.2em;">Er zijn nog geen analyses om te tonen. Klik op de <i class="fa fa-plus" aria-hidden="true"></i> hieronder
-                 of op het <i class="fa fa-line-chart" aria-hidden="true"></i>-icoon hierboven om een nieuwe analyse toe te voegen.
-             </p>
-             <div class="row">
-                 <div class="col-sm-12 col-md-6 col-lg-4">
-                     <a asp-controller="Analyse" asp-action="NieuweAnalyse">
-                         <div class="card text-center" style="color: black;">
-                             <i class="fa fa-plus fa-4x" aria-hidden="true" style="margin: auto 0;"></i>
-                         </div>
-                     </a>
-                 </div>
-             </div>
-         }
-    }
-    else
-    {
-        <div class="row" id="data">
-            @Html.Partial("_Analyses", Model)
+        <div class="col-sm-12 col-md-6 col-lg-4">
+            <a asp-controller="Analyse" asp-action="NieuweAnalyse">
+                <div class="card text-center" style="color: black;">
+                    <i class="fa fa-plus fa-4x" aria-hidden="true" style="margin: auto 0;"></i>
+                </div>
+            </a>
         </div>
 
-        <br />
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <a class="btn btn-default" asp-action="ToonMeer" asp-route-id="@Model.Aantal" id="meer">Toon meer ...</a>
+        @if (Model != null && Model.Analyses.Any())
+        {
+            <div id="data">
+                @Html.Partial("_Analyses", Model)
             </div>
-        </div>
-    }
+
+            <div>
+                <div class="col-md-12 text-center" style="margin-top: 20px;">
+                    <a class="btn btn-default" asp-action="ToonMeer" asp-route-id="@Model.Aantal" id="meer">Toon meer ...</a>
+                </div>
+            </div>
+        }
+    </div>
 </div>
