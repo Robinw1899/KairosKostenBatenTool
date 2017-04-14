@@ -109,8 +109,23 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
-        #region Methoden voor de opties bij een AnalyseCard        
+        #region Methoden voor de opties bij een AnalyseCard
         public IActionResult HaalAnalyseUitArchief(int id)
+        {
+            ViewData["analyseId"] = id;
+            Analyse analyse = _analyseRepository.GetById(id);
+
+            if (analyse.Departement != null)
+            {
+                ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+            }
+
+            return View("HaalAnalyseUitArchief");
+        }
+
+        [HttpPost]
+        [ActionName("HaalAnalyseUitArchief")]
+        public IActionResult HaalAnalyseUitArchiefBevestigd(int id)
         {
             try
             {
