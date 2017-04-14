@@ -1,9 +1,5 @@
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System;
-using System.Linq;
 
 namespace KairosWeb_Groep6.Models.Domain
 {

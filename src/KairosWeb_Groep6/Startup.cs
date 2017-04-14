@@ -108,10 +108,6 @@ namespace KairosWeb_Groep6
           
             app.UseSession();
 
-            //context.Database.EnsureDeleted();
-
-            //context.Database.EnsureCreated();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -119,10 +115,10 @@ namespace KairosWeb_Groep6
                     template: "{controller=Kairos}/{action=Index}/{id?}");
             });
 
-            //DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
-            //                                                  departementRepository, analyseRepository,werkgeverRepository,
-            //                                                 introductietekstRepository);
-            //initializer.InitializeData().Wait();
+            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
+                                                              departementRepository, analyseRepository, werkgeverRepository,
+                                                             introductietekstRepository);
+            initializer.InitializeData().Wait();
         }
     }
 }

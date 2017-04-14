@@ -306,7 +306,7 @@ namespace KairosWeb_Groep6.Controllers
             _werkgeverRepository.Save();
             _departementRepository.Save();
 
-           return RedirectToAction("Index");
+           return RedirectToAction("Index", "ContactPersoon");
         }
         #endregion
 
