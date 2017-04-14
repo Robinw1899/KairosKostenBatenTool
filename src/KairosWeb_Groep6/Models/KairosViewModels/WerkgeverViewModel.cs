@@ -40,7 +40,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         [Required(ErrorMessage = "Gelieve de gemeente van de organisatie op te geven")]
         public string Gemeente { get; set; }
 
-        [Display(Name = "Gemiddeld aantal uren per week", Prompt = "Gemiddeld aantal uren per week")]
+        [Display(Name = "Gemiddeld aantal werkuren per week", Prompt = "Gemiddeld aantal werkuren per week")]
         [Required(ErrorMessage = "Gelieve een gemiddeld aantal werkuren per week op te geven")]
         public double AantalWerkuren { get; set; }
 
