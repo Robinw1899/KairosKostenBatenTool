@@ -25,7 +25,6 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Vorige en volgende knop browser uitschakelen
 * Responsive maken
 * Toon meer uitbreiden met melding als alles al getoond wordt (knop wordt dan ook verborgen)
-* Kommagetallen in Kosten/Baten!
 
 ## Retrospective
 ### Wat ging goed?
