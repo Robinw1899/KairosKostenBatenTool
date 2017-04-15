@@ -1,4 +1,5 @@
-﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModel>
+﻿@using System.Globalization
+@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Baten.ExterneInkoopViewModel>
 
 <table class="table table-bordered table-condensed table-responsive">
     <tr>
@@ -22,7 +23,7 @@
         {
             <tr>
                 <td>@baat.Beschrijving</td>
-                <td>@baat.Bedrag.ToString("C")</td>
+                <td>@baat.Bedrag.ToString("C", new CultureInfo("nl-BE"))</td>
                 <td>
                     <div class="options">
                         <a asp-action="Bewerk" asp-route-id="@baat.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>

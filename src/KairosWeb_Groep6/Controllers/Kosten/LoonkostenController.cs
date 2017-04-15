@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
@@ -197,13 +198,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     analyse.Loonkosten, analyse.Departement.Werkgever.AantalWerkuren,
                     analyse.Departement.Werkgever.PatronaleBijdrage);
 
-                ViewData["totaalBrutolonen"] = totaal.ToString("C");
+                ViewData["totaalBrutolonen"] = totaal.ToString("C", new CultureInfo("nl-BE"));
 
                 totaal = LoonkostExtensions.GeefTotaalAlleLoonkosten(
                     analyse.Loonkosten, analyse.Departement.Werkgever.AantalWerkuren,
                     analyse.Departement.Werkgever.PatronaleBijdrage);
 
-                ViewData["totaalLoonkosten"] = totaal.ToString("C");
+                ViewData["totaalLoonkosten"] = totaal.ToString("C", new CultureInfo("nl-BE"));
             }
             else
             {

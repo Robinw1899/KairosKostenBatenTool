@@ -156,7 +156,7 @@ namespace KairosWeb_Groep6.Controllers
                 }
                
             }
-            catch (Exception e)
+            catch
             {
                 TempData["error"] = "Er liep iets mis, probeer later opnieuw";
             }

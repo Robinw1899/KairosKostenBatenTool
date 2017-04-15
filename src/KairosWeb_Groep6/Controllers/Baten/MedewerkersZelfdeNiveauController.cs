@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
@@ -180,7 +181,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     analyse.Departement.Werkgever.AantalWerkuren,
                     analyse.Departement.Werkgever.PatronaleBijdrage);
 
-                ViewData["totaal"] = totaal.ToString("C");
+                ViewData["totaal"] = totaal.ToString("C", new CultureInfo("nl-BE"));
             }
             else
             {

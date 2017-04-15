@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,7 @@ using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 
 namespace KairosWeb_Groep6
 {
@@ -27,7 +30,7 @@ namespace KairosWeb_Groep6
             if (env.IsDevelopment())
             {
                 // For more details on using the user secret store see http://go.microsoft.com/fwlink/?LinkID=532709
-                builder.AddUserSecrets();
+                builder.AddUserSecrets("aspnet-KairosWeb_Groep6-b1133a05-0e80-4e06-909f-a7d404128be2");
             }
 
             builder.AddEnvironmentVariables();
@@ -61,9 +64,8 @@ namespace KairosWeb_Groep6
                 options =>
                 {
                     options.ModelBindingMessageProvider
-                        .ValueMustBeANumberAccessor = s => "Dit veld mag enkel een getal bevatten.";
-                })
-                .AddDataAnnotationsLocalization();
+                        .ValueMustBeANumberAccessor = s => $"{s} mag enkel een getal bevatten. ";
+                });
             services.AddSession();
 
             // Add application services.
@@ -108,6 +110,8 @@ namespace KairosWeb_Groep6
           
             app.UseSession();
 
+            app.UseRequestLocalization(BuildLocalizationOptions());
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -115,10 +119,29 @@ namespace KairosWeb_Groep6
                     template: "{controller=Kairos}/{action=Index}/{id?}");
             });
 
-            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
-                                                              departementRepository, analyseRepository, werkgeverRepository,
-                                                             introductietekstRepository);
-            initializer.InitializeData().Wait();
+            //DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
+            //                                                  departementRepository, analyseRepository, werkgeverRepository,
+            //                                                 introductietekstRepository);
+            //initializer.InitializeData().Wait();
+        }
+
+        private RequestLocalizationOptions BuildLocalizationOptions()
+        {
+            var supportedCultures = new List<CultureInfo>
+            {
+                new CultureInfo("nl-BE"),
+                new CultureInfo("fr-FR"),
+                new CultureInfo("en-US")
+            };
+
+            var options = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("nl-BE"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            };
+
+            return options;
         }
     }
 }

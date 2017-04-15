@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -175,7 +176,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
             double totaal = KostOfBaatExtensions.GeefTotaal(analyse.InfrastructuurKosten);
 
-            ViewData["totaal"] = totaal.ToString("C");
+            ViewData["totaal"] = totaal.ToString("C", new CultureInfo("nl-BE"));
         }
         #endregion
     }

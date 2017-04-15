@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
@@ -169,7 +170,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
             double totaal = KostOfBaatExtensions.GeefTotaal(analyse.VoorbereidingsKosten);
 
-            ViewData["totaal"] = totaal.ToString("C");
+            ViewData["totaal"] = totaal.ToString("C", new CultureInfo("nl-BE"));
         }
         #endregion
     }
