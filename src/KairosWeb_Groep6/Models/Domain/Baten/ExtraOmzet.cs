@@ -4,10 +4,10 @@
     {
         #region Properties 
         //Beschrijving wordt niet gebruikt      
-        public double JaarbedragOmzetverlies { get; set; }
-        public double Besparing { get; set; } // = % --> bv. 10%
+        public decimal JaarbedragOmzetverlies { get; set; }
+        public decimal Besparing { get; set; } // = % --> bv. 10%
 
-        public override double Bedrag
+        public override decimal Bedrag
         {
             get { return JaarbedragOmzetverlies * (Besparing / 100); }
             set { }

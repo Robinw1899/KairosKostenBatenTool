@@ -21,9 +21,9 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public string Gemeente { get; set; } = "";
 
-        public double AantalWerkuren { get; set; }
+        public decimal AantalWerkuren { get; set; }
 
-        public double PatronaleBijdrage { get; set; } = 35D;
+        public decimal PatronaleBijdrage { get; set; } = 35M;
       
         public List<ContactPersoon> ContactPersonen { get; set; } = new List<ContactPersoon>();
              

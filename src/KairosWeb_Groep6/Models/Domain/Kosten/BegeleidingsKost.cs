@@ -1,16 +1,14 @@
-﻿using System;
-
-namespace KairosWeb_Groep6.Models.Domain.Kosten
+﻿namespace KairosWeb_Groep6.Models.Domain.Kosten
 {
     public class BegeleidingsKost : KostOfBaat
     {
         #region Properties
 
-        public double Uren { get; set; }
+        public decimal Uren { get; set; }
 
-        public double BrutoMaandloonBegeleider { get; set; }
+        public decimal BrutoMaandloonBegeleider { get; set; }
 
-        public override double Bedrag
+        public override decimal Bedrag
         {
             get { return 0; }
             set { }
@@ -29,8 +27,13 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
 
         #region Controleermethoden
 
-        private bool ControleerGegevensBrutoloonAanwezig(double patronaleBijdrage)
+        private bool ControleerGegevensBrutoloonAanwezig(decimal patronaleBijdrage)
         {
+            if (patronaleBijdrage <= 0)
+            {
+                return false;
+            }
+
             if (BrutoMaandloonBegeleider <= 0)
             {
                 return false;
@@ -48,17 +51,17 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
 
         #region Methods
 
-        public double GeefJaarbedrag(double patronaleBijdrage)
+        public decimal GeefJaarbedrag(decimal patronaleBijdrage)
         {
             if (!ControleerGegevensBrutoloonAanwezig(patronaleBijdrage))
             {
-                return 0;
+                return 0M;
             }
 
-            double totaal = 0;
+            decimal totaal;
 
-            double urenVerhouding = Uren / 152;
-            double loon = BrutoMaandloonBegeleider * (1 + patronaleBijdrage / 100);
+            decimal urenVerhouding = Uren / 152;
+            decimal loon = BrutoMaandloonBegeleider * (1 + patronaleBijdrage / 100);
             totaal = urenVerhouding * loon;
 
             return totaal;

@@ -6,17 +6,17 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
 {
     public static class LoonkostExtensions
     {
-        public static double GeefTotaalBrutolonenPerJaarAlleLoonkosten(List<Loonkost> loonkosten, 
-            double aantalWerkuren, double patronaleBijdrage)
+        public static decimal GeefTotaalBrutolonenPerJaarAlleLoonkosten(List<Loonkost> loonkosten,
+            decimal aantalWerkuren, decimal patronaleBijdrage)
         {
-            double totaal = loonkosten.Sum(l => l.BerekenBrutoloonPerMaand(aantalWerkuren, patronaleBijdrage));
+            decimal totaal = loonkosten.Sum(l => l.BerekenBrutoloonPerMaand(aantalWerkuren, patronaleBijdrage));
             return totaal * 12; // * 12 omdat totaal de som is per maand
         }
 
-        public static double GeefTotaalAlleLoonkosten(List<Loonkost> loonkosten,
-            double aantalWerkuren, double patronaleBijdrage)
+        public static decimal GeefTotaalAlleLoonkosten(List<Loonkost> loonkosten,
+            decimal aantalWerkuren, decimal patronaleBijdrage)
         {
-            double totaal = loonkosten.Sum(l => l.BerekenTotaleLoonkost(aantalWerkuren, patronaleBijdrage));
+            decimal totaal = loonkosten.Sum(l => l.BerekenTotaleLoonkost(aantalWerkuren, patronaleBijdrage));
             return totaal;
         }
     }
