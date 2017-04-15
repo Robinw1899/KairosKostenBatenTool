@@ -173,8 +173,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 ViewData["totaal"] = 0;
             }
-            
-            double totaal = KostOfBaatExtensions.GeefTotaal(analyse.EnclaveKosten);
+
+            decimal totaal = KostOfBaatExtensions.GeefTotaal(analyse.EnclaveKosten);
 
             ViewData["totaal"] = totaal.ToString("C", new CultureInfo("nl-BE"));
         }

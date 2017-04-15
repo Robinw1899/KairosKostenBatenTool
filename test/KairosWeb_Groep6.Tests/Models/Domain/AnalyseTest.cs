@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Models.Domain;
-using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Tests.Data;
 using Xunit;
 
@@ -17,7 +16,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
         public void TestGeefTotalenKosten_LegeAnalyse_Allemaal0()
         {
             _analyse = new Analyse();
-            IDictionary<Soort, double> totalen = _analyse.GeefTotalenKosten();
+            IDictionary<Soort, decimal> totalen = _analyse.GeefTotalenKosten();
 
             Assert.False(totalen.Any(t => t.Value > 0)); // er mag geen enkel totaal groter zijn dan 0
         }
@@ -26,7 +25,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
         public void TestGeefTotalenKosten_8SoortenInDictionary()
         {
             _analyse = new Analyse();
-            IDictionary<Soort, double> totalen = _analyse.GeefTotalenKosten();
+            IDictionary<Soort, decimal> totalen = _analyse.GeefTotalenKosten();
 
             int aantalSoorten = totalen.Count;
 
@@ -38,11 +37,11 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
         {
             DummyApplicationDbContext dbContext = new DummyApplicationDbContext();
 
-            IDictionary<Soort, double> expected = new Dictionary<Soort, double>
+            IDictionary<Soort, decimal> expected = new Dictionary<Soort, decimal>
             {
-                { Soort.Loonkost, 57837.13 }, // In DummyDb
-                { Soort.ExtraKost, 1550.00 }, // In DummyDb
-                { Soort.BegeleidingsKost, 2437.11 }, // In DummyDb
+                { Soort.Loonkost, 57837.13M }, // In DummyDb
+                { Soort.ExtraKost, 1550.00M }, // In DummyDb
+                { Soort.BegeleidingsKost, 2437.11M }, // In DummyDb
                 { Soort.EnclaveKost, 0 },
                 { Soort.VoorbereidingsKost, 0 },
                 { Soort.InfrastructuurKost, 0 },
@@ -58,11 +57,11 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
                 BegeleidingsKosten =  dbContext.BegeleidingsKosten
             };
 
-            IDictionary<Soort, double> totalen = _analyse.GeefTotalenKosten();
+            IDictionary<Soort, decimal> totalen = _analyse.GeefTotalenKosten();
 
-            foreach (KeyValuePair<Soort, double> pair in totalen)
+            foreach (KeyValuePair<Soort, decimal> pair in totalen)
             {
-                double totaal = Math.Round(pair.Value, 2);
+                decimal totaal = Math.Round(pair.Value, 2);
                 Assert.Equal(expected[pair.Key], totaal);
             }
         }
@@ -73,7 +72,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
         public void TestGeefTotalenBaten_LegeAnalyse_Allemaal0()
         {
             _analyse = new Analyse();
-            IDictionary<Soort, double> totalen = _analyse.GeefTotalenBaten();
+            IDictionary<Soort, decimal> totalen = _analyse.GeefTotalenBaten();
 
             ICollection<Soort> soorten = totalen.Keys;
 
@@ -84,7 +83,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
         public void TestGeefTotalenBaten_11SoortenInDictionary()
         {
             _analyse = new Analyse();
-            IDictionary<Soort, double> totalen = _analyse.GeefTotalenBaten();
+            IDictionary<Soort, decimal> totalen = _analyse.GeefTotalenBaten();
 
             int aantalSoorten = totalen.Count;
 
@@ -96,18 +95,18 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
         {
             DummyApplicationDbContext dbContext = new DummyApplicationDbContext();
 
-            IDictionary<Soort, double> expected = new Dictionary<Soort, double>
+            IDictionary<Soort, decimal> expected = new Dictionary<Soort, decimal>
             {
                 { Soort.LoonkostSubsidies, 0},
-                { Soort.MedewerkersZelfdeNiveau, 266516.27 }, // In DummyDb
+                { Soort.MedewerkersZelfdeNiveau, 266516.27M }, // In DummyDb
                 { Soort.MedewerkersHogerNiveau, 0 }, 
-                { Soort.UitzendkrachtBesparing, 17570.00 }, // In DummyDb
+                { Soort.UitzendkrachtBesparing, 17570.00M }, // In DummyDb
                 { Soort.ExtraOmzet, 0 },
                 { Soort.ExtraProductiviteit, 0 },
                 { Soort.OverurenBesparing, 0 },
                 { Soort.ExterneInkoop, 0 },
-                { Soort.Subsidie, 3500 }, // In DummyDb
-                { Soort.LogistiekeBesparing, 5000 },
+                { Soort.Subsidie, 3500M }, // In DummyDb
+                { Soort.LogistiekeBesparing, 5000M },
                 { Soort.ExtraBesparing, 0 }
             };
 
@@ -120,11 +119,11 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
                 LogistiekeBesparing = dbContext.LogistiekeBesparing
             };
 
-            IDictionary<Soort, double> totalen = _analyse.GeefTotalenBaten();
+            IDictionary<Soort, decimal> totalen = _analyse.GeefTotalenBaten();
 
-            foreach (KeyValuePair<Soort, double> pair in totalen)
+            foreach (KeyValuePair<Soort, decimal> pair in totalen)
             {
-                double totaal = Math.Round(pair.Value, 2);
+                decimal totaal = Math.Round(pair.Value, 2);
                 Assert.Equal(expected[pair.Key], totaal);
             }
         }

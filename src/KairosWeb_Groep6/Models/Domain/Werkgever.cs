@@ -38,12 +38,12 @@ namespace KairosWeb_Groep6.Models.Domain
         }
 
         public Werkgever(string naam, string straat, int nummer, string bus, int postcode, string gemeente, int aantalWerkuren)
-            : this(naam, straat, nummer, bus, postcode, gemeente, aantalWerkuren, 35)
+            : this(naam, straat, nummer, bus, postcode, gemeente, aantalWerkuren, 35M)
         {
             
         }
 
-        public Werkgever(string naam, string straat, int nummer, string bus, int postcode, string gemeente, int aantalWerkuren, double patronaleBijdrage)
+        public Werkgever(string naam, string straat, int nummer, string bus, int postcode, string gemeente, int aantalWerkuren, decimal patronaleBijdrage)
         {
             Naam = naam;
             Straat = straat;

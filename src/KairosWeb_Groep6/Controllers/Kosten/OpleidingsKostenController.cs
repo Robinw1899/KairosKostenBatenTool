@@ -169,7 +169,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = analyse.OpleidingsKosten
+            decimal totaal = analyse.OpleidingsKosten
                                     .Sum(t => t.Bedrag);
 
             ViewData["totaal"] = totaal.ToString("C", new CultureInfo("nl-BE"));

@@ -7,10 +7,10 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
     {
         #region Properties
         public int AnalyseId { get; set; }
-        public IDictionary<Soort, double> Resultaten { get; set; }
-        public double KostenTotaal { get; set; }
-        public double BatenTotaal { get; set; }
-        public double Totaal { get; set; }
+        public IDictionary<Soort, decimal> Resultaten { get; set; }
+        public decimal KostenTotaal { get; set; }
+        public decimal BatenTotaal { get; set; }
+        public decimal Totaal { get; set; }
         #endregion
 
         #region Constructors

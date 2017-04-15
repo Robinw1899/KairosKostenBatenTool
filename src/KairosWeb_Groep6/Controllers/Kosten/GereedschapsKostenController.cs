@@ -173,7 +173,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = KostOfBaatExtensions.GeefTotaal(analyse.GereedschapsKosten);
+            decimal totaal = KostOfBaatExtensions.GeefTotaal(analyse.GereedschapsKosten);
 
             ViewData["totaal"] = totaal.ToString("C", new CultureInfo("nl-BE"));
         }

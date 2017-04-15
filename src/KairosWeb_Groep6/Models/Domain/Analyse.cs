@@ -90,10 +90,10 @@ namespace KairosWeb_Groep6.Models.Domain
         #endregion
 
         #region Methods
-        public IDictionary<Soort, double> GeefTotalenKosten()
+        public IDictionary<Soort, decimal> GeefTotalenKosten()
         {
-            IDictionary<Soort, double> resultaat = new Dictionary<Soort, double>();
-            double totaal;
+            IDictionary<Soort, decimal> resultaat = new Dictionary<Soort, decimal>();
+            decimal totaal;
 
             // Loonkosten
             if(Departement != null)
@@ -148,10 +148,10 @@ namespace KairosWeb_Groep6.Models.Domain
             return resultaat;
         }
 
-        public IDictionary<Soort, double> GeefTotalenBaten()
+        public IDictionary<Soort, decimal> GeefTotalenBaten()
         {
-            IDictionary<Soort, double> resultaat = new Dictionary<Soort, double>();
-            double totaal = 0;
+            IDictionary<Soort, decimal> resultaat = new Dictionary<Soort, decimal>();
+            decimal totaal = 0;
 
             if (Departement != null)
             {

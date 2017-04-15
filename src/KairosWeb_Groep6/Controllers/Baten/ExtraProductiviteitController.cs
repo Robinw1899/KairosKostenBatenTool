@@ -39,7 +39,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     {
                         Type = model.Type,
                         Soort = model.Soort,
-                        Bedrag = (double) model.Bedrag
+                        Bedrag = model.Bedrag
                     };
 
                     analyse.ExtraProductiviteit = baat;

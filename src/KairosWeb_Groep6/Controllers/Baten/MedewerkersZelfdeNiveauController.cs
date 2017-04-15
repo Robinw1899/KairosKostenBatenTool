@@ -175,8 +175,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 ViewData["totaal"] = 0;
             }
 
-            if(analyse.Departement != null) { 
-                double totaal = MedewerkerNiveauBaatExtensions.GeefTotaal(
+            if(analyse.Departement != null) {
+                decimal totaal = MedewerkerNiveauBaatExtensions.GeefTotaal(
                     analyse.MedewerkersZelfdeNiveauBaat,
                     analyse.Departement.Werkgever.AantalWerkuren,
                     analyse.Departement.Werkgever.PatronaleBijdrage);

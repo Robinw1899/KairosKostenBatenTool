@@ -14,18 +14,18 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public string Gemeente { get; set; }
 
-        public double KostenTotaal { get; set; }
+        public decimal KostenTotaal { get; set; }
 
-        public double BatenTotaal { get; set; }
+        public decimal BatenTotaal { get; set; }
 
-        public double NettoResultaat { get; set; }
+        public decimal NettoResultaat { get; set; }
 
         public bool InArchief { get; set; }
 
         public string KlasseTotaal { get; set; } // klasse die de kleur van het nettores aangeeft
         #endregion
 
-        #region Constructor
+        #region Constructors
         public AnalyseViewModel()
         {
 

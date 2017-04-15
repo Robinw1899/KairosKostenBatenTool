@@ -194,7 +194,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
             if (analyse.Departement != null)
             {
-                double totaal = LoonkostExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
+                decimal totaal = LoonkostExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(
                     analyse.Loonkosten, analyse.Departement.Werkgever.AantalWerkuren,
                     analyse.Departement.Werkgever.PatronaleBijdrage);
 
