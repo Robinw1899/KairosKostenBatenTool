@@ -21,7 +21,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
         [Required(ErrorMessage = "Gelieve een bedrag in te vullen")]
         [Display(Name = "Jaarbedrag")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het aantal uur op te geven.")]
-        public double Bedrag { get; set; }
+        public decimal Bedrag { get; set; }
         #endregion
 
         #region Constructors

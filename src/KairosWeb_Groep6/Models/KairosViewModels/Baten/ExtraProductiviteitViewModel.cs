@@ -18,8 +18,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         [Display(Name = "Jaarbedrag")]
         [Required(ErrorMessage = "Gelieve het bedrag op te geven.")]
-        //[DataType(DataType.Currency)]
-        //[Range(0.0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bedrag op te geven.")]
+        [Range(0.0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bedrag op te geven.")]
         public decimal Bedrag { get; set; }
 
         public ExtraProductiviteitViewModel()
@@ -32,7 +31,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
             : this()
         {
             Id = productiviteit.Id;
-            Bedrag = new decimal(productiviteit.Bedrag);
+            Bedrag = productiviteit.Bedrag;
         }
     }
 }

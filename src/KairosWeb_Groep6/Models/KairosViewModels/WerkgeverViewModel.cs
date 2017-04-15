@@ -6,6 +6,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 {
     public class WerkgeverViewModel
     {
+        #region Properties
         [HiddenInput]
         public int WerkgeverId { get; set; }
 
@@ -42,12 +43,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         [Display(Name = "Gemiddeld aantal werkuren per week", Prompt = "Gemiddeld aantal werkuren per week")]
         [Required(ErrorMessage = "Gelieve een gemiddeld aantal werkuren per week op te geven")]
-        public double AantalWerkuren { get; set; }
+        public decimal AantalWerkuren { get; set; }
 
         [Display(Name = "Patronale bijdrage", Prompt = "Patronale bijdrage (standaard 35%)")]
         [Range(0, 100, ErrorMessage = "De patronale bijdrage moet liggen tussen 0 en 100 (grenzen inbegrepen)")]
-        public double PatronaleBijdrage { get; set; }
+        public decimal PatronaleBijdrage { get; set; }
+        #endregion
 
+        #region Constructors
         public WerkgeverViewModel()
         {
 
@@ -76,5 +79,6 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
                 PatronaleBijdrage = werkgever.PatronaleBijdrage;
             }
         }
+        #endregion
     }
 }
