@@ -7,7 +7,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
 {
     public class DoelgroepExtensionsTest
     {
-        private double patronaleBijdrage = 35;
+        private decimal patronaleBijdrage = 35M;
 
         #region Gegevens ontbreken
         [Fact]
@@ -25,9 +25,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.LaaggeschooldTot25, 2450, 23, 240.88)]
         [InlineData(37, Doelgroep.LaaggeschooldTot25, 1500, 35, 366.55)]
         public void TestBerekenDoelgroepVermindering_LaaggeschooldTot25_BrutoloonKleinerDanMinBrutoloon
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             doelgroepVermindering = Math.Round(doelgroepVermindering, 2);
             Assert.Equal(expected, doelgroepVermindering);
         }
@@ -37,9 +37,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.LaaggeschooldTot25, 3000, 23, 0)]
         [InlineData(37, Doelgroep.LaaggeschooldTot25, 5000, 35, 0)]
         public void TestBerekenDoelgroepVermindering_LaaggeschooldTot25_BrutoloonGroterDanMinBrutoloon
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             Assert.Equal(expected, doelgroepVermindering);
         }
 
@@ -48,9 +48,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.LaaggeschooldTot25, 2500, 23, 0)]
         [InlineData(37, Doelgroep.LaaggeschooldTot25, 2500, 35, 0)]
         public void TestBerekenDoelgroepVermindering_LaaggeschooldTot25_BrutoloonGelijkAanMinBrutoloon
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             Assert.Equal(expected, doelgroepVermindering);
         }
         #endregion
@@ -61,9 +61,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.MiddengeschooldTot25, 2200, 23, 155.41)]
         [InlineData(37, Doelgroep.MiddengeschooldTot25, 1900, 35, 236.49)]
         public void TestBerekenDoelgroepVermindering_MiddengeschooldTot25_BrutoloonKleinerDanMinBrutoloon
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             doelgroepVermindering = Math.Round(doelgroepVermindering, 2);
             Assert.Equal(expected, doelgroepVermindering);
         }
@@ -73,9 +73,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.MiddengeschooldTot25, 3100, 23, 0)]
         [InlineData(37, Doelgroep.MiddengeschooldTot25, 2756, 35, 0)]
         public void TestBerekenDoelgroepVermindering_MiddengeschooldTot25_BrutoloonGroterDanMinBrutoloon
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             Assert.Equal(expected, doelgroepVermindering);
         }
 
@@ -84,9 +84,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.MiddengeschooldTot25, 2500, 23, 0)]
         [InlineData(37, Doelgroep.MiddengeschooldTot25, 2500, 35, 0)]
         public void TestBerekenDoelgroepVermindering_MiddengeschooldTot25_BrutoloonGelijkAanMinBrutoloon
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             Assert.Equal(expected, doelgroepVermindering);
         }
         #endregion
@@ -97,9 +97,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.Tussen55En60, 3850, 23, 178.72)]
         [InlineData(37, Doelgroep.Tussen55En60, 4000, 35, 271.96)]
         public void TestBerekenDoelgroepVermindering_Tussen55En60_BrutoloonKleinerDanMinBrutoloon
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             doelgroepVermindering = Math.Round(doelgroepVermindering, 2);
             Assert.Equal(expected, doelgroepVermindering);
         }
@@ -109,9 +109,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.Tussen55En60, 5400, 23, 0)]
         [InlineData(37, Doelgroep.Tussen55En60, 5000, 35, 0)]
         public void TestBerekenDoelgroepVermindering_Tussen55En60_BrutoloonGroterDanMinBrutoloon
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             Assert.Equal(expected, doelgroepVermindering);
         }
 
@@ -120,10 +120,10 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.Tussen55En60, 4466.66, 23, 0)]
         [InlineData(37, Doelgroep.Tussen55En60, 4466.66, 35, 0)]
         public void TestBerekenDoelgroepVermindering_Tussen55En60_BrutoloonGelijkAanMinBrutoloon
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
 
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             Assert.Equal(expected, doelgroepVermindering);
         }
         #endregion
@@ -134,9 +134,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.Vanaf60, 3546, 23, 233.11)]
         [InlineData(37, Doelgroep.Vanaf60, 4000, 35, 354.73)]
         public void TestBerekenDoelgroepVermindering_Vanaf60_BrutoloonKleinerDanMinBrutoloon
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             doelgroepVermindering = Math.Round(doelgroepVermindering, 2);
             Assert.Equal(expected, doelgroepVermindering);
         }
@@ -146,9 +146,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.Vanaf60, 4865, 23, 0)]
         [InlineData(37, Doelgroep.Vanaf60, 4500, 35, 0)]
         public void TestBerekenDoelgroepVermindering_Vanaf60_BrutoloonGroterDanMinBrutoloon
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon , urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon , urenPerWeek, werkuren, patronaleBijdrage);
             Assert.Equal(expected, doelgroepVermindering);
         }
 
@@ -157,9 +157,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.Vanaf60, 4466.66, 23, 0)]
         [InlineData(37, Doelgroep.Vanaf60, 4466.66, 35, 0)]
         public void TestBerekenDoelgroepVermindering_Vanaf60_BrutoloonGelijkAanMinBrutoloon
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             Assert.Equal(expected, doelgroepVermindering);
         }
         #endregion
@@ -170,10 +170,10 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(37, Doelgroep.Andere, 2500, 23, 0)]
         [InlineData(37, Doelgroep.Andere, 4466.66, 35, 0)]
         public void TestBerekenDoelgroepVermindering_Andere
-            (int werkuren, Doelgroep doelgroep, double brutoloon, double urenPerWeek, double expected)
+            (int werkuren, Doelgroep doelgroep, decimal brutoloon, decimal urenPerWeek, decimal expected)
         // returned sowieso steeds 0
         {
-            double doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
+            decimal doelgroepVermindering = doelgroep.BerekenDoelgroepVermindering(brutoloon, urenPerWeek, werkuren, patronaleBijdrage);
             doelgroepVermindering = Math.Round(doelgroepVermindering, 2);
             Assert.Equal(expected, doelgroepVermindering);
         }
@@ -205,9 +205,9 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [InlineData(Doelgroep.Vanaf60, 4466.66)]
         [InlineData(Doelgroep.Andere, 0)]
         [InlineData(null, 0)]
-        public void TestGetMinBrutoLoon(Doelgroep doelgroep, double expected)
+        public void TestGetMinBrutoLoon(Doelgroep doelgroep, decimal expected)
         {
-            double minBrutoLoon = DoelgroepExtensions.GetMinBrutoLoon(doelgroep);
+            decimal minBrutoLoon = DoelgroepExtensions.GetMinBrutoLoon(doelgroep);
 
             Assert.Equal(expected, minBrutoLoon);
         }

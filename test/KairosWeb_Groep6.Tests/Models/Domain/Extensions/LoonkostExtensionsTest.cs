@@ -13,7 +13,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
 
         private readonly int _aantalWerkuren = 37;
 
-        private readonly double _patronaleBijdrage = 35;
+        private readonly decimal _patronaleBijdrage = 35M;
 
         public LoonkostExtensionsTest()
         {
@@ -24,21 +24,21 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [Fact]
         public void TestGeefTotaalBrutoloonPerMaandAlleLoonkosten_ReturnsBrutoloonAlleFuncties()
         {
-            double totaal = LoonkostExtensions
+            decimal totaal = LoonkostExtensions
                 .GeefTotaalBrutolonenPerJaarAlleLoonkosten(_loonkosten, _aantalWerkuren, _patronaleBijdrage);
 
             totaal = Math.Round(totaal, 2);
-            Assert.Equal(80430.81, totaal);
+            Assert.Equal(80430.81M, totaal);
         }
 
         [Fact]
         public void TestGeefTotaalAlleLoonkosten_ReturnSumVanTotalenAlleLoonkosten()
         {
-            double totaal = LoonkostExtensions
+            decimal totaal = LoonkostExtensions
                 .GeefTotaalAlleLoonkosten(_loonkosten, _aantalWerkuren, _patronaleBijdrage);
 
             totaal = Math.Round(totaal, 2);
-            Assert.Equal(57837.13, totaal);
+            Assert.Equal(57837.13M, totaal);
         }
     }
 }

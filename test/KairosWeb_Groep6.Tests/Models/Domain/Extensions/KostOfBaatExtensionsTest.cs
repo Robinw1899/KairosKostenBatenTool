@@ -57,10 +57,10 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
             List<KostOfBaat>  extraKosten = new List<KostOfBaat>(_dbContext.ExtraKosten);
 
             // totaal van alle loonkosten:
-            double totaal = KostOfBaatExtensions.GeefTotaal(extraKosten);
+            decimal totaal = KostOfBaatExtensions.GeefTotaal(extraKosten);
             totaal = Math.Round(totaal, 2);
  
-            Assert.Equal(1550.00, totaal);
+            Assert.Equal(1550.00M, totaal);
         }
         #endregion
 
@@ -103,10 +103,10 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [Fact]
         public void TestGeefTotaal_UitzendkrachtBesparingen()
         {
-            double totaal = KostOfBaatExtensions.GeefTotaal(_dbContext.UitzendKrachtBesparingen);
+            decimal totaal = KostOfBaatExtensions.GeefTotaal(_dbContext.UitzendKrachtBesparingen);
             totaal = Math.Round(totaal, 2);
 
-            Assert.Equal(17570.00, totaal);
+            Assert.Equal(17570.00M, totaal);
         }
         #endregion
 

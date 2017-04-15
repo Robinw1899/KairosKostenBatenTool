@@ -89,7 +89,7 @@ namespace KairosWeb_Groep6.Tests.Data
                 Doelgroep = Doelgroep.LaaggeschooldTot25,
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
-                IBOPremie = 564.0D
+                IBOPremie = 564.0M
             };
 
             Secretaresse = new Loonkost
@@ -100,7 +100,7 @@ namespace KairosWeb_Groep6.Tests.Data
                 Doelgroep = Doelgroep.MiddengeschooldTot25,
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
-                IBOPremie = 564.0D
+                IBOPremie = 564.0M
             };
 
             Postbode = new Loonkost
@@ -111,7 +111,7 @@ namespace KairosWeb_Groep6.Tests.Data
                 Doelgroep = Doelgroep.Tussen55En60,
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
-                IBOPremie = 564.0D
+                IBOPremie = 564.0M
             };
 
             Loonkosten = new List<Loonkost>
