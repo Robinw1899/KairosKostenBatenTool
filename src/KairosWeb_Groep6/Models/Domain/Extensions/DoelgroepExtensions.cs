@@ -5,26 +5,26 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
 {
     public static class DoelgroepExtensions
     {
-        public static double BerekenDoelgroepVermindering(this Doelgroep doelgroep, double brutoloon,
-                                                        double aantalUrenPerWeek, double aantalWerkuren, double patronaleBijdrage)
+        public static decimal BerekenDoelgroepVermindering(this Doelgroep doelgroep, decimal brutoloon,
+                                                        decimal aantalUrenPerWeek, decimal aantalWerkuren, decimal patronaleBijdrage)
         {
             ControleerGegevensOntbreken(brutoloon, aantalUrenPerWeek, aantalWerkuren, patronaleBijdrage);
-            double minBrutoloon = GetMinBrutoLoon(doelgroep);
+            decimal minBrutoloon = GetMinBrutoLoon(doelgroep);
 
             // ALS bruto maandloon < minBrutoloon:
             // ((BEDRAG DOELGROEP / aantal uur voltijdse werkweek) *aantal uur dat medewerker werkt)/ 4
-            double doelgroepvermindering = 0;
+            decimal doelgroepvermindering = 0;
 
             if (brutoloon < minBrutoloon)
             {
-                double verminderingPerUurWerkweek = (double)doelgroep / aantalWerkuren;
+                decimal verminderingPerUurWerkweek = (decimal) doelgroep / aantalWerkuren;
                 doelgroepvermindering = (verminderingPerUurWerkweek * aantalUrenPerWeek) / 4;
             }
 
             return doelgroepvermindering;
         }
 
-        private static void ControleerGegevensOntbreken(double brutoloon, double aantalUrenPerWeek, double aantalWerkuren, double patronaleBijdrage)
+        private static void ControleerGegevensOntbreken(decimal brutoloon, decimal aantalUrenPerWeek, decimal aantalWerkuren, decimal patronaleBijdrage)
         {
             if (aantalWerkuren <= 0)
             {
@@ -47,9 +47,9 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
             }
         }
 
-        public static double GetMinBrutoLoon(Doelgroep doelgroep)
+        public static decimal GetMinBrutoLoon(Doelgroep doelgroep)
         {
-            double minBrutoloon = 0;
+            decimal minBrutoloon = 0;
 
             switch (doelgroep)
             {
@@ -59,7 +59,7 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
                     break;
                 case Doelgroep.Tussen55En60:
                 case Doelgroep.Vanaf60:
-                    minBrutoloon = 4466.66;
+                    minBrutoloon = 4466.66M;
                     break;
             }
 

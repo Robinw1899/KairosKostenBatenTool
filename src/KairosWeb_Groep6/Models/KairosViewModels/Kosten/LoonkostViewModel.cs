@@ -24,15 +24,15 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 
         [Required(ErrorMessage = "Gelieve een het aantal uren per week op te geven.")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het aantal uur")]
-        public double AantalUrenPerWeek { get; set; }
+        public decimal AantalUrenPerWeek { get; set; }
 
         [Required(ErrorMessage = "Gelieve het bruto maandloon (fulltime) op te geven.")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het bruto maandloon")]
-        public double BrutoMaandloonFulltime { get; set; }
+        public decimal BrutoMaandloonFulltime { get; set; }
 
         [Required(ErrorMessage = "Gelieve de ondersteuningspremie in te vullen.")]
         [Display(Name = "% Vlaamse ondersteuningspremie")]
-        public double Ondersteuningspremie { get; set; }
+        public decimal Ondersteuningspremie { get; set; }
 
         [Display(Name = "Aantal maanden IBO", Prompt = "Aantal maanden IBO")]
         [Required(ErrorMessage = "Gelieve het aantal maanden IBO in te vullen.")]
@@ -42,12 +42,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         [Required(ErrorMessage = "Gelieve de IBO premie in te vullen.")]
         [Display(Name = "Totale productiviteitspremie IBO")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor de IBO premie")]
-        public double IBOPremie { get; set; }
+        public decimal IBOPremie { get; set; }
 
         [Required(ErrorMessage = "Gelieve een doelgroep op te geven.")]
         public Doelgroep? Doelgroep { get; set; }
 
-        public double Bedrag { get; set; }
+        public decimal Bedrag { get; set; }
         #endregion
 
         #region Constructors

@@ -1,9 +1,5 @@
-using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System;
-using System.Linq;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
@@ -25,9 +21,9 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public string Gemeente { get; set; } = "";
 
-        public double AantalWerkuren { get; set; }
+        public decimal AantalWerkuren { get; set; }
 
-        public double PatronaleBijdrage { get; set; } = 35D;
+        public decimal PatronaleBijdrage { get; set; } = 35M;
       
         public List<ContactPersoon> ContactPersonen { get; set; } = new List<ContactPersoon>();
              
@@ -42,12 +38,12 @@ namespace KairosWeb_Groep6.Models.Domain
         }
 
         public Werkgever(string naam, string straat, int nummer, string bus, int postcode, string gemeente, int aantalWerkuren)
-            : this(naam, straat, nummer, bus, postcode, gemeente, aantalWerkuren, 35)
+            : this(naam, straat, nummer, bus, postcode, gemeente, aantalWerkuren, 35M)
         {
             
         }
 
-        public Werkgever(string naam, string straat, int nummer, string bus, int postcode, string gemeente, int aantalWerkuren, double patronaleBijdrage)
+        public Werkgever(string naam, string straat, int nummer, string bus, int postcode, string gemeente, int aantalWerkuren, decimal patronaleBijdrage)
         {
             Naam = naam;
             Straat = straat;

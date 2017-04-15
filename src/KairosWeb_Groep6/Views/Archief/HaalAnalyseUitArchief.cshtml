@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["title"] = "Bevestig het uit het archief halen";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>@ViewData["title"]</h3>
+        <br />
+
+        @if (ViewData["werkgever"] != null)
+        {
+            <p>Ben je zeker dat je de analyse van @ViewData["werkgever"] uit het archief wil halen?</p>
+        }
+        else
+        {
+            <p>Ben je zeker dat je deze analyse wil uit het archief wil halen?</p>
+        }
+
+        <form asp-action="HaalAnalyseUitArchief" asp-route-id="@ViewData["analyseId"]" method="post">
+            <div class="form-group">
+                <input class="btn btn-info col-md-1" type="submit" value="Ja" style="margin-right: 20px;" />
+                <a class="btn btn-default col-md-1" asp-action="Index" asp-controller="Archief">
+                    Nee
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -20,14 +20,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
         [Display(Name = "Jaarbedrag transportkosten", Prompt = "Transportkosten")]
         [Required(ErrorMessage = "Gelieve het jaarbedrag van de transportkosten op te geven.")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het jaarbedrag van de transportkosten op te geven.")]
-        public double TransportKosten { get; set; }
+        public decimal TransportKosten { get; set; }
 
         [Display(Name = "Jaarbedrag logistieke handlingskosten", Prompt = "Logistieke handlingskosten")]
         [Required(ErrorMessage = "Gelieve het jaarbedrag van de logistieke handlingskosten op te geven.")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het jaarbedrag van de logistieke handlingskosten op te geven.")]
-        public double LogistiekHandlingsKosten { get; set; }
-
-        public bool ToonFormulier { get; set; }
+        public decimal LogistiekHandlingsKosten { get; set; }
         #endregion
 
         #region Constructors

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using KairosWeb_Groep6.Filters;
@@ -169,10 +170,10 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = analyse.ExterneInkopen
+            decimal totaal = analyse.ExterneInkopen
                                     .Sum(t => t.Bedrag);
 
-            ViewData["totaal"] = totaal.ToString("C");
+            ViewData["totaal"] = totaal.ToString("C", new CultureInfo("nl-BE"));
         }
         #endregion
     }

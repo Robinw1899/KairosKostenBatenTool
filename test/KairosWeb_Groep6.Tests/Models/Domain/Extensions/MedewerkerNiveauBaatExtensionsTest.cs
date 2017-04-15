@@ -11,7 +11,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
 
         private readonly int _aantalWerkuren = 37;
 
-        private readonly double _patronaleBijdrage = 35;
+        private readonly decimal _patronaleBijdrage = 35M;
 
         public MedewerkerNiveauBaatExtensionsTest()
         {
@@ -21,11 +21,11 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Extensions
         [Fact]
         public void TestGeefTotaal_MedewerkerNiveauBaat()
         {
-            double totaal = MedewerkerNiveauBaatExtensions
+            decimal totaal = MedewerkerNiveauBaatExtensions
                 .GeefTotaal(_dbContext.MedewerkerNiveauBaten, _aantalWerkuren, _patronaleBijdrage);
             totaal = Math.Round(totaal, 2);
 
-            Assert.Equal(266516.27, totaal);
+            Assert.Equal(266516.27M, totaal);
         }
     }
 }

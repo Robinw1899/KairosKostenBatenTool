@@ -12,7 +12,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
 
         private int _aantalWerkuren;
 
-        private double patronaleBijdrage = 35D;
+        private decimal patronaleBijdrage = 35M;
 
         [Fact]
         public void TestConstructorSetsTypeEnSoort()
@@ -34,7 +34,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Doelgroep = Doelgroep.LaaggeschooldTot25,
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
-                IBOPremie = 564.0D
+                IBOPremie = 564.0M
             };
 
             Assert.Equal(0, _loonkost.Bedrag);
@@ -73,7 +73,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         [InlineData(37, 2200, 23, Doelgroep.MiddengeschooldTot25, 1846.22)]
         [InlineData(37, 1900, 35, Doelgroep.Tussen55En60, 2426.35)]
         public void TestBerekenBrutoloonPerMaand_AlleGegevensIngevuld
-            (int werkuren, double brutoloon, int urenPerWeek, Doelgroep doelgroep, double expected)
+            (int werkuren, decimal brutoloon, int urenPerWeek, Doelgroep doelgroep, decimal expected)
         {
             _aantalWerkuren = werkuren;
 
@@ -84,8 +84,8 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Doelgroep = doelgroep
             };
 
-            double brutoloonPerMaand = _loonkost.BerekenBrutoloonPerMaand(_aantalWerkuren, patronaleBijdrage);
-            // afronden omdat je werkt met doubles, de excel is ook afgerond op 2 decimalen
+            decimal brutoloonPerMaand = _loonkost.BerekenBrutoloonPerMaand(_aantalWerkuren, patronaleBijdrage);
+            // afronden omdat je werkt met decimals, de excel is ook afgerond op 2 decimalen
             brutoloonPerMaand = Math.Round(brutoloonPerMaand, 2);
             Assert.Equal(expected, brutoloonPerMaand);
         }
@@ -127,7 +127,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         [InlineData(3540, 35, Doelgroep.Tussen55En60, 40, 1699.49)]
         [InlineData(4300, 30, Doelgroep.Vanaf60, 0, 0)]
         public void TestBerekenGemiddeldeVOPPerMaand_AlleGegevensIngevuld
-            (double brutoloon, double urenPerWeerk, Doelgroep doelgroep, double VOP, double expected)
+            (decimal brutoloon, decimal urenPerWeerk, Doelgroep doelgroep, decimal VOP, decimal expected)
         {
             _aantalWerkuren = 37;
 
@@ -139,8 +139,8 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Ondersteuningspremie = VOP
             };
 
-            double gemiddeldeVopPerMaand = _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, patronaleBijdrage);
-            // afronden omdat je werkt met doubles, de excel is ook afgerond op 2 decimalen
+            decimal gemiddeldeVopPerMaand = _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, patronaleBijdrage);
+            // afronden omdat je werkt met decimals, de excel is ook afgerond op 2 decimalen
             gemiddeldeVopPerMaand = Math.Round(gemiddeldeVopPerMaand, 2);
             Assert.Equal(expected, gemiddeldeVopPerMaand);
         }
@@ -174,7 +174,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Doelgroep = null,
                 Ondersteuningspremie = 0,
                 AantalMaandenIBO = 0,
-                IBOPremie = 0D
+                IBOPremie = 0
             };
 
             Assert.Equal(0, _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, patronaleBijdrage));
@@ -192,13 +192,13 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Doelgroep = Doelgroep.LaaggeschooldTot25,
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
-                IBOPremie = 564.0D
+                IBOPremie = 564.0M
             };
 
-            double totaleLoonkost = _loonkost.BerekenTotaleLoonkost(_aantalWerkuren, patronaleBijdrage);
-            // afronden omdat je werkt met doubles, de excel is ook afgerond op 2 decimalen
+            decimal totaleLoonkost = _loonkost.BerekenTotaleLoonkost(_aantalWerkuren, patronaleBijdrage);
+            // afronden omdat je werkt met decimals, de excel is ook afgerond op 2 decimalen
             totaleLoonkost = Math.Round(totaleLoonkost, 2);
-            Assert.Equal(14272.00, totaleLoonkost);
+            Assert.Equal(14272.00M, totaleLoonkost);
         }
     }
 }

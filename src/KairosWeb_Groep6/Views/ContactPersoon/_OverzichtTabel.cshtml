@@ -1,0 +1,25 @@
+﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.ContactPersoonViewModel>
+
+@if (!Model.Any())
+{
+    <p class="alert alert-info animated shake">Er zijn geen contact personen gevonden. Probeer een andere zoekterm of maak een nieuwe werkgever aan.</p>
+}
+else
+{
+    <table class="table table-condensed table-bordered">
+        <tr>
+            <th>Naam</th>
+            <th>Voornaam</th>
+            <th>E-mail</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Naam</td>
+                <td>@item.Voornaam</td>
+                <td>@item.Email</td>
+            </tr>
+        }
+    </table>
+}

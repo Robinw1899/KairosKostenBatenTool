@@ -28,11 +28,11 @@ namespace KairosWeb_Groep6.Controllers
 
                 if (analyse.Departement != null)
                 {
-                    IDictionary<Soort, double> kostenResultaat = analyse.GeefTotalenKosten();
-                    IDictionary<Soort, double> batenResultaat = analyse.GeefTotalenBaten();
+                    IDictionary<Soort, decimal> kostenResultaat = analyse.GeefTotalenKosten();
+                    IDictionary<Soort, decimal> batenResultaat = analyse.GeefTotalenBaten();
 
-                    double kostenTotaal = kostenResultaat.Sum(t => t.Value);
-                    double batenTotaal = batenResultaat.Sum(t => t.Value);
+                    decimal kostenTotaal = kostenResultaat.Sum(t => t.Value);
+                    decimal batenTotaal = batenResultaat.Sum(t => t.Value);
 
                     model.Resultaten = kostenResultaat;
                     foreach (var rij in batenResultaat)

@@ -8,6 +8,7 @@ using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
@@ -168,10 +169,10 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 ViewData["totaal"] = 0;
             }
 
-            double totaal = analyse.OpleidingsKosten
+            decimal totaal = analyse.OpleidingsKosten
                                     .Sum(t => t.Bedrag);
 
-            ViewData["totaal"] = totaal.ToString("C");
+            ViewData["totaal"] = totaal.ToString("C", new CultureInfo("nl-BE"));
         }
         #endregion
     }

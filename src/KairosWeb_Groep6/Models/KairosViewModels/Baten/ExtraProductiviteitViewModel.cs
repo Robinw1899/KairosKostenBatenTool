@@ -18,8 +18,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         [Display(Name = "Jaarbedrag")]
         [Required(ErrorMessage = "Gelieve het bedrag op te geven.")]
-        [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bedrag op te geven.")]
-        public double Bedrag { get; set; }
+        [Range(0.0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bedrag op te geven.")]
+        public decimal Bedrag { get; set; }
 
         public ExtraProductiviteitViewModel()
         {

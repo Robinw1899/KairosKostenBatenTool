@@ -111,6 +111,21 @@ namespace KairosWeb_Groep6.Controllers
         #region Archiveer
         public IActionResult Archiveer(int id)
         {
+            ViewData["analyseId"] = id;
+            Analyse analyse = _analyseRepository.GetById(id);
+
+            if (analyse.Departement != null)
+            {
+                ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+            }
+
+            return View("ArchiveerAnalyse");
+        }
+
+        [HttpPost]
+        [ActionName("Archiveer")]
+        public IActionResult ArchiveerBevestigd(int id)
+        {
             try
             {
                 Analyse analyse = _analyseRepository.GetById(id);
@@ -137,11 +152,11 @@ namespace KairosWeb_Groep6.Controllers
                 }
                 else
                 {
-                    TempData["error"] = "Gelieve een geldige analyse te selecteren";
+                    TempData["error"] = "Er ging onverwachts iets fout, probeer het later opnieuw";
                 }
                
             }
-            catch (Exception e)
+            catch
             {
                 TempData["error"] = "Er liep iets mis, probeer later opnieuw";
             }

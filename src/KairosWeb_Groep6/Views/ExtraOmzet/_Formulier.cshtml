@@ -1,4 +1,5 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraOmzetViewModel
+﻿@using System.Globalization
+@model KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraOmzetViewModel
 
 <form asp-controller="ExtraOmzet" asp-action="Opslaan" method="post" class="form-horizontal" id="form">
 
@@ -27,7 +28,7 @@
                 <label class="control-label" asp-for="Besparing"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
-                        <i class="fa fa-eur" aria-hidden="true"></i>
+                        <i class="fa fa-percent" aria-hidden="true"></i>
                     </span>
                     <input asp-for="Besparing" class="form-control input-maxwidth" id="besparing" placeholder="% besparing" />
                 </div>
@@ -40,7 +41,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
-                    <input type="text" class="form-control input-maxwidth" disabled="disabled" value="@(Model.Bedrag.ToString("C"))" />
+                    <input type="text" class="form-control input-maxwidth" disabled="disabled" value="@(Model.Bedrag.ToString("C", new CultureInfo("nl-BE")))" />
                 </div>
                 <span asp-validation-for="Bedrag" class="text-danger"></span>
             </div>
@@ -60,5 +61,3 @@
         </div>
     </div>
 </form>
-
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

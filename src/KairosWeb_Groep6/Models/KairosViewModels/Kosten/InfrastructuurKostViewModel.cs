@@ -23,7 +23,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         [Required(ErrorMessage = "Gelieve een bedrag op te geven.")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het bedrag")]
 
-        public double Bedrag { get; set; }
+        public decimal Bedrag { get; set; }
         #endregion
 
         #region Constructors

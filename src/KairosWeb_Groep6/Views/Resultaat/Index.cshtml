@@ -1,4 +1,5 @@
-﻿@using KairosWeb_Groep6.Models.Domain;
+﻿@using System.Globalization
+@using KairosWeb_Groep6.Models.Domain;
 @using KairosWeb_Groep6.Models.Domain.Extensions;
 @model KairosWeb_Groep6.Models.KairosViewModels.ResultaatViewModel
 @{
@@ -54,11 +55,11 @@
                     @Soort.LoonkostSubsidies.GeefOmschrijving()
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.LoonkostSubsidies].ToString("C")
+                    @Model.Resultaten[Soort.LoonkostSubsidies].ToString("C", new CultureInfo("nl-BE"))
                 </td>
 
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.Loonkost].ToString("C")
+                    @Model.Resultaten[Soort.Loonkost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
                     @Soort.Loonkost.GeefOmschrijving()
@@ -71,11 +72,11 @@
                     @Soort.Subsidie.GeefOmschrijving()
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.Subsidie].ToString("C")
+                    @Model.Resultaten[Soort.Subsidie].ToString("C", new CultureInfo("nl-BE"))
                 </td>
 
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.EnclaveKost].ToString("C")
+                    @Model.Resultaten[Soort.EnclaveKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
                     @Soort.EnclaveKost.GeefOmschrijving()
@@ -88,11 +89,11 @@
                     @Soort.MedewerkersZelfdeNiveau.GeefOmschrijving()
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.MedewerkersZelfdeNiveau].ToString("C")
+                    @Model.Resultaten[Soort.MedewerkersZelfdeNiveau].ToString("C", new CultureInfo("nl-BE"))
                 </td>
 
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.VoorbereidingsKost].ToString("C")
+                    @Model.Resultaten[Soort.VoorbereidingsKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
                     @Soort.VoorbereidingsKost.GeefOmschrijving()
@@ -105,11 +106,11 @@
                     @Soort.MedewerkersHogerNiveau.GeefOmschrijving()
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.MedewerkersHogerNiveau].ToString("C")
+                    @Model.Resultaten[Soort.MedewerkersHogerNiveau].ToString("C", new CultureInfo("nl-BE"))
                 </td>
 
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.GereedschapsKost].ToString("C")
+                    @Model.Resultaten[Soort.GereedschapsKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
                     @Soort.GereedschapsKost.GeefOmschrijving()
@@ -122,11 +123,11 @@
                     @Soort.UitzendkrachtBesparing.GeefOmschrijving()
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.UitzendkrachtBesparing].ToString("C")
+                    @Model.Resultaten[Soort.UitzendkrachtBesparing].ToString("C", new CultureInfo("nl-BE"))
                 </td>
 
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.InfrastructuurKost].ToString("C")
+                    @Model.Resultaten[Soort.InfrastructuurKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
                     @Soort.InfrastructuurKost.GeefOmschrijving()
@@ -139,11 +140,11 @@
                     @Soort.ExtraOmzet.GeefOmschrijving()
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.ExtraOmzet].ToString("C")
+                    @Model.Resultaten[Soort.ExtraOmzet].ToString("C", new CultureInfo("nl-BE"))
                 </td>
 
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.OpleidingsKost].ToString("C")
+                    @Model.Resultaten[Soort.OpleidingsKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
                     @Soort.OpleidingsKost.GeefOmschrijving()
@@ -156,11 +157,11 @@
                     @Soort.ExtraProductiviteit.GeefOmschrijving()
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.ExtraProductiviteit].ToString("C")
+                    @Model.Resultaten[Soort.ExtraProductiviteit].ToString("C", new CultureInfo("nl-BE"))
                 </td>
 
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.BegeleidingsKost].ToString("C")
+                    @Model.Resultaten[Soort.BegeleidingsKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
                     @Soort.BegeleidingsKost.GeefOmschrijving()
@@ -173,11 +174,11 @@
                     @Soort.OverurenBesparing.GeefOmschrijving()
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.OverurenBesparing].ToString("C")
+                    @Model.Resultaten[Soort.OverurenBesparing].ToString("C", new CultureInfo("nl-BE"))
                 </td>
 
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.ExtraKost].ToString("C")
+                    @Model.Resultaten[Soort.ExtraKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
                     @Soort.ExtraKost.GeefOmschrijving()
@@ -190,7 +191,7 @@
                     @Soort.ExterneInkoop.GeefOmschrijving()
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.ExterneInkoop].ToString("C")
+                    @Model.Resultaten[Soort.ExterneInkoop].ToString("C", new CultureInfo("nl-BE"))
                 </td>
 
                 <td class="col-md-2 text-center"></td>
@@ -203,7 +204,7 @@
                     @Soort.LogistiekeBesparing.GeefOmschrijving()
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.LogistiekeBesparing].ToString("C")
+                    @Model.Resultaten[Soort.LogistiekeBesparing].ToString("C", new CultureInfo("nl-BE"))
                 </td>
 
                 <td class="col-md-2 text-center"></td>
@@ -216,7 +217,7 @@
                     @Soort.ExtraBesparing.GeefOmschrijving()
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.ExtraBesparing].ToString("C")
+                    @Model.Resultaten[Soort.ExtraBesparing].ToString("C", new CultureInfo("nl-BE"))
                 </td>
 
                 <td class="col-md-2 text-center"></td>
@@ -229,10 +230,10 @@
                     <b>Subtotaal baten</b>
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.BatenTotaal.ToString("C")
+                    @Model.BatenTotaal.ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-2 text-center">
-                    @Model.KostenTotaal.ToString("C")
+                    @Model.KostenTotaal.ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4 text-right">
                     <b>Subtotaal kosten</b>
@@ -242,7 +243,7 @@
             <!-- Nettoresultaat -->
             <tr class="alert @ViewData["klasseTotaal"]">
                 <td colspan="4" class="col-md-12 text-center">
-                    @Model.Totaal.ToString("C")
+                    @Model.Totaal.ToString("C", new CultureInfo("nl-BE"))
                 </td>
             </tr>
             <tr class="alert @ViewData["klasseTotaal"]">
@@ -256,7 +257,7 @@
 else
 {
     <p>Er is nog geen werkgever geselecteerd, hierdoor kan er momenteel nog geen resultaat getoond worden.</p>
-    <p><a asp-controller="Analyse" asp-action="SelecteerWerkgever">Voeg een werknemer toe</a> via de navigatie hierboven.</p>
+    <p><a asp-controller="Werkgever" asp-action="Index">Voeg een werknemer toe</a> via de navigatie hierboven.</p>
 }
 <div class="row" style="margin-top:20px">
     <div class="col-xs-10 col-md-10">

@@ -38,7 +38,8 @@
 
 @section Scripts{
     <script>
-        siteView.initFunctionsEnkelvoudigeBaten();
         $("#baten").addClass("active");
     </script>
+    
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

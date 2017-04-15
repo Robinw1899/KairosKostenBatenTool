@@ -10,7 +10,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
     {
         private BegeleidingsKost _begeleidingsKost;
 
-        private readonly double _patronaleBijdrage = 35;
+        private readonly decimal _patronaleBijdrage = 35M;
 
         [Fact]
         public void TestConstructorSetsTypeEnSoort()
@@ -37,7 +37,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         [InlineData(40, 2999, 1065.43)]
         [InlineData(15, 1540, 205.16)]
         [InlineData(30, 2650, 706.09)]
-        public void TestGeefJaarbedrag_GegevenOntbreekt_Returns0(double uren, double loon, double expected)
+        public void TestGeefJaarbedrag_GegevenOntbreekt_Returns0(decimal uren, decimal loon, decimal expected)
         {
             _begeleidingsKost = new BegeleidingsKost
             {
@@ -45,7 +45,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 BrutoMaandloonBegeleider = loon
             };
 
-            double jaarbedrag = _begeleidingsKost.GeefJaarbedrag(_patronaleBijdrage);
+            decimal jaarbedrag = _begeleidingsKost.GeefJaarbedrag(_patronaleBijdrage);
             jaarbedrag = Math.Round(jaarbedrag, 2);
 
             Assert.Equal(expected, jaarbedrag);

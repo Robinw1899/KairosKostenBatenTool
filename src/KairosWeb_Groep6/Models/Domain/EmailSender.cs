@@ -1,9 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
-using System;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
