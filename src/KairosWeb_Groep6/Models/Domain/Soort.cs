@@ -11,7 +11,7 @@
         OpleidingsKost,
         BegeleidingsKost,
         ExtraKost,
-        
+
         /* SOORTEN BATEN */
         LoonkostSubsidies,
         MedewerkersZelfdeNiveau,
