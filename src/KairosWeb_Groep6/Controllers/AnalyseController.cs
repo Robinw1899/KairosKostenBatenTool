@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
+using KairosWeb_Groep6.Models.Domain.Excel;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -57,6 +58,9 @@ namespace KairosWeb_Groep6.Controllers
         {
             Analyse analyse = _analyseRepository.GetById(id); // analyse instellen in Session
             AnalyseFilter.SetAnalyseInSession(HttpContext, analyse);
+
+            ExcelWriterResultaat res = new ExcelWriterResultaat();
+            res.MaakExcel(analyse);
 
             return RedirectToAction("Index", "Resultaat");
         }

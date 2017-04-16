@@ -11,8 +11,9 @@
         OpleidingsKost,
         BegeleidingsKost,
         ExtraKost,
-        
+
         /* SOORTEN BATEN */
+        LoonkostSubsidies,
         MedewerkersZelfdeNiveau,
         MedewerkersHogerNiveau,
         UitzendkrachtBesparing,
@@ -21,6 +22,7 @@
         OverurenBesparing,
         ExterneInkoop,
         Subsidie,
+        LogistiekeBesparing,
         ExtraBesparing
     }
 }
