@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Text;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing.Utilities;
-using OfficeOpenXml.Style;
 
 namespace KairosWeb_Groep6.Models.Domain.Excel
 {
     public class ExcelWriterResultaat
     {
+        private string fileName;
         private readonly Dictionary<Soort, string> tabelBedragen = new Dictionary<Soort, string>
             {
                 //Baten
@@ -53,10 +50,25 @@ namespace KairosWeb_Groep6.Models.Domain.Excel
 
                 Byte[] bin = excel.GetAsByteArray();
 
-                string file = "resultaat.xlsx";
-                File.WriteAllBytes(file, bin);
-                return file;
+                if (analyse.Departement != null)
+                {
+                    fileName = $"resultaat_{analyse.Departement.Werkgever.Naam}_{analyse.Departement.Naam}.xlsx";
+                }
+                else
+                {
+                    Random random = new Random();
+                    fileName = $"resultaat_{random.Next(1000)}.xlsx";
+                }
+
+                File.WriteAllBytes(fileName, bin);
+                return fileName;
             }
+        }
+
+        public void VerwijderBestand()
+        {
+            FileInfo file = new FileInfo(fileName);
+            file.Delete();
         }
 
         public void VulBatenIn(Analyse analyse, ExcelWorksheet ws)

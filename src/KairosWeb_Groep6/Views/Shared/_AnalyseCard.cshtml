@@ -34,9 +34,9 @@
                         </a>
                     }
 
-                    <a asp-controller="Resultaat" asp-action="MaakPdf" asp-route-id="@Model.AnalyseId"
+                    <a asp-controller="Resultaat" asp-action="MaakExcel" asp-route-id="@Model.AnalyseId"
                                title="Maak een pdf van deze analyse">
-                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <!-- PDF MAKEN -->
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i> <!-- EXCEL MAKEN -->
                     </a>
                     
                     <a asp-controller="Analyse" asp-action="VerwijderAnalyse" asp-route-id="@Model.AnalyseId" asp-route-from="card"
