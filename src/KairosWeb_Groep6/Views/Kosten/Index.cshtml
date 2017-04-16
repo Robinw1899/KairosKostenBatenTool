@@ -1,4 +1,6 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.KostenIndexViewModel
+﻿@using KairosWeb_Groep6.Models.Domain
+@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.KostenIndexViewModel
 @{
     ViewData["title"] = "Kosten";
 }
@@ -21,8 +23,8 @@
         <li>
             <a asp-controller="Kosten" asp-action="Loonkosten"
                data-toggle="tooltip" data-placement="bottom"
-               title="Welke (nieuwe) functie(s) vul je in?">
-                Loonkosten / functies
+               title="@Soort.Loonkost.GeefVraag()">
+                @Soort.Loonkost.GeefOmschrijving()
                 @if (Model.LoonkostenIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -32,9 +34,8 @@
         <li>
             <a asp-controller="Kosten" asp-action="EnclaveKosten"
                data-toggle="tooltip" data-placement="bottom"
-               title="Laat de werkgever werk uitvoeren door een maatwerkbedrijf of via enclave of onderaanneming?
-                Zo ja, hoeveel betaalt hij hiervoor jaarlijks?">
-                Kosten voor maatwerkbedrijf of enclave of onderaanneming
+               title="@Soort.EnclaveKost.GeefVraag()">
+                @Soort.EnclaveKost.GeefOmschrijving()
                 @if (Model.EnclaveKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -44,10 +45,8 @@
         <li>
             <a asp-controller="Kosten" asp-action="VoorbereidingsKosten"
                data-toggle="tooltip" data-placement="bottom"
-               title="Welke kosten moet de werkgever maken ter voorbereiding van de aanwerving
-               (bv. ondersteuning bij de uitvoer van functiecreatie of jobcarving, administratie regelen,
-               uitzoeken welke aanpassingen nodig zijn, extra gesprekken met bemiddelingsdiensten, …)?">
-                Voorbereidingskosten
+               title="@Soort.VoorbereidingsKost.GeefVraag()">
+                @Soort.VoorbereidingsKost.GeefOmschrijving()
                 @if (Model.VoorbereidingsKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -57,9 +56,8 @@
         <li>
             <a asp-controller="Kosten" asp-action="InfrastructuurKosten"
                data-toggle="tooltip" data-placement="bottom"
-               title="Welke extra kosten inzake infrastructuur zal het tewerkstellen van deze medewerker(s) met zich meebrengen?
-               (bv. aanpassingen werkpost, extra infrastructuur ten gevolge van reshoring of insourcing,…)">
-                Infrastructuurkosten
+               title="@Soort.InfrastructuurKost.GeefVraag()">
+                @Soort.InfrastructuurKost.GeefOmschrijving()
                 @if (Model.InfrastructuurKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -70,10 +68,8 @@
             <!--K4-->
             <a asp-controller="Kosten" asp-action="GereedschapsKosten"
                data-toggle="tooltip" data-placement="bottom"
-               title="Welke andere extra materiële kosten moet de werkgever jaarlijks maken bij
-                het tewerkstellen van deze medewerker(s)?
-               (bv. kosten van aangepaste werkkledij en -gereedschap)">
-                Materiële kosten (bv. kosten van aangepaste werkkledij en -gereedschap)
+               title="@Soort.GereedschapsKost.GeefVraag()">
+                @Soort.GereedschapsKost.GeefOmschrijving()
                 @if (Model.GereedschapsKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -84,9 +80,8 @@
             <!--K5-->
             <a asp-controller="Kosten" asp-action="OpleidingsKosten"
                data-toggle="tooltip" data-placement="bottom"
-               title="Welke extra opleidingskosten zal de werkgever hebben om de nieuwe krachten
-               op het gewenste niveau te krijgen?">
-                Opleidingskosten
+               title="@Soort.OpleidingsKost.GeefVraag()">
+                @Soort.OpleidingsKost.GeefOmschrijving()
                 @if (Model.OpleidingsKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -97,9 +92,8 @@
             <!--k6-->
             <a asp-controller="Kosten" asp-action="BegeleidingsKosten"
                data-toggle="tooltip" data-placement="bottom"
-               title="Welke kosten zal de werkgevers jaarlijks hebben aan extra administratie en
-                interne begeleiding tijdens de tewerkstelling?">
-                Kosten voor administratie en interne begeleiding
+               title="@Soort.BegeleidingsKost.GeefVraag()">
+                @Soort.BegeleidingsKost.GeefOmschrijving()
                 @if (Model.BegeleidingsKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
@@ -107,10 +101,11 @@
             </a>
         </li>
         <li>
+            <!--k7-->
             <a asp-controller="Kosten" asp-action="ExtraKosten"
                data-toggle="tooltip" data-placement="bottom"
-               title="Aan welke kosten kan nog meer worden gedacht?">
-                Extra kosten
+               title="@Soort.ExtraKost.GeefVraag()">
+                @Soort.ExtraKost.GeefOmschrijving()
                 @if (Model.ExtraKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>

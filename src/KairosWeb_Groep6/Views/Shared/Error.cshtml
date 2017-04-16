@@ -1,20 +1,8 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.ErrorViewModel
-@{
+﻿@{
     ViewData["Title"] = "Foutmelding";
 }
 
 <h1 class="text-danger">@ViewData["Title"]</h1>
 <h2 class="text-danger">Er ging iets fout bij het behandelen van je aanvraag. Probeer het later opnieuw.</h2>
 
-<h3>@Model.Exception.Message</h3>
-
-<p>@Model.Exception.StackTrace</p>
-
-<h4>Inner exception:</h4>
-<hr/>
-<p>@Model.Exception.InnerException.Message</p>
-<p>@Model.Exception.InnerException.InnerException.StackTrace</p>
-
-<p>Misschien vindt je de oplossing op deze link: @Model.Exception.HelpLink</p>
-
-@Model.Exception.
+<p>Onze excuses voor het ongemak.</p>

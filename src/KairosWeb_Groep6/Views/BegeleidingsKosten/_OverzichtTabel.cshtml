@@ -1,5 +1,5 @@
-﻿@using KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModels
-@model IEnumerable<BegeleidingsKostViewModel>
+﻿@using System.Globalization
+@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModel>
 
 <table class="table table-bordered table-condensed table-responsive">
     <tr>
@@ -20,16 +20,16 @@
     }
     else
     {
-        foreach (BegeleidingsKostViewModel baat in Model)
+        foreach (var baat in Model)
         {
             <tr>
                 <td>@baat.Uren</td>
-                <td>@baat.BrutoMaandloonBegeleider.ToString("C")</td>
-                <td>@baat.Bedrag.ToString("C")</td>
+                <td>@baat.BrutoMaandloonBegeleider.ToString("C", new CultureInfo("nl-BE"))</td>
+                <td>@baat.Bedrag.ToString("C", new CultureInfo("nl-BE"))</td>
                 <td>
                     <div class="options">
-                        <a asp-action="Bewerk" asp-route-id="@baat.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <a asp-action="Verwijder" asp-route-id="@baat.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        <a asp-action="Bewerk" asp-route-id="@baat.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a asp-action="Verwijder" asp-route-id="@baat.Id" id="verwijder"><i class="fa fa-trash" aria-hidden="true"></i></a>
                     </div>
                 </td>
             </tr>

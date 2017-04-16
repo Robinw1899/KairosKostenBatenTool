@@ -23,7 +23,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
         [InlineData(3000, 23, 690.00)]
         [InlineData(1000, 98, 980.00)]
         public void TestBedrag_BerekentTotaal
-            (double jaarbedragOmzetverlies, double besparing, double expected)
+            (decimal jaarbedragOmzetverlies, decimal besparing, decimal expected)
         {
             _extraOmzet = new ExtraOmzet
             {
@@ -31,7 +31,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
                 Besparing = besparing
             };
 
-            double result = Math.Round(_extraOmzet.Bedrag, 2);
+            decimal result = Math.Round(_extraOmzet.Bedrag, 2);
             Assert.Equal(expected, result);
         }
 

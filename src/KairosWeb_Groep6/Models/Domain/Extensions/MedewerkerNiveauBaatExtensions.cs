@@ -6,10 +6,10 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
 {
     public class MedewerkerNiveauBaatExtensions
     {
-        public static double GeefTotaal(List<MedewerkerNiveauBaat> baten,
-            double aantalWerkuren, double patronaleBijdrage)
+        public static decimal GeefTotaal(List<MedewerkerNiveauBaat> baten,
+            decimal aantalWerkuren, decimal patronaleBijdrage)
         {
-            double totaal = baten.Sum(l => l.BerekenTotaleLoonkostPerJaar(aantalWerkuren, patronaleBijdrage));
+            decimal totaal = baten.Sum(l => l.BerekenTotaleLoonkostPerJaar(aantalWerkuren, patronaleBijdrage));
             return totaal;
         }
     }

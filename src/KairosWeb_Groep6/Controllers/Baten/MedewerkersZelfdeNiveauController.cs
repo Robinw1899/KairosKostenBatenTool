@@ -1,15 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
-using KairosWeb_Groep6.Models.KairosViewModels.Baten.MedewerkerNiveauBaatViewModels;
+using KairosWeb_Groep6.Models.KairosViewModels.Baten;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
+    [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
     public class MedewerkersZelfdeNiveauController : Controller
     {
@@ -20,138 +23,149 @@ namespace KairosWeb_Groep6.Controllers.Baten
             _analyseRepository = analyseRepository;
         }
 
+        #region Index
         public IActionResult Index(Analyse analyse)
         {
-            MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
-
-            if (IsAjaxRequest())
-            {
-                PlaatsTotaalInViewData(analyse);
-                return PartialView("_OverzichtTabel", model.ViewModels);
-            }
+            IEnumerable<MedewerkerNiveauBaatViewModel> viewModels = MaakModel(analyse);
 
             PlaatsTotaalInViewData(analyse);
-            return View(model);
+
+            return View(viewModels);
+        }
+        #endregion
+
+        #region VoegToe
+        public IActionResult VoegToe()
+        {
+            MedewerkerNiveauBaatViewModel model = new MedewerkerNiveauBaatViewModel();
+            return PartialView("_Formulier", model);
         }
 
         [HttpPost]
-        public IActionResult VoegToe(Analyse analyse, MedewerkerNiveauIndexViewModel model)
+        public IActionResult VoegToe(Analyse analyse, MedewerkerNiveauBaatViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                // de baat bestaat reeds:
-                MedewerkerNiveauBaat baat = new MedewerkerNiveauBaat
+                if (ModelState.IsValid)
                 {
-                    Type = model.Type,
-                    Soort = model.Soort,
-                    Uren = model.Uren,
-                    BrutoMaandloonFulltime = model.BrutoMaandloonFulltime
-                };
+                    MedewerkerNiveauBaat baat = new MedewerkerNiveauBaat
+                    {
+                        Type = model.Type,
+                        Soort = model.Soort,
+                        Uren = model.Uren,
+                        BrutoMaandloonFulltime = model.BrutoMaandloonFulltime
+                    };
 
-                analyse.MedewerkersZelfdeNiveauBaat.Add(baat);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                    analyse.MedewerkersZelfdeNiveauBaat.Add(baat);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
 
-                model = MaakModel(analyse);
-
-                TempData["message"] = "De baat is succesvol toegevoegd.";
+                    TempData["message"] = Meldingen.VoegToeSuccesvolBaat;
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.VoegToeFoutmeldingBaat;
             }
 
-            PlaatsTotaalInViewData(analyse);
-
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
+        #endregion
 
+        #region Bewerk
         public IActionResult Bewerk(Analyse analyse, int id)
         {// id is het id van de baat die moet bewerkt wordens
-            MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, id);
-
-            MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
-
-            if (baat != null)
+            try
             {
-                // parameters voor formulier instellen
-                model.Id = id;
-                model.Type = baat.Type;
-                model.Soort = baat.Soort;
-                model.Uren = baat.Uren;
-                model.BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
-                model.ToonFormulier = 1;
+                MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, id);
+                MedewerkerNiveauBaatViewModel model = new MedewerkerNiveauBaatViewModel();
+
+                if (baat != null)
+                {
+                    // parameters voor formulier instellen
+                    model.Id = id;
+                    model.Type = baat.Type;
+                    model.Soort = baat.Soort;
+                    model.Uren = baat.Uren;
+                    model.BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
+
+                    return PartialView("_Formulier", model);
+                }
             }
-
-            PlaatsTotaalInViewData(analyse);
-
-            return View("Index", model);
+            catch
+            {
+                TempData["error"] = Meldingen.OphalenFoutmeldingBaat;
+            }
+            
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, MedewerkerNiveauIndexViewModel model)
+        public IActionResult Bewerk(Analyse analyse, MedewerkerNiveauBaatViewModel model)
         {// id is het id van de baat die moet bewerkt worden
-            MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, model.Id);
-
-            if (ModelState.IsValid && baat != null)
+            try
             {
-                // parameters voor formulier instellen
-                baat.Id = model.Id;
-                baat.Type = model.Type;
-                baat.Soort = model.Soort;
-                baat.Uren = model.Uren;
-                baat.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
+                MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, model.Id);
 
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                if (ModelState.IsValid && baat != null)
+                {
+                    baat.Id = model.Id;
+                    baat.Type = model.Type;
+                    baat.Soort = model.Soort;
+                    baat.Uren = model.Uren;
+                    baat.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
 
-                model = MaakModel(analyse);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
 
-                TempData["message"] = "De baat is succesvol opgeslaan.";
+                    TempData["message"] = Meldingen.OpslaanSuccesvolBaat;
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.OpslaanFoutmeldingBaat;
             }
 
-            PlaatsTotaalInViewData(analyse);
-
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
+        #endregion
 
+        #region Verwijder
         public IActionResult Verwijder(Analyse analyse, int id)
         {// id is het id van de baat die moet verwijderd worden
-            MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, id);
-
-            if (baat != null)
+            try
             {
-                analyse.MedewerkersZelfdeNiveauBaat.Remove(baat);
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-                _analyseRepository.Save();
+                MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, id);
+
+                if (baat != null)
+                {
+                    analyse.MedewerkersZelfdeNiveauBaat.Remove(baat);
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+                    _analyseRepository.Save();
+                }
+            }
+            catch
+            {
+                TempData["error"] = Meldingen.VerwijderFoutmeldingBaat;
             }
 
-            MedewerkerNiveauIndexViewModel model = MaakModel(analyse);
-            PlaatsTotaalInViewData(analyse);
-
-            TempData["message"] = "De baat is succesvol verwijderd.";
-
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
+        #endregion
 
-        private MedewerkerNiveauIndexViewModel MaakModel(Analyse analyse)
+        #region Helpers
+        private IEnumerable<MedewerkerNiveauBaatViewModel> MaakModel(Analyse analyse)
         {
-            MedewerkerNiveauIndexViewModel model = new MedewerkerNiveauIndexViewModel
-            {
-                Type = Type.Baat,
-                Soort = Soort.MedewerkersZelfdeNiveau,
-                ViewModels = analyse
-                                .MedewerkersZelfdeNiveauBaat
-                                .Select(m => new MedewerkerNiveauBaatViewModel(m)
-                    {
-                        Bedrag = analyse.Departement == null
-                        ? 0 : m.BerekenTotaleLoonkostPerJaar(analyse.Departement.Werkgever.AantalWerkuren, 
-                                                                analyse.Departement.Werkgever.PatronaleBijdrage)
-                    })
-            };
-
-            return model;
-        }
-
-        private bool IsAjaxRequest()
-        {
-            return Request != null && Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+            return analyse
+                .MedewerkersZelfdeNiveauBaat
+                .Select(m => new MedewerkerNiveauBaatViewModel(m)
+                {
+                    Bedrag = analyse.Departement == null
+                        ? 0
+                        : m.BerekenTotaleLoonkostPerJaar(analyse.Departement.Werkgever.AantalWerkuren,
+                            analyse.Departement.Werkgever.PatronaleBijdrage)
+                })
+                .ToList();
         }
 
         private void PlaatsTotaalInViewData(Analyse analyse)
@@ -161,13 +175,13 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 ViewData["totaal"] = 0;
             }
 
-            if(analyse.Departement != null) { 
-                double totaal = MedewerkerNiveauBaatExtensions.GeefTotaal(
+            if(analyse.Departement != null) {
+                decimal totaal = MedewerkerNiveauBaatExtensions.GeefTotaal(
                     analyse.MedewerkersZelfdeNiveauBaat,
                     analyse.Departement.Werkgever.AantalWerkuren,
                     analyse.Departement.Werkgever.PatronaleBijdrage);
 
-                ViewData["totaal"] = totaal.ToString("C");
+                ViewData["totaal"] = totaal.ToString("C", new CultureInfo("nl-BE"));
             }
             else
             {
@@ -176,5 +190,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
                                     "berekend worden bij deze kost.";
             }
         }
+        #endregion
     }
 }

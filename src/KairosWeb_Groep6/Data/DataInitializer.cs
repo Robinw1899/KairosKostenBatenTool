@@ -233,9 +233,9 @@ namespace KairosWeb_Groep6.Data
                 BrutoMaandloonFulltime = 1800,
                 AantalUrenPerWeek = 37,
                 Doelgroep = Doelgroep.LaaggeschooldTot25,
-                Ondersteuningspremie = 20D,
+                Ondersteuningspremie = 20M,
                 AantalMaandenIBO = 2,
-                IBOPremie = 564.0D
+                IBOPremie = 564.0M
             };
 
             Loonkost secretaresse = new Loonkost
@@ -245,9 +245,9 @@ namespace KairosWeb_Groep6.Data
                 BrutoMaandloonFulltime = 2200,
                 AantalUrenPerWeek = 23,
                 Doelgroep = Doelgroep.MiddengeschooldTot25,
-                Ondersteuningspremie = 20D,
+                Ondersteuningspremie = 20M,
                 AantalMaandenIBO = 2,
-                IBOPremie = 564.0D
+                IBOPremie = 564.0M
             };
 
             Loonkost postbode = new Loonkost
@@ -257,9 +257,9 @@ namespace KairosWeb_Groep6.Data
                 BrutoMaandloonFulltime = 1900,
                 AantalUrenPerWeek = 35,
                 Doelgroep = Doelgroep.Tussen55En60,
-                Ondersteuningspremie = 20D,
+                Ondersteuningspremie = 20M,
                 AantalMaandenIBO = 2,
-                IBOPremie = 564.0D
+                IBOPremie = 564.0M
             };
 
             return new List<Loonkost>

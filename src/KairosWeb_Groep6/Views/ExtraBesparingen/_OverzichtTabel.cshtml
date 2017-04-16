@@ -1,5 +1,5 @@
-﻿@using KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraBesparingViewModels
-@model IEnumerable<ExtraBesparingViewModel>
+﻿@using System.Globalization
+@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Baten.ExtraBesparingViewModel>
 
 <table class="table table-bordered table-condensed table-responsive">
     <tr>
@@ -19,15 +19,15 @@
     }
     else
     {
-        foreach (ExtraBesparingViewModel baat in Model)
+        foreach (var baat in Model)
         {
             <tr>
                 <td>@baat.Beschrijving</td>
-                <td>@baat.Bedrag.ToString("C")</td>
+                <td>@baat.Bedrag.ToString("C", new CultureInfo("nl-BE"))</td>
                 <td>
                     <div class="options">
-                        <a asp-action="Bewerk" asp-route-id="@baat.Id"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <a asp-action="Verwijder" asp-route-id="@baat.Id"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        <a asp-action="Bewerk" asp-route-id="@baat.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        <a asp-action="Verwijder" asp-route-id="@baat.Id" id="verwijder"><i class="fa fa-trash" aria-hidden="true"></i></a>
                     </div>
                 </td>
             </tr>

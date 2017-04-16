@@ -1,10 +1,8 @@
-﻿using Newtonsoft.Json;
-
-namespace KairosWeb_Groep6.Models.Domain
+﻿namespace KairosWeb_Groep6.Models.Domain
 {
     public class KostOfBaat
     {
-        
+        #region Properties        
         public int Id { get; set; }
 
         
@@ -17,17 +15,14 @@ namespace KairosWeb_Groep6.Models.Domain
         public string Beschrijving { get; set; }
 
         
-        public virtual double Bedrag { get; set; }
+        public virtual decimal Bedrag { get; set; }
+        #endregion
 
+        #region Constructors
         protected KostOfBaat()
         {
             
         }
-
-       
-        protected KostOfBaat(bool forJsonOnly)
-        {
-            
-        }
+        #endregion
     }
 }

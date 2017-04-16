@@ -1,10 +1,6 @@
 ﻿using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels
 {
@@ -13,6 +9,9 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         #region Properties
         [HiddenInput]
         public int PersoonId { get; set; }
+
+        [HiddenInput]
+        public int WerkgeverId { get; set; }
 
         [Display(Name = "Naam", Prompt = "Naam contactPersoon")]
         [Required(ErrorMessage = "Gelieve het contactpersoon op te geven")]
@@ -27,9 +26,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         [Display(Name = "E-mailadres", Prompt = "E-mailades")]
         public string Email { get; set; }
 
-        public int WerkgeverId { get; set; }
-
-        
+        [Display(Name = "Is dit de hoofdcontactpersoon?")]
+        public bool IsHoofd { get; set; }
         #endregion
 
         #region Constructor
@@ -38,7 +36,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         }
 
-        public ContactPersoonViewModel(ContactPersoon contactPersoon, int id)
+        public ContactPersoonViewModel(ContactPersoon contactPersoon, int werkgeverid)
         {
             PersoonId = contactPersoon.ContactPersoonId;
 
@@ -48,10 +46,10 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
             Email = contactPersoon.Emailadres;
 
-            WerkgeverId = id;
+            IsHoofd = contactPersoon.IsHoofdContactPersoon;
 
+            WerkgeverId = werkgeverid;
         }
-       
         #endregion
     }
 }

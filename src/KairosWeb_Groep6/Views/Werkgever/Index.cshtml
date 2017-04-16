@@ -8,48 +8,58 @@
         @Html.Partial("_Tabs")
     </div>
 
-    <div class="page-header col-md-offset-1">
-        <h3>@ViewData["Title"] - @Model.Naam</h3>
+    <div class="page-header" style="overflow: auto;">
+        <!--Overflow omdat anders de border boven de h3 en knop staat-->
+        <div class="col-md-9">
+            <h3>@ViewData["Title"] - @Model.Naam</h3>
+        </div>
+        <div class="col-md-3" style="margin-top: 20px;">
+            <!--margin omdat de h3 dezelfde margin heeft-->
+            <a asp-controller="ContactPersoon" asp-action="Index" asp-route-id="@Model.WerkgeverId"
+               class="btn btn-default">
+                <i class="fa fa-user" aria-hidden="true"></i> Contactpersonen
+            </a>
+        </div>
     </div>
 
     <form asp-controller="Werkgever" asp-action="Opslaan" method="post" class="form-horizontal">
-        <h6 id="infoTekstVerplichteVelden" class="col-md-offset-1">Velden aangeduid met een * zijn verplicht in te vullen</h6>
-        <div class="col-md-offset-1">
+        <h6 id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+        <div>
             <div asp-validation-summary="All" class="text-danger"></div>
-            <input asp-for="WerkgeverId" />
-            <input asp-for="DepartementId" />
+            <input asp-for="WerkgeverId"/>
+            <input asp-for="DepartementId"/>
 
             <div class="form-group required">
                 <div class="col-md-4">
                     <label class="control-label" asp-for="Naam"></label>
-                    <input asp-for="Naam" class="form-control" />
+                    <input asp-for="Naam" class="form-control"/>
                     <span asp-validation-for="Naam" class="text-danger"></span>
                 </div>
                 <div class="col-md-4">
                     <label class="control-label" asp-for="Departement"></label>
-                    <input asp-for="Departement" class="form-control" />
+                    <input asp-for="Departement" class="form-control"/>
                     <span asp-validation-for="Departement" class="text-danger"></span>
                 </div>
             </div>
 
-            <br />
+            <br/>
             <h4>Adres</h4>
-            <hr />
+            <hr/>
 
             <div class="row form-group">
                 <div class="col-md-4">
                     <label asp-for="Straat"></label>
-                    <input asp-for="Straat" class="form-control" onfocus="geolocate()" id="route" />
+                    <input asp-for="Straat" class="form-control" onfocus="geolocate()" id="route"/>
                     <span asp-validation-for="Straat" class="text-danger"></span>
                 </div>
                 <div class="col-md-2">
                     <label asp-for="Nummer"></label>
-                    <input asp-for="Nummer" class="form-control" id="street_number" />
+                    <input asp-for="Nummer" class="form-control" id="street_number"/>
                     <span asp-validation-for="Nummer" class="text-danger"></span>
                 </div>
                 <div class="col-md-2">
                     <label asp-for="Bus"></label>
-                    <input asp-for="Bus" class="form-control" />
+                    <input asp-for="Bus" class="form-control"/>
                     <span asp-validation-for="Bus" class="text-danger"></span>
                 </div>
             </div>
@@ -57,44 +67,44 @@
             <div class="row form-group required">
                 <div class="col-md-2">
                     <label class="control-label" asp-for="Postcode"></label>
-                    <input asp-for="Postcode" class="form-control" id="postal_code" />
+                    <input asp-for="Postcode" class="form-control" id="postal_code"/>
                     <span asp-validation-for="Postcode" class="text-danger"></span>
                 </div>
                 <div class="col-md-6">
                     <label class="control-label" asp-for="Gemeente"></label>
-                    <input asp-for="Gemeente" class="form-control" id="locality" />
+                    <input asp-for="Gemeente" class="form-control" id="locality"/>
                     <span asp-validation-for="Gemeente" class="text-danger"></span>
                 </div>
             </div>
 
-            <br />
+            <br/>
             <h4>Andere gegevens</h4>
-            <hr />
+            <hr/>
 
             <div class="form-group required">
                 <div class="col-md-4">
                     <label class="control-label" asp-for="AantalWerkuren"></label>
-                    <input asp-for="AantalWerkuren" class="form-control" />
+                    <input asp-for="AantalWerkuren" class="form-control"/>
                     <span asp-validation-for="AantalWerkuren" class="text-danger"></span>
                 </div>
                 <div class="col-md-4">
                     <label asp-for="PatronaleBijdrage"></label>
-                    <input asp-for="PatronaleBijdrage" class="form-control" />
+                    <input asp-for="PatronaleBijdrage" class="form-control"/>
                     <span asp-validation-for="PatronaleBijdrage" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-8 text-right">
-                    <a asp-controller="Werkgever" asp-action="AnnuleerNieuweWerkgever" class="btn btn-default">Annuleer</a>
-                    <button type="submit" class="btn btn-info" style="margin-left: 15px;">Voeg toe</button>
+                    <a asp-controller="Resultaat" asp-action="Index" class="btn btn-default">Annuleer</a>
+                    <button type="submit" class="btn btn-info" style="margin-left: 15px;">Opslaan</button>
                 </div>
             </div>
         </div>
-    </form>  
+    </form>
     <div class="form-group">
         <div class="col-md-8 text-right">
-            <a asp-controller="Werkgever" asp-action="VoegContactPersoonToe" asp-route-id="@Model.WerkgeverId" class="btn btn-default">Voeg contactpersoon toe</a>         
+            <a asp-controller="Werkgever" asp-action="VoegContactPersoonToe" asp-route-id="@Model.WerkgeverId" class="btn btn-default">Voeg contactpersoon toe</a>
         </div>
     </div>
 

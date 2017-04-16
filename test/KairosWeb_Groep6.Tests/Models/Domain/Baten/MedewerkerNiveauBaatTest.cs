@@ -10,7 +10,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
     {
         private MedewerkerNiveauBaat _baat;
 
-        private double patronaleBijdrage = 35;
+        private decimal patronaleBijdrage = 35M;
 
         #region Zelfde niveau
         [Fact]
@@ -26,7 +26,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
         [InlineData(37, 0, 3250, 0)]
         [InlineData(37, 30, 0, 0)]
         public void TestBerekenTotaleLoonkostPerJaar_LagerNiveau_GegevenOntbreekt_Returns0
-            (int werkuren, int uren, double brutoloon, double expected)
+            (int werkuren, int uren, decimal brutoloon, decimal expected)
         {
             _baat = new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
             {
@@ -34,7 +34,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
                 BrutoMaandloonFulltime = brutoloon
             };
 
-            double totaleLoonkostPerJaar = _baat.BerekenTotaleLoonkostPerJaar(werkuren, patronaleBijdrage);
+            decimal totaleLoonkostPerJaar = _baat.BerekenTotaleLoonkostPerJaar(werkuren, patronaleBijdrage);
             Assert.Equal(expected, totaleLoonkostPerJaar);
         }
 
@@ -43,7 +43,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
         [InlineData(37, 30, 2000, 30473.51)]
         [InlineData(37, 37, 3250, 61074.00)]
         public void TestBerekenTotaleLoonkostPerJaar_LagerNiveau_AlleGegevensAanwezig
-            (int werkuren, int uren, double brutoloon, double expected)
+            (int werkuren, int uren, decimal brutoloon, decimal expected)
         {
             _baat = new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
             {
@@ -51,7 +51,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
                 BrutoMaandloonFulltime = brutoloon
             };
 
-            double totaleLoonkostPerJaar = _baat.BerekenTotaleLoonkostPerJaar(werkuren, patronaleBijdrage);
+            decimal totaleLoonkostPerJaar = _baat.BerekenTotaleLoonkostPerJaar(werkuren, patronaleBijdrage);
             totaleLoonkostPerJaar = Math.Round(totaleLoonkostPerJaar, 2);
 
             Assert.Equal(expected, totaleLoonkostPerJaar);
@@ -84,7 +84,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
         [InlineData(37, 0, 3250, 0)]
         [InlineData(37, 30, 0, 0)]
         public void TestBerekenTotaleLoonkostPerJaar_HogerNiveau_GegevenOntbreekt_Returns0
-            (int werkuren, int uren, double brutoloon, double expected)
+            (int werkuren, int uren, decimal brutoloon, decimal expected)
         {
             _baat = new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
             {
@@ -92,7 +92,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
                 BrutoMaandloonFulltime = brutoloon
             };
 
-            double totaleLoonkostPerJaar = _baat.BerekenTotaleLoonkostPerJaar(werkuren, patronaleBijdrage);
+            decimal totaleLoonkostPerJaar = _baat.BerekenTotaleLoonkostPerJaar(werkuren, patronaleBijdrage);
             Assert.Equal(0, totaleLoonkostPerJaar);
         }
 
@@ -101,7 +101,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
         [InlineData(37, 32, 2860, 46482.27)]
         [InlineData(37, 37, 3250, 61074.00)]
         public void TestBerekenTotaleLoonkostPerJaar_HogerNiveau_AlleGegevensAanwezig
-            (int werkuren, int uren, double brutoloon, double expected)
+            (int werkuren, int uren, decimal brutoloon, decimal expected)
         {
             _baat = new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
             {
@@ -109,7 +109,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Baten
                 BrutoMaandloonFulltime = brutoloon
             };
 
-            double totaleLoonkostPerJaar = _baat.BerekenTotaleLoonkostPerJaar(werkuren, patronaleBijdrage);
+            decimal totaleLoonkostPerJaar = _baat.BerekenTotaleLoonkostPerJaar(werkuren, patronaleBijdrage);
             totaleLoonkostPerJaar = Math.Round(totaleLoonkostPerJaar, 2);
 
             Assert.Equal(expected, totaleLoonkostPerJaar);

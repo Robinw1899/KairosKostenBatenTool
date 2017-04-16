@@ -1,0 +1,52 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModel
+@{
+    var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
+    ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
+}
+
+<form asp-action="@action" id="form" style="display: none" method="post">
+    <h6 class="col-md-offset-2 paddingtekst" id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input asp-for="Id" />
+    <input asp-for="Type" />
+    <input asp-for="Soort" />
+
+    <div class="row col-md-offset-2 required">
+        <div class="col-md-4">
+            <label asp-for="Uren" class="control-label"></label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                </span>
+                <input asp-for="Uren" class="form-control input-maxwidth" placeholder="Uren" id="uren">
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <label asp-for="BrutoMaandloonBegeleider" class="control-label"></label>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="fa fa-eur" aria-hidden="true"></i>
+                </span>
+                <input asp-for="BrutoMaandloonBegeleider" class="form-control input-maxwidth"
+                       placeholder="Bruto maandloon begeleider" id="brutoloon">
+            </div>
+        </div>
+    </div>
+
+    <br />
+
+    <div class="row col-md-offset-6 col-md-4 form-group">
+        <div class="col-md-8 text-right noPadding">
+            <a class="btn btn-default" onclick="siteView.verbergFormulier()">Annuleer</a>
+            <button type="submit" class="btn btn-info" style="margin-left: 15px">@ViewData["action"]</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    if (siteView) {
+        siteView.initFunctionsKostenEnBaten();
+    }
+</script>

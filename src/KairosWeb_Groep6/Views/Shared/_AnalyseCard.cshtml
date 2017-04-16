@@ -1,4 +1,5 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.AnalyseViewModel
+﻿@using System.Globalization
+@model KairosWeb_Groep6.Models.KairosViewModels.AnalyseViewModel
 
 <div class="col-sm-12 col-md-6 col-lg-4">
     <div class="card">
@@ -12,29 +13,34 @@
                     <!--margin omdat de h3 dezelfde margin heeft-->
                     @if (!Model.InArchief)
                     {
-                        <a asp-controller="Analyse" asp-action="OpenAnalyse" asp-route-id="@Model.AnalyseId">
+                        <a asp-controller="Analyse" asp-action="OpenAnalyse" asp-route-id="@Model.AnalyseId"
+                               title="Bewerk deze analyse">
                             <i class="fa fa-pencil" aria-hidden="true"></i> <!-- BEWERKEN -->
                         </a>
                     }
                     
                     @if (Model.InArchief)
                     {
-                        <a asp-controller="Archief" asp-action="HaalAnalyseUitArchief" asp-route-id="@Model.AnalyseId">
+                        <a asp-controller="Archief" asp-action="HaalAnalyseUitArchief" asp-route-id="@Model.AnalyseId"
+                               title="Haal deze analyse uit het archief">
                             <i class="fa fa-reply" aria-hidden="true"></i> <!-- UIT ARCHIEF HALEN -->
                         </a>
                     }
                     else
                     {
-                        <a asp-controller="Analyse" asp-action="Archiveer" asp-route-id="@Model.AnalyseId" >
+                        <a asp-controller="Analyse" asp-action="Archiveer" asp-route-id="@Model.AnalyseId"
+                               title="Verplaats deze analyse naar het archief">
                             <i class="fa fa-archive" aria-hidden="true"></i> <!-- ARCHIVEREN -->
                         </a>
                     }
 
-                    <a asp-controller="Resultaat" asp-action="MaakPdf" asp-route-id="@Model.AnalyseId">
+                    <a asp-controller="Resultaat" asp-action="MaakPdf" asp-route-id="@Model.AnalyseId"
+                               title="Maak een pdf van deze analyse">
                         <i class="fa fa-file-pdf-o" aria-hidden="true"></i> <!-- PDF MAKEN -->
                     </a>
                     
-                    <a asp-controller="Analyse" asp-action="VerwijderAnalyse" asp-route-id="@Model.AnalyseId">
+                    <a asp-controller="Analyse" asp-action="VerwijderAnalyse" asp-route-id="@Model.AnalyseId" asp-route-from="card"
+                               title="Verwijder deze analyse">
                         <i class="fa fa-trash" aria-hidden="true"></i> <!-- VERWIJDEREN -->
                     </a>
                 </div>
@@ -50,7 +56,7 @@
             </div>
 
             <div class="text-center resultaat alert @Model.KlasseTotaal">
-                <b>@Model.NettoResultaat.ToString("C")</b>
+                <b>@Model.NettoResultaat.ToString("C", new CultureInfo("nl-BE"))</b>
             </div>
         </div>
     </div>

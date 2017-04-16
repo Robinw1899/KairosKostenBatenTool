@@ -1,6 +1,8 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.Baten.SubsidieViewModel
+﻿@using KairosWeb_Groep6.Models.Domain
+@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Baten.SubsidieViewModel
 @{
-    ViewData["title"] = "Subsidie";
+    ViewData["title"] = Soort.Subsidie.GeefOmschrijving();
 }
 
 <div>
@@ -13,44 +15,12 @@
     </div>
 
     <p>
-        Welk bedrag krijgt de werkgever aan subsidie voor eventuele aanpassingen aan de werkomgeving?
+        @Soort.Subsidie.GeefVraag()
     </p>
 
-    <form asp-controller="Subsidie" asp-action="Opslaan" id="form" method="post">
-
-        <h6 class="col-md-offset-2 paddingtekst" id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
-
-        <div asp-validation-summary="All" class="text-danger"></div>
-        <!--3 hidden inputs om het id, soort en type op te slaan-->
-        <input asp-for="Id"/>
-        <input asp-for="Type"/>
-        <input asp-for="Soort"/>
-
-        <div class="row col-md-offset-2">
-            <div class="col-md-4 required">
-                <label asp-for="Bedrag" class="control-label"></label>
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="fa fa-euro" aria-hidden="true"></i>
-                    </span>
-                    <input asp-for="Bedrag" class="form-control" placeholder="Jaarbedrag" id="jaarbedrag">
-                </div>
-                <!--<span asp-validation-for="Bedrag" class="text-danger"></span>-->
-            </div>
-        </div>
-        <br/>
-
-        <div class="row col-md-offset-2">
-            <div class="col-md-4 text-right">
-                <a asp-controller="Baten" asp-action="Index" class="btn btn-default">Annuleer</a>
-                @if (Model.Bedrag != 0)
-                {
-                    <a asp-controller="Subsidie" asp-action="Verwijder" class="btn btn-danger" style="margin-left: 15px">Verwijder</a>
-                }
-                <button type="submit" class="btn btn-info" style="margin-left: 15px">Opslaan</button>
-            </div>
-        </div>
-    </form>
+    <div id="divForm">
+        @Html.Partial("_Formulier", Model)
+    </div>
 </div>
 
 <div class="row" style="margin-top:20px">
@@ -68,14 +38,8 @@
 
 @section scripts{
     <script>
-        if (@Model.Bedrag !== 0) {
-            siteView.toonFormulier();
-        } else {
-            $("#jaarbedrag").val("");
-        }
-
         $("#baten").addClass("active");
     </script>
-
+    
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

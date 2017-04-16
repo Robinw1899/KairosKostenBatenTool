@@ -1,35 +1,26 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace KairosWeb_Groep6.Models.Domain.Baten
+﻿namespace KairosWeb_Groep6.Models.Domain.Baten
 {
     public class MedewerkerNiveauBaat : KostOfBaat
     {
         #region Properties
         //Beschrijving wordt niet gebruikt!
 
-        public override double Bedrag
+        public override decimal Bedrag
         {
             get { return 0; }
             set { }
         }
 
         
-        public double Uren { get; set; }
+        public decimal Uren { get; set; }
 
         
-        public double BrutoMaandloonFulltime { get; set; }
+        public decimal BrutoMaandloonFulltime { get; set; }
         #endregion
 
         #region Constructors
 
         public MedewerkerNiveauBaat()
-        {
-            
-        }
-
-       
-        public MedewerkerNiveauBaat(bool forJsonOnly)
         {
             
         }
@@ -43,21 +34,8 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
         }
         #endregion
 
-        #region Methods
-
-        public double BerekenTotaleLoonkostPerJaar(double aantalWerkuren, double patronaleBijdrage)
-        {
-            if (ControleerAlleGegevensAanwezig(aantalWerkuren, patronaleBijdrage))
-            {
-                double verhoudingUren = Uren / aantalWerkuren;
-                double loonMetPatronaleBijdrag = (verhoudingUren * BrutoMaandloonFulltime) * (1 + (patronaleBijdrage / 100));
-                return loonMetPatronaleBijdrag * 13.92;
-            }
-
-            return 0; // als een gegeven ontbreekt, wordt 0 gereturned
-        }
-
-        private bool ControleerAlleGegevensAanwezig(double aantalWerkuren, double patronaleBijdrage)
+        #region Controleermethoden
+        private bool ControleerAlleGegevensAanwezig(decimal aantalWerkuren, decimal patronaleBijdrage)
         {
             if (aantalWerkuren <= 0)
             {
@@ -81,7 +59,20 @@ namespace KairosWeb_Groep6.Models.Domain.Baten
 
             return true;
         }
+        #endregion
 
+        #region Methods
+        public decimal BerekenTotaleLoonkostPerJaar(decimal aantalWerkuren, decimal patronaleBijdrage)
+        {
+            if (ControleerAlleGegevensAanwezig(aantalWerkuren, patronaleBijdrage))
+            {
+                decimal verhoudingUren = Uren / aantalWerkuren;
+                decimal loonMetPatronaleBijdrag = (verhoudingUren * BrutoMaandloonFulltime) * (1 + (patronaleBijdrage / 100));
+                return loonMetPatronaleBijdrag * 13.92M;
+            }
+
+            return 0; // als een gegeven ontbreekt, wordt 0 gereturned
+        }
         #endregion
     }
 }

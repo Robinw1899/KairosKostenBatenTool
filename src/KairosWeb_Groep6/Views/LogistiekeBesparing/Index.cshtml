@@ -1,0 +1,45 @@
+﻿@using KairosWeb_Groep6.Models.Domain
+@using KairosWeb_Groep6.Models.Domain.Extensions
+@model KairosWeb_Groep6.Models.KairosViewModels.Baten.LogistiekeBesparingViewModel
+@{
+    ViewData["title"] = Soort.LogistiekeBesparing.GeefOmschrijving();
+}
+
+<div class="container">
+    <div>
+        @Html.Partial("_Tabs")
+    </div>
+
+    <div class="page-header">
+        <h3>@ViewData["title"]</h3>
+    </div>
+
+    <p>
+        @Soort.LogistiekeBesparing.GeefVraag()
+    </p>
+
+    <div id="divForm">
+        @Html.Partial("_Formulier", Model)
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-10 col-md-9">
+        <a asp-controller="Baten" asp-action="UitzendKrachtBesparingen" style="margin-left: 15px" class="btn btn-default">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Uitzendkracht besparingen
+        </a>
+    </div>
+    <div class="col-xs-2 col-md-3 text-right">
+        <a asp-controller="Baten" asp-action="ExtraProductiviteit" class="btn btn-info">
+            Extra productiviteit <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </a>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $("#baten").addClass("active");
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

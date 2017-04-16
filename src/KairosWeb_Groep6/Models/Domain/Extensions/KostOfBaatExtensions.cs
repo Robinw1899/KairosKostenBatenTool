@@ -14,7 +14,7 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
                 .SingleOrDefault(e => e.Id == id);
         }
 
-        public static double GeefTotaal<T>(List<T> lijst) where T : KostOfBaat
+        public static decimal GeefTotaal<T>(List<T> lijst) where T : KostOfBaat
         {
             if (typeof(T) == typeof(Loonkost))
             {

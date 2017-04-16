@@ -11,6 +11,17 @@
     font-family: 'Asap', Cambria, sans-serif;
 }
 
+/* Klasse die aangeeft wat er getoond moet worden in de navigatie op mobiele toestellen */
+.mobile {
+    font-size: 1.5em;
+    margin: auto 15px;
+}
+
+/* Klasse die aangeeft wat er enkel getoond moet worden op grote schermen */
+.desktop {
+    display: none;
+}
+
 footer {
     color: #97C900;
     font-weight: bold;
@@ -130,8 +141,14 @@ li:hover .options i,
     opacity: 1;
 }
 
-/* De tooltips van de kosten en baten een max-width geven */
+/* De andere tooltips een max-width geven */
 .tooltip-inner {
+    max-width: 150px;
+    width: 150px;
+}
+
+/* De tooltips van de kosten en baten een max-width geven */
+.kostenBatenNav .tooltip-inner {
     max-width: 450px;
     width: 450px;
 }
@@ -237,4 +254,14 @@ h6#infoTekstVerplichteVelden {
 .kostenBatenNav a::before {
     content: "\f040";
     font-family: FontAwesome;
+}
+
+@media only screen and (min-width: 1024px) {
+    .mobile {
+        display: none;
+    }
+
+    .desktop {
+        display: inline !important;
+    }
 }

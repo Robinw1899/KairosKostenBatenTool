@@ -1,9 +1,7 @@
 ﻿using KairosWeb_Groep6.Models.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace KairosWeb_Groep6.Data.Repositories
 {
@@ -17,15 +15,12 @@ namespace KairosWeb_Groep6.Data.Repositories
             _dbContext = dbContext;
               _werkgevers = dbContext.Werkgevers;
         }
-        public void Add(Werkgever werkgever)
-        {
-            _werkgevers.Add(werkgever);
-        }
 
         public IEnumerable<Werkgever> GetAll()
         {
             return _werkgevers
                 .Include(w=>w.Departementen)
+                .Include(w => w.ContactPersonen)
                 .AsNoTracking();
         }
 
@@ -34,15 +29,21 @@ namespace KairosWeb_Groep6.Data.Repositories
             return _werkgevers
                 .Where(w => w.WerkgeverId == id)
                 .Include(w=>w.Departementen)
+                .Include(w => w.ContactPersonen)
                 .First();
         }
 
         public IEnumerable<Werkgever> GetByName(string naam)
         {
             return _werkgevers
+                .Include(w => w.Departementen)
+                .Include(w => w.ContactPersonen)
                 .Where(w => w.Naam.Contains(naam))
-                .Include(w=>w.Departementen)
                 .ToList();
+        }
+        public void Add(Werkgever werkgever)
+        {
+            _werkgevers.Add(werkgever);
         }
 
         public void Remove(Werkgever werkgever)

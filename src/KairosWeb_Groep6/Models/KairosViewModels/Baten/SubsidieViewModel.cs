@@ -7,6 +7,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 {
     public class SubsidieViewModel
     {
+        #region Properties
         [HiddenInput]
         public int Id { get; set; }
 
@@ -19,19 +20,22 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
         [Display(Name = "Jaarbedrag")]
         [Required(ErrorMessage = "Gelieve het bedrag op te geven.")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bedrag op te geven.")]
-        public double Bedrag { get; set; }
+        public decimal Bedrag { get; set; }
+        #endregion
 
+        #region Constructors        
         public SubsidieViewModel()
         {
-            
+            Type = Type.Baat;
+            Soort = Soort.Subsidie;
         }
 
         public SubsidieViewModel(Subsidie subsidie)
+            : this()
         {
             Id = subsidie.Id;
-            Type = subsidie.Type;
-            Soort = subsidie.Soort;
             Bedrag = subsidie.Bedrag;
         }
+        #endregion
     }
 }
