@@ -20,7 +20,7 @@ namespace KairosWeb_Groep6.Excel
 		/// <param name="outputDir">The output directory</param>
 		/// <param name="templateDir">The location of the sample template</param>
 		/// <param name="connectionString">The connection string to your copy of the AdventureWorks database</param>
-		public static string RunSample3(DirectoryInfo outputDir, string connectionString)
+		/*public static string RunSample3(DirectoryInfo outputDir, string connectionString)
         {
 
             string file = outputDir.FullName + @"\Analsye.xlsx";
@@ -170,6 +170,6 @@ namespace KairosWeb_Groep6.Excel
             //newFile.CopyTo(zipFile.FullName);
 
             return newFile.FullName;
-        }
+        }*/
     }
 }

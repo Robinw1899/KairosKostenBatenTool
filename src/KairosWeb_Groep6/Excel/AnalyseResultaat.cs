@@ -31,7 +31,7 @@ namespace KairosWeb_Groep6.Excel
             {
                 //Baten
                 {Soort.Subsidie, "E8" },
-                {Soort., "E9" },                                    //moet nog aangepast worden
+                {Soort.Subsidie, "E9" },                                    //moet nog aangepast worden
                 {Soort.MedewerkersZelfdeNiveau, "E10" },
                 {Soort.MedewerkersHogerNiveau, "E11" },
                 {Soort.UitzendkrachtBesparing, "E12" },
@@ -205,7 +205,7 @@ namespace KairosWeb_Groep6.Excel
                 //Get the documet as a byte array from the stream and save it to disk.  (This is usefull in a webapplication) ... 
                 Byte[] bin = p.GetAsByteArray();
                 
-                string file = outputdir + "\Analsye.xlsx";
+                string file = outputdir + "\\Analsye.xlsx";
                 File.WriteAllBytes(file, bin);
                 return file;
                 

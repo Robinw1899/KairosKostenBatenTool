@@ -5,12 +5,14 @@ using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
+using System;
+
 namespace KairosWeb_Groep6.Controllers
 {
     public class ResultaatController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
-
+        private System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
         public ResultaatController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
@@ -79,6 +81,18 @@ namespace KairosWeb_Groep6.Controllers
                 TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw.";
             }
 
+            return RedirectToAction("Index", "Kairos");
+        }
+        public IActionResult ExcelMaken()
+        {
+            try
+            {
+                
+            }
+            catch(Exception e)
+            {
+
+            }
             return RedirectToAction("Index", "Kairos");
         }
     }

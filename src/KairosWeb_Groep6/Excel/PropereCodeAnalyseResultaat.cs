@@ -20,7 +20,7 @@ namespace KairosWeb_Groep6.Excel
             {
                 //Baten
                 {Soort.Subsidie, "E8" },
-                {Soort., "E9" },                                    //moet nog aangepast worden
+                {Soort.Subsidie, "E9" },                                    //moet nog aangepast worden
                 {Soort.MedewerkersZelfdeNiveau, "E10" },
                 {Soort.MedewerkersHogerNiveau, "E11" },
                 {Soort.UitzendkrachtBesparing, "E12" },
