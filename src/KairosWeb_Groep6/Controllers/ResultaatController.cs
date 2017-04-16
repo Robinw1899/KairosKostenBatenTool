@@ -4,8 +4,8 @@ using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-
-using System;
+using System.Windows.Forms;
+using KairosWeb_Groep6.Models.Domain.Excel;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -93,6 +93,57 @@ namespace KairosWeb_Groep6.Controllers
             }
 
             return RedirectToAction("Index", "Kairos");
+        }
+        #endregion
+
+        #region MaakExcel
+
+        public IActionResult MaakExcel(int id)
+        {
+            try
+            {
+                Analyse analyse = _analyseRepository.GetById(id);
+                ExcelWriterResultaat excelWriter = new ExcelWriterResultaat();
+                string fileName = excelWriter.MaakExcel(analyse);
+                byte[] fileBytes = System.IO.File.ReadAllBytes(fileName);
+                
+                // bestand terug verwijderen van de server
+                excelWriter.VerwijderBestand();
+
+                return File(fileBytes, "application/x-msdownload", fileName);
+            }
+            catch
+            {
+                TempData["error"] =
+                    "Er ging iets fout tijdens het samenstellen van het Excel-bestand, probeer later opnieuw";
+            }
+
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Afdrukken
+        public IActionResult Afdrukken(int id)
+        {
+            try
+            {
+                Analyse analyse = _analyseRepository.GetById(id);
+                ExcelWriterResultaat excelWriter = new ExcelWriterResultaat();
+                string fileName = excelWriter.MaakExcel(analyse);
+                byte[] fileBytes = System.IO.File.ReadAllBytes(fileName);
+
+                // bestand terug verwijderen van de server
+                excelWriter.VerwijderBestand();
+
+                return File(fileBytes, "application/x-msdownload", fileName);
+            }
+            catch
+            {
+                TempData["error"] =
+                    "Er ging iets fout tijdens het laden van het afdrukscherm, probeer later opnieuw";
+            }
+
+            return RedirectToAction("Index");
         }
         #endregion
     }
