@@ -21,7 +21,7 @@
             <i class="fa fa-print" aria-hidden="true"></i> <!-- AFDRUKKEN -->
         </a>
 
-        <a asp-controller="Resultaat" asp-action="Mail">
+        <a asp-controller="Resultaat" asp-action="Mail" asp-route-id="@Model.AnalyseId">
             <i class="fa fa-envelope" aria-hidden="true"></i> <!-- MAILEN -->
         </a>
 

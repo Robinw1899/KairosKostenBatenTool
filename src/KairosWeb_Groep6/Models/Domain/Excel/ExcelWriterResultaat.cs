@@ -9,6 +9,7 @@ namespace KairosWeb_Groep6.Models.Domain.Excel
     public class ExcelWriterResultaat
     {
         private string fileName;
+        private readonly string _outputDir = "temp\\";
         private readonly Dictionary<Soort, string> tabelBedragen = new Dictionary<Soort, string>
             {
                 //Baten
@@ -60,7 +61,7 @@ namespace KairosWeb_Groep6.Models.Domain.Excel
                     fileName = $"resultaat_{random.Next(1000)}.xlsx";
                 }
 
-                File.WriteAllBytes(fileName, bin);
+                File.WriteAllBytes(_outputDir + fileName, bin);
                 return fileName;
             }
         }

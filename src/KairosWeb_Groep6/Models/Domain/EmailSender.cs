@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MimeKit;
 
@@ -16,7 +17,7 @@ namespace KairosWeb_Groep6.Models.Domain
             builder.HtmlBody = CreateRegisterMail(name, email, password);
 
             message.Body = builder.ToMessageBody();
-
+            
             bool gelukt = await SendMail(message);
             return gelukt;
         }
@@ -50,6 +51,21 @@ namespace KairosWeb_Groep6.Models.Domain
             var builder = new BodyBuilder();
             builder.HtmlBody = CreateMailAdmin(nameJobcoach, emailJobcoach, body);
 
+            message.Body = builder.ToMessageBody();
+
+            bool gelukt = await SendMail(message);
+            return gelukt;
+        }
+
+        public static async Task<bool> SendResultaat(string naam, string email, string subject, string body, FileInfo file)
+        {
+            var message = CreateBaseMessage();
+            
+            message.To.Add(new MailboxAddress(naam, email));
+            message.Subject = subject;
+
+            var builder = new BodyBuilder {TextBody = body};
+            builder.Attachments.Add(file.FullName);
             message.Body = builder.ToMessageBody();
 
             bool gelukt = await SendMail(message);
