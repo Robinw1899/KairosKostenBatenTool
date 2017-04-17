@@ -175,7 +175,7 @@ namespace KairosWeb_Groep6.Controllers
                 Analyse analyse = _analyseRepository.GetById(model.AnalyseId);
                 ExcelWriterResultaat excelWriter = new ExcelWriterResultaat();
                 string fileName = excelWriter.MaakExcel(analyse);
-                FileInfo file = new FileInfo(fileName);
+                FileInfo file = new FileInfo("temp\\" + fileName);
                 string naam = model.Voornaam + " " + model.Naam;
 
                 bool gelukt = await EmailSender.SendResultaat(naam, model.Emailadres, model.Onderwerp, model.Bericht, file);
