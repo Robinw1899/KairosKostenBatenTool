@@ -15,11 +15,23 @@ else
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@item.Naam</td>
-                <td>@item.Voornaam</td>
-                <td>@item.Email</td>
-            </tr>
+            if (item.IsHoofd)
+            {
+                <tr>
+                    <td><b>@item.Naam</b></td>
+                    <td><b>@item.Voornaam</b></td>
+                    <td><b>@item.Email</b></td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>@item.Naam</td>
+                    <td>@item.Voornaam</td>
+                    <td>@item.Email</td>
+                </tr>
+            }
+
         }
     </table>
 }
