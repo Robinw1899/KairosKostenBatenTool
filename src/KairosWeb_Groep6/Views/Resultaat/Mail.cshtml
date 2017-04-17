@@ -1,0 +1,80 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.ResultaatMailViewModel
+
+@{
+    ViewData["title"] = "Resultaat mailen naar werkgever";
+}
+<div>
+    <div>
+        @Html.Partial("_Tabs")
+    </div>
+
+    <div class="page-header">
+        <h3>@ViewData["title"]</h3>
+    </div>
+
+    <p>Vul een e-mailadres, onderwerp en bericht in.</p>
+
+    <form asp-controller="Resultaat" asp-action="Mail" method="post" class="formOpmerking form-horizontal">
+
+        <h6 id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <input asp-for="AnalyseId"/>
+
+        <div class="form-group required">
+            <label asp-for="Naam" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Naam" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group required">
+            <label asp-for="Voornaam" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Voornaam" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group required">
+            <label asp-for="Emailadres" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Emailadres" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label asp-for="Onderwerp" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Onderwerp" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group required">
+            <label asp-for="Bericht" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <textarea asp-for="Bericht" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="col-md-12 text-right" style="padding-right: 0;">
+            <div>
+                <a asp-action="Index" class="btn btn-default">Annuleer</a>
+                <button class="btn btn-primary" type="submit" style="margin-left: 15px;">Verzenden</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Styles{
+    <style>
+        textarea#Bericht {
+            height: 300px;
+        }
+    </style>
+}
+
+@section scripts{
+    <script>
+        $("#resultaat").addClass("active");
+    </script>
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

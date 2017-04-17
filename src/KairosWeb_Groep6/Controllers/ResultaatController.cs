@@ -4,6 +4,8 @@ using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using KairosWeb_Groep6.Models.Domain.Excel;
 
@@ -125,22 +127,78 @@ namespace KairosWeb_Groep6.Controllers
         #region Afdrukken
         public IActionResult Afdrukken(int id)
         {
+            //try
+            //{
+            //    Analyse analyse = _analyseRepository.GetById(id);
+            //    ExcelWriterResultaat excelWriter = new ExcelWriterResultaat();
+            //    string fileName = excelWriter.MaakExcel(analyse);
+            //    byte[] fileBytes = System.IO.File.ReadAllBytes(fileName);
+
+            //    // bestand terug verwijderen van de server
+            //    excelWriter.VerwijderBestand();
+
+            //    return File(fileBytes, "application/x-msdownload", fileName);
+            //}
+            //catch
+            //{
+            //    TempData["error"] =
+            //        "Er ging iets fout tijdens het laden van het afdrukscherm, probeer later opnieuw";
+            //}
+            TempData["message"] = "Deze functionaliteit wordt nog niet ondersteund";
+
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region Mailen
+        public IActionResult Mail(int id)
+        {
             try
             {
-                Analyse analyse = _analyseRepository.GetById(id);
+                ResultaatMailViewModel model = new ResultaatMailViewModel{AnalyseId = id};
+
+                return View(model);
+            }
+            catch
+            {
+                TempData["error"] = "Er ging onverwacht iets fout, probeer later opnieuw";
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Mail(ResultaatMailViewModel model)
+        {
+            try
+            {
+                Analyse analyse = _analyseRepository.GetById(model.AnalyseId);
                 ExcelWriterResultaat excelWriter = new ExcelWriterResultaat();
                 string fileName = excelWriter.MaakExcel(analyse);
-                byte[] fileBytes = System.IO.File.ReadAllBytes(fileName);
+                FileInfo file = new FileInfo(fileName);
+                string naam = model.Voornaam + " " + model.Naam;
+
+                bool gelukt = await EmailSender.SendResultaat(naam, model.Emailadres, model.Onderwerp, model.Bericht, file);
 
                 // bestand terug verwijderen van de server
                 excelWriter.VerwijderBestand();
 
-                return File(fileBytes, "application/x-msdownload", fileName);
+                if (gelukt)
+                {
+                    TempData["message"] = "Het resultaat is succesvol verzonden";
+                }
+                else
+                {
+                    TempData["error"] =
+                        "Het is op dit moment niet mogelijk om mails te verzenden, probeer later opnieuw";
+                }
+
+                return RedirectToAction("Index");
             }
             catch
             {
                 TempData["error"] =
-                    "Er ging iets fout tijdens het laden van het afdrukscherm, probeer later opnieuw";
+                    "Er ging iets fout tijdens het verzenden van het resultaat, probeer later opnieuw";
             }
 
             return RedirectToAction("Index");

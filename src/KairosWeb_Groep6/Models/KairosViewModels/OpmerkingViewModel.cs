@@ -1,17 +1,15 @@
-﻿using KairosWeb_Groep6.Models.Domain;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels
 {
     public class OpmerkingViewModel
     {
         #region Properties
-        [Required]
-        [DataType(DataType.Text)]
+        [Required(ErrorMessage = "Gelieve onderwerp op te geven")]
         public string Onderwerp { get; set; }
-        [Required]
-        [DataType(DataType.Text)]
+
+        [Required(ErrorMessage = "Gelieve een bericht op te geven")]
+        [DataType(DataType.MultilineText)]
         public string Bericht { get; set; }
         #endregion
 
