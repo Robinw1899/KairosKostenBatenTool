@@ -35,6 +35,18 @@ namespace KairosWeb_Groep6.Tests.Data
 
         public List<UitzendKrachtBesparing> UitzendKrachtBesparingen { get; set; }
 
+        public List<ExterneInkoop> ExterneInkopen { get; set; }
+
+        public List<OpleidingsKost> OpleidingsKosten { get; set; }
+
+        public List<InfrastructuurKost> InfrastructuurKosten { get; set; }
+
+        public List<GereedschapsKost> GereedschapsKosten { get; set; }
+
+        public List<VoorbereidingsKost> VoorbereidingsKosten { get; set; }
+
+        public List<EnclaveKost> EnclaveKosten { get; set; }
+
         public Subsidie Subsidie { get; set; }
 
         public LogistiekeBesparing LogistiekeBesparing { get; set; }
@@ -57,6 +69,12 @@ namespace KairosWeb_Groep6.Tests.Data
             MaakUitzendKrachtBesparingen();
             MaakBegeleidingsKosten();
             MaakLogistiekeBesparing();
+            MaakExterneInkopen();
+            MaakGereedschapsKosten();
+            MaakInfrastructuurKosten();
+            MaakVoorbereidingsKosten();
+            MaakOpleidingsKosten();
+            MaakEnclaveKosten();
         }
 
         private void MaakOrganisaties()
@@ -248,6 +266,66 @@ namespace KairosWeb_Groep6.Tests.Data
             {
                 TransportKosten = 3000,
                 LogistiekHandlingsKosten = 2000
+            };
+        }
+
+        private void MaakExterneInkopen()
+        {
+            ExterneInkopen = new List<ExterneInkoop>
+            {
+                new ExterneInkoop {Id = 1, Beschrijving = "test1", Bedrag = 2500},
+                new ExterneInkoop {Id = 2, Beschrijving = "test2", Bedrag = 3000},
+                new ExterneInkoop {Id = 3, Beschrijving = "test3", Bedrag = 1000}
+            };
+        }
+
+        private void MaakOpleidingsKosten()
+        {
+            OpleidingsKosten = new List<OpleidingsKost>
+            {
+                new OpleidingsKost {Id = 1, Beschrijving = "junior java programmer", Bedrag = 1200},
+                new OpleidingsKost {Id = 2, Beschrijving = "junior .Net programmer", Bedrag = 1000},
+                new OpleidingsKost {Id = 3, Beschrijving = "junior Database Administrator", Bedrag = 2500}
+            };
+        }
+
+        private void MaakInfrastructuurKosten()
+        {
+            InfrastructuurKosten = new List<InfrastructuurKost>
+            {
+                new InfrastructuurKost { Id = 1, Beschrijving = "Toegankelijkheid rolstoel", Bedrag = 5200 },
+                new InfrastructuurKost { Id = 2, Beschrijving = "Ergonomische bureaustoelen", Bedrag = 10000 },
+                new InfrastructuurKost { Id = 3, Beschrijving = "test", Bedrag = 2000 }
+            };
+        }
+
+        private void MaakGereedschapsKosten()
+        {
+            GereedschapsKosten = new List<GereedschapsKost>
+            {
+                new GereedschapsKost { Id = 1, Beschrijving = "Overalls", Bedrag = 3000 },
+                new GereedschapsKost { Id = 2, Beschrijving = "Werkhandschoenen", Bedrag = 5300 },
+                new GereedschapsKost { Id = 3, Beschrijving = "Veiligheidsschoenen", Bedrag = 4000 }
+            };
+        }
+
+        private void MaakVoorbereidingsKosten()
+        {
+            VoorbereidingsKosten = new List<VoorbereidingsKost>
+            {
+                new VoorbereidingsKost { Id = 1, Beschrijving = "test1", Bedrag = 3500 },
+                new VoorbereidingsKost { Id = 2, Beschrijving = "test2", Bedrag = 8000 },
+                new VoorbereidingsKost { Id = 3, Beschrijving = "test3", Bedrag = 10000 }
+            };
+        }
+
+        public void MaakEnclaveKosten()
+        {
+            EnclaveKosten = new List<EnclaveKost>
+            {
+                new EnclaveKost { Id = 1,  Beschrijving = "test1", Bedrag = 24000 },
+                new EnclaveKost { Id = 1,  Beschrijving = "test2", Bedrag = 24000 },
+                new EnclaveKost { Id = 1,  Beschrijving = "test3", Bedrag = 24000 }
             };
         }
     }
