@@ -50,14 +50,15 @@ namespace KairosWeb_Groep6.Models.Domain.Excel
                 VulKostenIn(analyse, ws);
 
                 Byte[] bin = excel.GetAsByteArray();
+                Random random = new Random();
 
                 if (analyse.Departement != null)
                 {
-                    fileName = $"resultaat_{analyse.Departement.Werkgever.Naam}_{analyse.Departement.Naam}.xlsx";
+                    fileName = $"resultaat_{analyse.Departement.Werkgever.Naam}_{analyse.Departement.Naam}_{random.Next(1000)}.xlsx";
                 }
                 else
                 {
-                    Random random = new Random();
+                    
                     fileName = $"resultaat_{random.Next(1000)}.xlsx";
                 }
 
@@ -68,7 +69,7 @@ namespace KairosWeb_Groep6.Models.Domain.Excel
 
         public void VerwijderBestand()
         {
-            FileInfo file = new FileInfo(fileName);
+            FileInfo file = new FileInfo(_outputDir + fileName);
             file.Delete();
         }
 

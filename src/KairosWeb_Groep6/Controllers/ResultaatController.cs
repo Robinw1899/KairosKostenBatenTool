@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
@@ -13,6 +14,7 @@ namespace KairosWeb_Groep6.Controllers
 {
     public class ResultaatController : Controller
     {
+        private readonly string outputDir = "temp\\";
         private readonly IAnalyseRepository _analyseRepository;
         //private System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
         public ResultaatController(IAnalyseRepository analyseRepository)
@@ -107,14 +109,14 @@ namespace KairosWeb_Groep6.Controllers
                 Analyse analyse = _analyseRepository.GetById(id);
                 ExcelWriterResultaat excelWriter = new ExcelWriterResultaat();
                 string fileName = excelWriter.MaakExcel(analyse);
-                byte[] fileBytes = System.IO.File.ReadAllBytes(fileName);
+                byte[] fileBytes = System.IO.File.ReadAllBytes(outputDir + fileName);
                 
                 // bestand terug verwijderen van de server
                 excelWriter.VerwijderBestand();
 
                 return File(fileBytes, "application/x-msdownload", fileName);
             }
-            catch
+            catch(Exception e)
             {
                 TempData["error"] =
                     "Er ging iets fout tijdens het samenstellen van het Excel-bestand, probeer later opnieuw";
