@@ -31,10 +31,24 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         [Fact]
         public void TestIndexShouldReturnInfrastructuurKostenIndexViewModel()
         {
-            var result = _controller.Index(_analyse) as ViewResult;
+            ViewResult result = _controller.Index(_analyse) as ViewResult;
             IEnumerable<BegeleidingsKostViewModel> model = result?.Model as IEnumerable<BegeleidingsKostViewModel>;
 
             Assert.Equal(3, model?.Count());
+        }
+        #endregion
+
+        #region VoegToe -- Get
+        public void TestVoegToeReturnsPartial()
+        {
+            var result = _controller.VoegToe() as ViewResult;
+            var model = result?.Model as BegeleidingsKostViewModel;
+
+            Assert.Equal("_Formulier", result?.ViewName);
+            Assert.Equal(0, model?.Bedrag);
+            Assert.Equal(0, model?.BrutoMaandloonBegeleider);
+            Assert.Equal(0, model?.Uren);
+            Assert.Equal(0, model?.Id);
         }
         #endregion
 
@@ -43,7 +57,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         public void TestVoegToe_ModelError_ReturnsToIndexWithModel()
         {
             _controller.ModelState.AddModelError("", "Model error");
-            BegeleidingsKostenIndexViewModel model = new BegeleidingsKostenIndexViewModel();
+            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel();
 
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
@@ -51,40 +65,41 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         }
 
         [Fact]
-        public void TestVoegToe_Succes_ReturnsPartialView()
+        public void TestVoegToe_Succes_ReturnsToIndex()
         {
-            BegeleidingsKostenIndexViewModel model = new BegeleidingsKostenIndexViewModel()
+            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel()
             {
                 Id = 1,
                 Type = KairosWeb_Groep6.Models.Domain.Type.Kost,
                 Soort = Soort.BegeleidingsKost,
                 Uren = 8,
                 BrutoMaandloonBegeleider = 2500,
-                Bedrag = 30000,
-                ViewModels = _dbContext.GeefBegeleidingsKosten()
-                                        .Select(b => new BegeleidingsKostViewModel(b))
+                Bedrag = 30000
             };
 
-            var result = _controller.VoegToe(_analyse, model) as PartialViewResult;
+            var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
-            Assert.Equal("_OverzichtTabel", result?.ViewName);
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("BegeleidingsKosten", result?.ControllerName);
         }
         #endregion
 
         #region Bewerk -- Get
         [Fact]
-        public void TestBewerk_ReturnsIndexView()
+        public void TestBewerk_ReturnsPartialView()
         {
-            var result = _controller.Bewerk(_analyse, 1) as ViewResult;
-
-            Assert.Equal("Index", result?.ViewName);
+            var result = _controller.Bewerk(_analyse, 1) as PartialViewResult;
+            
+            Assert.Equal("_Formulier", result?.ViewName);
         }
-        [Fact]
-        public void TestBewerkGet_GereedschapsKostNull_ReturnsIndexView()
-        {
-            var result = _controller.Bewerk(_analyse, -1) as ViewResult;
 
-            Assert.Equal("Index", result?.ViewName);
+        [Fact]
+        public void TestBewerkGet_BegeleidingsKostNull_RedirectsToIndex()
+        {
+            var result = _controller.Bewerk(_analyse, 15) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("BegeleidingsKosten", result?.ControllerName);
         }
         #endregion
 
