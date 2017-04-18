@@ -26,7 +26,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         public string Onderwerp { get; set; }
         
         [Required(ErrorMessage = "Gelieve een bericht op te geven")]
-        [Display(Name = "Bericht", Prompt = "Typ je bericht hier...")]
+        [Display(Name = "Bericht")]
         [DataType(DataType.MultilineText)]
         public string Bericht { get; set; }
         #endregion

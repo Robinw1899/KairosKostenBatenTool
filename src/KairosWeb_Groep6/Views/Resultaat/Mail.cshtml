@@ -51,13 +51,13 @@
         <div class="form-group required">
             <label asp-for="Bericht" class="col-md-4 control-label"></label>
             <div class="col-md-8">
-                <textarea asp-for="Bericht" class="form-control"></textarea>
+                <textarea asp-for="Bericht" class="form-control" placeholder="Typ je bericht hier..."></textarea>
             </div>
         </div>
         <div class="col-md-12 text-right" style="padding-right: 0;">
             <div>
                 <a asp-action="Index" class="btn btn-default">Annuleer</a>
-                <button class="btn btn-primary" type="submit" style="margin-left: 15px;">Verzenden</button>
+                <button class="btn btn-info" type="submit" style="margin-left: 15px;">Verzenden</button>
             </div>
         </div>
     </form>
