@@ -23,10 +23,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         public string Beschrijving { get; set; }
 
         [Required(ErrorMessage = "Gelieve een het aantal uren per week op te geven.")]
+        [Display(Name = "Aantal werkuren per week", Prompt = "Aantal werkuren per week")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het aantal uur")]
         public decimal AantalUrenPerWeek { get; set; }
 
         [Required(ErrorMessage = "Gelieve het bruto maandloon (fulltime) op te geven.")]
+        [Display(Name = "Brutomaandloon (fulltime)", Prompt = "Brutomaandloon (fulltime)")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het bruto maandloon")]
         public decimal BrutoMaandloonFulltime { get; set; }
 

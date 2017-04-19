@@ -1,5 +1,4 @@
-﻿@using System.Globalization
-@using KairosWeb_Groep6.Models.Domain.Extensions
+﻿@using KairosWeb_Groep6.Models.Domain.Extensions
 @model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonkostViewModel>
 
 <table class="table table-bordered table-condensed table-responsive">
@@ -30,13 +29,13 @@
         {
             <tr>
                 <td>@kost.Beschrijving</td> <!--Functie-->
-                <td>@kost.AantalUrenPerWeek</td>
-                <td>@kost.BrutoMaandloonFulltime</td>
+                <td>€ @Math.Round(kost.AantalUrenPerWeek, 2)</td>
+                <td>€ @Math.Round(kost.BrutoMaandloonFulltime, 2)</td>
                 <td>@(DoelgroepExtensions.GeefOmschrijving(kost.Doelgroep))</td>
-                <td>@(kost.Ondersteuningspremie) %</td>
+                <td>@(Math.Round(kost.Ondersteuningspremie, 2)) %</td>
                 <td>@kost.AantalMaandenIBO</td>
-                <td>@(kost.IBOPremie.ToString("C", new CultureInfo("nl-BE")))</td>
-                <th>@(kost.Bedrag.ToString("C", new CultureInfo("nl-BE")))</th>
+                <td>€ @(Math.Round(kost.IBOPremie, 2))</td>
+                <th>€ @(Math.Round(kost.Bedrag, 2))</th>
                 <td>
                     <div class="options">
                         <a asp-action="Bewerk" asp-route-id="@kost.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>
@@ -63,3 +62,4 @@
     }
 </table>
 
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
