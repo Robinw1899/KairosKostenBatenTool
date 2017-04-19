@@ -22,6 +22,10 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public bool InArchief { get; set; }
 
+        public decimal KostenPercent { get; set; }
+
+        public decimal BatenPercent { get; set; }
+
         public string KlasseTotaal { get; set; } // klasse die de kleur van het nettores aangeeft
         #endregion
 
@@ -56,6 +60,17 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
                                     .Sum(x => x.Value);
 
             NettoResultaat = BatenTotaal - KostenTotaal;
+
+            if (BatenTotaal != 0 || KostenTotaal != 0)
+            {
+                BatenPercent = (BatenTotaal / (BatenTotaal + KostenTotaal)) * 100;
+                KostenPercent = (KostenTotaal / (BatenTotaal + KostenTotaal)) * 100;
+            }
+            else
+            {
+                BatenPercent = 0;
+                KostenPercent = 0;
+            }
 
             // kleur voor nettoresultaat bepalen
             if (NettoResultaat < 0)

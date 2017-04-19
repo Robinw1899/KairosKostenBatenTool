@@ -23,7 +23,7 @@
         foreach (var baat in Model)
         {
             <tr>
-                <td>@baat.Uren</td>
+                <td>@baat.Uren.ToString("F", new CultureInfo("nl-BE"))</td>
                 <td>@baat.BrutoMaandloonFulltime.ToString("C", new CultureInfo("nl-BE"))</td>
                 <td>@baat.Bedrag.ToString("C", new CultureInfo("nl-BE"))</td>
                 <td>

@@ -1,5 +1,5 @@
-﻿@using KairosWeb_Groep6.Models.KairosViewModels
-@using System.Linq;
+﻿@using System.Linq;
+@using KairosWeb_Groep6.Models.KairosViewModels
 @model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
 
 @{
@@ -59,7 +59,10 @@
         @if (Model != null && Model.Analyses.Any())
         {
             <div id="data">
-                @Html.Partial("_Analyses", Model)
+               @foreach (AnalyseViewModel a in Model.Analyses)
+               {
+                    @Html.Partial("_AnalyseCard", a);
+               }
             </div>
 
             <div>

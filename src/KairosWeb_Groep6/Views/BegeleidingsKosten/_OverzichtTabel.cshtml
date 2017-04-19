@@ -1,4 +1,5 @@
-﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModel>
+﻿@using System.Globalization
+@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.BegeleidingsKostViewModel>
 
 <table class="table table-bordered table-condensed table-responsive">
     <tr>
@@ -22,9 +23,9 @@
         foreach (var baat in Model)
         {
             <tr>
-                <td>€ @Math.Round(baat.Uren, 2)</td>
-                <td>€ @Math.Round(baat.BrutoMaandloonBegeleider, 2)</td>
-                <td>€ @Math.Round(baat.Bedrag, 2)</td>
+                <td>@baat.Uren.ToString("F", new CultureInfo("nl-BE"))</td>
+                <td>@baat.BrutoMaandloonBegeleider.ToString("C", new CultureInfo("nl-BE"))</td>
+                <td>@baat.Bedrag.ToString("C", new CultureInfo("nl-BE"))</td>
                 <td>
                     <div class="options">
                         <a asp-action="Bewerk" asp-route-id="@baat.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>

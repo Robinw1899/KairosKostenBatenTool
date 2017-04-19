@@ -80,7 +80,7 @@ namespace KairosWeb_Groep6.Controllers
 
                 model = new IndexViewModel(jobcoach)
                 {
-                    Aantal = aantal
+                    Aantal = analyses.Count
                 };
             }
             catch

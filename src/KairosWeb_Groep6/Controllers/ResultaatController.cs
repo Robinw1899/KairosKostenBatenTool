@@ -87,8 +87,6 @@ namespace KairosWeb_Groep6.Controllers
             {
                 _analyseRepository.Save();
 
-                // Pas als er geen exception geweest is, de sessionvariabele verwijderen
-                AnalyseFilter.ClearSession(HttpContext);
                 TempData["message"] = "De analyse is succesvol opgeslaan.";
             }
             catch
