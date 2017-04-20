@@ -200,7 +200,7 @@ li:hover .options i,
 }
 
 /* Opmaak van het resultaat */
-.resultaat {
+.card.resultaat {
     font-size: 1.5em;
 }
 
@@ -242,16 +242,19 @@ h6#infoTekstVerplichteVelden {
 }
 
 .kostenBatenNav a,
-.kostenBatenNav a:active{
+.kostenBatenNav a:active,
+.resultaat a,
+.resultaat a:active {
     color: black;
 }
 
-.kostenBatenNav a:hover {
+.kostenBatenNav a:hover,
+.resultaat a:hover{
     color: #97C900 !important;
     font-weight: bold;
 }
 
-.kostenBatenNav a::before {
+.kostenBatenNav a:before {
     content: "\f040";
     font-family: FontAwesome;
 }
