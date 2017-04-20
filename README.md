@@ -3,7 +3,8 @@
 Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worden en wat goed/minder goed ging.
 
 ## Opgenomen priors in sprint 5
-Loading...
+* Prior 80: De jobcoach moet het resultaat van de berekening in pdf kunnen opslaan, afdrukken of rechtstreeks via mail kunnen versturen naar werkgever
+* Prior 180: de jobcoach moet de contactpersonen van een werkgever kunnen aanpassen/verwijderen
 
 ## Vragen voor klant
 
