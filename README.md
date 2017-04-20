@@ -20,11 +20,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 
 ## To do:
 ### To do voor webapplicatie
-* Vinkje bij bestaande werkgever groter of anders oplossen (klikken op de rij)
-* Vorige en volgende knop browser uitschakelen
-* Responsive maken
-* Toon meer uitbreiden met melding als alles al getoond wordt (knop wordt dan ook verborgen)
-* Admin moet waarden van subsidies (Doelgroep) kunnen aanpassen
+
 
 ## Retrospective
 ### Wat ging goed?
