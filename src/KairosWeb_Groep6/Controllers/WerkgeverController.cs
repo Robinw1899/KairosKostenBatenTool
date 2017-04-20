@@ -266,7 +266,7 @@ namespace KairosWeb_Groep6.Controllers
                 TempData["Error"] = "De werkgever " + model.Naam + " met als departement " + model.Departement + " bestaat al.";
 
                 // terugsturen naar het formulier
-                return RedirectToAction("NiewDepartement", model.WerkgeverId);
+                return RedirectToAction("NieuwDepartement", model.WerkgeverId);
             }
 
             departement = new Departement(model.Departement);
