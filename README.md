@@ -8,6 +8,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Opslaan icoon bij de partial views zetten
 * Terug uit archief halen niet direct gevonden omdat iconen niet zichtbaar waren (momenteel on hover)
 * resultaat verzenden niet direct gevonden (op home met recente analyses)
+
 ## Opgenomen priors in sprint 4
 * 30: de jobcoach moet een berekening maken voor één specifieke werkgever
 * 80: de jobcoach moet het resultaat van de berekening in pdf kunnen opslaan, afdrukken of rechtstreeks via mail kunnen versturen naar werkgever
@@ -27,12 +28,10 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 ## To do:
 ### To do voor webapplicatie
 * Vinkje bij bestaande werkgever groter of anders oplossen (klikken op de rij)
-* Infrastructuurkost omvormen naar PersoneelsKost
 * Vorige en volgende knop browser uitschakelen
 * Responsive maken
 * Toon meer uitbreiden met melding als alles al getoond wordt (knop wordt dan ook verborgen)
-* Trigger schrijven voor het updaten van een analyse --> automatisch DatumLaatsteAanpassing aanpassen
-* Admin moet waarden van subsidies kunnen aanpassen
+* Admin moet waarden van subsidies (Doelgroep) kunnen aanpassen
 
 ## Retrospective
 ### Wat ging goed?
