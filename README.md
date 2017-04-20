@@ -10,11 +10,10 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * resultaat verzenden niet direct gevonden (op home met recente analyses)
 
 ## Opgenomen priors in sprint 4
-* 30: de jobcoach moet een berekening maken voor één specifieke werkgever
-* 80: de jobcoach moet het resultaat van de berekening in pdf kunnen opslaan, afdrukken of rechtstreeks via mail kunnen versturen naar werkgever
+Loading...
 
 ## Vragen voor klant
-**Meldt dit aan Thomas, zo kan hij dit in de presentatie zetten!**
+
 
 ## Niet vergeten!
 * Vaak committen
@@ -35,10 +34,10 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 
 ## Retrospective
 ### Wat ging goed?
-**Werk vanaf nu in het Lastenboek!**
+
 
 ### Wat kan beter?
-**Werk vanaf nu in het Lastenboek!**
+
 
 ### Wat gaan we verbeteren voor de volgende sprint?
-**Werk vanaf nu in het Lastenboek!**
+
