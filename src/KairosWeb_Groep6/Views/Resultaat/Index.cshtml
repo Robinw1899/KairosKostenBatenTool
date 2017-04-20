@@ -40,18 +40,24 @@
 
 @if (Model.Resultaten != null)
 {
-    <div class="col-sm-12 col-md-12 col-lg-12">
+    <div class="col-sm-12 col-md-12 col-lg-12 resultaat">
         <table class="table table-bordered table-responsive">
             <tr>
-                <th class="col-md-4">Baten</th>
+                <th class="col-md-4">
+                    <a asp-controller="Baten" asp-action="Index">Baten</a>
+                </th>
                 <th class="col-md-4 text-center" colspan="2">Bedrag</th>
-                <th class="col-md-4 text-right">Kosten</th>
+                <th class="col-md-4 text-right">
+                    <a asp-controller="Kosten" asp-action="Index">Kosten</a>
+                </th>
             </tr>
             
             <tr>
                 <!-- Rij 1 Loonkostsubsidies - Loonkost -->
                 <td class="col-md-4">
-                    @Soort.LoonkostSubsidies.GeefOmschrijving()
+                    <a asp-controller="Kosten" asp-action="Loonkosten">
+                        @Soort.LoonkostSubsidies.GeefOmschrijving()
+                    </a>
                 </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.LoonkostSubsidies].ToString("C", new CultureInfo("nl-BE"))
@@ -61,14 +67,18 @@
                     @Model.Resultaten[Soort.Loonkost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
-                    @Soort.Loonkost.GeefOmschrijving()
+                    <a asp-controller="Kosten" asp-action="Loonkosten">
+                        @Soort.Loonkost.GeefOmschrijving()
+                    </a>
                 </td>
             </tr>
 
             <tr>
                 <!-- Rij 2 Subsidie - EnclaveKost -->
                 <td class="col-md-4">
-                    @Soort.Subsidie.GeefOmschrijving()
+                    <a asp-controller="Baten" asp-action="Subsidies">
+                        @Soort.Subsidie.GeefOmschrijving()
+                    </a>
                 </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.Subsidie].ToString("C", new CultureInfo("nl-BE"))
@@ -78,14 +88,18 @@
                     @Model.Resultaten[Soort.EnclaveKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
-                    @Soort.EnclaveKost.GeefOmschrijving()
+                    <a asp-controller="Kosten" asp-action="EnclaveKosten">
+                        @Soort.EnclaveKost.GeefOmschrijving()
+                    </a>
                 </td>
             </tr>
 
             <tr>
                 <!-- Rij 3 Medewerkers zelfde niveau - Voorbereidingskosten -->
                 <td class="col-md-4">
-                    @Soort.MedewerkersZelfdeNiveau.GeefOmschrijving()
+                    <a asp-controller="Baten" asp-action="MedewerkerZelfdeNiveau">
+                        @Soort.MedewerkersZelfdeNiveau.GeefOmschrijving()
+                    </a>
                 </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.MedewerkersZelfdeNiveau].ToString("C", new CultureInfo("nl-BE"))
@@ -95,14 +109,18 @@
                     @Model.Resultaten[Soort.VoorbereidingsKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
-                    @Soort.VoorbereidingsKost.GeefOmschrijving()
+                    <a asp-controller="Kosten" asp-action="VoorbereidingsKosten">
+                        @Soort.VoorbereidingsKost.GeefOmschrijving()
+                    </a>
                 </td>
             </tr>
             
             <tr>
                 <!-- Rij 4 Medewerkers hoger niveau - Materiële kosten -->
                 <td class="col-md-4">
-                    @Soort.MedewerkersHogerNiveau.GeefOmschrijving()
+                    <a asp-controller="Baten" asp-action="MedewerkerHogerNiveau">
+                        @Soort.MedewerkersHogerNiveau.GeefOmschrijving()
+                    </a>
                 </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.MedewerkersHogerNiveau].ToString("C", new CultureInfo("nl-BE"))
@@ -112,14 +130,18 @@
                     @Model.Resultaten[Soort.GereedschapsKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
-                    @Soort.GereedschapsKost.GeefOmschrijving()
+                    <a asp-controller="Kosten" asp-action="GereedschapsKosten">
+                        @Soort.GereedschapsKost.GeefOmschrijving()
+                    </a>
                 </td>
             </tr>
 
             <tr>
                 <!-- Rij 5 Uitzendkrachtbesparing - Infrastructuurkosten -->
                 <td class="col-md-4">
-                    @Soort.UitzendkrachtBesparing.GeefOmschrijving()
+                    <a asp-controller="Baten" asp-action="UitzendKrachtBesparingen">
+                        @Soort.UitzendkrachtBesparing.GeefOmschrijving()
+                    </a>
                 </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.UitzendkrachtBesparing].ToString("C", new CultureInfo("nl-BE"))
@@ -129,14 +151,18 @@
                     @Model.Resultaten[Soort.InfrastructuurKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
-                    @Soort.InfrastructuurKost.GeefOmschrijving()
+                    <a asp-controller="Kosten" asp-action="InfrastructuurKosten">
+                        @Soort.InfrastructuurKost.GeefOmschrijving()
+                    </a>
                 </td>
             </tr>
 
             <tr>
                 <!-- Rij 6 Extra omzet - Opleidingskosten -->
                 <td class="col-md-4">
-                    @Soort.ExtraOmzet.GeefOmschrijving()
+                    <a asp-controller="Baten" asp-action="ExtraOmzet">
+                      @Soort.ExtraOmzet.GeefOmschrijving()  
+                    </a>
                 </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.ExtraOmzet].ToString("C", new CultureInfo("nl-BE"))
@@ -146,14 +172,18 @@
                     @Model.Resultaten[Soort.OpleidingsKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
-                    @Soort.OpleidingsKost.GeefOmschrijving()
+                    <a asp-controller="Kosten" asp-action="OpleidingsKosten">
+                        @Soort.OpleidingsKost.GeefOmschrijving()
+                    </a>
                 </td>
             </tr>
 
             <tr>
                 <!-- Rij 7 Extra productiviteit - Begeleidingskosten -->
                 <td class="col-md-4">
-                    @Soort.ExtraProductiviteit.GeefOmschrijving()
+                    <a asp-controller="Baten" asp-action="ExtraProductiviteit">
+                        @Soort.ExtraProductiviteit.GeefOmschrijving()
+                    </a>
                 </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.ExtraProductiviteit].ToString("C", new CultureInfo("nl-BE"))
@@ -163,14 +193,18 @@
                     @Model.Resultaten[Soort.BegeleidingsKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
-                    @Soort.BegeleidingsKost.GeefOmschrijving()
+                    <a asp-controller="Kosten" asp-action="BegeleidingsKosten">
+                        @Soort.BegeleidingsKost.GeefOmschrijving()
+                    </a>
                 </td>
             </tr>
 
             <tr>
                 <!-- Rij 8 Besparing op overuren - Extra kosten -->
                 <td class="col-md-4">
-                    @Soort.OverurenBesparing.GeefOmschrijving()
+                    <a asp-controller="Baten" asp-action="OverurenBesparingen">
+                        @Soort.OverurenBesparing.GeefOmschrijving()
+                    </a>
                 </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.OverurenBesparing].ToString("C", new CultureInfo("nl-BE"))
@@ -180,14 +214,18 @@
                     @Model.Resultaten[Soort.ExtraKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
-                    @Soort.ExtraKost.GeefOmschrijving()
+                    <a asp-controller="Kosten" asp-action="ExtraKosten">
+                        @Soort.ExtraKost.GeefOmschrijving()
+                    </a>
                 </td>
             </tr>
 
             <tr>
                 <!-- Rij 9 Externe inkopen -->
                 <td class="col-md-4">
-                    @Soort.ExterneInkoop.GeefOmschrijving()
+                    <a asp-controller="Baten" asp-action="ExterneInkopen">
+                        @Soort.ExterneInkoop.GeefOmschrijving()
+                    </a>
                 </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.ExterneInkoop].ToString("C", new CultureInfo("nl-BE"))
@@ -200,7 +238,9 @@
             <tr>
                 <!-- Rij 10 Logistieke besparing -->
                 <td class="col-md-4">
-                    @Soort.LogistiekeBesparing.GeefOmschrijving()
+                    <a asp-controller="Baten" asp-action="LogistiekeBesparing">
+                        @Soort.LogistiekeBesparing.GeefOmschrijving()
+                    </a>
                 </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.LogistiekeBesparing].ToString("C", new CultureInfo("nl-BE"))
@@ -213,7 +253,9 @@
             <tr>
                 <!-- Rij 11 Extra besparingen -->
                 <td class="col-md-4">
-                    @Soort.ExtraBesparing.GeefOmschrijving()
+                    <a asp-controller="Baten" asp-action="ExtraBesparingen">
+                        @Soort.ExtraBesparing.GeefOmschrijving()
+                    </a>
                 </td>
                 <td class="col-md-2 text-center">
                     @Model.Resultaten[Soort.ExtraBesparing].ToString("C", new CultureInfo("nl-BE"))
