@@ -49,6 +49,12 @@ namespace KairosWeb_Groep6.Models.Domain.Excel
                 VulBatenIn(analyse, ws);
                 VulKostenIn(analyse, ws);
 
+                DirectoryInfo dir = new DirectoryInfo("temp//");
+                if(!dir.Exists)
+                {
+                    dir.Create();
+                }
+
                 Byte[] bin = excel.GetAsByteArray();
                 Random random = new Random();
 
