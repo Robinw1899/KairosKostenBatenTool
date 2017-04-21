@@ -20,7 +20,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 
 ## To do:
 ### To do voor webapplicatie
-
+* Opslaan-icoon in "_Tabs"-partial zetten
 
 ## Retrospective
 ### Wat ging goed?
