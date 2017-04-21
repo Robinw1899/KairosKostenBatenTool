@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace KairosWeb_Groep6.Models.Domain
+﻿namespace KairosWeb_Groep6.Models.Domain
 {
     public class ContactPersoon
     {
@@ -13,6 +11,7 @@ namespace KairosWeb_Groep6.Models.Domain
         public string Voornaam { get; set; }
 
         public string Emailadres { get; set; }
+
         public bool IsHoofdContactPersoon { get; set; }
         #endregion
 
