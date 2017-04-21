@@ -32,7 +32,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 
         }
 
-        public InfrastructuurKostViewModel(InfrastructuurKost kost)
+        public InfrastructuurKostViewModel(PersoneelsKost kost)
         {
             Id = kost.Id;
             Type = kost.Type;

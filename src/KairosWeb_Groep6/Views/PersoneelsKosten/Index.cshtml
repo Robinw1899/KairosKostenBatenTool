@@ -2,7 +2,7 @@
 @using KairosWeb_Groep6.Models.Domain.Extensions
 @model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostViewModel>
 @{
-    ViewData["Title"] = Soort.InfrastructuurKost.GeefOmschrijving();
+    ViewData["Title"] = Soort.PersoneelsKost.GeefOmschrijving();
 }
 
 <div>
@@ -15,7 +15,7 @@
     </div>
 
     <p>
-        @Soort.InfrastructuurKost.GeefVraag()
+        @Soort.PersoneelsKost.GeefVraag()
     </p>
 
     <div id="data">

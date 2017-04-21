@@ -1,12 +1,12 @@
 ﻿namespace KairosWeb_Groep6.Models.Domain.Kosten
 {
-    public class InfrastructuurKost : KostOfBaat
+    public class PersoneelsKost : KostOfBaat
     {      
         #region Constructors
-        public InfrastructuurKost()
+        public PersoneelsKost()
         {
             Type = Type.Kost;
-            Soort = Soort.InfrastructuurKost;
+            Soort = Soort.PersoneelsKost;
         }
         #endregion
     }

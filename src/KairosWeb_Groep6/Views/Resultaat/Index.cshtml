@@ -148,11 +148,11 @@
                 </td>
 
                 <td class="col-md-2 text-center">
-                    @Model.Resultaten[Soort.InfrastructuurKost].ToString("C", new CultureInfo("nl-BE"))
+                    @Model.Resultaten[Soort.PersoneelsKost].ToString("C", new CultureInfo("nl-BE"))
                 </td>
                 <td class="col-md-4  text-right">
-                    <a asp-controller="Kosten" asp-action="InfrastructuurKosten">
-                        @Soort.InfrastructuurKost.GeefOmschrijving()
+                    <a asp-controller="Kosten" asp-action="PersoneelsKosten">
+                        @Soort.PersoneelsKost.GeefOmschrijving()
                     </a>
                 </td>
             </tr>

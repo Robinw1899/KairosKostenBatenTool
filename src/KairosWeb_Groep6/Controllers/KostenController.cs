@@ -35,9 +35,9 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", "GereedschapsKosten");
         }
 
-        public IActionResult InfrastructuurKosten()
+        public IActionResult PersoneelsKosten()
         {
-            return RedirectToAction("Index", "InfrastructuurKosten");
+            return RedirectToAction("Index", "PersoneelsKosten");
         }
 
         public IActionResult Loonkosten()

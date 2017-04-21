@@ -18,9 +18,7 @@ namespace KairosWeb_Groep6.Data
 
         public DbSet<Analyse> Analyses { get; set; }
 
-        public DbSet<Werkgever> Werkgevers { get; set; }
-
-        //public DbSet<ContactPersoon> ContactPersonen { get; set; }
+        public DbSet<Werkgever> Werkgevers { get; set; }        
 
         public DbSet<Introductietekst> Introteksten { get; set; }
 
@@ -135,7 +133,7 @@ namespace KairosWeb_Groep6.Data
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            a.HasMany(t => t.InfrastructuurKosten)
+            a.HasMany(t => t.PersoneelsKosten)
                 .WithOne()
                 .OnDelete(DeleteBehavior.Cascade);
 

@@ -11,7 +11,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 
         public bool VoorbereidingsKostenIngevuld { get; set; }
 
-        public bool InfrastructuurKostenIngevuld { get; set; }
+        public bool PersoneelsKostenIngevuld { get; set; }
 
         public bool GereedschapsKostenIngevuld { get; set; }
 
@@ -45,9 +45,9 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
                 VoorbereidingsKostenIngevuld = true;
             }
 
-            if (analyse.InfrastructuurKosten.Count != 0)
+            if (analyse.PersoneelsKosten.Count != 0)
             {
-                InfrastructuurKostenIngevuld = true;
+                PersoneelsKostenIngevuld = true;
             }
 
             if (analyse.GereedschapsKosten.Count != 0)
