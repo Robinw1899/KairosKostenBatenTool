@@ -1,8 +1,5 @@
-﻿
-using System;
-using KairosWeb_Groep6.Models;
+﻿using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
-using KairosWeb_Groep6.Models.Domain.Baten;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -267,9 +264,7 @@ namespace KairosWeb_Groep6.Data
 
             w.HasMany(t => t.Departementen)
                 .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         }
-       
-
     }
 }
