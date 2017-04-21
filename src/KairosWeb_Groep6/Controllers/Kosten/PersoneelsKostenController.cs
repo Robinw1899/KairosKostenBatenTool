@@ -14,11 +14,11 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
-    public class InfrastructuurKostenController : Controller
+    public class PersoneelsKostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
 
-        public InfrastructuurKostenController(IAnalyseRepository analyseRepository)
+        public PersoneelsKostenController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
@@ -46,7 +46,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             if (ModelState.IsValid)
             {
-                InfrastructuurKost kost = new InfrastructuurKost
+                PersoneelsKost kost = new PersoneelsKost
                 {
                     Type = model.Type,
                     Soort = model.Soort,
@@ -56,7 +56,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 try
                 {
-                    analyse.InfrastructuurKosten.Add(kost);
+                    analyse.PersoneelsKosten.Add(kost);
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
 
@@ -79,7 +79,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet bewerkt wordens
             try
             {
-                InfrastructuurKost kost = KostOfBaatExtensions.GetBy(analyse.InfrastructuurKosten, id);
+                PersoneelsKost kost = KostOfBaatExtensions.GetBy(analyse.PersoneelsKosten, id);
 
                 InfrastructuurKostViewModel model = new InfrastructuurKostViewModel();
 
@@ -108,7 +108,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             try
             {
-                InfrastructuurKost kost = KostOfBaatExtensions.GetBy(analyse.InfrastructuurKosten, model.Id);
+                PersoneelsKost kost = KostOfBaatExtensions.GetBy(analyse.PersoneelsKosten, model.Id);
 
                 if (ModelState.IsValid && kost != null)
                 {
@@ -140,11 +140,11 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet verwijderd worden
             try
             {
-                InfrastructuurKost kost = KostOfBaatExtensions.GetBy(analyse.InfrastructuurKosten, id);
+                PersoneelsKost kost = KostOfBaatExtensions.GetBy(analyse.PersoneelsKosten, id);
 
                 if (kost != null)
                 {
-                    analyse.InfrastructuurKosten.Remove(kost);
+                    analyse.PersoneelsKosten.Remove(kost);
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
                 }
@@ -162,19 +162,19 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         private IEnumerable<InfrastructuurKostViewModel> MaakModel(Analyse analyse)
         {
             return analyse
-                .InfrastructuurKosten
+                .PersoneelsKosten
                 .Select(m => new InfrastructuurKostViewModel(m))
                 .ToList();
         }
 
         private void PlaatsTotaalInViewData(Analyse analyse)
         {
-            if (analyse.InfrastructuurKosten.Count == 0)
+            if (analyse.PersoneelsKosten.Count == 0)
             {
                 ViewData["totaal"] = 0;
             }
 
-            decimal totaal = KostOfBaatExtensions.GeefTotaal(analyse.InfrastructuurKosten);
+            decimal totaal = KostOfBaatExtensions.GeefTotaal(analyse.PersoneelsKosten);
 
             ViewData["totaal"] = totaal.ToString("C", new CultureInfo("nl-BE"));
         }

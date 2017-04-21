@@ -6,7 +6,7 @@
         Loonkost,
         EnclaveKost,
         VoorbereidingsKost,
-        InfrastructuurKost,
+        PersoneelsKost,
         GereedschapsKost,
         OpleidingsKost,
         BegeleidingsKost,

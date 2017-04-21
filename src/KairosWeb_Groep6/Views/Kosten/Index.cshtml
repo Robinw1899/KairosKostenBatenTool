@@ -54,11 +54,11 @@
             </a>
         </li>
         <li>
-            <a asp-controller="Kosten" asp-action="InfrastructuurKosten"
+            <a asp-controller="Kosten" asp-action="PersoneelsKosten"
                data-toggle="tooltip" data-placement="bottom"
-               title="@Soort.InfrastructuurKost.GeefVraag()">
-                @Soort.InfrastructuurKost.GeefOmschrijving()
-                @if (Model.InfrastructuurKostenIngevuld)
+               title="@Soort.PersoneelsKost.GeefVraag()">
+                @Soort.PersoneelsKost.GeefOmschrijving()
+                @if (Model.PersoneelsKostenIngevuld)
                 {
                     <i class="fa fa-check-square-o fa-2x pull-right" aria-hidden="true"></i>
                 }
@@ -122,7 +122,7 @@
         </a>
     </div>
     <div class="col-xs-2 col-md-2 text-right">
-        <a asp-controller="Baten" asp-action="Index" class="btn btn-info">
+        <a asp-controller="Baten" asp-action="Index" class="btn btn-default">
             Baten <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </a>
     </div>

@@ -4,16 +4,16 @@ using Xunit;
 
 namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
 {
-    public class InfrastructuurKostTest
+    public class PersoneelsKostTest
     {
-        private InfrastructuurKost _infrastructuurKost;
+        private PersoneelsKost _infrastructuurKost;
 
         [Fact]
         public void TestConstructorSetsTypeEnSoort()
         {
-            _infrastructuurKost = new InfrastructuurKost();
+            _infrastructuurKost = new PersoneelsKost();
             Assert.Equal(Type.Kost, _infrastructuurKost.Type);
-            Assert.Equal(Soort.InfrastructuurKost, _infrastructuurKost.Soort);
+            Assert.Equal(Soort.PersoneelsKost, _infrastructuurKost.Soort);
         }
     }
 }

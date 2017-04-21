@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Kosten;
-using Newtonsoft.Json;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 
 namespace KairosWeb_Groep6.Models.Domain
@@ -37,7 +36,7 @@ namespace KairosWeb_Groep6.Models.Domain
         public List<VoorbereidingsKost> VoorbereidingsKosten { get; set; } = new List<VoorbereidingsKost>();
 
         
-        public List<InfrastructuurKost> InfrastructuurKosten { get; set; } = new List<InfrastructuurKost>();
+        public List<PersoneelsKost> PersoneelsKosten { get; set; } = new List<PersoneelsKost>();
 
         
         public List<GereedschapsKost> GereedschapsKosten { get; set; } = new List<GereedschapsKost>();
@@ -118,8 +117,8 @@ namespace KairosWeb_Groep6.Models.Domain
             resultaat.Add(Soort.VoorbereidingsKost, totaal);
 
             // Infrastructuurkosten
-            totaal = KostOfBaatExtensions.GeefTotaal(InfrastructuurKosten);
-            resultaat.Add(Soort.InfrastructuurKost, totaal);
+            totaal = KostOfBaatExtensions.GeefTotaal(PersoneelsKosten);
+            resultaat.Add(Soort.PersoneelsKost, totaal);
 
             // Gereedschapskosten
             totaal = KostOfBaatExtensions.GeefTotaal(GereedschapsKosten);

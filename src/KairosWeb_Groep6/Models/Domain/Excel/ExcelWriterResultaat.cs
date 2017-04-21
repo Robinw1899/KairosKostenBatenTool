@@ -29,7 +29,7 @@ namespace KairosWeb_Groep6.Models.Domain.Excel
                 {Soort.Loonkost, "F8" },
                 {Soort.EnclaveKost, "F9" },
                 {Soort.VoorbereidingsKost, "F10" },
-                {Soort.InfrastructuurKost, "F11" },
+                {Soort.PersoneelsKost, "F11" },
                 {Soort.GereedschapsKost, "F12" },
                 {Soort.OpleidingsKost, "F13" },
                 { Soort.BegeleidingsKost, "F14" },

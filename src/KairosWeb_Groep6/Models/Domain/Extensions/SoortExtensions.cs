@@ -13,7 +13,7 @@
                     return "Kost overname werk door maatwerkbedrijf via enclave of onderaanneming";
                 case Soort.VoorbereidingsKost:
                     return "Voorbereiding start medewerker met grote afstand tot de arbeidsmarkt";
-                case Soort.InfrastructuurKost:
+                case Soort.PersoneelsKost:
                     return "Extra kosten werkkleding e.a. personeelskosten";
                 case Soort.GereedschapsKost:
                     return "Extra kosten voor aanpassingen werkomgeving/aangepast gereedschap";
@@ -64,7 +64,7 @@
                     return "Hoeveel betaalt u als u werk laten uitvoeren door maatwerkbedrijf via enclave of onderaanneming?";
                 case Soort.VoorbereidingsKost:
                     return "Welke kosten moet u ter voorbereiding maken om dit te implementeren?";
-                case Soort.InfrastructuurKost:
+                case Soort.PersoneelsKost:
                     return "Welke extra kosten moet u structureel extra maken voor deze inhuur? (alleen kosten zoals werkkleding bij normale inhuur en bij reshoring alle kosten)";
                 case Soort.GereedschapsKost:
                     return "Welke kosten moet u structureel jaarlijks extra maken voor deze inhuur? (vul hier de gereedschapskosten ed in)";
