@@ -136,7 +136,7 @@ namespace KairosWeb_Groep6.Controllers
 
             TempData["message"] = "De werkgever is succesvol toegevoegd";
 
-            return RedirectToAction("Index", "Resultaat");
+            return RedirectToAction("Index", "Kosten");
         }
         #endregion
 
