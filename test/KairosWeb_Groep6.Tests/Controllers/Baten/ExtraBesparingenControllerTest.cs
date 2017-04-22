@@ -12,21 +12,21 @@ using Xunit;
 
 namespace KairosWeb_Groep6.Tests.Controllers.Baten
 {
-    class ExterneInkopenControllerTest
+    public class ExtraBesparingenControllerTest
     {
         #region Properties
-        private readonly ExterneInkopenController _controller;
+        private readonly ExtraBesparingenController _controller;
         private readonly Analyse _analyse;
         #endregion
 
         #region Constructors
-        public ExterneInkopenControllerTest()
+        public ExtraBesparingenControllerTest()
         {
             var dbContext = new DummyApplicationDbContext();
             var analyseRepo = new Mock<AnalyseRepository>();
 
-            _controller = new ExterneInkopenController(analyseRepo.Object);
-            _analyse = new Analyse { ExterneInkopen = dbContext.ExterneInkopen };
+            _controller = new ExtraBesparingenController(analyseRepo.Object);
+            _analyse = new Analyse { ExtraBesparingen = dbContext.ExtraBesparingen };
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
         }
@@ -37,8 +37,8 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         public void TestIndex_ShouldReturnUitzendKrachtBesparingViewModels()
         {
             var result = _controller.Index(_analyse) as ViewResult;
-            IEnumerable<ExterneInkoopViewModel> model =
-                result?.Model as IEnumerable<ExterneInkoopViewModel>;
+            IEnumerable<ExtraBesparingViewModel> model =
+                result?.Model as IEnumerable<ExtraBesparingViewModel>;
 
             Assert.Equal(3, model?.Count());
         }
@@ -59,7 +59,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         public void TestVoegToe_ModelError_RedirectsToIndex()
         {
             _controller.ModelState.AddModelError("", "Model error");
-            ExterneInkoopViewModel model = new ExterneInkoopViewModel();
+            ExtraBesparingViewModel model = new ExtraBesparingViewModel();
 
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
@@ -69,18 +69,19 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         [Fact]
         public void TestVoegToe_Succes_RedirectsToIndex()
         {
-            ExterneInkoopViewModel model = new ExterneInkoopViewModel()
+            ExtraBesparingViewModel model = new ExtraBesparingViewModel()
             {
                 Id = 1,
                 Type = Type.Kost,
-                Soort = Soort.ExterneInkoop,
+                Soort = Soort.ExtraBesparing,
                 Beschrijving = "inkoop papierwerk",
                 Bedrag = 2750
             };
+
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
-            Assert.Equal(4, _analyse.ExterneInkopen.Count);
+            Assert.Equal(4, _analyse.ExtraBesparingen.Count);
         }
         #endregion
 
@@ -108,7 +109,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         {
             _controller.ModelState.AddModelError("", "Model error");
 
-            ExterneInkoopViewModel model = new ExterneInkoopViewModel();
+            ExtraBesparingViewModel model = new ExtraBesparingViewModel();
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
@@ -117,11 +118,11 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         [Fact]
         public void TestBewerk_BaatNull_RedirectsToIndex()
         {
-            ExterneInkoopViewModel model = new ExterneInkoopViewModel()
+            ExtraBesparingViewModel model = new ExtraBesparingViewModel()
             {
                 Id = -1,
                 Type = Type.Kost,
-                Soort = Soort.ExterneInkoop,
+                Soort = Soort.ExtraBesparing,
                 Beschrijving = "test",
                 Bedrag = 2900
             };
@@ -134,18 +135,18 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         [Fact]
         public void TestBewerk_Succes_RedirectsToIndex()
         {
-            ExterneInkoopViewModel model = new ExterneInkoopViewModel()
+            ExtraBesparingViewModel model = new ExtraBesparingViewModel()
             {
                 Id = 1,
                 Type = Type.Kost,
-                Soort = Soort.ExterneInkoop,
+                Soort = Soort.ExtraBesparing,
                 Beschrijving = "test",
                 Bedrag = 2750
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
 
-            Assert.Equal("_Formulier", result?.ActionName);
+            Assert.Equal("Index", result?.ActionName);
         }
 
         #endregion
