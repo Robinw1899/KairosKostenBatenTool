@@ -297,17 +297,8 @@ namespace KairosWeb_Groep6.Controllers
         }
         [HttpPost]
         public IActionResult VoegContactPersoonToe(ContactPersoonViewModel cpViewModel)
-        {
-            
-           /* Werkgever werkgever = _werkgeverRepository.GetById(cpViewModel.WerkgeverId);
-            ContactPersoon cp = new ContactPersoon(cpViewModel.Voornaam, cpViewModel.Naam, cpViewModel.Email);
-          
-             werkgever.ContactPersonen.Add(cp);
-            _werkgeverRepository.Save();
-            _departementRepository.Save();*/
-
-            return RedirectToAction("VoegContactPersoonToe", "ContactPersoon",cpViewModel);
-          // return RedirectToAction("Index", "ContactPersoon");
+        {            
+            return RedirectToAction("VoegContactPersoonToe", "ContactPersoon",cpViewModel);         
         }
         #endregion
 
