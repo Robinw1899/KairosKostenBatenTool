@@ -53,6 +53,10 @@ namespace KairosWeb_Groep6.Tests.Data
 
         public ExtraOmzet ExtraOmzet { get; set; }
 
+        public ExtraProductiviteit ExtraProductiviteit { get; set; }
+
+        public OverurenBesparing OverurenBesparing { get; set; }
+
         public Departement Aldi { get; set; }
 
         public DummyApplicationDbContext()
@@ -82,6 +86,16 @@ namespace KairosWeb_Groep6.Tests.Data
             {
                 Besparing = 5,
                 JaarbedragOmzetverlies = 12000
+            };
+
+            ExtraProductiviteit = new ExtraProductiviteit
+            {
+                Bedrag = 6470
+            };
+
+            OverurenBesparing = new OverurenBesparing
+            {
+                Bedrag = 34570
             };
         }
 
