@@ -1,32 +1,34 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Controllers.Baten;
+using KairosWeb_Groep6.Controllers.Kosten;
 using KairosWeb_Groep6.Data.Repositories;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten;
+using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 using KairosWeb_Groep6.Tests.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using Xunit;
 
-namespace KairosWeb_Groep6.Tests.Controllers.Baten
+namespace KairosWeb_Groep6.Tests.Controllers.Kosten
 {
-    class ExterneInkopenControllerTest
+    class BegeleidingsKostenControllerTest
     {
         #region Properties
-        private readonly ExterneInkopenController _controller;
+        private readonly BegeleidingsKostenController _controller;
         private readonly Analyse _analyse;
         #endregion
 
         #region Constructors
-        public ExterneInkopenControllerTest()
+        public BegeleidingsKostenControllerTest()
         {
             var dbContext = new DummyApplicationDbContext();
             var analyseRepo = new Mock<AnalyseRepository>();
 
-            _controller = new ExterneInkopenController(analyseRepo.Object);
-            _analyse = new Analyse { ExterneInkopen = dbContext.ExterneInkopen };
+            _controller = new BegeleidingsKostenController(analyseRepo.Object);
+            _analyse = new Analyse { BegeleidingsKosten = dbContext.BegeleidingsKosten };
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
         }
@@ -37,8 +39,8 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         public void TestIndex_ShouldReturnUitzendKrachtBesparingViewModels()
         {
             var result = _controller.Index(_analyse) as ViewResult;
-            IEnumerable<ExterneInkoopViewModel> model =
-                result?.Model as IEnumerable<ExterneInkoopViewModel>;
+            IEnumerable<BegeleidingsKostViewModel> model =
+                result?.Model as IEnumerable<BegeleidingsKostViewModel>;
 
             Assert.Equal(3, model?.Count());
         }
@@ -59,7 +61,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         public void TestVoegToe_ModelError_RedirectsToIndex()
         {
             _controller.ModelState.AddModelError("", "Model error");
-            ExterneInkoopViewModel model = new ExterneInkoopViewModel();
+            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel();
 
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
@@ -69,18 +71,18 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         [Fact]
         public void TestVoegToe_Succes_RedirectsToIndex()
         {
-            ExterneInkoopViewModel model = new ExterneInkoopViewModel()
+            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel()
             {
                 Id = 1,
                 Type = Type.Kost,
                 Soort = Soort.ExterneInkoop,
-                Beschrijving = "inkoop papierwerk",
-                Bedrag = 2750
+                BrutoMaandloonBegeleider = 3240,
+                Uren = 30
             };
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
-            Assert.Equal(4, _analyse.ExterneInkopen.Count);
+            Assert.Equal(4, _analyse.BegeleidingsKosten.Count);
         }
         #endregion
 
@@ -108,7 +110,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         {
             _controller.ModelState.AddModelError("", "Model error");
 
-            ExterneInkoopViewModel model = new ExterneInkoopViewModel();
+            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel();
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
@@ -117,13 +119,13 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         [Fact]
         public void TestBewerk_BaatNull_RedirectsToIndex()
         {
-            ExterneInkoopViewModel model = new ExterneInkoopViewModel()
+            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel()
             {
                 Id = -1,
                 Type = Type.Kost,
                 Soort = Soort.ExterneInkoop,
-                Beschrijving = "test",
-                Bedrag = 2900
+                BrutoMaandloonBegeleider = 3240,
+                Uren = 30
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
@@ -134,13 +136,13 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         [Fact]
         public void TestBewerk_Succes_ReturnsPartialView()
         {
-            ExterneInkoopViewModel model = new ExterneInkoopViewModel()
+            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel()
             {
                 Id = 1,
                 Type = Type.Kost,
                 Soort = Soort.MedewerkersZelfdeNiveau,
-                Beschrijving = "test",
-                Bedrag = 2750
+                BrutoMaandloonBegeleider = 3240,
+                Uren = 30
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
