@@ -13,17 +13,17 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         [HiddenInput]
         public int WerkgeverId { get; set; }
 
-        [Display(Name = "Naam", Prompt = "Naam contactPersoon")]
+        [Display(Name = "Naam *", Prompt = "Naam contactPersoon")]
         [Required(ErrorMessage = "Gelieve het contactpersoon op te geven")]
         public string Naam { get; set; }
 
-        [Display(Name = "Voornaam", Prompt = "Voornaam contactpersoon")]
+        [Display(Name = "Voornaam *", Prompt = "Voornaam contactpersoon")]
         [Required(ErrorMessage = "Gelieve de naam van de contactpersoon op te geven")]
         public string Voornaam { get; set; }
 
         [Required(ErrorMessage = "Gelieve je emailadres in te vullen")]
         [DataType(DataType.EmailAddress, ErrorMessage = "Een e-mail moet een '@' bevatten en moet eindigen op iets zoals '.be' of '.com'")]
-        [Display(Name = "E-mailadres", Prompt = "E-mailades")]
+        [Display(Name = "E-mailadres *", Prompt = "E-mailades")]
         public string Email { get; set; }
 
         [Display(Name = "Is dit de hoofdcontactpersoon?")]
