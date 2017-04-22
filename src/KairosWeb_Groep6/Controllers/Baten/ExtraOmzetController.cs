@@ -59,30 +59,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
         }
         #endregion
 
-        #region Verwijder
-        public IActionResult Verwijder(Analyse analyse)
-        {
-            try
-            {
-                // Baat eruit halen
-                analyse.ExtraOmzet = null;
-
-                // Datum updaten
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-
-                // Opslaan
-                _analyseRepository.Save();
-                TempData["message"] = Meldingen.VerwijderSuccesvolBaat;
-            }
-            catch
-            {
-                TempData["error"] = Meldingen.VerwijderFoutmeldingBaat;
-            }
-
-            return RedirectToAction("Index");
-        }
-        #endregion
-
         #region Helpers
         private ExtraOmzetViewModel MaakModel(Analyse analyse)
         {
