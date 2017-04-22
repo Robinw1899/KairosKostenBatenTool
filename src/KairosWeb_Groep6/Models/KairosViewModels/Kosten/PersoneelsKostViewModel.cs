@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 {
-    public class InfrastructuurKostViewModel
+    public class PersoneelsKostViewModel
     {
         #region Properties
         [HiddenInput]
@@ -27,12 +27,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         #endregion
 
         #region Constructors
-        public InfrastructuurKostViewModel()
+        public PersoneelsKostViewModel()
         {
 
         }
 
-        public InfrastructuurKostViewModel(PersoneelsKost kost)
+        public PersoneelsKostViewModel(PersoneelsKost kost)
         {
             Id = kost.Id;
             Type = kost.Type;

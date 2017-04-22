@@ -263,8 +263,8 @@ namespace KairosWeb_Groep6.Tests.Data
             EnclaveKosten = new List<EnclaveKost>
             {
                 new EnclaveKost { Id = 1,  Beschrijving = "test1", Bedrag = 24000 },
-                new EnclaveKost { Id = 1,  Beschrijving = "test2", Bedrag = 24000 },
-                new EnclaveKost { Id = 1,  Beschrijving = "test3", Bedrag = 24000 }
+                new EnclaveKost { Id = 2,  Beschrijving = "test2", Bedrag = 24000 },
+                new EnclaveKost { Id = 3,  Beschrijving = "test3", Bedrag = 24000 }
             };
         }
         #endregion

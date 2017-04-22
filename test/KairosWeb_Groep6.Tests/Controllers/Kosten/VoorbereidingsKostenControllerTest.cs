@@ -12,21 +12,21 @@ using Xunit;
 
 namespace KairosWeb_Groep6.Tests.Controllers.Kosten
 {
-    public class BegeleidingsKostenControllerTest
+    public class VoorbereidingsKostenControllerTest
     {
         #region Properties
-        private readonly BegeleidingsKostenController _controller;
+        private readonly VoorbereidingsKostenController _controller;
         private readonly Analyse _analyse;
         #endregion
 
         #region Constructors
-        public BegeleidingsKostenControllerTest()
+        public VoorbereidingsKostenControllerTest()
         {
             var dbContext = new DummyApplicationDbContext();
             var analyseRepo = new Mock<AnalyseRepository>();
 
-            _controller = new BegeleidingsKostenController(analyseRepo.Object);
-            _analyse = new Analyse { BegeleidingsKosten = dbContext.BegeleidingsKosten };
+            _controller = new VoorbereidingsKostenController(analyseRepo.Object);
+            _analyse = new Analyse { VoorbereidingsKosten = dbContext.VoorbereidingsKosten };
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
         }
@@ -37,8 +37,8 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         public void TestIndex_ShouldReturnUitzendKrachtBesparingViewModels()
         {
             var result = _controller.Index(_analyse) as ViewResult;
-            IEnumerable<BegeleidingsKostViewModel> model =
-                result?.Model as IEnumerable<BegeleidingsKostViewModel>;
+            IEnumerable<VoorbereidingsKostViewModel> model =
+                result?.Model as IEnumerable<VoorbereidingsKostViewModel>;
 
             Assert.Equal(3, model?.Count());
         }
@@ -59,7 +59,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         public void TestVoegToe_ModelError_RedirectsToIndex()
         {
             _controller.ModelState.AddModelError("", "Model error");
-            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel();
+            VoorbereidingsKostViewModel model = new VoorbereidingsKostViewModel();
 
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
@@ -69,18 +69,18 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         [Fact]
         public void TestVoegToe_Succes_RedirectsToIndex()
         {
-            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel()
+            VoorbereidingsKostViewModel model = new VoorbereidingsKostViewModel
             {
                 Id = 1,
                 Type = Type.Kost,
-                Soort = Soort.BegeleidingsKost,
-                BrutoMaandloonBegeleider = 3240,
-                Uren = 30
+                Soort = Soort.VoorbereidingsKost,
+                Beschrijving = "test",
+                Bedrag = 9208
             };
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
-            Assert.Equal(4, _analyse.BegeleidingsKosten.Count);
+            Assert.Equal(4, _analyse.VoorbereidingsKosten.Count);
         }
         #endregion
 
@@ -108,7 +108,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         {
             _controller.ModelState.AddModelError("", "Model error");
 
-            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel();
+            VoorbereidingsKostViewModel model = new VoorbereidingsKostViewModel();
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
@@ -117,13 +117,13 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         [Fact]
         public void TestBewerk_KostNull_RedirectsToIndex()
         {
-            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel()
+            VoorbereidingsKostViewModel model = new VoorbereidingsKostViewModel
             {
                 Id = -1,
                 Type = Type.Kost,
-                Soort = Soort.BegeleidingsKost,
-                BrutoMaandloonBegeleider = 3240,
-                Uren = 30
+                Soort = Soort.VoorbereidingsKost,
+                Beschrijving = "test",
+                Bedrag = 9208
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
@@ -134,13 +134,13 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         [Fact]
         public void TestBewerk_Succes_RedirectsToIndex()
         {
-            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel()
+            VoorbereidingsKostViewModel model = new VoorbereidingsKostViewModel
             {
                 Id = 1,
                 Type = Type.Kost,
-                Soort = Soort.BegeleidingsKost,
-                BrutoMaandloonBegeleider = 3240,
-                Uren = 30
+                Soort = Soort.VoorbereidingsKost,
+                Beschrijving = "test",
+                Bedrag = 9208
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
