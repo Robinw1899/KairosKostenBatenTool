@@ -16,7 +16,7 @@ namespace KairosWeb_Groep6.Controllers
     {
         private readonly string outputDir = "temp\\";
         private readonly IAnalyseRepository _analyseRepository;
-        //private System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
+        
         public ResultaatController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;

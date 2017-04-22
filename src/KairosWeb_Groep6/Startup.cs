@@ -65,7 +65,7 @@ namespace KairosWeb_Groep6
                 {
                     options.ModelBindingMessageProvider
                         .ValueMustBeANumberAccessor = s => $"{s} mag enkel een getal bevatten. Let op: decimalen schrijf je met" +
-                                                           "een punt i.p.v. een komma!";
+                                                           " een punt i.p.v. een komma!";
                 });
             services.AddSession();
 
