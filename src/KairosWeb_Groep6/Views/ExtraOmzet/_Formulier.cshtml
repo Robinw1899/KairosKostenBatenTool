@@ -52,11 +52,7 @@
     <div class="row">
         <div class="col-md-12 text-center">
             <a asp-controller="Baten" asp-action="Index" class="btn btn-default">Annuleer</a>
-            @if (Model.JaarbedragOmzetverlies > 0 || Model.Besparing > 0)
-            {
-                <a asp-controller="ExtraOmzet" asp-action="Verwijder" class="btn btn-danger" style="margin-left: 15px"
-                   id="verwijder">Verwijder</a>
-            }
+           
             <button type="submit" class="btn btn-info" style="margin-left: 15px">Opslaan</button>
         </div>
     </div>
