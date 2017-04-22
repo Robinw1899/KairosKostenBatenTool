@@ -13,9 +13,6 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
     {
         #region Properties
         private readonly SubsidieController _controller;
-
-        private readonly Mock<IAnalyseRepository> _analyseRepo;
-
         private readonly Analyse _analyse;
         #endregion
 
@@ -24,8 +21,8 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         {
             DummyApplicationDbContext dbContext = new DummyApplicationDbContext();
 
-            _analyseRepo = new Mock<IAnalyseRepository>();
-            _controller = new SubsidieController(_analyseRepo.Object);
+            var analyseRepo = new Mock<IAnalyseRepository>();
+            _controller = new SubsidieController(analyseRepo.Object);
             _analyse = new Analyse
             {
                 Subsidie = dbContext.Subsidie

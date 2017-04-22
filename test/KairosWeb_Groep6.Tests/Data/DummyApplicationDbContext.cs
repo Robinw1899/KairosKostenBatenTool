@@ -7,6 +7,7 @@ namespace KairosWeb_Groep6.Tests.Data
 {
     public class DummyApplicationDbContext
     {
+        #region Jobcoaches - Organisatie
         public IEnumerable<Jobcoach> Gebruikers { get; set; }
 
         public Jobcoach Dimmy { get; set; }
@@ -18,7 +19,9 @@ namespace KairosWeb_Groep6.Tests.Data
         public Organisatie HoGent { get; set; }
 
         public Organisatie Colruyt { get; set; }
+        #endregion
 
+        #region Kosten
         public Loonkost Poetsvrouw { get; set; }
 
         public Loonkost Secretaresse { get; set; }
@@ -31,12 +34,6 @@ namespace KairosWeb_Groep6.Tests.Data
 
         public List<BegeleidingsKost> BegeleidingsKosten { get; set; }
 
-        public List<MedewerkerNiveauBaat> MedewerkerNiveauBaten { get; set; }
-
-        public List<UitzendKrachtBesparing> UitzendKrachtBesparingen { get; set; }
-
-        public List<ExterneInkoop> ExterneInkopen { get; set; }
-
         public List<OpleidingsKost> OpleidingsKosten { get; set; }
 
         public List<PersoneelsKost> PersoneelsKosten { get; set; }
@@ -46,6 +43,14 @@ namespace KairosWeb_Groep6.Tests.Data
         public List<VoorbereidingsKost> VoorbereidingsKosten { get; set; }
 
         public List<EnclaveKost> EnclaveKosten { get; set; }
+        #endregion
+
+        #region Baten
+        public List<MedewerkerNiveauBaat> MedewerkerNiveauBaten { get; set; }
+
+        public List<UitzendKrachtBesparing> UitzendKrachtBesparingen { get; set; }
+
+        public List<ExterneInkoop> ExterneInkopen { get; set; }
 
         public Subsidie Subsidie { get; set; }
 
@@ -57,30 +62,42 @@ namespace KairosWeb_Groep6.Tests.Data
 
         public OverurenBesparing OverurenBesparing { get; set; }
 
-        public Departement Aldi { get; set; }
+        public List<ExtraBesparing> ExtraBesparingen { get; set; }
+        #endregion
 
+        #region Departement
+        public Departement Aldi { get; set; }
+        #endregion
+
+        #region Constructor
         public DummyApplicationDbContext()
         {
+            /* ANDERE */
             Aldi = new Departement("Verkoop")
             {
                 Werkgever = new Werkgever("ALDI", "Arbeidstraat", 14, "", 9300, "Aalst", 37)
             };
 
             MaakOrganisaties();
-            MaakGebruikers();
-            MaakLoonkosten();
-            MaakExtraKosten();
-            MaakMedewerkerNiveauBaten();
-            MaakSubsidie();
-            MaakUitzendKrachtBesparingen();
-            MaakBegeleidingsKosten();
-            MaakLogistiekeBesparing();
-            MaakExterneInkopen();
+            MaakJobcoaches();
+
+            /* KOSTEN */
             MaakGereedschapsKosten();
             MaakInfrastructuurKosten();
             MaakVoorbereidingsKosten();
             MaakOpleidingsKosten();
             MaakEnclaveKosten();
+            MaakLoonkosten();
+            MaakExtraKosten();
+            MaakBegeleidingsKosten();
+
+            /* BATEN */
+            MaakMedewerkerNiveauBaten();
+            MaakSubsidie();
+            MaakUitzendKrachtBesparingen();
+            MaakLogistiekeBesparing();
+            MaakExterneInkopen();
+            MaakExtraBesparingen();
 
             ExtraOmzet = new ExtraOmzet
             {
@@ -98,14 +115,16 @@ namespace KairosWeb_Groep6.Tests.Data
                 Bedrag = 34570
             };
         }
+        #endregion
 
+        #region Methoden Jobcoach - Organisatie
         private void MaakOrganisaties()
         {
             HoGent = new Organisatie("HoGent", "Arbeidstraat", 10, "", 9300, "Aalst");
             Colruyt = new Organisatie("Colruyt", "Weggevoerdenstraat", 55, "", 9404, "Ninove");
         }
 
-        private void MaakGebruikers()
+        private void MaakJobcoaches()
         {
             Thomas = new Jobcoach("Aelbrecht", "Thomas", "thomas.aelbrecht@gmail.com", HoGent) { PersoonId = 1 };
             Robin = new Jobcoach("Coppens", "Robin", "robbin.coppens@gmail.com", HoGent) { PersoonId = 2 };
@@ -118,7 +137,9 @@ namespace KairosWeb_Groep6.Tests.Data
                 Dimmy
             };
         }
+        #endregion
 
+        #region Methoden kosten
         private void MaakLoonkosten()
         {
             Poetsvrouw = new Loonkost
@@ -172,6 +193,83 @@ namespace KairosWeb_Groep6.Tests.Data
             };
         }
 
+        private void MaakBegeleidingsKosten()
+        {
+            BegeleidingsKosten = new List<BegeleidingsKost>
+            {
+                new BegeleidingsKost
+                {
+                    Id = 1,
+                    Uren = 37,
+                    BrutoMaandloonBegeleider = 3400
+                },
+                new BegeleidingsKost
+                {
+                    Id = 2,
+                    Uren = 25,
+                    BrutoMaandloonBegeleider = 2500
+                },
+                new BegeleidingsKost
+                {
+                    Id = 3,
+                    Uren = 30,
+                    BrutoMaandloonBegeleider = 2870
+                }
+            };
+        }
+
+        private void MaakOpleidingsKosten()
+        {
+            OpleidingsKosten = new List<OpleidingsKost>
+            {
+                new OpleidingsKost {Id = 1, Beschrijving = "junior java programmer", Bedrag = 1200},
+                new OpleidingsKost {Id = 2, Beschrijving = "junior .Net programmer", Bedrag = 1000},
+                new OpleidingsKost {Id = 3, Beschrijving = "junior Database Administrator", Bedrag = 2500}
+            };
+        }
+
+        private void MaakInfrastructuurKosten()
+        {
+            PersoneelsKosten = new List<PersoneelsKost>
+            {
+                new PersoneelsKost { Id = 1, Beschrijving = "Toegankelijkheid rolstoel", Bedrag = 5200 },
+                new PersoneelsKost { Id = 2, Beschrijving = "Ergonomische bureaustoelen", Bedrag = 10000 },
+                new PersoneelsKost { Id = 3, Beschrijving = "test", Bedrag = 2000 }
+            };
+        }
+
+        private void MaakGereedschapsKosten()
+        {
+            GereedschapsKosten = new List<GereedschapsKost>
+            {
+                new GereedschapsKost { Id = 1, Beschrijving = "Overalls", Bedrag = 3000 },
+                new GereedschapsKost { Id = 2, Beschrijving = "Werkhandschoenen", Bedrag = 5300 },
+                new GereedschapsKost { Id = 3, Beschrijving = "Veiligheidsschoenen", Bedrag = 4000 }
+            };
+        }
+
+        private void MaakVoorbereidingsKosten()
+        {
+            VoorbereidingsKosten = new List<VoorbereidingsKost>
+            {
+                new VoorbereidingsKost { Id = 1, Beschrijving = "test1", Bedrag = 3500 },
+                new VoorbereidingsKost { Id = 2, Beschrijving = "test2", Bedrag = 8000 },
+                new VoorbereidingsKost { Id = 3, Beschrijving = "test3", Bedrag = 10000 }
+            };
+        }
+
+        public void MaakEnclaveKosten()
+        {
+            EnclaveKosten = new List<EnclaveKost>
+            {
+                new EnclaveKost { Id = 1,  Beschrijving = "test1", Bedrag = 24000 },
+                new EnclaveKost { Id = 1,  Beschrijving = "test2", Bedrag = 24000 },
+                new EnclaveKost { Id = 1,  Beschrijving = "test3", Bedrag = 24000 }
+            };
+        }
+        #endregion
+
+        #region Methoden baten
         private void MaakMedewerkerNiveauBaten()
         {
             MedewerkerNiveauBaten = new List<MedewerkerNiveauBaat>
@@ -257,31 +355,6 @@ namespace KairosWeb_Groep6.Tests.Data
             };
         }
 
-        private void MaakBegeleidingsKosten()
-        {
-            BegeleidingsKosten = new List<BegeleidingsKost>
-            {
-                new BegeleidingsKost
-                {
-                    Id = 1,
-                    Uren = 37,
-                    BrutoMaandloonBegeleider = 3400
-                },
-                new BegeleidingsKost
-                {
-                    Id = 2,
-                    Uren = 25,
-                    BrutoMaandloonBegeleider = 2500
-                },
-                new BegeleidingsKost
-                {
-                    Id = 3,
-                    Uren = 30,
-                    BrutoMaandloonBegeleider = 2870
-                }
-            };
-        }
-
         private void MaakLogistiekeBesparing()
         {
             LogistiekeBesparing = new LogistiekeBesparing
@@ -301,54 +374,15 @@ namespace KairosWeb_Groep6.Tests.Data
             };
         }
 
-        private void MaakOpleidingsKosten()
+        private void MaakExtraBesparingen()
         {
-            OpleidingsKosten = new List<OpleidingsKost>
+            ExtraBesparingen = new List<ExtraBesparing>
             {
-                new OpleidingsKost {Id = 1, Beschrijving = "junior java programmer", Bedrag = 1200},
-                new OpleidingsKost {Id = 2, Beschrijving = "junior .Net programmer", Bedrag = 1000},
-                new OpleidingsKost {Id = 3, Beschrijving = "junior Database Administrator", Bedrag = 2500}
+                new ExtraBesparing{ Id = 1, Beschrijving = "test1", Bedrag = 3458},
+                new ExtraBesparing{ Id = 2, Beschrijving = "test2", Bedrag = 1209},
+                new ExtraBesparing{ Id = 3, Beschrijving = "test3", Bedrag = 329}
             };
         }
-
-        private void MaakInfrastructuurKosten()
-        {
-            PersoneelsKosten = new List<PersoneelsKost>
-            {
-                new PersoneelsKost { Id = 1, Beschrijving = "Toegankelijkheid rolstoel", Bedrag = 5200 },
-                new PersoneelsKost { Id = 2, Beschrijving = "Ergonomische bureaustoelen", Bedrag = 10000 },
-                new PersoneelsKost { Id = 3, Beschrijving = "test", Bedrag = 2000 }
-            };
-        }
-
-        private void MaakGereedschapsKosten()
-        {
-            GereedschapsKosten = new List<GereedschapsKost>
-            {
-                new GereedschapsKost { Id = 1, Beschrijving = "Overalls", Bedrag = 3000 },
-                new GereedschapsKost { Id = 2, Beschrijving = "Werkhandschoenen", Bedrag = 5300 },
-                new GereedschapsKost { Id = 3, Beschrijving = "Veiligheidsschoenen", Bedrag = 4000 }
-            };
-        }
-
-        private void MaakVoorbereidingsKosten()
-        {
-            VoorbereidingsKosten = new List<VoorbereidingsKost>
-            {
-                new VoorbereidingsKost { Id = 1, Beschrijving = "test1", Bedrag = 3500 },
-                new VoorbereidingsKost { Id = 2, Beschrijving = "test2", Bedrag = 8000 },
-                new VoorbereidingsKost { Id = 3, Beschrijving = "test3", Bedrag = 10000 }
-            };
-        }
-
-        public void MaakEnclaveKosten()
-        {
-            EnclaveKosten = new List<EnclaveKost>
-            {
-                new EnclaveKost { Id = 1,  Beschrijving = "test1", Bedrag = 24000 },
-                new EnclaveKost { Id = 1,  Beschrijving = "test2", Bedrag = 24000 },
-                new EnclaveKost { Id = 1,  Beschrijving = "test3", Bedrag = 24000 }
-            };
-        }
+        #endregion
     }
 }

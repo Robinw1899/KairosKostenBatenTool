@@ -19,18 +19,16 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         #region Properties
         private readonly UitzendKrachtBesparingenController _controller;
         private readonly Analyse _analyse;
-        private readonly Mock<AnalyseRepository> _analyseRepo;
-        private readonly DummyApplicationDbContext _dbContext;
         #endregion
 
         #region Constructors
         public UitzendKrachtBesparingControllerTest()
         {
-            _dbContext = new DummyApplicationDbContext();
-            _analyseRepo = new Mock<AnalyseRepository>();
+            var dbContext = new DummyApplicationDbContext();
+            var analyseRepo = new Mock<AnalyseRepository>();
 
-            _controller = new UitzendKrachtBesparingenController(_analyseRepo.Object);
-            _analyse = new Analyse { UitzendKrachtBesparingen = _dbContext.UitzendKrachtBesparingen };
+            _controller = new UitzendKrachtBesparingenController(analyseRepo.Object);
+            _analyse = new Analyse { UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen };
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
         }
@@ -77,7 +75,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
             {
                 Id = 1,
                 Type = Type.Baat,
-                Soort = Soort.MedewerkersZelfdeNiveau,
+                Soort = Soort.UitzendkrachtBesparing,
                 Beschrijving = "Tuinier",
                 Bedrag = 2500
             };
@@ -126,7 +124,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
             {
                 Id = -1,
                 Type = Type.Baat,
-                Soort = Soort.MedewerkersZelfdeNiveau,
+                Soort = Soort.UitzendkrachtBesparing,
                 Beschrijving = "Tuinier",
                 Bedrag = 2500
             };
@@ -143,7 +141,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
             {
                 Id = 1,
                 Type = Type.Baat,
-                Soort = Soort.MedewerkersZelfdeNiveau,
+                Soort = Soort.UitzendkrachtBesparing,
                 Beschrijving = "Tuinier",
                 Bedrag = 2500
             };
