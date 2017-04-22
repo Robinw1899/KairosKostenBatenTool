@@ -39,22 +39,33 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
 
             IDictionary<Soort, decimal> expected = new Dictionary<Soort, decimal>
             {
-                { Soort.Loonkost, 57837.13M }, // In DummyDb
-                { Soort.ExtraKost, 1550.00M }, // In DummyDb
-                { Soort.BegeleidingsKost, 2437.11M }, // In DummyDb
-                { Soort.EnclaveKost, 0 },
-                { Soort.VoorbereidingsKost, 0 },
-                { Soort.InfrastructuurKost, 0 },
-                { Soort.GereedschapsKost, 0 },
-                { Soort.OpleidingsKost, 0 }                
+                { Soort.Loonkost, 80430.81M },
+                { Soort.ExtraKost, 1550M },
+                { Soort.BegeleidingsKost, 2437.11M }, 
+                { Soort.EnclaveKost, 72000M },
+                { Soort.VoorbereidingsKost, 21500M },
+                { Soort.PersoneelsKost, 17200M },
+                { Soort.GereedschapsKost, 12300M },
+                { Soort.OpleidingsKost, 4700M }                
             };
 
             _analyse = new Analyse
             {
                 Departement = dbContext.Aldi,
+
                 Loonkosten = dbContext.Loonkosten,
                 ExtraKosten = dbContext.ExtraKosten,
-                BegeleidingsKosten =  dbContext.BegeleidingsKosten
+                BegeleidingsKosten = dbContext.BegeleidingsKosten,
+                MedewerkersZelfdeNiveauBaat = dbContext.MedewerkerNiveauBaten,
+                UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen,
+                ExterneInkopen = dbContext.ExterneInkopen,
+                OpleidingsKosten = dbContext.OpleidingsKosten,
+                PersoneelsKosten = dbContext.PersoneelsKosten,
+                GereedschapsKosten = dbContext.GereedschapsKosten,
+                VoorbereidingsKosten = dbContext.VoorbereidingsKosten,
+                EnclaveKosten = dbContext.EnclaveKosten,
+                Subsidie = dbContext.Subsidie,
+                LogistiekeBesparing = dbContext.LogistiekeBesparing
             };
 
             IDictionary<Soort, decimal> totalen = _analyse.GeefTotalenKosten();
@@ -73,8 +84,6 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
         {
             _analyse = new Analyse();
             IDictionary<Soort, decimal> totalen = _analyse.GeefTotalenBaten();
-
-            ICollection<Soort> soorten = totalen.Keys;
 
             Assert.False(totalen.Any(t => t.Value > 0)); // er mag geen enkel totaal groter zijn dan 0
         }
@@ -97,24 +106,34 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
 
             IDictionary<Soort, decimal> expected = new Dictionary<Soort, decimal>
             {
-                { Soort.LoonkostSubsidies, 0},
+                { Soort.LoonkostSubsidies, 22593.68M},// In DummyDb
                 { Soort.MedewerkersZelfdeNiveau, 266516.27M }, // In DummyDb
                 { Soort.MedewerkersHogerNiveau, 0 }, 
                 { Soort.UitzendkrachtBesparing, 17570.00M }, // In DummyDb
                 { Soort.ExtraOmzet, 0 },
                 { Soort.ExtraProductiviteit, 0 },
                 { Soort.OverurenBesparing, 0 },
-                { Soort.ExterneInkoop, 0 },
+                { Soort.ExterneInkoop, 6500M },// In DummyDb
                 { Soort.Subsidie, 3500M }, // In DummyDb
-                { Soort.LogistiekeBesparing, 5000M },
+                { Soort.LogistiekeBesparing, 5000M },// In DummyDb
                 { Soort.ExtraBesparing, 0 }
             };
 
             _analyse = new Analyse
             {
                 Departement = dbContext.Aldi,
+
+                Loonkosten = dbContext.Loonkosten,
+                ExtraKosten = dbContext.ExtraKosten,
+                BegeleidingsKosten = dbContext.BegeleidingsKosten,
                 MedewerkersZelfdeNiveauBaat = dbContext.MedewerkerNiveauBaten,
                 UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen,
+                ExterneInkopen = dbContext.ExterneInkopen,
+                OpleidingsKosten = dbContext.OpleidingsKosten,
+                PersoneelsKosten = dbContext.PersoneelsKosten,
+                GereedschapsKosten = dbContext.GereedschapsKosten,
+                VoorbereidingsKosten = dbContext.VoorbereidingsKosten,
+                EnclaveKosten = dbContext.EnclaveKosten,
                 Subsidie = dbContext.Subsidie,
                 LogistiekeBesparing = dbContext.LogistiekeBesparing
             };

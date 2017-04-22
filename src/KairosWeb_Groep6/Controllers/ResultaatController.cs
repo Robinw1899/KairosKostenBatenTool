@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using KairosWeb_Groep6.Models.Domain.Excel;
 
 namespace KairosWeb_Groep6.Controllers
@@ -114,7 +113,7 @@ namespace KairosWeb_Groep6.Controllers
 
                 return File(fileBytes, "application/x-msdownload", fileName);
             }
-            catch
+            catch(Exception e)
             {
                 TempData["error"] =
                     "Er ging iets fout tijdens het samenstellen van het Excel-bestand, probeer later opnieuw";
@@ -192,8 +191,6 @@ namespace KairosWeb_Groep6.Controllers
                     TempData["error"] =
                         "Het is op dit moment niet mogelijk om mails te verzenden, probeer later opnieuw";
                 }
-
-                return RedirectToAction("Index");
             }
             catch
             {
