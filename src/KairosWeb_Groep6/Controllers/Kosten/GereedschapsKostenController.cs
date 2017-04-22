@@ -90,9 +90,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     model.Soort = kost.Soort;
                     model.Beschrijving = kost.Beschrijving;
                     model.Bedrag = kost.Bedrag;
-                }
 
-                return PartialView("_Formulier", model);
+                    return PartialView("_Formulier", model);
+                }
             }
             catch
             {
