@@ -60,8 +60,14 @@ namespace KairosWeb_Groep6.Controllers
             }
         }
         #endregion
-
-        #region VoegContactPersoonToe
+        #region Contactpersonen
+        public IActionResult VoegContactPersoonToe(int id)
+        {
+            ContactPersoonViewModel model = new ContactPersoonViewModel();
+            model.WerkgeverId = id;
+            return View(model);
+        }
+        [HttpPost]
         public IActionResult VoegContactPersoonToe(ContactPersoonViewModel cpViewModel)
         {
             Werkgever werkgever = _werkgeverRepository.GetById(cpViewModel.WerkgeverId);
@@ -74,5 +80,49 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", new { id = cpViewModel.WerkgeverId });
         }
         #endregion
+        
+
+        public IActionResult Verwijder(int id,int cpid)
+        {
+            try
+            {
+                Werkgever werkgever = _werkgeverRepository.GetById(id);
+                ContactPersoon cp = werkgever.ContactPersonen.Where(w => w.ContactPersoonId == cpid).SingleOrDefault();
+
+                werkgever.ContactPersonen.Remove(cp);
+                _werkgeverRepository.Save();
+
+            }
+            catch
+            {
+                TempData["error"] = "Er is een fout opgetreden bij het proberen verwijderen van de contact persoon";
+            }
+
+            return RedirectToAction("Index", new { id = id });
+
+        }
+
+
+        public IActionResult Bewerk(int id,int cpid)
+        {
+            ContactPersoonViewModel model;
+            try
+            {
+                Werkgever werkgever = _werkgeverRepository.GetById(id);
+
+                ContactPersoon cp = werkgever.ContactPersonen.Where(w => w.ContactPersoonId == cpid).SingleOrDefault();
+
+                 model = new ContactPersoonViewModel(cp, id);
+
+                return View(model);
+            }
+            catch
+            {
+                TempData["error"] = "Er is een fout opgetreden bij het proberen verwijderen van de contact persoon";
+            }
+
+            return RedirectToAction("Index", id);
+           
+        }
     }
 }

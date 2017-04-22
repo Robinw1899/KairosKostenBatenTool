@@ -288,19 +288,7 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
-        #region Contactpersonen
-        public IActionResult VoegContactPersoonToe(int id)
-        {     
-            ContactPersoonViewModel model = new ContactPersoonViewModel();
-            model.WerkgeverId = id;
-            return View(model);
-        }
-        [HttpPost]
-        public IActionResult VoegContactPersoonToe(ContactPersoonViewModel cpViewModel)
-        {            
-            return RedirectToAction("VoegContactPersoonToe", "ContactPersoon",cpViewModel);         
-        }
-        #endregion
+       
 
         #region Helpers
         private bool ControleerBestaandDepartement(Departement departement, Werkgever werkgever)

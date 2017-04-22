@@ -149,7 +149,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 TempData["error"] = Meldingen.VerwijderFoutmeldingKost;
             }
 
-            return RedirectToAction("Index"); ;
+            return RedirectToAction("Index");
         }
         #endregion
 
