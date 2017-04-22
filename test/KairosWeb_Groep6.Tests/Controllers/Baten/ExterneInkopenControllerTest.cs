@@ -132,7 +132,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         }
 
         [Fact]
-        public void TestBewerk_Succes_ReturnsPartialView()
+        public void TestBewerk_Succes_RedirectsToIndex()
         {
             ExterneInkoopViewModel model = new ExterneInkoopViewModel()
             {

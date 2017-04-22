@@ -133,7 +133,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         }
 
         [Fact]
-        public void TestBewerk_Succes_ReturnsPartialView()
+        public void TestBewerk_Succes_RedirectsToIndex()
         {
             ExtraBesparingViewModel model = new ExtraBesparingViewModel()
             {
@@ -146,7 +146,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
 
-            Assert.Equal("_Formulier", result?.ActionName);
+            Assert.Equal("Index", result?.ActionName);
         }
 
         #endregion
