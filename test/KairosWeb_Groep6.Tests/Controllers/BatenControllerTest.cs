@@ -32,7 +32,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 UitzendKrachtBesparingen =  dbContext.UitzendKrachtBesparingen,
                 ExterneInkopen = dbContext.ExterneInkopen,
                 OpleidingsKosten = dbContext.OpleidingsKosten,
-                InfrastructuurKosten = dbContext.InfrastructuurKosten,
+                PersoneelsKosten = dbContext.PersoneelsKosten,
                 GereedschapsKosten = dbContext.GereedschapsKosten,
                 VoorbereidingsKosten = dbContext.VoorbereidingsKosten,
                 EnclaveKosten = dbContext.EnclaveKosten,
@@ -42,8 +42,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
             var result = _controller.Index(analyse) as ViewResult;
             var model = result?.Model as BatenIndexViewModel;
-
-            Assert.Equal("Index", result?.ViewName);
+            
             Assert.Equal(model?.GetType(), result?.Model.GetType());
         }
 
@@ -95,9 +94,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestOverurenBesparingen_RedirectsToOverurenBesparingenController()
         {
-            var result = _controller.OverurenBesparingen() as RedirectToActionResult;
+            var result = _controller.OverurenBesparing() as RedirectToActionResult;
 
-            Assert.Equal("OverurenBesparingen", result?.ControllerName);
+            Assert.Equal("OverurenBesparing", result?.ControllerName);
             Assert.Equal("Index", result?.ActionName);
         }
 
@@ -113,9 +112,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestSubsidies_RedirectsToSubsidieController()
         {
-            var result = _controller.Subsidies() as RedirectToActionResult;
+            var result = _controller.Subsidie() as RedirectToActionResult;
 
-            Assert.Equal("Subsidies", result?.ControllerName);
+            Assert.Equal("Subsidie", result?.ControllerName);
             Assert.Equal("Index", result?.ActionName);
         }
 

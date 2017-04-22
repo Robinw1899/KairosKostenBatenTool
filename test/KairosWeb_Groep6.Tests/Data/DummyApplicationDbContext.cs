@@ -39,7 +39,7 @@ namespace KairosWeb_Groep6.Tests.Data
 
         public List<OpleidingsKost> OpleidingsKosten { get; set; }
 
-        public List<InfrastructuurKost> InfrastructuurKosten { get; set; }
+        public List<PersoneelsKost> PersoneelsKosten { get; set; }
 
         public List<GereedschapsKost> GereedschapsKosten { get; set; }
 
@@ -50,6 +50,8 @@ namespace KairosWeb_Groep6.Tests.Data
         public Subsidie Subsidie { get; set; }
 
         public LogistiekeBesparing LogistiekeBesparing { get; set; }
+
+        public ExtraOmzet ExtraOmzet { get; set; }
 
         public Departement Aldi { get; set; }
 
@@ -75,6 +77,12 @@ namespace KairosWeb_Groep6.Tests.Data
             MaakVoorbereidingsKosten();
             MaakOpleidingsKosten();
             MaakEnclaveKosten();
+
+            ExtraOmzet = new ExtraOmzet
+            {
+                Besparing = 5,
+                JaarbedragOmzetverlies = 12000
+            };
         }
 
         private void MaakOrganisaties()
@@ -291,11 +299,11 @@ namespace KairosWeb_Groep6.Tests.Data
 
         private void MaakInfrastructuurKosten()
         {
-            InfrastructuurKosten = new List<InfrastructuurKost>
+            PersoneelsKosten = new List<PersoneelsKost>
             {
-                new InfrastructuurKost { Id = 1, Beschrijving = "Toegankelijkheid rolstoel", Bedrag = 5200 },
-                new InfrastructuurKost { Id = 2, Beschrijving = "Ergonomische bureaustoelen", Bedrag = 10000 },
-                new InfrastructuurKost { Id = 3, Beschrijving = "test", Bedrag = 2000 }
+                new PersoneelsKost { Id = 1, Beschrijving = "Toegankelijkheid rolstoel", Bedrag = 5200 },
+                new PersoneelsKost { Id = 2, Beschrijving = "Ergonomische bureaustoelen", Bedrag = 10000 },
+                new PersoneelsKost { Id = 3, Beschrijving = "test", Bedrag = 2000 }
             };
         }
 
