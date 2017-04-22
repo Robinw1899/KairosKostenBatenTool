@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KairosWeb_Groep6.Controllers;
+﻿using KairosWeb_Groep6.Controllers;
+using KairosWeb_Groep6.Models.Domain;
+using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
+using KairosWeb_Groep6.Tests.Data;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
@@ -15,6 +14,37 @@ namespace KairosWeb_Groep6.Tests.Controllers
         public KostenControllerTest()
         {
             _controller = new KostenController();
+        }
+
+        [Fact]
+        public void TestIndex_ReturnsViewWithModel()
+        {
+            DummyApplicationDbContext dbContext = new DummyApplicationDbContext();
+
+            Analyse analyse = new Analyse
+            {
+                Departement = dbContext.Aldi,
+
+                Loonkosten = dbContext.Loonkosten,
+                ExtraKosten = dbContext.ExtraKosten,
+                BegeleidingsKosten = dbContext.BegeleidingsKosten,
+                MedewerkersZelfdeNiveauBaat = dbContext.MedewerkerNiveauBaten,
+                UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen,
+                ExterneInkopen = dbContext.ExterneInkopen,
+                OpleidingsKosten = dbContext.OpleidingsKosten,
+                InfrastructuurKosten = dbContext.InfrastructuurKosten,
+                GereedschapsKosten = dbContext.GereedschapsKosten,
+                VoorbereidingsKosten = dbContext.VoorbereidingsKosten,
+                EnclaveKosten = dbContext.EnclaveKosten,
+                Subsidie = dbContext.Subsidie,
+                LogistiekeBesparing = dbContext.LogistiekeBesparing
+            };
+
+            var result = _controller.Index(analyse) as ViewResult;
+            var model = result?.Model as KostenIndexViewModel;
+
+            Assert.Equal("Index", result?.ViewName);
+            Assert.Equal(model?.GetType(), result?.Model.GetType());
         }
 
         [Fact]
@@ -60,7 +90,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal("Index", result?.ActionName);
         }
         [Fact]
-        public void TestOpleidingsKosten_RedirectsToLoonKostenController()
+        public void TestOpleidingsKosten_RedirectsToOpleidingsKostenController()
         {
             var result = _controller.OpleidingsKosten() as RedirectToActionResult;
             Assert.Equal("OpleidingsKosten", result?.ControllerName);
