@@ -113,7 +113,7 @@ namespace KairosWeb_Groep6.Controllers
 
                 return File(fileBytes, "application/x-msdownload", fileName);
             }
-            catch(Exception e)
+            catch
             {
                 TempData["error"] =
                     "Er ging iets fout tijdens het samenstellen van het Excel-bestand, probeer later opnieuw";

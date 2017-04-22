@@ -9,7 +9,6 @@ using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
@@ -19,7 +18,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
     {
         private readonly IAnalyseRepository _analyseRepository;
 
-        public LoonkostenController(IAnalyseRepository analyseRepository, IJobcoachRepository jobcoachRepository)
+        public LoonkostenController(IAnalyseRepository analyseRepository)
         {
             _analyseRepository = analyseRepository;
         }
@@ -41,7 +40,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         }
 
         [HttpPost]
-        public IActionResult VoegToe(Analyse analyse, Jobcoach jobcoach, LoonkostViewModel model)
+        public IActionResult VoegToe(Analyse analyse, LoonkostViewModel model)
         {
             try
             {
