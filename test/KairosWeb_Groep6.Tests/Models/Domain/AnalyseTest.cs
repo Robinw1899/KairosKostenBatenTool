@@ -53,19 +53,15 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
             {
                 Departement = dbContext.Aldi,
 
+                /* KOSTEN */
                 Loonkosten = dbContext.Loonkosten,
                 ExtraKosten = dbContext.ExtraKosten,
                 BegeleidingsKosten = dbContext.BegeleidingsKosten,
-                MedewerkersZelfdeNiveauBaat = dbContext.MedewerkerNiveauBaten,
-                UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen,
-                ExterneInkopen = dbContext.ExterneInkopen,
                 OpleidingsKosten = dbContext.OpleidingsKosten,
                 PersoneelsKosten = dbContext.PersoneelsKosten,
                 GereedschapsKosten = dbContext.GereedschapsKosten,
                 VoorbereidingsKosten = dbContext.VoorbereidingsKosten,
-                EnclaveKosten = dbContext.EnclaveKosten,
-                Subsidie = dbContext.Subsidie,
-                LogistiekeBesparing = dbContext.LogistiekeBesparing
+                EnclaveKosten = dbContext.EnclaveKosten
             };
 
             IDictionary<Soort, decimal> totalen = _analyse.GeefTotalenKosten();
@@ -106,36 +102,44 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
 
             IDictionary<Soort, decimal> expected = new Dictionary<Soort, decimal>
             {
-                { Soort.LoonkostSubsidies, 22593.68M},// In DummyDb
-                { Soort.MedewerkersZelfdeNiveau, 266516.27M }, // In DummyDb
-                { Soort.MedewerkersHogerNiveau, 0 }, 
-                { Soort.UitzendkrachtBesparing, 17570.00M }, // In DummyDb
-                { Soort.ExtraOmzet, 0 },
-                { Soort.ExtraProductiviteit, 0 },
-                { Soort.OverurenBesparing, 0 },
-                { Soort.ExterneInkoop, 6500M },// In DummyDb
-                { Soort.Subsidie, 3500M }, // In DummyDb
-                { Soort.LogistiekeBesparing, 5000M },// In DummyDb
-                { Soort.ExtraBesparing, 0 }
+                { Soort.LoonkostSubsidies, 22593.68M},
+                { Soort.MedewerkersZelfdeNiveau, 266516.27M },
+                { Soort.MedewerkersHogerNiveau, 266516.27M }, 
+                { Soort.UitzendkrachtBesparing, 17570.00M },
+                { Soort.ExtraOmzet, 600M },
+                { Soort.ExtraProductiviteit, 6470M },
+                { Soort.OverurenBesparing, 34570M },
+                { Soort.ExterneInkoop, 6500M },
+                { Soort.Subsidie, 3500M },
+                { Soort.LogistiekeBesparing, 5000M },
+                { Soort.ExtraBesparing, 4996M }
             };
 
             _analyse = new Analyse
             {
                 Departement = dbContext.Aldi,
 
+                /* KOSTEN */
                 Loonkosten = dbContext.Loonkosten,
                 ExtraKosten = dbContext.ExtraKosten,
                 BegeleidingsKosten = dbContext.BegeleidingsKosten,
-                MedewerkersZelfdeNiveauBaat = dbContext.MedewerkerNiveauBaten,
-                UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen,
-                ExterneInkopen = dbContext.ExterneInkopen,
                 OpleidingsKosten = dbContext.OpleidingsKosten,
                 PersoneelsKosten = dbContext.PersoneelsKosten,
                 GereedschapsKosten = dbContext.GereedschapsKosten,
                 VoorbereidingsKosten = dbContext.VoorbereidingsKosten,
                 EnclaveKosten = dbContext.EnclaveKosten,
+
+                /* BATEN */
+                MedewerkersZelfdeNiveauBaat = dbContext.MedewerkerNiveauBaten,
+                MedewerkersHogerNiveauBaat = dbContext.MedewerkerNiveauBaten,
+                UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen,
+                ExterneInkopen = dbContext.ExterneInkopen,
+                ExtraOmzet = dbContext.ExtraOmzet,
+                ExtraProductiviteit = dbContext.ExtraProductiviteit,
+                OverurenBesparing = dbContext.OverurenBesparing,
                 Subsidie = dbContext.Subsidie,
-                LogistiekeBesparing = dbContext.LogistiekeBesparing
+                LogistiekeBesparing = dbContext.LogistiekeBesparing,
+                ExtraBesparingen = dbContext.ExtraBesparingen
             };
 
             IDictionary<Soort, decimal> totalen = _analyse.GeefTotalenBaten();
