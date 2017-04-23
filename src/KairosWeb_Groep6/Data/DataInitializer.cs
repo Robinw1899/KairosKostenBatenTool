@@ -232,7 +232,7 @@ namespace KairosWeb_Groep6.Data
                 Beschrijving = "Poetsvrouw",
                 BrutoMaandloonFulltime = 1800,
                 AantalUrenPerWeek = 37,
-                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Doelgroep = DoelgroepSoort.LaaggeschooldTot25,
                 Ondersteuningspremie = 20M,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -244,7 +244,7 @@ namespace KairosWeb_Groep6.Data
                 Beschrijving = "Secretaresse",
                 BrutoMaandloonFulltime = 2200,
                 AantalUrenPerWeek = 23,
-                Doelgroep = Doelgroep.MiddengeschooldTot25,
+                Doelgroep = DoelgroepSoort.MiddengeschooldTot25,
                 Ondersteuningspremie = 20M,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -256,7 +256,7 @@ namespace KairosWeb_Groep6.Data
                 Beschrijving = "Postbode",
                 BrutoMaandloonFulltime = 1900,
                 AantalUrenPerWeek = 35,
-                Doelgroep = Doelgroep.Tussen55En60,
+                Doelgroep = DoelgroepSoort.Tussen55En60,
                 Ondersteuningspremie = 20M,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M

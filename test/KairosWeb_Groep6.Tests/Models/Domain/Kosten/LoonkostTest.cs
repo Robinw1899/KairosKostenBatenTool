@@ -31,7 +31,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
-                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Doelgroep = DoelgroepSoort.LaaggeschooldTot25,
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -69,11 +69,11 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         }
 
         [Theory]
-        [InlineData(37, 1800, 37, Doelgroep.LaaggeschooldTot25, 2430.00)]
-        [InlineData(37, 2200, 23, Doelgroep.MiddengeschooldTot25, 1846.22)]
-        [InlineData(37, 1900, 35, Doelgroep.Tussen55En60, 2426.35)]
+        [InlineData(37, 1800, 37, DoelgroepSoort.LaaggeschooldTot25, 2430.00)]
+        [InlineData(37, 2200, 23, DoelgroepSoort.MiddengeschooldTot25, 1846.22)]
+        [InlineData(37, 1900, 35, DoelgroepSoort.Tussen55En60, 2426.35)]
         public void TestBerekenBrutoloonPerMaand_AlleGegevensIngevuld
-            (int werkuren, decimal brutoloon, int urenPerWeek, Doelgroep doelgroep, decimal expected)
+            (int werkuren, decimal brutoloon, int urenPerWeek, DoelgroepSoort doelgroep, decimal expected)
         {
             _aantalWerkuren = werkuren;
 
@@ -122,12 +122,12 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         }
 
         [Theory]
-        [InlineData(1800, 37, Doelgroep.LaaggeschooldTot25, 20, 408.50)]
-        [InlineData(2200, 23, Doelgroep.MiddengeschooldTot25, 30, 507.24)]
-        [InlineData(3540, 35, Doelgroep.Tussen55En60, 40, 1699.49)]
-        [InlineData(4300, 30, Doelgroep.Vanaf60, 0, 0)]
+        [InlineData(1800, 37, DoelgroepSoort.LaaggeschooldTot25, 20, 408.50)]
+        [InlineData(2200, 23, DoelgroepSoort.MiddengeschooldTot25, 30, 507.24)]
+        [InlineData(3540, 35, DoelgroepSoort.Tussen55En60, 40, 1699.49)]
+        [InlineData(4300, 30, DoelgroepSoort.Vanaf60, 0, 0)]
         public void TestBerekenGemiddeldeVOPPerMaand_AlleGegevensIngevuld
-            (decimal brutoloon, decimal urenPerWeerk, Doelgroep doelgroep, decimal VOP, decimal expected)
+            (decimal brutoloon, decimal urenPerWeerk, DoelgroepSoort doelgroep, decimal VOP, decimal expected)
         {
             _aantalWerkuren = 37;
 
@@ -155,7 +155,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
-                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Doelgroep = DoelgroepSoort.LaaggeschooldTot25,
                 Ondersteuningspremie = 20
             };
 
@@ -189,7 +189,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
-                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Doelgroep = DoelgroepSoort.LaaggeschooldTot25,
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M

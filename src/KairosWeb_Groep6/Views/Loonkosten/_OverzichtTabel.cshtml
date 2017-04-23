@@ -32,7 +32,7 @@
                 <td>@kost.Beschrijving</td> <!--Functie-->
                 <td>@kost.AantalUrenPerWeek.ToString("C", new CultureInfo("nl-BE"))</td>
                 <td>@kost.BrutoMaandloonFulltime.ToString("C", new CultureInfo("nl-BE"))</td>
-                <td>@(DoelgroepExtensions.GeefOmschrijving(kost.Doelgroep))</td>
+                <td>@(DoelgroepSoortExtensions.GeefOmschrijving(kost.Doelgroep))</td>
                 <td>@(kost.Ondersteuningspremie.ToString("F", new CultureInfo("nl-BE"))) %</td>
                 <td>@kost.AantalMaandenIBO</td>
                 <td>@(kost.IBOPremie.ToString("C", new CultureInfo("nl-BE")))</td>

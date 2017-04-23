@@ -47,7 +47,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         public decimal IBOPremie { get; set; }
 
         [Required(ErrorMessage = "Gelieve een doelgroep op te geven.")]
-        public Doelgroep? Doelgroep { get; set; }
+        public DoelgroepSoort? Doelgroep { get; set; }
 
         public decimal Bedrag { get; set; }
         #endregion

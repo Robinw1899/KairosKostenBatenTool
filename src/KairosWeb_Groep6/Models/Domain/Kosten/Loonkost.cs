@@ -24,7 +24,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
 
         public decimal IBOPremie { get; set; }
 
-        public Doelgroep? Doelgroep { get; set; }
+        public DoelgroepSoort? Doelgroep { get; set; }
 
         #endregion
 

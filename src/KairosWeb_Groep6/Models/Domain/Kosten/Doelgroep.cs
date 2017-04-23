@@ -1,22 +1,34 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using KairosWeb_Groep6.Models.Domain.Extensions;
 
 namespace KairosWeb_Groep6.Models.Domain.Kosten
 {
-    public enum Doelgroep
+    public class Doelgroep
     {
-        [Display(Name = "Wn's < 25 jaar laaggeschoold")]
-        LaaggeschooldTot25 = 1550,
+        #region Properties
+        public DoelgroepSoort Soort { get; set; }
 
-        [Display(Name = "Wn's < 25 jaar middengeschoold")]
-        MiddengeschooldTot25 = 1000,
+        // het minimum brutoloon dat hoort bij deze doelgroep, dit kan veranderen!
+        public decimal MinBrutoloon { get; set; }
+        #endregion
 
-        [Display(Name = "Wn's ≥ 55 en < 60 jaar")]
-        Tussen55En60 = 1150,
+        #region Constructors
+        public Doelgroep()
+        {
+            
+        }
 
-        [Display(Name = "Wns ≥ 60 jaar")]
-        Vanaf60 = 1500,
+        public Doelgroep(DoelgroepSoort soort, decimal minBrutoloon)
+        {
+            Soort = soort;
+            MinBrutoloon = minBrutoloon;
+        }
+        #endregion
 
-        [Display(Name = "Andere")]
-        Andere = 0
+        #region Methods
+        public override string ToString()
+        {
+            return DoelgroepSoortExtensions.GeefOmschrijving(Soort);
+        }
+        #endregion
     }
 }

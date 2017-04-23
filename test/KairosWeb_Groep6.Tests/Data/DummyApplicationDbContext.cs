@@ -147,7 +147,7 @@ namespace KairosWeb_Groep6.Tests.Data
                 Id = 1,
                 BrutoMaandloonFulltime = 1800,
                 AantalUrenPerWeek = 37,
-                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Doelgroep = DoelgroepSoort.LaaggeschooldTot25,
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -158,7 +158,7 @@ namespace KairosWeb_Groep6.Tests.Data
                 Id = 2,
                 BrutoMaandloonFulltime = 2200,
                 AantalUrenPerWeek = 23,
-                Doelgroep = Doelgroep.MiddengeschooldTot25,
+                Doelgroep = DoelgroepSoort.MiddengeschooldTot25,
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -169,7 +169,7 @@ namespace KairosWeb_Groep6.Tests.Data
                 Id = 3,
                 BrutoMaandloonFulltime = 1900,
                 AantalUrenPerWeek = 35,
-                Doelgroep = Doelgroep.Tussen55En60,
+                Doelgroep = DoelgroepSoort.Tussen55En60,
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M

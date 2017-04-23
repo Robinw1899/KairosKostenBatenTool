@@ -3,9 +3,9 @@ using KairosWeb_Groep6.Models.Domain.Kosten;
 
 namespace KairosWeb_Groep6.Models.Domain.Extensions
 {
-    public static class DoelgroepExtensions
+    public static class DoelgroepSoortExtensions
     {
-        public static decimal BerekenDoelgroepVermindering(this Doelgroep doelgroep, decimal brutoloon,
+        public static decimal BerekenDoelgroepVermindering(this DoelgroepSoort doelgroep, decimal brutoloon,
                                                         decimal aantalUrenPerWeek, decimal aantalWerkuren, decimal patronaleBijdrage)
         {
             ControleerGegevensOntbreken(brutoloon, aantalUrenPerWeek, aantalWerkuren, patronaleBijdrage);
@@ -47,18 +47,18 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
             }
         }
 
-        public static decimal GetMinBrutoLoon(Doelgroep doelgroep)
+        public static decimal GetMinBrutoLoon(DoelgroepSoort doelgroep)
         {
             decimal minBrutoloon = 0;
 
             switch (doelgroep)
             {
-                case Doelgroep.LaaggeschooldTot25:
-                case Doelgroep.MiddengeschooldTot25:
+                case DoelgroepSoort.LaaggeschooldTot25:
+                case DoelgroepSoort.MiddengeschooldTot25:
                     minBrutoloon = 2500;
                     break;
-                case Doelgroep.Tussen55En60:
-                case Doelgroep.Vanaf60:
+                case DoelgroepSoort.Tussen55En60:
+                case DoelgroepSoort.Vanaf60:
                     minBrutoloon = 4466.66M;
                     break;
             }
@@ -66,19 +66,19 @@ namespace KairosWeb_Groep6.Models.Domain.Extensions
             return minBrutoloon;
         }
 
-        public static string GeefOmschrijving(Doelgroep? doelgroep)
+        public static string GeefOmschrijving(DoelgroepSoort? doelgroep)
         {
             switch (doelgroep)
             {
-                case Doelgroep.LaaggeschooldTot25:
+                case DoelgroepSoort.LaaggeschooldTot25:
                     return "Wn's < 25 jaar laaggeschoold";
-                case Doelgroep.MiddengeschooldTot25:
+                case DoelgroepSoort.MiddengeschooldTot25:
                     return "Wn's < 25 jaar middengeschoold";
-                case Doelgroep.Tussen55En60:
+                case DoelgroepSoort.Tussen55En60:
                     return "Wn's ≥ 55 en < 60 jaar";
-                case Doelgroep.Vanaf60:
+                case DoelgroepSoort.Vanaf60:
                     return "Wns ≥ 60 jaar";
-                case Doelgroep.Andere:
+                case DoelgroepSoort.Andere:
                     return "Andere";
                 default:
                     return "";
