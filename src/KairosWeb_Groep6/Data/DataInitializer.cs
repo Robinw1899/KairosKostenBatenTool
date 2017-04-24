@@ -17,6 +17,7 @@ namespace KairosWeb_Groep6.Data
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IWerkgeverRepository _werkgeverRepository;
         private readonly IIntroductietekstRepository _introductietekstRepository;
+        private readonly IDoelgroepRepository _doelgroepRepository;
 
         public DataInitializer(
             ApplicationDbContext dbContext,
@@ -25,7 +26,8 @@ namespace KairosWeb_Groep6.Data
             IDepartementRepository departementRepository,
             IAnalyseRepository analyseRepository,
             IWerkgeverRepository werkgeverRepository,
-            IIntroductietekstRepository introductietekstRepository)
+            IIntroductietekstRepository introductietekstRepository,
+            IDoelgroepRepository doelgroepRepository)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -34,6 +36,7 @@ namespace KairosWeb_Groep6.Data
             _analyseRepository = analyseRepository;
             _werkgeverRepository = werkgeverRepository;
             _introductietekstRepository = introductietekstRepository;
+            _doelgroepRepository = doelgroepRepository;
         }
 
         public async Task InitializeData()
@@ -114,8 +117,31 @@ namespace KairosWeb_Groep6.Data
 
                 thomas.Analyses.Add(analyse);
                 _gebruikerRepository.Save();
+
+                // Doelgroepen aanmaken
+                InitializeDoelgroepen();
             }
             _dbContext.SaveChanges();
+        }
+
+        private void InitializeDoelgroepen()
+        {
+            Doelgroep doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M);
+            _doelgroepRepository.Add(doelgroep);
+
+            doelgroep = new Doelgroep(DoelgroepSoort.MiddengeschooldTot25, 2500M, 1000M);
+            _doelgroepRepository.Add(doelgroep);
+
+            doelgroep = new Doelgroep(DoelgroepSoort.Tussen55En60, 4466.66M, 1150M);
+            _doelgroepRepository.Add(doelgroep);
+
+            doelgroep = new Doelgroep(DoelgroepSoort.Vanaf60, 4466.66M, 1500M);
+            _doelgroepRepository.Add(doelgroep);
+
+            doelgroep = new Doelgroep(DoelgroepSoort.Andere, 0M, 0M);
+            _doelgroepRepository.Add(doelgroep);
+
+            _doelgroepRepository.Save();
         }
 
         private void InitializeIntrotekst()
