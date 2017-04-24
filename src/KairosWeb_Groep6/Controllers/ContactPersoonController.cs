@@ -50,13 +50,13 @@ namespace KairosWeb_Groep6.Controllers
                 else
                 {
                     TempData["error"] = "Er is nog geen contactpersoon, voeg hier eventueel een contactpersoon toe";
-                    return RedirectToAction("VoegContactPersoonToe", "Werkgever");
+                    return RedirectToAction("VoegContactPersoonToe", "ContactPersoon");
                 }
             }
             catch
             {
                 TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
-                return RedirectToAction("VoegContactPersoonToe", "Werkgever");
+                return RedirectToAction("VoegContactPersoonToe", "ContactPersoon");
             }
         }
         #endregion
@@ -73,6 +73,7 @@ namespace KairosWeb_Groep6.Controllers
             Werkgever werkgever = _werkgeverRepository.GetById(cpViewModel.WerkgeverId);
             ContactPersoon cp = new ContactPersoon(cpViewModel.Voornaam, cpViewModel.Naam, cpViewModel.Email);
 
+            // controle op een reeds bestaand contactpersoon?
             werkgever.ContactPersonen.Add(cp);
             _werkgeverRepository.Save();
             _departementRepository.Save();
@@ -95,7 +96,7 @@ namespace KairosWeb_Groep6.Controllers
             }
             catch
             {
-                TempData["error"] = "Er is een fout opgetreden bij het proberen verwijderen van de contact persoon";
+                TempData["error"] = "Er is een fout opgetreden bij het proberen verwijderen van de contactpersoon";
             }
 
             return RedirectToAction("Index", new { id = id });
@@ -123,6 +124,27 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction("Index", id);
            
+        }
+        [HttpPost]
+        public IActionResult Bewerk(ContactPersoonViewModel cpViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Werkgever werkgever = _werkgeverRepository.GetById(cpViewModel.WerkgeverId);
+                ContactPersoon cp = werkgever.ContactPersonen.Where(w => w.ContactPersoonId == cpViewModel.PersoonId).FirstOrDefault();
+          
+                //controle op een reeds bestaand contacctpersoon
+                cp.Naam = cpViewModel.Naam;
+                cp.Voornaam = cpViewModel.Voornaam;
+                cp.Emailadres = cpViewModel.Email;
+
+                TempData["message"] = "De contactpersoon " + cpViewModel.Voornaam + " " + cpViewModel.Naam + " is succesvol aangepast";
+                return RedirectToAction("Index","ContactPersoon", new { id = cpViewModel.WerkgeverId });
+            }
+
+            TempData["error"] = "Er is een fout opgetreden bij het aanpassen van de contactpersoon";
+            return View(cpViewModel);          
+
         }
     }
 }
