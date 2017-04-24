@@ -9,7 +9,7 @@
         public decimal MinBrutoloon { get; set; }
 
         // de doelgroepvermindering die hoort bij deze doelgroep, dit kan veranderen!
-        public decimal DoelgroepVermindering { get; set; }
+        public decimal StandaardDoelgroepVermindering { get; set; }
         #endregion
 
         #region Constructors
@@ -18,10 +18,11 @@
             
         }
 
-        public Doelgroep(DoelgroepSoort soort, decimal minBrutoloon)
+        public Doelgroep(DoelgroepSoort soort, decimal minBrutoloon, decimal standaardDoelgroepVermindering)
         {
             Soort = soort;
             MinBrutoloon = minBrutoloon;
+            StandaardDoelgroepVermindering = standaardDoelgroepVermindering;
         }
         #endregion
 
@@ -53,7 +54,7 @@
                 return false;
             }
 
-            if (DoelgroepVermindering <= 0)
+            if (StandaardDoelgroepVermindering <= 0)
             {
                 return false;
             }
@@ -66,6 +67,11 @@
         public decimal BerekenDoelgroepVermindering(decimal brutoloon, decimal aantalUrenPerWeek, 
             decimal aantalWerkuren, decimal patronaleBijdrage)
         {
+            if (Soort == DoelgroepSoort.Andere)
+            {// andere is steeds 0
+                return 0;
+            }
+
             if (ControleerGegevensOntbreken(brutoloon, aantalUrenPerWeek, aantalWerkuren, patronaleBijdrage))
             {
                 // ALS bruto maandloon < minBrutoloon:
@@ -74,7 +80,7 @@
 
                 if (brutoloon < MinBrutoloon)
                 {
-                    decimal verminderingPerUurWerkweek = DoelgroepVermindering / aantalWerkuren;
+                    decimal verminderingPerUurWerkweek = StandaardDoelgroepVermindering / aantalWerkuren;
                     doelgroepvermindering = (verminderingPerUurWerkweek * aantalUrenPerWeek) / 4;
                 }
 
