@@ -15,7 +15,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         {
             // brutoloon, MinBrutoloon en StandaardDoelgroepVermindering ontbreken
             doelgroep = new Doelgroep {Soort = DoelgroepSoort.LaaggeschooldTot25};
-            Assert.Throws<InvalidOperationException>(() => doelgroep.BerekenDoelgroepVermindering(0, 30, 23, 35));
+            Assert.Equal(0, doelgroep.BerekenDoelgroepVermindering(0, 30, 23, 35));
         }
         #endregion
 
