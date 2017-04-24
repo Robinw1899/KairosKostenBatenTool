@@ -88,7 +88,7 @@ namespace KairosWeb_Groep6
             ILoggerFactory loggerFactory, ApplicationDbContext context, 
             UserManager<ApplicationUser> userManager, IJobcoachRepository gebruikerRepository,
             IDepartementRepository departementRepository, IAnalyseRepository analyseRepository, IWerkgeverRepository werkgeverRepository,
-            IIntroductietekstRepository introductietekstRepository)
+            IIntroductietekstRepository introductietekstRepository, IDoelgroepRepository doelgroepRepository)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -123,7 +123,7 @@ namespace KairosWeb_Groep6
 
             DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
                                                               departementRepository, analyseRepository, werkgeverRepository,
-                                                             introductietekstRepository);
+                                                             introductietekstRepository, doelgroepRepository);
             initializer.InitializeData().Wait();
         }
 
