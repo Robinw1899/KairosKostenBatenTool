@@ -50,23 +50,30 @@ namespace KairosWeb_Groep6.Controllers
                 else
                 {
                     TempData["error"] = "Er is nog geen contactpersoon, voeg hier eventueel een contactpersoon toe";
-                    return RedirectToAction("VoegContactPersoonToe", "Werkgever");
+                    return RedirectToAction("VoegContactPersoonToe", "ContactPersoon");
                 }
             }
             catch
             {
                 TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
-                return RedirectToAction("VoegContactPersoonToe", "Werkgever");
+                return RedirectToAction("VoegContactPersoonToe", "ContactPersoon");
             }
         }
         #endregion
-
-        #region VoegContactPersoonToe
+        #region Contactpersonen
+        public IActionResult VoegContactPersoonToe(int id)
+        {
+            ContactPersoonViewModel model = new ContactPersoonViewModel();
+            model.WerkgeverId = id;
+            return View(model);
+        }
+        [HttpPost]
         public IActionResult VoegContactPersoonToe(ContactPersoonViewModel cpViewModel)
         {
             Werkgever werkgever = _werkgeverRepository.GetById(cpViewModel.WerkgeverId);
             ContactPersoon cp = new ContactPersoon(cpViewModel.Voornaam, cpViewModel.Naam, cpViewModel.Email);
 
+            // controle op een reeds bestaand contactpersoon?
             werkgever.ContactPersonen.Add(cp);
             _werkgeverRepository.Save();
             _departementRepository.Save();
@@ -74,5 +81,70 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", new { id = cpViewModel.WerkgeverId });
         }
         #endregion
+        
+
+        public IActionResult Verwijder(int id,int cpid)
+        {
+            try
+            {
+                Werkgever werkgever = _werkgeverRepository.GetById(id);
+                ContactPersoon cp = werkgever.ContactPersonen.Where(w => w.ContactPersoonId == cpid).SingleOrDefault();
+
+                werkgever.ContactPersonen.Remove(cp);
+                _werkgeverRepository.Save();
+
+            }
+            catch
+            {
+                TempData["error"] = "Er is een fout opgetreden bij het proberen verwijderen van de contactpersoon";
+            }
+
+            return RedirectToAction("Index", new { id = id });
+
+        }
+
+
+        public IActionResult Bewerk(int id,int cpid)
+        {
+            ContactPersoonViewModel model;
+            try
+            {
+                Werkgever werkgever = _werkgeverRepository.GetById(id);
+
+                ContactPersoon cp = werkgever.ContactPersonen.Where(w => w.ContactPersoonId == cpid).SingleOrDefault();
+
+                 model = new ContactPersoonViewModel(cp, id);
+
+                return View(model);
+            }
+            catch
+            {
+                TempData["error"] = "Er is een fout opgetreden bij het proberen verwijderen van de contact persoon";
+            }
+
+            return RedirectToAction("Index", id);
+           
+        }
+        [HttpPost]
+        public IActionResult Bewerk(ContactPersoonViewModel cpViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Werkgever werkgever = _werkgeverRepository.GetById(cpViewModel.WerkgeverId);
+                ContactPersoon cp = werkgever.ContactPersonen.Where(w => w.ContactPersoonId == cpViewModel.PersoonId).FirstOrDefault();
+          
+                //controle op een reeds bestaand contacctpersoon
+                cp.Naam = cpViewModel.Naam;
+                cp.Voornaam = cpViewModel.Voornaam;
+                cp.Emailadres = cpViewModel.Email;
+
+                TempData["message"] = "De contactpersoon " + cpViewModel.Voornaam + " " + cpViewModel.Naam + " is succesvol aangepast";
+                return RedirectToAction("Index","ContactPersoon", new { id = cpViewModel.WerkgeverId });
+            }
+
+            TempData["error"] = "Er is een fout opgetreden bij het aanpassen van de contactpersoon";
+            return View(cpViewModel);          
+
+        }
     }
 }
