@@ -90,7 +90,7 @@
             return 0;
         }
 
-        public override string ToString()
+        public string GeefOmschrijving()
         {
             switch (Soort)
             {

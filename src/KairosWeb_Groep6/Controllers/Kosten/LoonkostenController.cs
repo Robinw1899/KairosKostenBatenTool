@@ -9,6 +9,7 @@ using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
@@ -17,10 +18,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
     public class LoonkostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
+        private readonly IDoelgroepRepository _doelgroepRepository;
 
-        public LoonkostenController(IAnalyseRepository analyseRepository)
+        public LoonkostenController(IAnalyseRepository analyseRepository,
+            IDoelgroepRepository doelgroepRepository)
         {
             _analyseRepository = analyseRepository;
+            _doelgroepRepository = doelgroepRepository;
         }
 
         #region Index
@@ -51,7 +55,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                         Beschrijving = model.Beschrijving,
                         AantalUrenPerWeek = model.AantalUrenPerWeek,
                         BrutoMaandloonFulltime = model.BrutoMaandloonFulltime,
-                        Doelgroep = model.Doelgroep,
+                        Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(model.DoelgroepSoort),
                         Ondersteuningspremie = model.Ondersteuningspremie,
                         AantalMaandenIBO = model.AantalMaandenIBO,
                         IBOPremie = model.IBOPremie
@@ -80,19 +84,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, id);
 
-                LoonkostViewModel model = new LoonkostViewModel();
-
                 if (kost != null)
                 {
-                    // parameters voor formulier instellen
-                    model.Id = id;
-                    model.Beschrijving = kost.Beschrijving;
-                    model.AantalUrenPerWeek = kost.AantalUrenPerWeek;
-                    model.BrutoMaandloonFulltime = kost.BrutoMaandloonFulltime;
-                    model.Doelgroep = kost.Doelgroep;
-                    model.Ondersteuningspremie = kost.Ondersteuningspremie;
-                    model.AantalMaandenIBO = kost.AantalMaandenIBO;
-                    model.IBOPremie = kost.IBOPremie;
+                    LoonkostViewModel model = new LoonkostViewModel(kost);
 
                     return PartialView("_Formulier", model);
                 }
@@ -118,7 +112,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     kost.Beschrijving = model.Beschrijving;
                     kost.AantalUrenPerWeek = model.AantalUrenPerWeek;
                     kost.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
-                    kost.Doelgroep = model.Doelgroep;
+                    kost.Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(model.DoelgroepSoort);
                     kost.Ondersteuningspremie = model.Ondersteuningspremie;
                     kost.AantalMaandenIBO = model.AantalMaandenIBO;
                     kost.IBOPremie = model.IBOPremie;

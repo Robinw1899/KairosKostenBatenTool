@@ -34,7 +34,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 
         [Required(ErrorMessage = "Gelieve de ondersteuningspremie in te vullen.")]
         [Display(Name = "% Vlaamse ondersteuningspremie")]
-        public decimal Ondersteuningspremie { get; set; }
+        public int Ondersteuningspremie { get; set; }
 
         [Display(Name = "Aantal maanden IBO", Prompt = "Aantal maanden IBO")]
         [Required(ErrorMessage = "Gelieve het aantal maanden IBO in te vullen.")]
@@ -47,6 +47,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         public decimal IBOPremie { get; set; }
 
         [Required(ErrorMessage = "Gelieve een doelgroep op te geven.")]
+        public DoelgroepSoort DoelgroepSoort { get; set; }
+
         public Doelgroep Doelgroep { get; set; }
 
         public decimal Bedrag { get; set; }
@@ -65,10 +67,15 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
             Beschrijving = loon.Beschrijving;
             Bedrag = loon.Bedrag;
             BrutoMaandloonFulltime = loon.BrutoMaandloonFulltime;
-            Ondersteuningspremie = loon.Ondersteuningspremie;
+            Ondersteuningspremie = (int) loon.Ondersteuningspremie;
             AantalMaandenIBO = loon.AantalMaandenIBO;
             IBOPremie = loon.IBOPremie;
+            
             Doelgroep = loon.Doelgroep;
+            if (loon.Doelgroep != null)
+            {
+                DoelgroepSoort = loon.Doelgroep.Soort;
+            }
         }
         #endregion
     }
