@@ -15,7 +15,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="" asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right navRechtsIpad">
             <li class="desktop">
                 <a asp-area="" asp-controller="Profiel" asp-action="Index" 
                    data-toggle="tooltip" data-placement="bottom"
@@ -38,7 +38,7 @@
                 </a>
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link"
+                <button type="submit" class="btn btn-link navbar-btn navbar-link tablet"
                         data-toggle="tooltip" data-placement="bottom"
                         title="Meld je af van de applicatie">
                     <i class="fa fa-power-off fa-2x" aria-hidden="true"></i>

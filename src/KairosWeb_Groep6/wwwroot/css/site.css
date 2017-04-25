@@ -74,7 +74,7 @@ a.navbar-brand {
     max-width: 100px;
 }
 
-/* De introductietekst op de loginpagina wat opmakens */
+/* De introductietekst op de loginpagina wat opmaken */
 .intro {
     display: none;
     background-color: #FFFFFF;
@@ -267,4 +267,37 @@ h6#infoTekstVerplichteVelden {
     .desktop {
         display: inline !important;
     }
+    
+}
+/*formaat van Ipdad (tablet)*/
+@media only screen and (max-width: 1024px){
+    body{
+        padding-top:25px;
+        padding-bottom: 0px !important;/*de rand onderaan wordt hierdoor weggedaan*/
+    }
+    /*zorgt ervoor dat er geen rand is*/
+    .body-content {
+        min-width: 100%;
+        padding-top: 25px;
+        min-height:100vh;/*neemt de volledige lengte van de pagina in*/
+    }
+    li.desktop{
+        display:none;
+    }
+    .mobile{
+        display:none !important;
+    }
+    /*om de rechtse navbar goed te zetten*/
+    .navRechtsIpad{
+        padding-right: 15px;
+    }
+    .inputFullWidth{
+        width:96% !important;/*zorgt ervoor dat de input fields van het bericht gelijk staan met de knop verzend*/
+    }
+    .input-maxwidth{/*alle inputfields de volledige lengte geven*/
+        max-width:none !important;
+    }
+    
+    
+    
 }
