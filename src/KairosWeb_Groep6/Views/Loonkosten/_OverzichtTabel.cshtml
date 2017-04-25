@@ -1,5 +1,4 @@
 ﻿@using System.Globalization
-@using KairosWeb_Groep6.Models.Domain.Extensions
 @model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonkostViewModel>
 
 <table class="table table-bordered table-condensed table-responsive">
@@ -32,7 +31,17 @@
                 <td>@kost.Beschrijving</td> <!--Functie-->
                 <td>@kost.AantalUrenPerWeek.ToString("C", new CultureInfo("nl-BE"))</td>
                 <td>@kost.BrutoMaandloonFulltime.ToString("C", new CultureInfo("nl-BE"))</td>
-                <td>@(DoelgroepExtensions.GeefOmschrijving(kost.Doelgroep))</td>
+                <td>
+                    @if (kost.Doelgroep != null)
+                    {
+                        @kost.Doelgroep.GeefOmschrijving()
+
+                    }
+                    else
+                    {
+                        <span>onbekend</span>
+                    }
+                </td>
                 <td>@(kost.Ondersteuningspremie.ToString("F", new CultureInfo("nl-BE"))) %</td>
                 <td>@kost.AantalMaandenIBO</td>
                 <td>@(kost.IBOPremie.ToString("C", new CultureInfo("nl-BE")))</td>

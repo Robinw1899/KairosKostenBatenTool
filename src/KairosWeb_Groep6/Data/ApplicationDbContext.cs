@@ -1,5 +1,6 @@
 ﻿using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
+using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -19,6 +20,8 @@ namespace KairosWeb_Groep6.Data
 
         public DbSet<Introductietekst> Introteksten { get; set; }
 
+        public DbSet<Doelgroep> Doelgroepen { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -37,6 +40,20 @@ namespace KairosWeb_Groep6.Data
             builder.Entity<ContactPersoon>(MapContactPersoon);
             builder.Entity<Introductietekst>(MapIntroductietekst);
             builder.Entity<Paragraaf>(MapParagraaf);
+            builder.Entity<Doelgroep>(MapDoelgroep);
+        }
+
+        private void MapDoelgroep(EntityTypeBuilder<Doelgroep> d)
+        {
+            d.ToTable("Doelgroep");
+
+            d.HasKey(t => t.Soort);
+
+            d.Property(t => t.MinBrutoloon)
+                .IsRequired();
+
+            d.Property(t => t.StandaardDoelgroepVermindering)
+                .IsRequired();
         }
 
         private static void MapContactPersoon(EntityTypeBuilder<ContactPersoon> c)

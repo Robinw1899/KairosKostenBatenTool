@@ -17,6 +17,7 @@ namespace KairosWeb_Groep6.Data
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IWerkgeverRepository _werkgeverRepository;
         private readonly IIntroductietekstRepository _introductietekstRepository;
+        private readonly IDoelgroepRepository _doelgroepRepository;
 
         public DataInitializer(
             ApplicationDbContext dbContext,
@@ -25,7 +26,8 @@ namespace KairosWeb_Groep6.Data
             IDepartementRepository departementRepository,
             IAnalyseRepository analyseRepository,
             IWerkgeverRepository werkgeverRepository,
-            IIntroductietekstRepository introductietekstRepository)
+            IIntroductietekstRepository introductietekstRepository,
+            IDoelgroepRepository doelgroepRepository)
         {
             _dbContext = dbContext;
             _userManager = userManager;
@@ -34,6 +36,7 @@ namespace KairosWeb_Groep6.Data
             _analyseRepository = analyseRepository;
             _werkgeverRepository = werkgeverRepository;
             _introductietekstRepository = introductietekstRepository;
+            _doelgroepRepository = doelgroepRepository;
         }
 
         public async Task InitializeData()
@@ -42,6 +45,9 @@ namespace KairosWeb_Groep6.Data
             if (_dbContext.Database.EnsureCreated())
             {
                 await InitializeUsers();
+                // Doelgroepen aanmaken
+                InitializeDoelgroepen();
+
                 ContactPersoon contactThomas = new ContactPersoon("Thomas", "Aelbrecht", "thomasaelbrecht@live.com"){IsHoofdContactPersoon = true};
                 ContactPersoon contactRobin = new ContactPersoon("Robin", "Coppens", "robin.coppens.w1899@student.hogent.be") { IsHoofdContactPersoon = true };
                 ContactPersoon contactDimi = new ContactPersoon("Dimmy", "Maenhout", "dimmy.maenhout@telenet.be") { IsHoofdContactPersoon = true };
@@ -50,9 +56,10 @@ namespace KairosWeb_Groep6.Data
                 contactThomas.IsHoofdContactPersoon = true;
                 contacten.Add(contactThomas);
               
-                List<Departement> departementen = new List<Departement>();               
-                Werkgever werkgever = new Werkgever("VDAB", "Vooruitgangstraat", 1, "",9300, "Aalst", 37);
-                werkgever.ContactPersonen = contacten;                       
+                List<Departement> departementen = new List<Departement>();
+                Werkgever werkgever =
+                    new Werkgever("VDAB", "Vooruitgangstraat", 1, "", 9300, "Aalst", 37) {ContactPersonen = contacten};
+
                 Departement departement = new Departement("Onderhoudsdienst") { Werkgever = werkgever };
                 departementen.Add(departement);
                 werkgever.Departementen = departementen;
@@ -62,10 +69,11 @@ namespace KairosWeb_Groep6.Data
 
                 contacten.Remove(contactThomas);
                 contactRobin.IsHoofdContactPersoon = true;
-                contacten.Add(contactRobin);   
-                
-                werkgever = new Werkgever("ALDI", "Leo Duboistraat", 20,"", 9280, "Lebbeke", 37);
-                werkgever.ContactPersonen = contacten;               
+                contacten.Add(contactRobin);
+
+                werkgever =
+                    new Werkgever("ALDI", "Leo Duboistraat", 20, "", 9280, "Lebbeke", 37) {ContactPersonen = contacten};
+
                 departementen.Remove(departement);//verwijderen van vorige departement in de lijst
                 departement = new Departement("Aankoop") { Werkgever = werkgever };
                 departementen.Add(departement);//toevoegen van nieuw departement
@@ -78,8 +86,9 @@ namespace KairosWeb_Groep6.Data
                 contactDimi.IsHoofdContactPersoon = true;
                 contacten.Add(contactDimi);
 
-                werkgever = new Werkgever("Coolblue", "Medialaan", 1,"", 1000, "Brussel", 35);
-                werkgever.ContactPersonen = contacten;            
+                werkgever =
+                    new Werkgever("Coolblue", "Medialaan", 1, "", 1000, "Brussel", 35) {ContactPersonen = contacten};
+
                 departementen.Remove(departement);//verwijderen van vorige departement in de lijst
                 departement = new Departement("Human resources") { Werkgever = werkgever };
                 departementen.Add(departement);//toevoegen van nieuw departement
@@ -116,6 +125,26 @@ namespace KairosWeb_Groep6.Data
                 _gebruikerRepository.Save();
             }
             _dbContext.SaveChanges();
+        }
+
+        private void InitializeDoelgroepen()
+        {
+            Doelgroep doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M);
+            _doelgroepRepository.Add(doelgroep);
+
+            doelgroep = new Doelgroep(DoelgroepSoort.MiddengeschooldTot25, 2500M, 1000M);
+            _doelgroepRepository.Add(doelgroep);
+
+            doelgroep = new Doelgroep(DoelgroepSoort.Tussen55En60, 4466.66M, 1150M);
+            _doelgroepRepository.Add(doelgroep);
+
+            doelgroep = new Doelgroep(DoelgroepSoort.Vanaf60, 4466.66M, 1500M);
+            _doelgroepRepository.Add(doelgroep);
+
+            doelgroep = new Doelgroep(DoelgroepSoort.Andere, 0M, 0M);
+            _doelgroepRepository.Add(doelgroep);
+
+            _doelgroepRepository.Save();
         }
 
         private void InitializeIntrotekst()
@@ -232,7 +261,7 @@ namespace KairosWeb_Groep6.Data
                 Beschrijving = "Poetsvrouw",
                 BrutoMaandloonFulltime = 1800,
                 AantalUrenPerWeek = 37,
-                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(DoelgroepSoort.LaaggeschooldTot25),
                 Ondersteuningspremie = 20M,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -244,7 +273,7 @@ namespace KairosWeb_Groep6.Data
                 Beschrijving = "Secretaresse",
                 BrutoMaandloonFulltime = 2200,
                 AantalUrenPerWeek = 23,
-                Doelgroep = Doelgroep.MiddengeschooldTot25,
+                Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(DoelgroepSoort.MiddengeschooldTot25),
                 Ondersteuningspremie = 20M,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -256,7 +285,7 @@ namespace KairosWeb_Groep6.Data
                 Beschrijving = "Postbode",
                 BrutoMaandloonFulltime = 1900,
                 AantalUrenPerWeek = 35,
-                Doelgroep = Doelgroep.Tussen55En60,
+                Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(DoelgroepSoort.Tussen55En60),
                 Ondersteuningspremie = 20M,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -272,19 +301,38 @@ namespace KairosWeb_Groep6.Data
 
         private List<ExtraKost> MaakExtraKosten()
         {
-            List<ExtraKost>  extraKosten = new List<ExtraKost>();
-            extraKosten.Add(new ExtraKost { Id = 1, Bedrag = 150, Beschrijving = "Stagekosten" });
-            extraKosten.Add(new ExtraKost { Id = 2, Bedrag = 1000, Beschrijving = "Uitrusting" });
-            extraKosten.Add(new ExtraKost { Id = 3, Bedrag = 400, Beschrijving = "Boeken en ander studiemateriaal" });
+            List<ExtraKost> extraKosten = new List<ExtraKost>
+            {
+                new ExtraKost {Id = 1, Bedrag = 150, Beschrijving = "Stagekosten"},
+                new ExtraKost {Id = 2, Bedrag = 1000, Beschrijving = "Uitrusting"},
+                new ExtraKost {Id = 3, Bedrag = 400, Beschrijving = "Boeken en ander studiemateriaal"}
+            };
             return extraKosten;
         }
 
         private List<MedewerkerNiveauBaat> MaakMedewerkerNiveauBaten()
         {
-            List<MedewerkerNiveauBaat>  medewerkerNiveauBaten = new List<MedewerkerNiveauBaat>();
-            medewerkerNiveauBaten.Add(new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau) { Id = 1, Uren = 35, BrutoMaandloonFulltime = 2300 });
-            medewerkerNiveauBaten.Add(new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau) { Id = 2, Uren = 30, BrutoMaandloonFulltime = 2000 });
-            medewerkerNiveauBaten.Add(new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau) { Id = 3, Uren = 37, BrutoMaandloonFulltime = 3250 });
+            List<MedewerkerNiveauBaat> medewerkerNiveauBaten = new List<MedewerkerNiveauBaat>
+            {
+                new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
+                {
+                    Id = 1,
+                    Uren = 35,
+                    BrutoMaandloonFulltime = 2300
+                },
+                new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
+                {
+                    Id = 2,
+                    Uren = 30,
+                    BrutoMaandloonFulltime = 2000
+                },
+                new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
+                {
+                    Id = 3,
+                    Uren = 37,
+                    BrutoMaandloonFulltime = 3250
+                }
+            };
             return medewerkerNiveauBaten;
         }
 

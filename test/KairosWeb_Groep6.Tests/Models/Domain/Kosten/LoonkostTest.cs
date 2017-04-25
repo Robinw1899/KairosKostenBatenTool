@@ -31,7 +31,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
-                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -69,11 +69,12 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         }
 
         [Theory]
-        [InlineData(37, 1800, 37, Doelgroep.LaaggeschooldTot25, 2430.00)]
-        [InlineData(37, 2200, 23, Doelgroep.MiddengeschooldTot25, 1846.22)]
-        [InlineData(37, 1900, 35, Doelgroep.Tussen55En60, 2426.35)]
+        [InlineData(37, 1800, 37, DoelgroepSoort.LaaggeschooldTot25, 2500, 1550, 2430.00)]
+        [InlineData(37, 2200, 23, DoelgroepSoort.MiddengeschooldTot25, 2500, 1000, 1846.22)]
+        [InlineData(37, 1900, 35, DoelgroepSoort.Tussen55En60, 4466.66, 1150, 2426.35)]
         public void TestBerekenBrutoloonPerMaand_AlleGegevensIngevuld
-            (int werkuren, decimal brutoloon, int urenPerWeek, Doelgroep doelgroep, decimal expected)
+            (int werkuren, decimal brutoloon, int urenPerWeek, DoelgroepSoort soort, 
+            decimal minBrutoloon, decimal doelgroepvermindering, decimal expected)
         {
             _aantalWerkuren = werkuren;
 
@@ -81,7 +82,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = brutoloon,
                 AantalUrenPerWeek = urenPerWeek,
-                Doelgroep = doelgroep
+                Doelgroep = new Doelgroep(soort, minBrutoloon, doelgroepvermindering)
             };
 
             decimal brutoloonPerMaand = _loonkost.BerekenBrutoloonPerMaand(_aantalWerkuren, patronaleBijdrage);
@@ -122,12 +123,13 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
         }
 
         [Theory]
-        [InlineData(1800, 37, Doelgroep.LaaggeschooldTot25, 20, 408.50)]
-        [InlineData(2200, 23, Doelgroep.MiddengeschooldTot25, 30, 507.24)]
-        [InlineData(3540, 35, Doelgroep.Tussen55En60, 40, 1699.49)]
-        [InlineData(4300, 30, Doelgroep.Vanaf60, 0, 0)]
+        [InlineData(1800, 37, DoelgroepSoort.LaaggeschooldTot25, 2500, 1550, 20, 408.50)]
+        [InlineData(2200, 23, DoelgroepSoort.MiddengeschooldTot25, 2500, 1000, 30, 507.24)]
+        [InlineData(3540, 35, DoelgroepSoort.Tussen55En60, 4466.66, 1150, 40, 1699.49)]
+        [InlineData(4300, 30, DoelgroepSoort.Vanaf60, 4466.66, 1500,0, 0)]
         public void TestBerekenGemiddeldeVOPPerMaand_AlleGegevensIngevuld
-            (decimal brutoloon, decimal urenPerWeerk, Doelgroep doelgroep, decimal VOP, decimal expected)
+            (decimal brutoloon, decimal urenPerWeerk, DoelgroepSoort soort, decimal minBrutoloon,
+            decimal doelgroepvermindering, decimal VOP, decimal expected)
         {
             _aantalWerkuren = 37;
 
@@ -135,7 +137,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = brutoloon,
                 AantalUrenPerWeek = urenPerWeerk,
-                Doelgroep = doelgroep,
+                Doelgroep = new Doelgroep(soort, minBrutoloon, doelgroepvermindering),
                 Ondersteuningspremie = VOP
             };
 
@@ -155,7 +157,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
-                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
                 Ondersteuningspremie = 20
             };
 
@@ -189,7 +191,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
-                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M

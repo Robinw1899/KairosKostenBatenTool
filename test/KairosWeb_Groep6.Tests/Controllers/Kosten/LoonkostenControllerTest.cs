@@ -77,7 +77,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Soort = Soort.Loonkost,
                 BrutoMaandloonFulltime = 1800,
                 AantalUrenPerWeek = 37,
-                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -130,7 +130,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Soort = Soort.Loonkost,
                 BrutoMaandloonFulltime = 1800,
                 AantalUrenPerWeek = 37,
-                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -151,7 +151,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Soort = Soort.Loonkost,
                 BrutoMaandloonFulltime = 1800,
                 AantalUrenPerWeek = 37,
-                Doelgroep = Doelgroep.LaaggeschooldTot25,
+                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
