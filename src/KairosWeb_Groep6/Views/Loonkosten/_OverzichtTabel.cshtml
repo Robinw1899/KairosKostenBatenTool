@@ -29,7 +29,7 @@
         {
             <tr>
                 <td>@kost.Beschrijving</td> <!--Functie-->
-                <td>@kost.AantalUrenPerWeek.ToString("C", new CultureInfo("nl-BE"))</td>
+                <td>@kost.AantalUrenPerWeek.ToString("F", new CultureInfo("nl-BE"))</td>
                 <td>@kost.BrutoMaandloonFulltime.ToString("C", new CultureInfo("nl-BE"))</td>
                 <td>
                     @if (kost.Doelgroep != null)
