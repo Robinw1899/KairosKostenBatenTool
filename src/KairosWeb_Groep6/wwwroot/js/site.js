@@ -73,6 +73,8 @@
                     $("#divForm").html(data);
                     siteView.toonFormulier();
                 });
+
+            return false;
         });
 
         $("a#bewerk").click(function(event) {
