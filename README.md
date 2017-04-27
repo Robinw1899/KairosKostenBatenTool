@@ -7,7 +7,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Prior 180: de jobcoach moet de contactpersonen van een werkgever kunnen aanpassen/verwijderen
 
 ## Vragen voor klant
-
+* Moeten er extra doelgroepen kunnen gemaakt worden?
 
 ## Niet vergeten!
 * Vaak committen
