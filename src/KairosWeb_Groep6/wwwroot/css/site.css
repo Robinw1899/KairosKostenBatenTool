@@ -310,7 +310,7 @@ h6#infoTekstVerplichteVelden {
         padding-right: 15px;
     }
     a {
-        color: #97c900;
+        color: black/*#97c900*/;
 
     }
     .inputFullWidth {
