@@ -23,6 +23,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Opslaan-icoon in "_Tabs"-partial zetten
 * Analyse openen van andere jobcoach verhinderen
 * Demo jobcoach analyseren
+* Organisaties jobcoach implementeren zodat geen dubbels in de databank komen
 
 ## Retrospective
 ### Wat ging goed?
