@@ -58,13 +58,16 @@ namespace KairosWeb_Groep6.Controllers
               
                 Jobcoach jobcoach = _jobcoachRepository.GetByEmail(user.Email);
                 List<Analyse> analyses = new List<Analyse>();
+                
                 jobcoach.Analyses = jobcoach
                     .Analyses
                     .NietInArchief()
                     .OrderByDescending(t => t.DatumLaatsteAanpassing)
                     .ToList();
+                
+              
 
-               
+                
                 int skip = model.AantalKeerSkip;      //0
                 int totaal = jobcoach.Analyses.Count(); //13 
                 int aantal;
