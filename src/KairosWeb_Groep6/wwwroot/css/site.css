@@ -11,6 +11,15 @@
     font-family: 'Asap', Cambria, sans-serif;
 }
 
+.klikbareRij {
+    cursor: pointer;
+}
+
+.klikbareRij:hover {
+    background-color: #97c900;
+    font-weight: bold;
+}
+
 /* Klasse die aangeeft wat er getoond moet worden in de navigatie op mobiele toestellen */
 .mobile {
     font-size: 1.5em;
