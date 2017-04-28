@@ -11,6 +11,7 @@
     font-family: 'Asap', Cambria, sans-serif;
 }
 
+/* Klasse die wat opmaak geeft aan de rijen van de tabellen waarop geklikt kan worden */
 .klikbareRij {
     cursor: pointer;
 }
@@ -58,10 +59,10 @@ footer {
     max-width: 280px;
 }
 
-
 /* Elke knop een groene kleur geven */
 .btn-info,
-.btn-succes {
+.btn-succes,
+.btn-primary {
     background-color: #97C900 !important;
     border-color: #97C900 !important;
 }
@@ -101,6 +102,7 @@ a.navbar-brand {
     zoom:1;
 }
 
+/* Klasse voor wat opmaak aan de partial _Tabs */
 .nav-analyse {
     text-align: center;
     display: block;
@@ -108,7 +110,6 @@ a.navbar-brand {
     margin-top: 20px;
 }
 
-/* De links in de navigatie van de analyse opmaken */
 .nav-analyse a {
     color: black !important;
 }
@@ -134,21 +135,6 @@ a.navbar-brand {
 .options {
     text-align: center;
 }
-
-/*Ervoor zorgen dat de opties rechts in de tabel verschijnen en verdwijnen:*/
-/*.options i,
-.options span{
-    -ms-opacity: 0;
-    opacity: 0;
-}
-
-tr:hover .options i,
-li:hover .options i,
-.card:hover .options i,
-.card:hover .options span {
-    -ms-opacity: 1;
-    opacity: 1;
-}*/
 
 /* De andere tooltips een max-width geven */
 .tooltip-inner {
@@ -278,7 +264,8 @@ h6#infoTekstVerplichteVelden {
     .desktop {
         display: inline !important;
     }
-    /*Ervoor zorgen dat de opties rechts in de tabel verschijnen en verdwijnen:*/
+
+    /*Ervoor zorgen dat de opties rechts in de tabel verschijnen en verdwijnen*/
     .options i,
     .options span{
         -ms-opacity: 1;
@@ -294,7 +281,7 @@ h6#infoTekstVerplichteVelden {
     }
 
 }
-/*formaat van Ipdad (tablet)*/
+/*formaat van Ipad (tablet)*/
 @media only screen and (max-width: 1024px) {
     body {
         padding-top: 25px;
@@ -377,5 +364,4 @@ h6#infoTekstVerplichteVelden {
     .beschrijving {
         padding-top: 15px;
     }
-    .options:
 }
