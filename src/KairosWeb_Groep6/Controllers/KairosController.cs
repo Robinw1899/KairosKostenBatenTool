@@ -54,24 +54,55 @@ namespace KairosWeb_Groep6.Controllers
             }
 
             try
-            {
-                int aantal = 9;
-
-                if (model != null)
-                {
-                    aantal = model.Aantal == 0 ? 9 : model.Aantal;
-                }
-
+            {               
+              
                 Jobcoach jobcoach = _jobcoachRepository.GetByEmail(user.Email);
                 List<Analyse> analyses = new List<Analyse>();
                 jobcoach.Analyses = jobcoach
                     .Analyses
                     .NietInArchief()
                     .OrderByDescending(t => t.DatumLaatsteAanpassing)
-                    .Take(aantal)
                     .ToList();
 
-                foreach (Analyse a in jobcoach.Analyses)
+               
+                int skip = model.AantalKeerSkip;      //0
+                int totaal = jobcoach.Analyses.Count(); //13 
+                int aantal;
+
+                if (skip != 0)
+                {
+                    aantal = model.Aantal;
+                }
+                else if ( totaal > 9)
+                {
+                    aantal = 9;    //9
+                }              
+                else
+                {
+                    aantal = totaal;
+                }
+                bool volgende = false;
+                bool vorige = false;
+           
+                //volgende knop laten zien of niet
+                if (totaal > 9 && aantal == 9)
+                {
+                    volgende = true;
+                }
+
+                //vorige knop laten zien of niet
+                if(model.AantalKeerSkip != 0)
+                {
+                    vorige = true;
+                }
+
+                jobcoach.Analyses = jobcoach
+                      .Analyses
+                      .Skip(skip * 9)  //0  --9
+                      .Take(aantal)   //9   --4
+                      .ToList();
+
+                foreach (Analyse a in jobcoach.Analyses) //9
                 {
                     analyses.Add(_analyseRepository.GetById(a.AnalyseId));
                 }
@@ -80,7 +111,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 model = new IndexViewModel(jobcoach)
                 {
-                    Aantal = analyses.Count
+                    Aantal = totaal,       //13
+                    AantalKeerSkip = skip,  //0      
+                    showVolgende = volgende,
+                    showVorige = vorige
                 };
             }
             catch
@@ -92,13 +126,28 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
-        #region ToonMeer
-        public IActionResult ToonMeer(int id)
-        {
-            // id is aantal
+        #region VolgendeAnalyses
+        public IActionResult Volgende(int aantalSkips, int aantal)
+        {                                   //0             13
+            aantalSkips += 1;
             IndexViewModel model = new IndexViewModel
             {
-                Aantal = id + 9
+                AantalKeerSkip = aantalSkips,     //1
+                Aantal = aantal - (9*aantalSkips)   //13 - (9*1) -> 4
+            };
+
+            return RedirectToAction("Index", model);
+        }
+        #endregion
+
+        #region VorigeAnalyses
+        public IActionResult Vorige(int aantalSkips, int aantal)
+        {                               //1             4
+            aantalSkips -= 1;   //0
+            IndexViewModel model = new IndexViewModel
+            {
+                AantalKeerSkip = aantalSkips,//0
+                Aantal = aantal + (9 * (aantalSkips + 1))   //4 +9*(0+1) -> 13
             };
 
             return RedirectToAction("Index", model);

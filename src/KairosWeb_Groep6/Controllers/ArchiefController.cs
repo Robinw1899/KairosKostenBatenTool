@@ -29,7 +29,7 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region Index
-        public IActionResult Index(Jobcoach jobcoach, int aantalSkips=0 ,int aantalShow=9)
+        public IActionResult Index(Jobcoach jobcoach, int aantalSkips=0 ,int aantalShow=9)//problemen; aantalShow moet aantal zijn.(aantal analyses en niet aantal op scherm)
         {
             IndexViewModel model = new IndexViewModel();
 
@@ -199,6 +199,7 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult Volgende9(int aantalSkip)
         {
             aantalSkip += 1;
+
            return  RedirectToAction("Index", new { aantalSkip = aantalSkip});
         }
         #endregion
