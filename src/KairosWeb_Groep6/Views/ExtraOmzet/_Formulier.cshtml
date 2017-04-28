@@ -25,7 +25,7 @@
             </div>
 
             <div class="col-md-4">
-                <label class="control-label" asp-for="Besparing"></label>
+                <label class="control-label paddingTopLabel" asp-for="Besparing"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-percent" aria-hidden="true"></i>
@@ -36,7 +36,7 @@
             </div>
 
             <div class="col-md-4">
-                <label asp-for="Bedrag"></label> (Dit veld wordt berekend)
+                <label asp-for="Bedrag" class="paddingTopLabel"></label> (Dit veld wordt berekend)
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
@@ -50,7 +50,7 @@
     <br />
 
     <div class="row">
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 text-right btnsAnnOpslInperkingOmzetVerlies">
             <a asp-controller="Baten" asp-action="Index" class="btn btn-default">Annuleer</a>
            
             <button type="submit" class="btn btn-info" style="margin-left: 15px">Opslaan</button>
