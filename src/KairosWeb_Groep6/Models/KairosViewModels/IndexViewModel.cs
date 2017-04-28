@@ -18,8 +18,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public int Aantal { get; set; }
 
+        public int AantalKeerSkip { get; set; }
+
+        public bool showVolgende { get; set; }
+        public bool showVorige { get; set; }
         public IndexViewModel()
-        {
+        {          
             Analyses = new List<AnalyseViewModel>();
         }
 

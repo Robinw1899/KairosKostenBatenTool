@@ -49,10 +49,23 @@
         </div>
 
         <br />
-        @*<div class="row">
-            <div class="col-md-12 text-center">
-                <a class="btn btn-default" asp-action="ToonMeer" asp-route-id="@Model.Aantal" id="meer">Toon meer ...</a>
+        <div class="row" style="margin-top:20px">
+            <div class="col-xs-9 col-md-9">
+                @if (Model.showVorige)
+                {
+                    <a asp-controller="Archief" asp-action="Vorige" asp-route-aantalSkips="@Model.AantalKeerSkip" asp-route-aantal="@Model.Aantal" style="margin-left: 15px" class="btn btn-default">
+                        <i class="fa fa-chevron-left" aria-hidden="true"></i> Vorige
+                    </a>
+                }
             </div>
-        </div>*@
+            <div class="col-xs-3 col-md-3 text-right">
+                @if (Model.showVolgende)
+                {
+                    <a asp-controller="Archief" asp-action="Volgende" asp-route-aantalSkips="@Model.AantalKeerSkip" asp-route-aantal="@Model.Aantal" class="btn btn-default">
+                        Volgende <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    </a>
+                }
+            </div>
+        </div>
     }
 </div>

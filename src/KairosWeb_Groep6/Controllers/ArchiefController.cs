@@ -29,15 +29,61 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region Index
-        public IActionResult Index(Jobcoach jobcoach)
+        public IActionResult Index(Jobcoach jobcoach, IndexViewModel model=null)//problemen; aantalShow moet aantal zijn.(aantal analyses en niet aantal op scherm)
         {
-            IndexViewModel model = new IndexViewModel();
+            
 
             try
             {
                 if (jobcoach != null)
                 {
+                    
                     List<Analyse> analysesInArchief = new List<Analyse>();
+                   
+                   
+                 
+                    jobcoach.Analyses = jobcoach
+                        .Analyses
+                        .InArchief()
+                        .OrderByDescending(t => t.DatumLaatsteAanpassing)
+                        .ToList();
+
+                    int skip = model.AantalKeerSkip;      //0
+                    int totaal = jobcoach.Analyses.Count(); //13 
+                    int aantal;
+
+                    if (skip != 0)
+                    {
+                        aantal = model.Aantal;
+                    }
+                    else if (totaal > 9)
+                    {
+                        aantal = 9;    //9
+                    }
+                    else
+                    {
+                        aantal = totaal;
+                    }
+                    bool volgende = false;
+                    bool vorige = false;
+
+                    //volgende knop laten zien of niet
+                    if (totaal > 9 && aantal == 9)
+                    {
+                        volgende = true;
+                    }
+
+                    //vorige knop laten zien of niet
+                    if (model.AantalKeerSkip != 0)
+                    {
+                        vorige = true;
+                    }
+
+                    jobcoach.Analyses = jobcoach
+                          .Analyses
+                          .Skip(skip * 9)  //0  --9
+                          .Take(aantal)   //9   --4
+                          .ToList();
 
                     foreach (Analyse a in jobcoach.Analyses.InArchief())
                     {
@@ -45,9 +91,15 @@ namespace KairosWeb_Groep6.Controllers
                     }
 
                     jobcoach.Analyses = analysesInArchief;
+               
+                    model = new IndexViewModel(jobcoach)
+                    {
+                        Aantal = totaal,       //13
+                        AantalKeerSkip = skip,  //0      
+                        showVolgende = volgende,
+                        showVorige = vorige
+                    };
 
-                    List<AnalyseViewModel> viewModels = analysesInArchief.Select(a => new AnalyseViewModel(a)).ToList();
-                    model.Analyses = viewModels;
                 }
                 else
                 {
@@ -63,9 +115,37 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
+        #region VolgendeAnalyses
+        public IActionResult Volgende(int aantalSkips, int aantal)
+        {                                   //0             13
+            aantalSkips += 1;
+            IndexViewModel model = new IndexViewModel
+            {
+                AantalKeerSkip = aantalSkips,     //1
+                Aantal = aantal - (9 * aantalSkips)   //13 - (9*1) -> 4
+            };
+
+            return RedirectToAction("Index", model);
+        }
+        #endregion
+
+        #region VorigeAnalyses
+        public IActionResult Vorige(int aantalSkips, int aantal)
+        {                               //1             4
+            aantalSkips -= 1;   //0
+            IndexViewModel model = new IndexViewModel
+            {
+                AantalKeerSkip = aantalSkips,//0
+                Aantal = aantal + (9 * (aantalSkips + 1))   //4 +9*(0+1) -> 13
+            };
+
+            return RedirectToAction("Index", model);
+        }
+        #endregion
+
         #region Zoek analyse
         [HttpPost]
-        public IActionResult Zoek(string zoekterm)
+        public IActionResult Zoek(string zoekterm,int aantalShow=9)
         {
             try
             {
@@ -79,7 +159,7 @@ namespace KairosWeb_Groep6.Controllers
                         .Analyses
                         .InArchief()
                         .OrderByDescending(t => t.DatumLaatsteAanpassing)
-                        .Take(9)
+                        .Take(aantalShow)
                         .ToList();
 
                     List<Analyse> analyses = new List<Analyse>();
@@ -94,7 +174,7 @@ namespace KairosWeb_Groep6.Controllers
 
                 IndexViewModel model = new IndexViewModel(jobcoach)
                 {
-                    Aantal = 9
+                    Aantal = aantalShow
                 };
 
                 ViewData["zoeken"] = "zoeken";
@@ -184,6 +264,15 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult MailAnalyse()
         {
             throw new NotImplementedException("Archief/MailAnalyse");
+        }
+        #endregion
+
+        #region ToonMeer
+        public IActionResult Volgende9(int aantalSkip)
+        {
+            aantalSkip += 1;
+
+           return  RedirectToAction("Index", new { aantalSkip = aantalSkip});
         }
         #endregion
     }
