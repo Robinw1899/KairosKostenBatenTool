@@ -8,24 +8,14 @@ else
 {
     <table class="table table-condensed table-bordered">
         <tr>
-            <th></th>
             <th>Departement</th>                  
         </tr>
 
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    <div class="options">
-                        <!--Deze action moet normaal naar de navigatie gaan voor baten-->
-                        <a asp-action="SelecteerBestaandeWerkgever" asp-route-id="@item.DepartementId"
-                           asp-route-werkgeverid="@item.WerkgeverId">
-                            <i class="fa fa-check" aria-hidden="true"></i>
-                        </a>
-                    </div>
-                </td>
+            <tr class="klikbareRij" data-href="@Url.Action("SelecteerBestaandeWerkgever", "Werkgever",
+                                              new { Id = item.DepartementId, WerkgeverId = item.WerkgeverId })">
                 <td>@item.Naam</td>
-               
             </tr>
         }
     </table>
