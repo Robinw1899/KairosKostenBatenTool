@@ -64,10 +64,7 @@ namespace KairosWeb_Groep6.Controllers
                     .NietInArchief()
                     .OrderByDescending(t => t.DatumLaatsteAanpassing)
                     .ToList();
-                
-              
-
-                
+                                           
                 int skip = model.AantalKeerSkip;      //0
                 int totaal = jobcoach.Analyses.Count(); //13 
                 int aantal;
