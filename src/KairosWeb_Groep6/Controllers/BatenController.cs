@@ -40,7 +40,7 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", "ExtraProductiviteit");
         }
 
-        public IActionResult OverurenBesparingen()
+        public IActionResult OverurenBesparing()
         {
             return RedirectToAction("Index", "OverurenBesparing");
         }
@@ -50,7 +50,7 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", "ExterneInkopen");
         }
 
-        public IActionResult Subsidies()
+        public IActionResult Subsidie()
         {
             return RedirectToAction("Index", "Subsidie");
         }

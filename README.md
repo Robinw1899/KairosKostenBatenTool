@@ -7,7 +7,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Prior 180: de jobcoach moet de contactpersonen van een werkgever kunnen aanpassen/verwijderen
 
 ## Vragen voor klant
-
+* Moeten er extra doelgroepen kunnen gemaakt worden?
 
 ## Niet vergeten!
 * Vaak committen
@@ -21,6 +21,9 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 ## To do:
 ### To do voor webapplicatie
 * Opslaan-icoon in "_Tabs"-partial zetten
+* Analyse openen van andere jobcoach verhinderen
+* Demo jobcoach analyseren
+* Organisaties jobcoach implementeren zodat geen dubbels in de databank komen
 
 ## Retrospective
 ### Wat ging goed?

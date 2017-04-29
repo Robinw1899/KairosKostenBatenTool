@@ -1,6 +1,6 @@
 ﻿@using KairosWeb_Groep6.Models.Domain
 @using KairosWeb_Groep6.Models.Domain.Extensions
-@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.InfrastructuurKostViewModel>
+@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.PersoneelsKostViewModel>
 @{
     ViewData["Title"] = Soort.PersoneelsKost.GeefOmschrijving();
 }
@@ -14,7 +14,7 @@
         <h3>@ViewData["title"]</h3>
     </div>
 
-    <p>
+    <p class="beschrijving">
         @Soort.PersoneelsKost.GeefVraag()
     </p>
 
@@ -49,7 +49,6 @@
 @section scripts{
     <script>
         siteView.initFunctionsKostenEnBaten();
-
         $("#kosten").addClass("active");
     </script>
     

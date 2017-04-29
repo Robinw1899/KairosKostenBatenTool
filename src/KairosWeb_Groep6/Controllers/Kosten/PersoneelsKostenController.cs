@@ -26,7 +26,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
-            IEnumerable<InfrastructuurKostViewModel> viewModels = MaakModel(analyse);
+            IEnumerable<PersoneelsKostViewModel> viewModels = MaakModel(analyse);
 
             PlaatsTotaalInViewData(analyse);
 
@@ -37,12 +37,12 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region VoegToe
         public IActionResult VoegToe()
         {
-            InfrastructuurKostViewModel model = new InfrastructuurKostViewModel();
+            PersoneelsKostViewModel model = new PersoneelsKostViewModel();
             return PartialView("_Formulier", model);
         }
 
         [HttpPost]
-        public IActionResult VoegToe(Analyse analyse, InfrastructuurKostViewModel model)
+        public IActionResult VoegToe(Analyse analyse, PersoneelsKostViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 PersoneelsKost kost = KostOfBaatExtensions.GetBy(analyse.PersoneelsKosten, id);
 
-                InfrastructuurKostViewModel model = new InfrastructuurKostViewModel();
+                PersoneelsKostViewModel model = new PersoneelsKostViewModel();
 
                 if (kost != null)
                 {
@@ -91,9 +91,9 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     model.Soort = kost.Soort;
                     model.Beschrijving = kost.Beschrijving;
                     model.Bedrag = kost.Bedrag;
-                }
 
-                return PartialView("_Formulier", model);
+                    return PartialView("_Formulier", model);
+                }
             }
             catch
             {
@@ -104,7 +104,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         }
 
         [HttpPost]
-        public IActionResult Bewerk(Analyse analyse, InfrastructuurKostViewModel model)
+        public IActionResult Bewerk(Analyse analyse, PersoneelsKostViewModel model)
         {
             try
             {
@@ -159,11 +159,11 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #endregion
 
         #region Helpers
-        private IEnumerable<InfrastructuurKostViewModel> MaakModel(Analyse analyse)
+        private IEnumerable<PersoneelsKostViewModel> MaakModel(Analyse analyse)
         {
             return analyse
                 .PersoneelsKosten
-                .Select(m => new InfrastructuurKostViewModel(m))
+                .Select(m => new PersoneelsKostViewModel(m))
                 .ToList();
         }
 

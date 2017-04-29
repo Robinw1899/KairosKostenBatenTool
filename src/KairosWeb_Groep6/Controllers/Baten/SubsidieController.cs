@@ -59,32 +59,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
             return RedirectToAction("Index");
         }
-        #endregion
-
-        #region Verwijder
-        public IActionResult Verwijder(Analyse analyse)
-        {
-            try
-            {
-                // Baat eruit halen
-                analyse.Subsidie = null;
-
-                // Datum updaten
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-
-                // Opslaan
-                _analyseRepository.Save();
-
-                TempData["message"] = Meldingen.VerwijderSuccesvolBaat;
-            }
-            catch
-            {
-                TempData["error"] = Meldingen.VerwijderFoutmeldingBaat;
-            }
-
-            return RedirectToAction("Index");
-        }
-        #endregion
+        #endregion      
 
         #region Helpers
         private SubsidieViewModel MaakModel(Analyse analyse)

@@ -35,6 +35,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.GereedschapsKosten)
                 .Include(a => a.PersoneelsKosten)
                 .Include(a => a.Loonkosten)
+                    .ThenInclude(l => l.Doelgroep)
                 .Include(a => a.ExtraKosten)
                 .Include(a => a.MedewerkersHogerNiveauBaat)
                 .Include(a => a.MedewerkersZelfdeNiveauBaat)
@@ -63,6 +64,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.GereedschapsKosten)
                 .Include(a => a.PersoneelsKosten)
                 .Include(a => a.Loonkosten)
+                    .ThenInclude(l => l.Doelgroep)
                 .Include(a => a.ExtraKosten)
                 .Include(a => a.MedewerkersHogerNiveauBaat)
                 .Include(a => a.MedewerkersZelfdeNiveauBaat)
@@ -91,6 +93,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.GereedschapsKosten)
                 .Include(a => a.PersoneelsKosten)
                 .Include(a => a.Loonkosten)
+                    .ThenInclude(l => l.Doelgroep)
                 .Include(a => a.ExtraKosten)
                 .Include(a => a.MedewerkersHogerNiveauBaat)
                 .Include(a => a.MedewerkersZelfdeNiveauBaat)
@@ -101,7 +104,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.UitzendKrachtBesparingen)
                 .Include(a => a.VoorbereidingsKosten)
                 .SingleOrDefault(a => a.AnalyseId == id);
-        }
+        }       
 
         public void Add(Analyse analyse)
         {

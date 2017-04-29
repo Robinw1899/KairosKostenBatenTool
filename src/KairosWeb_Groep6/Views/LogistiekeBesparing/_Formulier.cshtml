@@ -24,7 +24,7 @@
             </div>
 
             <div class="col-md-4 required">
-                <label class="control-label" asp-for="LogistiekHandlingsKosten"></label>
+                <label class="control-label paddingTopLabel" asp-for="LogistiekHandlingsKosten"></label>
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
@@ -38,12 +38,9 @@
     <br />
 
     <div class="row">
-        <div class="col-md-offset-2 col-md-10 text-center">
+        <div class="col-md-offset-2 col-md-10 text-right">
             <a asp-controller="Baten" asp-action="Index" class="btn btn-default">Annuleer</a>
-            @if (Model.TransportKosten > 0 || Model.LogistiekHandlingsKosten > 0)
-            {
-                <a asp-controller="LogistiekeBesparing" asp-action="Verwijder" class="btn btn-danger" style="margin-left: 15px">Verwijder</a>
-            }
+          
             <button type="submit" class="btn btn-info" style="margin-left: 15px">Opslaan</button>
         </div>
     </div>

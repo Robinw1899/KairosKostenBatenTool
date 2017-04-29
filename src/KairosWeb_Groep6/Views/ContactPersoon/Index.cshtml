@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.ContactPersoonViewModel>
 @{
-    ViewData["Title"] = "Contactpersonen";
+    ViewData["Title"] = "Contactpersonen ";
 }
 
 <div class="page-header" style="overflow: auto;">
@@ -10,9 +10,9 @@
     </div>
     <div class="col-md-3" style="margin-top: 20px;">
         <!--margin omdat de h3 dezelfde margin heeft-->
-        <a asp-controller="Werkgever" asp-action="VoegContactPersoonToe" asp-route-id="@ViewData["WerkgeverId"]"
+        <a asp-controller="ContactPersoon" asp-action="VoegContactPersoonToe" asp-route-id="@ViewData["WerkgeverId"]"
            class="btn btn-default">
-            <i class="fa fa-plus" aria-hidden="true"></i> Voeg een contactpersoon toe
+            <i class="fa fa-plus" aria-hidden="true"></i> Voeg een hoofd contactpersoon toe
         </a>
     </div>
 </div>
@@ -33,6 +33,6 @@
 
 @section Scripts {
     <script>       
-        $("#werkgever").addClass("active");
+        $("#contactpersoon").addClass("active");
     </script>
 }

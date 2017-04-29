@@ -23,6 +23,8 @@ namespace KairosWeb_Groep6.Models.Domain
         public DateTime DatumLaatsteAanpassing { get; set; } = DateTime.Now;
 
         public bool InArchief { get; set; } = false;
+
+       
         #endregion
 
         #region Kosten
@@ -97,7 +99,7 @@ namespace KairosWeb_Groep6.Models.Domain
             // Loonkosten
             if(Departement != null)
             {
-                totaal = LoonkostExtensions.GeefTotaalAlleLoonkosten(Loonkosten,
+                totaal = LoonkostExtensions.GeefTotaalBrutolonenPerJaarAlleLoonkosten(Loonkosten,
                                                                     Departement.Werkgever.AantalWerkuren,
                                                                     Departement.Werkgever.PatronaleBijdrage);
             }

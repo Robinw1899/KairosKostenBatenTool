@@ -15,7 +15,7 @@
         <h3>@ViewData["title"]</h3>
     </div>
 
-    <p>
+    <p class="beschrijving">
         @Soort.GereedschapsKost.GeefVraag()
     </p>
 
@@ -50,7 +50,6 @@
 @section scripts{
     <script>
         siteView.initFunctionsKostenEnBaten();
-
         $("#kosten").addClass("active");
     </script>
 

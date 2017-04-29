@@ -32,7 +32,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen,
                 ExterneInkopen = dbContext.ExterneInkopen,
                 OpleidingsKosten = dbContext.OpleidingsKosten,
-                InfrastructuurKosten = dbContext.InfrastructuurKosten,
+                PersoneelsKosten = dbContext.PersoneelsKosten,
                 GereedschapsKosten = dbContext.GereedschapsKosten,
                 VoorbereidingsKosten = dbContext.VoorbereidingsKosten,
                 EnclaveKosten = dbContext.EnclaveKosten,
@@ -43,7 +43,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.Index(analyse) as ViewResult;
             var model = result?.Model as KostenIndexViewModel;
 
-            Assert.Equal("Index", result?.ViewName);
             Assert.Equal(model?.GetType(), result?.Model.GetType());
         }
 
@@ -78,15 +77,15 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestInfrastructuurKosten_RedirectsToInfrastructuurKostenController()
         {
-            var result = _controller.InfrastructuurKosten() as RedirectToActionResult;
-            Assert.Equal("InfrastructuurKosten", result?.ControllerName);
+            var result = _controller.PersoneelsKosten() as RedirectToActionResult;
+            Assert.Equal("PersoneelsKosten", result?.ControllerName);
             Assert.Equal("Index", result?.ActionName);
         }
         [Fact]
-        public void TestLoonKosten_RedirectsToLoonKostenController()
+        public void TestLoonKosten_RedirectsToLoonkostenController()
         {
             var result = _controller.Loonkosten() as RedirectToActionResult;
-            Assert.Equal("LoonKosten", result?.ControllerName);
+            Assert.Equal("Loonkosten", result?.ControllerName);
             Assert.Equal("Index", result?.ActionName);
         }
         [Fact]

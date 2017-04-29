@@ -13,7 +13,7 @@
         <h3>@ViewData["Title"] - @Model.Naam</h3>
     </div>
 
-    <form asp-controller="Werkgever" asp-action="VoegContactPersoonToe" method="post" class="form-horizontal">
+    <form asp-controller="ContactPersoon" asp-action="VoegContactPersoonToe" method="post" class="form-horizontal">
         <div class="col-md-offset-1">
             <h6 id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -45,7 +45,7 @@
             <div class="form-group">
                 <div class="col-md-8 text-right">
                     <a asp-controller="ContactPersoon" asp-action="Index" class="btn btn-default">Annuleer</a>
-                    <button type="submit" class="btn btn-info" style="margin-left: 15px;">Voeg toe</button>
+                    <button type="submit" class="btn btn-info" style="margin-left: 15px;">Voeg toe</button>                   
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
 
 @section Scripts {
     <script>
-        $("#werkgever").addClass("active");
+        $("#contactpersoon").addClass("active");
     </script>
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

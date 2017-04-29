@@ -11,6 +11,16 @@
     font-family: 'Asap', Cambria, sans-serif;
 }
 
+/* Klasse die wat opmaak geeft aan de rijen van de tabellen waarop geklikt kan worden */
+.klikbareRij {
+    cursor: pointer;
+}
+
+.klikbareRij:hover {
+    background-color: #97c900;
+    font-weight: bold;
+}
+
 /* Klasse die aangeeft wat er getoond moet worden in de navigatie op mobiele toestellen */
 .mobile {
     font-size: 1.5em;
@@ -49,10 +59,10 @@ footer {
     max-width: 280px;
 }
 
-
 /* Elke knop een groene kleur geven */
 .btn-info,
-.btn-succes {
+.btn-succes,
+.btn-primary {
     background-color: #97C900 !important;
     border-color: #97C900 !important;
 }
@@ -74,7 +84,7 @@ a.navbar-brand {
     max-width: 100px;
 }
 
-/* De introductietekst op de loginpagina wat opmakens */
+/* De introductietekst op de loginpagina wat opmaken */
 .intro {
     display: none;
     background-color: #FFFFFF;
@@ -92,6 +102,7 @@ a.navbar-brand {
     zoom:1;
 }
 
+/* Klasse voor wat opmaak aan de partial _Tabs */
 .nav-analyse {
     text-align: center;
     display: block;
@@ -99,7 +110,6 @@ a.navbar-brand {
     margin-top: 20px;
 }
 
-/* De links in de navigatie van de analyse opmaken */
 .nav-analyse a {
     color: black !important;
 }
@@ -124,21 +134,6 @@ a.navbar-brand {
 /* De opties voor een rij in een tabel centreren */
 .options {
     text-align: center;
-}
-
-/*Ervoor zorgen dat de opties rechts in de tabel verschijnen en verdwijnen:*/
-.options i,
-.options span{
-    -ms-opacity: 0;
-    opacity: 0;
-}
-
-tr:hover .options i,
-li:hover .options i,
-.card:hover .options i,
-.card:hover .options span {
-    -ms-opacity: 1;
-    opacity: 1;
 }
 
 /* De andere tooltips een max-width geven */
@@ -235,13 +230,15 @@ h6#infoTekstVerplichteVelden {
     color: #97C900;
     position: absolute;
     margin-left: 1px;
-    /*top: 7px;*/ //hierdoor werden sommige * onderaan geplaatst
+    /*top: 7px;*/ /*hierdoor werden sommige * onderaan geplaatst*/
 }
 .paddingtekst {
     padding-left: 15px;
 }
-
-.kostenBatenNav a,
+.btnsAnnOpslInperkingOmzetVerlies {
+    padding-right: 65px;
+    padding-bottom: 15px;
+}
 .kostenBatenNav a:active,
 .resultaat a,
 .resultaat a:active {
@@ -266,5 +263,105 @@ h6#infoTekstVerplichteVelden {
 
     .desktop {
         display: inline !important;
+    }
+
+    /*Ervoor zorgen dat de opties rechts in de tabel verschijnen en verdwijnen*/
+    .options i,
+    .options span{
+        -ms-opacity: 1;
+        opacity: 1;
+    }
+
+    tr:hover .options i,
+    li:hover .options i,
+    .card:hover .options i,
+    .card:hover .options span {
+        -ms-opacity: 1;
+        opacity: 1;
+    }
+
+}
+/*formaat van Ipad (tablet)*/
+@media only screen and (max-width: 1024px) {
+    body {
+        padding-top: 25px;
+        padding-bottom: 0 !important; /*de rand onderaan wordt hierdoor weggedaan*/
+    }
+    /*zorgt ervoor dat er geen rand is*/
+    .body-content {
+        min-width: 100%;
+        padding-top: 25px;
+        min-height: 100vh; /*neemt de volledige lengte van de pagina in*/
+    }
+
+    li.desktop {
+        display: none;
+    }
+
+    .mobile {
+        display: none !important;
+    }
+    /*om de rechtse navbar goed te zetten*/
+    .navRechtsIpad {
+        padding-right: 15px;
+    }
+    a {
+        color: black/*#97c900*/;
+
+    }
+    .inputFullWidth {
+        width: 96% !important; /*zorgt ervoor dat de input fields van het bericht gelijk staan met de knop verzend*/
+    }
+
+    .input-maxwidth { /*alle inputfields de volledige lengte geven*/
+        max-width: none !important;
+    }
+
+    .page-header { /*Ziet er beter uit zonder margin, anders is er te veel ruimte tussen de nav en de page-header*/
+        margin: 0;
+    }
+
+    .paddingtekst { /*zorgt ervoor dat de tekst mooi gealigneerd staat met de labels en input fields*/
+        padding-left: 15px;
+    }
+
+    .paddingTopLabel { /*zorgt dat er genoeg ruimte is tussen input field en onderliggend label*/
+        padding-top: 15px !important;
+    }
+
+    .btnVolgende { /*btn volgende aligneren met btn voeg toe*/
+        margin-left: 130px;
+    }
+
+    .btnVorige { /*btn vorige aligneren met bovenstaande labels/input fields toe*/
+        margin-left: 0;
+    }
+
+    .addOption a { /*btn plus aligneren met bovenstaande labels/inputfields*/
+        margin: 0 -10px
+    }
+
+    .fontsizeTabelLoonkost {
+        font-size: xx-small;
+    }
+
+    .btnsAnnAdd { /*zorgt ervoor dat de btns annuleer/voeg toe niet tegen het input field er boven hangen*/
+        padding-top: 15px;
+        margin-right: 2%
+    }
+    .btnsAnnAddLogistiekeBesparing { /*zorgt ervoor dat de btns annuleer/voeg toe niet tegen het input field er boven hangen*/
+        padding-bottom: 15px;
+        margin-right: 2%
+    }
+    .btnsAnalyse{
+        padding-top: 15px;
+        color: black !important;
+    }
+    .btnsAnnOpslInperkingOmzetVerlies {
+        margin-right: 15px !important;
+        padding-bottom: 15px !important;
+    }
+    .beschrijving {
+        padding-top: 15px;
     }
 }

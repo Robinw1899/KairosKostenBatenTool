@@ -14,11 +14,11 @@
         <h3>@ViewData["title"]</h3>
     </div>
 
-    <p>
+    <p class="beschrijving">
         @Soort.Loonkost.GeefVraag()
     </p>
 
-    <div id="data">
+    <div id="data" class="fontsizeTabelLoonkost overflow">
         @{
             Html.RenderPartial("_OverzichtTabel", Model);
         }

@@ -73,6 +73,8 @@
                     $("#divForm").html(data);
                     siteView.toonFormulier();
                 });
+
+            return false;
         });
 
         $("a#bewerk").click(function(event) {
@@ -82,6 +84,15 @@
                     $("#divForm").html(data);
                     siteView.toonFormulier();
                 });
+        });
+    },
+    initKlikbareRijen: function() {
+        $(".klikbareRij").click(function(event) {
+            var href = $(this).data("href");
+
+            if (href) {
+                window.location.href = href;
+            }
         });
     }
 };

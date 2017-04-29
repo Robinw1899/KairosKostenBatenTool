@@ -1,6 +1,4 @@
-﻿using KairosWeb_Groep6.Models.Domain.Extensions;
-
-namespace KairosWeb_Groep6.Models.Domain.Kosten
+﻿namespace KairosWeb_Groep6.Models.Domain.Kosten
 {
     public class Loonkost : KostOfBaat
     {
@@ -24,7 +22,7 @@ namespace KairosWeb_Groep6.Models.Domain.Kosten
 
         public decimal IBOPremie { get; set; }
 
-        public Doelgroep? Doelgroep { get; set; }
+        public Doelgroep Doelgroep { get; set; }
 
         #endregion
 

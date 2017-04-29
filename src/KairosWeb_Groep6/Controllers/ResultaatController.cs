@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using KairosWeb_Groep6.Models.Domain.Excel;
 
 namespace KairosWeb_Groep6.Controllers
@@ -192,8 +191,6 @@ namespace KairosWeb_Groep6.Controllers
                     TempData["error"] =
                         "Het is op dit moment niet mogelijk om mails te verzenden, probeer later opnieuw";
                 }
-
-                return RedirectToAction("Index");
             }
             catch
             {

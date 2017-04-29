@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace KairosWeb_Groep6.Controllers
 {
     [Authorize]
-    [ServiceFilter(typeof(AnalyseFilter))]
     public class WerkgeverController : Controller
     {
         #region Properties
@@ -33,6 +32,8 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
+        #region Index
+        [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult Index(Analyse analyse)
         {
             if (analyse.Departement == null || analyse.Departement.Naam.Length == 0)
@@ -45,7 +46,10 @@ namespace KairosWeb_Groep6.Controllers
 
             return View(model);
         }
+        #endregion
 
+        #region Opslaan
+        [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult Opslaan(Analyse analyse, WerkgeverViewModel model)
         {
             Departement departement = _departementRepository.GetById(model.DepartementId);
@@ -73,6 +77,7 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction("Index");
         }
+        #endregion
 
         public IActionResult SelecteerWerkgever()
         {
@@ -80,7 +85,7 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         #region Nieuwe werkgever
-        public IActionResult NieuweWerkgever(Analyse analyse)
+        public IActionResult NieuweWerkgever()
         {
             // model aanmaken
             WerkgeverViewModel model = new WerkgeverViewModel{PatronaleBijdrage = 35};
@@ -90,6 +95,7 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult NieuweWerkgever(Analyse analyse, WerkgeverViewModel model)
         {
             Departement departement = _departementRepository.GetByName(model.Departement);
@@ -153,6 +159,7 @@ namespace KairosWeb_Groep6.Controllers
             return View(model);
         }
 
+        [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult SelecteerBestaandeWerkgever(Analyse analyse, int id, int werkgeverid)
         { // id is het id van het departement dat geselecteerd werd
             Departement departement = _departementRepository.GetById(id);
@@ -238,6 +245,7 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         [HttpPost]
+        [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult NieuwDepartement(Analyse analyse, WerkgeverViewModel model)
         {
             Departement departement = _departementRepository.GetByName(model.Departement);
@@ -285,28 +293,6 @@ namespace KairosWeb_Groep6.Controllers
 
 
             return RedirectToAction("Index", "Resultaat");
-        }
-        #endregion
-
-        #region Contactpersonen
-        public IActionResult VoegContactPersoonToe(int id)
-        {     
-            ContactPersoonViewModel model = new ContactPersoonViewModel();
-            model.WerkgeverId = id;
-            return View(model);
-        }
-        [HttpPost]
-        public IActionResult VoegContactPersoonToe(ContactPersoonViewModel cpViewModel)
-        {
-         
-            Werkgever werkgever = _werkgeverRepository.GetById(cpViewModel.WerkgeverId);
-            ContactPersoon cp = new ContactPersoon(cpViewModel.Voornaam, cpViewModel.Naam, cpViewModel.Email);
-          
-             werkgever.ContactPersonen.Add(cp);
-            _werkgeverRepository.Save();
-            _departementRepository.Save();
-
-           return RedirectToAction("Index", "ContactPersoon");
         }
         #endregion
 

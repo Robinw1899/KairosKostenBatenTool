@@ -2,7 +2,7 @@
 
 <form asp-action="Opslaan" method="post" class="form-horizontal">
 
-    <h6 class="col-md-offset-2 paddingtekst" id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+    <h6 class="col-md-offset-2" id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
 
     <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -27,11 +27,7 @@
     <div class="row col-md-offset-2">
         <div class="col-md-4 text-right">
             <a asp-controller="Baten" asp-action="Index" class="btn btn-default" id="closeForm">Annuleer</a>
-            @if (Model.Bedrag > 0)
-            {
-                <a asp-controller="ExtraProductiviteit" asp-action="Verwijder" class="btn btn-danger" style="margin-left: 15px"
-                   id="verwijder">Verwijder</a>
-            }
+          
             <button type="submit" class="btn btn-info" style="margin-left: 15px">Opslaan</button>
         </div>
     </div>
