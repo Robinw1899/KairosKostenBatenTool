@@ -10,7 +10,7 @@
     <div class="intro" id="intro">
         <!--INTRODUCTIE-TEKST-->
         <div class="row">
-            <h4 class="col-md-10">@Model.Introductietekst.Titel</h4>
+            <h4 class="col-xs-4 col-md-10">@Model.Introductietekst.Titel</h4>
             <a id="verbergIntro">
                 <i class="fa fa-times fa-2x col-md-2 text-right" aria-hidden="true"></i>
             </a>
@@ -78,7 +78,18 @@
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script>
-            var body = document.getElementsByTagName("body")[0];
-            body.style.backgroundImage = "url(/images/aanmelden_bg.jpg)";
+        var body = document.getElementsByTagName("body")[0];
+        body.style.backgroundImage = "url(/images/aanmelden_bg.jpg)";
+    </script>
+    
+    <script>
+            var width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
+            var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+            if (width <= 1024) {
+                $("#intro").insertAfter("#login");
+            }
     </script>
 }
+

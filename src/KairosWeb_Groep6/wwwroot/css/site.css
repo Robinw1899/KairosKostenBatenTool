@@ -271,46 +271,110 @@ h6#infoTekstVerplichteVelden {
 }
 /*formaat van Ipdad (tablet)*/
 @media only screen and (max-width: 1024px){
-    body{
-        padding-top:25px;
-        padding-bottom: 0px !important;/*de rand onderaan wordt hierdoor weggedaan*/
+    body {
+        padding-top: 25px;
+        padding-bottom: 0 !important; /*de rand onderaan wordt hierdoor weggedaan*/
     }
     /*zorgt ervoor dat er geen rand is*/
     .body-content {
         min-width: 100%;
         padding-top: 25px;
-        min-height:100vh;/*neemt de volledige lengte van de pagina in*/
+        min-height: 100vh; /*neemt de volledige lengte van de pagina in*/
     }
-    li.desktop{
-        display:none;
+
+    li.desktop {
+        display: none;
     }
-    .mobile{
-        display:none !important;
+
+    .mobile {
+        display: none !important;
     }
     /*om de rechtse navbar goed te zetten*/
-    .navRechtsIpad{
+    .navRechtsIpad {
         padding-right: 15px;
     }
-    .inputFullWidth{
-        width:96% !important;/*zorgt ervoor dat de input fields van het bericht gelijk staan met de knop verzend*/
-    }
-    .input-maxwidth{/*alle inputfields de volledige lengte geven*/
-        max-width:none !important;
-    }
-    
 
+    a {
+        color: black /*#97c900*/;
+    }
+
+    .inputFullWidth {
+        width: 96% !important; /*zorgt ervoor dat de input fields van het bericht gelijk staan met de knop verzend*/
+    }
+
+    .input-maxwidth { /*alle inputfields de volledige lengte geven*/
+        max-width: none !important;
+    }
+
+    .page-header { /*Ziet er beter uit zonder margin, anders is er te veel ruimte tussen de nav en de page-header*/
+        margin: 0;
+    }
+
+    .paddingtekst { /*zorgt ervoor dat de tekst mooi gealigneerd staat met de labels en input fields*/
+        padding-left: 15px;
+    }
+
+    .paddingTopLabel { /*zorgt dat er genoeg ruimte is tussen input field en onderliggend label*/
+        padding-top: 15px !important;
+    }
+
+    .btnVolgende { /*btn volgende aligneren met btn voeg toe*/
+        margin-left: 130px;
+    }
+
+    .btnVorige { /*btn vorige aligneren met bovenstaande labels/input fields toe*/
+        margin-left: 0;
+    }
+
+    .addOption a { /*btn plus aligneren met bovenstaande labels/inputfields*/
+        margin: 0 -10px
+    }
+
+    .fontsizeTabelLoonkost {
+        font-size: xx-small;
+    }
+
+    .btnsAnnAdd { /*zorgt ervoor dat de btns annuleer/voeg toe niet tegen het input field er boven hangen*/
+        padding-top: 15px;
+        margin-right: 2%
+    }
+
+    .btnsAnnAddLogistiekeBesparing { /*zorgt ervoor dat de btns annuleer/voeg toe niet tegen het input field er boven hangen*/
+        padding-bottom: 15px;
+        margin-right: 2%
+    }
+
+    .btnsAnalyse {
+        padding-top: 15px;
+        color: black !important;
+    }
+
+    .btnsAnnOpslInperkingOmzetVerlies {
+        margin-right: 15px !important;
+        padding-bottom: 15px !important;
+    }
+
+    .beschrijving {
+        padding-top: 15px;
+    }
     /*Inlog scherm*/
     .intro {/*intro tekst goed zetten (in het midden v/d pagina*/
         margin-right: 50px;
         max-width: 60%;
         margin-left: 20%;
+        margin-bottom: 5%;
     }
-    .box-login {
-        width: 460px !important;
+    .fa-2x {
+        float: right;
+    } .box-login {
+        width: 60% !important;
+        max-width: 60% !important;
         margin-left: 20%;
         margin-top: 15px;
-        margin-bottom: 10%;
+        margin-bottom: 5%;
         height: 500px !important;
+        max-width: none;
+
     }
     /*Registreer scherm*/
     .container.body-content .box-login {
