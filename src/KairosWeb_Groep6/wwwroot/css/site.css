@@ -298,6 +298,23 @@ h6#infoTekstVerplichteVelden {
         max-width:none !important;
     }
     
-    
+
+    /*Inlog scherm*/
+    .intro {/*intro tekst goed zetten (in het midden v/d pagina*/
+        margin-right: 50px;
+        max-width: 60%;
+        margin-left: 20%;
+    }
+    .box-login {
+        width: 460px !important;
+        margin-left: 20%;
+        margin-top: 15px;
+        margin-bottom: 10%;
+        height: 500px !important;
+    }
+    /*Registreer scherm*/
+    .container.body-content .box-login {
+        height: 100% !important;
+    }
     
 }
