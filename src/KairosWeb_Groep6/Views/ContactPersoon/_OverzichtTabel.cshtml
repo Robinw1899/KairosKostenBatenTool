@@ -16,23 +16,9 @@ else
 
         @foreach (var item in Model)
         {
-            if (item.IsHoofd)
-            {
-                <tr>
-                    <td><b>@item.Naam</b></td>
-                    <td><b>@item.Voornaam</b></td>
-                    <td><b>@item.Email</b></td>
-                    <td>
-                        <div class="options">
-                            <a asp-action="Bewerk" asp-route-id="@item.WerkgeverId" asp-route-cpid="@item.PersoonId" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                            <a asp-action="Verwijder" asp-route-id="@item.WerkgeverId" asp-route-cpid ="@item.PersoonId" id="verwijder"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                        </div>
-                    </td>
-                </tr>
-            }
-            else
-            {
-                <tr>
+                              
+                <tr class="klikbareRij" data-href="@Url.Action("SelecteerHoofdContactpersoon", "ContactPersoon",
+                                              new { WerkgeverId = item.WerkgeverId, ContactPersoonId = @item.PersoonId })">
                     <td>@item.Naam</td>
                     <td>@item.Voornaam</td>
                     <td>@item.Email</td>
@@ -43,7 +29,7 @@ else
                         </div>
                     </td>
                 </tr>
-            }
+
         }
     </table>
 }

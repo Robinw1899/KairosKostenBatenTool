@@ -37,6 +37,10 @@ namespace KairosWeb_Groep6.Controllers
                 ViewData["WerkgeverId"] = id;
 
                 Werkgever werkgever = _werkgeverRepository.GetById(id);
+                if(analyse.contactPersooon != null)
+                {
+                    return RedirectToAction("SelecteerBestaandeContactPersoon", new { WerkgeverId = id, ContactPersoonId = analyse.contactPersooon.ContactPersoonId });
+                }
 
                 if (werkgever.ContactPersonen.Any())
                 {
@@ -136,8 +140,7 @@ namespace KairosWeb_Groep6.Controllers
                 Werkgever werkgever = _werkgeverRepository.GetById(cpViewModel.WerkgeverId);
                 ContactPersoon cp = werkgever.ContactPersonen.Where(w => w.ContactPersoonId == cpViewModel.PersoonId).FirstOrDefault();
 
-                //controle op een reeds bestaand contacctpersoon
-                cp.IsHoofdContactPersoon = cpViewModel.IsHoofd;
+                //controle op een reeds bestaand contacctpersoon            
                 cp.Naam = cpViewModel.Naam;
                 cp.Voornaam = cpViewModel.Voornaam;
                 cp.Emailadres = cpViewModel.Email;
@@ -149,6 +152,17 @@ namespace KairosWeb_Groep6.Controllers
             TempData["error"] = "Er is een fout opgetreden bij het aanpassen van de contactpersoon";
             return View(cpViewModel);          
 
+        }
+
+        public IActionResult SelecteerBestaandeContactPersoon(int WerkgeverId, int ContactPersoonId,Analyse analyse)
+        {
+            Werkgever werkgever = _werkgeverRepository.GetById(WerkgeverId);
+            ContactPersoon cp = werkgever.ContactPersonen.Where(w => w.ContactPersoonId == ContactPersoonId).FirstOrDefault();
+
+            analyse.contactPersooon = cp;        
+
+            ContactPersoonViewModel model = new ContactPersoonViewModel(cp, WerkgeverId);
+            return View("Bewerk", model);
         }
     }
 }

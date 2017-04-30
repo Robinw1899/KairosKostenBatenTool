@@ -9,22 +9,22 @@ namespace KairosWeb_Groep6.Models.Domain
     public class Analyse
     {
         #region Andere properties
-        
+
         public int AnalyseId { get; set; }
 
-       
+
         public Departement Departement { get; set; }
 
-        
+
         public DateTime DatumCreatie { get; set; } = DateTime.Now;
 
-        
+
         // bij aanmaak van analyse ook steeds op vandaag zetten
         public DateTime DatumLaatsteAanpassing { get; set; } = DateTime.Now;
 
         public bool InArchief { get; set; } = false;
 
-       
+        public ContactPersoon contactPersooon {get;set;}
         #endregion
 
         #region Kosten

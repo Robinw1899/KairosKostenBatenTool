@@ -61,8 +61,7 @@ footer {
 
 /* Elke knop een groene kleur geven */
 .btn-info,
-.btn-succes,
-.btn-primary {
+.btn-succes{
     background-color: #97C900 !important;
     border-color: #97C900 !important;
 }
