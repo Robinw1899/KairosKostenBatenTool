@@ -13,10 +13,10 @@
     </div>
 
     <div class="page-header" style="overflow: auto;"> <!--Overflow omdat anders de border boven de h3 en knop staat-->
-        <div class="col-md-9">
+        <div class="col-sm-7 col-md-9">
             <h3>@ViewData["title"]</h3>
         </div>
-        <div class="col-md-3" style="margin-top: 20px;"> <!--margin omdat de h3 dezelfde margin heeft-->
+        <div class="col-sm-5 col-md-3 btnToelichting" style="margin-top: 20px;"> <!--margin omdat de h3 dezelfde margin heeft-->
             <a asp-controller="BegeleidingsKosten" asp-action="Info" class="btn btn-default text-right">
                 <span class="glyphicon glyphicon-info-sign"></span>
                 Toelichting begeleidingskosten

@@ -380,5 +380,26 @@ h6#infoTekstVerplichteVelden {
     .container.body-content .box-login {
         height: 100% !important;
     }
-    
+    .btnToelichting{
+        margin-bottom: 10px;
+        padding-left: 70px !important;
+        margin-top: 10px !important;
+    }
+    .btnsAnnAddLogistiekeBesparing2 {
+        float: right !important;
+        padding-bottom: 15px;
+        padding-right: 33px;
+    }
+    #btnResultaat{
+        margin-left: 0 !important;
+    }
+    #btnVolgendeLogistiekeBesparing{
+        padding-right: 33px !important;
+    }
+    #btnVorigeLogistiekeBesparing{
+        padding-left: 20px;
+    }
+    #btnVolgendeExtraOmzet{
+        padding-right: 37px !important;
+    }
 }
