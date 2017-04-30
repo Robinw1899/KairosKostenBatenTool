@@ -41,7 +41,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-eur" aria-hidden="true"></i>
                     </span>
-                    <input type="text" class="form-control input-maxwidth" disabled="disabled" value="@(Model.Bedrag.ToString("C", new CultureInfo("nl-BE")))" />
+                    <input type="text" class="form-control input-maxwidth" disabled="disabled" value="@Model.Bedrag" />
                 </div>
                 <span asp-validation-for="Bedrag" class="text-danger"></span>
             </div>

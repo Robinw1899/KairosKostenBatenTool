@@ -35,12 +35,13 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 if (ModelState.IsValid)
                 {
+                    DecimalConverter dc = new DecimalConverter();
                     LogistiekeBesparing baat = new LogistiekeBesparing
                     {
                         Type = model.Type,
                         Soort = model.Soort,
-                        TransportKosten = model.TransportKosten,
-                        LogistiekHandlingsKosten = model.LogistiekHandlingsKosten
+                        TransportKosten = dc.ConvertToDecimal(model.TransportKosten),
+                        LogistiekHandlingsKosten =dc.ConvertToDecimal(model.LogistiekHandlingsKosten)
                     };
 
                     analyse.LogistiekeBesparing = baat;

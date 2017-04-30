@@ -37,11 +37,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 if (ModelState.IsValid)
                 {
                     // de baat bestaat reeds:
+                    DecimalConverter dc = new DecimalConverter();
                     Subsidie baat = new Subsidie
                     {
                         Type = model.Type,
                         Soort = model.Soort,
-                        Bedrag = model.Bedrag
+                        Bedrag = dc.ConvertToDecimal(model.Bedrag)
                     };
 
                     analyse.Subsidie = baat;

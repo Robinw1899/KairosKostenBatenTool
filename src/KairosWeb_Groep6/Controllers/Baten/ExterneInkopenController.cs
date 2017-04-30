@@ -48,12 +48,13 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 if (ModelState.IsValid)
                 {
+                    DecimalConverter dc = new DecimalConverter();
                     ExterneInkoop baat = new ExterneInkoop
                     {
                         Type = model.Type,
                         Soort = model.Soort,
                         Beschrijving = model.Beschrijving,
-                        Bedrag = model.Bedrag
+                        Bedrag = dc.ConvertToDecimal(model.Bedrag)
                     };
 
                     analyse.ExterneInkopen.Add(baat);
@@ -81,6 +82,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
                 ExterneInkoopViewModel model = new ExterneInkoopViewModel();
 
+                DecimalConverter dc = new DecimalConverter();
+
                 if (baat != null)
                 {
                     // parameters voor formulier instellen
@@ -88,7 +91,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     model.Type = baat.Type;
                     model.Soort = baat.Soort;
                     model.Beschrijving = baat.Beschrijving;
-                    model.Bedrag = baat.Bedrag;
+                    model.Bedrag = dc.ConvertToString(baat.Bedrag);
 
                     return PartialView("_Formulier", model);
                 }
@@ -107,14 +110,14 @@ namespace KairosWeb_Groep6.Controllers.Baten
             try
             {
                 ExterneInkoop baat = KostOfBaatExtensions.GetBy(analyse.ExterneInkopen, model.Id);
-
+                DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && baat != null)
                 {
                     baat.Id = model.Id;
                     baat.Type = model.Type;
                     baat.Soort = model.Soort;
                     baat.Beschrijving = model.Beschrijving;
-                    baat.Bedrag = model.Bedrag;
+                    baat.Bedrag = dc.ConvertToDecimal(model.Bedrag);
 
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();

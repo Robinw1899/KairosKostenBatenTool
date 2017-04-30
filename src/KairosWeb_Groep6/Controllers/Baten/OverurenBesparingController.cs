@@ -35,11 +35,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 if (ModelState.IsValid)
                 {
+                    DecimalConverter dc = new DecimalConverter();
                     OverurenBesparing baat = new OverurenBesparing
                     {
                         Type = model.Type,
                         Soort = model.Soort,
-                        Bedrag = model.Bedrag
+                        Bedrag = dc.ConvertToDecimal(model.Bedrag)
                     };
 
                     analyse.OverurenBesparing = baat;

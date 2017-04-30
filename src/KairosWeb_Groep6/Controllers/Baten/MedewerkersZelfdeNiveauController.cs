@@ -48,12 +48,13 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 if (ModelState.IsValid)
                 {
+                    DecimalConverter dc = new DecimalConverter();
                     MedewerkerNiveauBaat baat = new MedewerkerNiveauBaat
                     {
                         Type = model.Type,
                         Soort = model.Soort,
                         Uren = model.Uren,
-                        BrutoMaandloonFulltime = model.BrutoMaandloonFulltime
+                        BrutoMaandloonFulltime = dc.ConvertToDecimal(model.BrutoMaandloonFulltime)
                     };
 
                     analyse.MedewerkersZelfdeNiveauBaat.Add(baat);
@@ -79,7 +80,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, id);
                 MedewerkerNiveauBaatViewModel model = new MedewerkerNiveauBaatViewModel();
-
+                DecimalConverter dc = new DecimalConverter();
                 if (baat != null)
                 {
                     // parameters voor formulier instellen
@@ -87,7 +88,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     model.Type = baat.Type;
                     model.Soort = baat.Soort;
                     model.Uren = baat.Uren;
-                    model.BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
+                    model.BrutoMaandloonFulltime = dc.ConvertToString(baat.BrutoMaandloonFulltime);
 
                     return PartialView("_Formulier", model);
                 }
@@ -106,14 +107,14 @@ namespace KairosWeb_Groep6.Controllers.Baten
             try
             {
                 MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, model.Id);
-
+                DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && baat != null)
                 {
                     baat.Id = model.Id;
                     baat.Type = model.Type;
                     baat.Soort = model.Soort;
                     baat.Uren = model.Uren;
-                    baat.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
+                    baat.BrutoMaandloonFulltime = dc.ConvertToDecimal(model.BrutoMaandloonFulltime);
 
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
@@ -156,18 +157,21 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Helpers
         private IEnumerable<MedewerkerNiveauBaatViewModel> MaakModel(Analyse analyse)
         {
+            DecimalConverter dc = new DecimalConverter();
+
+            
             return analyse
                 .MedewerkersZelfdeNiveauBaat
                 .Select(m => new MedewerkerNiveauBaatViewModel(m)
-                {
+                {                  
                     Bedrag = analyse.Departement == null
-                        ? 0
-                        : m.BerekenTotaleLoonkostPerJaar(analyse.Departement.Werkgever.AantalWerkuren,
-                            analyse.Departement.Werkgever.PatronaleBijdrage)
+                        ? ""
+                        : dc.ConvertToString(m.BerekenTotaleLoonkostPerJaar(analyse.Departement.Werkgever.AantalWerkuren,
+                            analyse.Departement.Werkgever.PatronaleBijdrage))
                 })
                 .ToList();
         }
-
+        
         private void PlaatsTotaalInViewData(Analyse analyse)
         {
             if (analyse.MedewerkersZelfdeNiveauBaat.Count == 0)
