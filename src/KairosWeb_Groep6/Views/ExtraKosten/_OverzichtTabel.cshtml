@@ -23,7 +23,7 @@
         {
             <tr>
                 <td>@kost.Beschrijving</td>
-                <td>@kost.Bedrag.ToString("C", new CultureInfo("nl-BE"))</td>
+                <td>@kost.Bedrag</td>
                 <td>
                     <div class="options">
                         <a asp-action="Bewerk" asp-route-id="@kost.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>

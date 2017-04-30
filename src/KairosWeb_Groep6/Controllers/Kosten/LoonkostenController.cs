@@ -50,15 +50,16 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 if (ModelState.IsValid)
                 {
+                    DecimalConverter dc = new DecimalConverter();
                     Loonkost kost = new Loonkost
                     {
                         Beschrijving = model.Beschrijving,
                         AantalUrenPerWeek = model.AantalUrenPerWeek,
-                        BrutoMaandloonFulltime = model.BrutoMaandloonFulltime,
+                        BrutoMaandloonFulltime =  dc.ConvertToDecimal(model.BrutoMaandloonFulltime),
                         Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(model.DoelgroepSoort),
                         Ondersteuningspremie = model.Ondersteuningspremie,
                         AantalMaandenIBO = model.AantalMaandenIBO,
-                        IBOPremie = model.IBOPremie
+                        IBOPremie = dc.ConvertToDecimal(model.IBOPremie)
                     };
 
                     analyse.Loonkosten.Add(kost);
@@ -105,17 +106,17 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             try
             {
                 Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, model.Id);
-
+                DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && kost != null)
                 {
                     kost.Id = model.Id;
                     kost.Beschrijving = model.Beschrijving;
                     kost.AantalUrenPerWeek = model.AantalUrenPerWeek;
-                    kost.BrutoMaandloonFulltime = model.BrutoMaandloonFulltime;
+                    kost.BrutoMaandloonFulltime = dc.ConvertToDecimal(model.BrutoMaandloonFulltime);
                     kost.Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(model.DoelgroepSoort);
                     kost.Ondersteuningspremie = model.Ondersteuningspremie;
                     kost.AantalMaandenIBO = model.AantalMaandenIBO;
-                    kost.IBOPremie = model.IBOPremie;
+                    kost.IBOPremie = dc.ConvertToDecimal(model.IBOPremie);
 
                     if (kost.Doelgroep == null)
                     {
@@ -165,14 +166,15 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Helpers
         private IEnumerable<LoonkostViewModel> MaakModel(Analyse analyse)
         {
+            DecimalConverter dc = new DecimalConverter();
             return analyse
                 .Loonkosten
                 .Select(m => new LoonkostViewModel(m)
                 {
                     Bedrag = analyse.Departement == null
-                        ? 0
-                        : m.BerekenTotaleLoonkost(analyse.Departement.Werkgever.AantalWerkuren,
-                            analyse.Departement.Werkgever.PatronaleBijdrage)
+                        ? ""
+                        : dc.ConvertToString(m.BerekenTotaleLoonkost(analyse.Departement.Werkgever.AantalWerkuren,
+                            analyse.Departement.Werkgever.PatronaleBijdrage))
                 })
                 .ToList();
         }

@@ -23,7 +23,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 
         [Required(ErrorMessage = "Gelieve een bedrag in te vullen")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te vullen voor het bedrag")]
-        public decimal Bedrag { get; set; }
+        public string Bedrag { get; set; }
         #endregion
 
         #region Constructors
@@ -34,11 +34,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 
         public VoorbereidingsKostViewModel(VoorbereidingsKost kost)
         {
+            DecimalConverter dc = new DecimalConverter();
             Id = kost.Id;
             Type = kost.Type;
             Soort = kost.Soort;
             Beschrijving = kost.Beschrijving;
-            Bedrag = kost.Bedrag;
+            Bedrag = dc.ConvertToString(kost.Bedrag);
         }
         #endregion
     }

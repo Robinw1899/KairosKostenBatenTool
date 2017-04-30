@@ -30,7 +30,7 @@
             <tr>
                 <td>@kost.Beschrijving</td> <!--Functie-->
                 <td>@kost.AantalUrenPerWeek.ToString("F", new CultureInfo("nl-BE"))</td>
-                <td>@kost.BrutoMaandloonFulltime.ToString("C", new CultureInfo("nl-BE"))</td>
+                <td>@kost.BrutoMaandloonFulltime</td>
                 <td>
                     @if (kost.Doelgroep != null)
                     {
@@ -44,8 +44,8 @@
                 </td>
                 <td>@(kost.Ondersteuningspremie.ToString("F", new CultureInfo("nl-BE"))) %</td>
                 <td>@kost.AantalMaandenIBO</td>
-                <td>@(kost.IBOPremie.ToString("C", new CultureInfo("nl-BE")))</td>
-                <th>@(kost.Bedrag.ToString("C", new CultureInfo("nl-BE")))</th>
+                <td>@kost.IBOPremie</td>
+                <th>@kost.Bedrag</th>
                 <td>
                     <div class="options">
                         <a asp-action="Bewerk" asp-route-id="@kost.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>

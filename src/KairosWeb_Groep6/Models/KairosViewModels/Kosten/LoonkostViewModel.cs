@@ -30,7 +30,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         [Required(ErrorMessage = "Gelieve het bruto maandloon (fulltime) op te geven.")]
         [Display(Name = "Brutomaandloon (fulltime)", Prompt = "Brutomaandloon (fulltime)")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het bruto maandloon")]
-        public decimal BrutoMaandloonFulltime { get; set; }
+        public string BrutoMaandloonFulltime { get; set; }
 
         [Required(ErrorMessage = "Gelieve de ondersteuningspremie in te vullen.")]
         [Display(Name = "% Vlaamse ondersteuningspremie")]
@@ -44,14 +44,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         [Required(ErrorMessage = "Gelieve de IBO premie in te vullen.")]
         [Display(Name = "Totale productiviteitspremie IBO")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor de IBO premie")]
-        public decimal IBOPremie { get; set; }
+        public string IBOPremie { get; set; }
 
         [Required(ErrorMessage = "Gelieve een doelgroep op te geven.")]
         public DoelgroepSoort DoelgroepSoort { get; set; }
 
         public Doelgroep Doelgroep { get; set; }
 
-        public decimal Bedrag { get; set; }
+        public string Bedrag { get; set; }
         #endregion
 
         #region Constructors
@@ -62,14 +62,15 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 
         public LoonkostViewModel(Loonkost loon)
         {
+            DecimalConverter dc = new DecimalConverter();
             Id = loon.Id;
             AantalUrenPerWeek = loon.AantalUrenPerWeek;
             Beschrijving = loon.Beschrijving;
-            Bedrag = loon.Bedrag;
-            BrutoMaandloonFulltime = loon.BrutoMaandloonFulltime;
+            Bedrag = dc.ConvertToString(loon.Bedrag);
+            BrutoMaandloonFulltime = dc.ConvertToString(loon.BrutoMaandloonFulltime);
             Ondersteuningspremie = (int) loon.Ondersteuningspremie;
             AantalMaandenIBO = loon.AantalMaandenIBO;
-            IBOPremie = loon.IBOPremie;
+            IBOPremie = dc.ConvertToString(loon.IBOPremie);
             
             Doelgroep = loon.Doelgroep;
             if (loon.Doelgroep != null)
