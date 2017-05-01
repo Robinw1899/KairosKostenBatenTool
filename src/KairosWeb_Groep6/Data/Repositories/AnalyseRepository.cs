@@ -26,6 +26,7 @@ namespace KairosWeb_Groep6.Data.Repositories
             return _analyses
                 .Include(a => a.Departement)
                     .ThenInclude(d => d.Werkgever)
+                    .ThenInclude(w => w.ContactPersonen)
                 .Include(a => a.BegeleidingsKosten)
                 .Include(a => a.EnclaveKosten)
                 .Include(a => a.ExterneInkopen)

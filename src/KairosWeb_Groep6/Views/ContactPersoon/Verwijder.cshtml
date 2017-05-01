@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["title"] = "Bevestig het verwijderen";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h3>@ViewData["title"]</h3>
+        <br />
+
+        @if (ViewData["contactpersoon"] != null)
+        {
+            <p>Ben je zeker dat je de contactpersoon @ViewData["contactpersoon"] wil verwijderen</p>
+        }
+        else
+        {
+            <p>Ben je zeker dat je deze contactpersoon wil verwijderen?</p>
+        }
+
+        <form asp-action="Verwijder" asp-route-id="@ViewData["contactPersoonId"]" 
+              asp-route-werkgeverid="@ViewData["werkgeverId"]" method="post">
+            <div class="form-group">
+                <input class="btn btn-info col-md-1" type="submit" value="Ja" style="margin-right: 20px;" />
+                <a class="btn btn-default col-md-1" asp-action="Index" asp-controller="ContactPersoon">
+                    Nee
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

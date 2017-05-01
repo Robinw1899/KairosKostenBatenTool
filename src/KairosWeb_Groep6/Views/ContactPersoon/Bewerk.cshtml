@@ -1,7 +1,7 @@
 ﻿@model KairosWeb_Groep6.Models.KairosViewModels.ContactPersoonViewModel
 
 @{
-    ViewData["Title"] = "Contactpersoon aanpassen";
+    ViewData["Title"] = "Contactpersoon";
 }
 
 <div>
@@ -10,7 +10,7 @@
     </div>
 
     <div class="page-header col-md-offset-1">
-        <h3>@ViewData["Title"] - @Model.Naam</h3>
+        <h3>@ViewData["Title"] - @Model.Voornaam @Model.Naam</h3>
     </div>
 
     <form asp-controller="ContactPersoon" asp-action="Bewerk" method="post" class="form-horizontal">
@@ -40,11 +40,10 @@
 
             <div class="form-group">
                 <div class="col-md-8 text-right">
-                    <a asp-controller="ContactPersoon" asp-action="Index" class="btn btn-default">Alle contactpersonen</a>
-                    <button type="submit" class="btn btn-info" style="margin-left: 15px;">Bewerk</button>
+                    <a asp-controller="ContactPersoon" asp-action="ToonAlleContactPersonen" class="btn btn-default">Alle contactpersonen</a>
+                    <button type="submit" class="btn btn-info" style="margin-left: 15px;">Opslaan</button>
                 </div>
             </div>
-            <
         </div>
     </form>
 </div>
