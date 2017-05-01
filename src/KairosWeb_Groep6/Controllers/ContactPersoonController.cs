@@ -1,4 +1,5 @@
-﻿using KairosWeb_Groep6.Models.Domain;
+﻿using KairosWeb_Groep6.Filters;
+using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -27,10 +28,12 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region Index
-        public IActionResult Index(int id)
+        [ServiceFilter(typeof(AnalyseFilter))]
+        public IActionResult Index(Analyse analyse)
         {
             try
             {
+                int id = analyse.Departement.Werkgever.WerkgeverId;
                 ViewData["WerkgeverId"] = id;
 
                 Werkgever werkgever = _werkgeverRepository.GetById(id);
@@ -50,13 +53,13 @@ namespace KairosWeb_Groep6.Controllers
                 else
                 {
                     TempData["error"] = "Er is nog geen contactpersoon, voeg hier eventueel een contactpersoon toe";
-                    return RedirectToAction("VoegContactPersoonToe", "ContactPersoon");
+                    return RedirectToAction("VoegContactPersoonToe", "ContactPersoon",new {id=werkgever.WerkgeverId });
                 }
             }
             catch
             {
-                TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
-                return RedirectToAction("VoegContactPersoonToe", "ContactPersoon");
+                TempData["error"] = "U hebt nog geen werkgever geselecteerd, gelieve deze eerst te selecteren";
+                return RedirectToAction("NieuweAnalyse", "Analyse");
             }
         }
         #endregion
@@ -132,8 +135,9 @@ namespace KairosWeb_Groep6.Controllers
             {
                 Werkgever werkgever = _werkgeverRepository.GetById(cpViewModel.WerkgeverId);
                 ContactPersoon cp = werkgever.ContactPersonen.Where(w => w.ContactPersoonId == cpViewModel.PersoonId).FirstOrDefault();
-          
+
                 //controle op een reeds bestaand contacctpersoon
+                cp.IsHoofdContactPersoon = cpViewModel.IsHoofd;
                 cp.Naam = cpViewModel.Naam;
                 cp.Voornaam = cpViewModel.Voornaam;
                 cp.Emailadres = cpViewModel.Email;

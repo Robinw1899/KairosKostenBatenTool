@@ -26,7 +26,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
             var dbContext = new DummyApplicationDbContext();
             var analyseRepo = new Mock<AnalyseRepository>();
 
-            _controller = new LoonkostenController(analyseRepo.Object);
+            _controller = new LoonkostenController(analyseRepo.Object, null);
             _analyse = new Analyse { Loonkosten = dbContext.Loonkosten };
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;

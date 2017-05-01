@@ -23,6 +23,8 @@ namespace KairosWeb_Groep6.Models.Domain
         public DateTime DatumLaatsteAanpassing { get; set; } = DateTime.Now;
 
         public bool InArchief { get; set; } = false;
+
+       
         #endregion
 
         #region Kosten

@@ -50,6 +50,10 @@
         });
 
         $("#werkgever").addClass("active");
+
+        if (siteView) {
+            siteView.initKlikbareRijen();
+        }
     </script>
 
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

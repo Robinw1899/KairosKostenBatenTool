@@ -11,6 +11,16 @@
     font-family: 'Asap', Cambria, sans-serif;
 }
 
+/* Klasse die wat opmaak geeft aan de rijen van de tabellen waarop geklikt kan worden */
+.klikbareRij {
+    cursor: pointer;
+}
+
+.klikbareRij:hover {
+    background-color: #97c900;
+    font-weight: bold;
+}
+
 /* Klasse die aangeeft wat er getoond moet worden in de navigatie op mobiele toestellen */
 .mobile {
     font-size: 1.5em;
@@ -49,10 +59,10 @@ footer {
     max-width: 280px;
 }
 
-
 /* Elke knop een groene kleur geven */
 .btn-info,
-.btn-succes {
+.btn-succes,
+.btn-primary {
     background-color: #97C900 !important;
     border-color: #97C900 !important;
 }
@@ -92,6 +102,7 @@ a.navbar-brand {
     zoom:1;
 }
 
+/* Klasse voor wat opmaak aan de partial _Tabs */
 .nav-analyse {
     text-align: center;
     display: block;
@@ -99,7 +110,6 @@ a.navbar-brand {
     margin-top: 20px;
 }
 
-/* De links in de navigatie van de analyse opmaken */
 .nav-analyse a {
     color: black !important;
 }
@@ -124,21 +134,6 @@ a.navbar-brand {
 /* De opties voor een rij in een tabel centreren */
 .options {
     text-align: center;
-}
-
-/*Ervoor zorgen dat de opties rechts in de tabel verschijnen en verdwijnen:*/
-.options i,
-.options span{
-    -ms-opacity: 0;
-    opacity: 0;
-}
-
-tr:hover .options i,
-li:hover .options i,
-.card:hover .options i,
-.card:hover .options span {
-    -ms-opacity: 1;
-    opacity: 1;
 }
 
 /* De andere tooltips een max-width geven */
@@ -235,13 +230,15 @@ h6#infoTekstVerplichteVelden {
     color: #97C900;
     position: absolute;
     margin-left: 1px;
-    /*top: 7px;*/ //hierdoor werden sommige * onderaan geplaatst
+    /*top: 7px;*/ /*hierdoor werden sommige * onderaan geplaatst*/
 }
 .paddingtekst {
     padding-left: 15px;
 }
-
-.kostenBatenNav a,
+.btnsAnnOpslInperkingOmzetVerlies {
+    padding-right: 65px;
+    padding-bottom: 15px;
+}
 .kostenBatenNav a:active,
 .resultaat a,
 .resultaat a:active {
@@ -267,9 +264,25 @@ h6#infoTekstVerplichteVelden {
     .desktop {
         display: inline !important;
     }
-    
+
+    /*Ervoor zorgen dat de opties rechts in de tabel verschijnen en verdwijnen*/
+    .options i,
+    .options span{
+        -ms-opacity: 1;
+        opacity: 1;
+    }
+
+    tr:hover .options i,
+    li:hover .options i,
+    .card:hover .options i,
+    .card:hover .options span {
+        -ms-opacity: 1;
+        opacity: 1;
+    }
+
 }
-/*formaat van Ipdad (tablet)*/
+
+/*formaat van Ipad (tablet)*/
 @media only screen and (max-width: 1024px){
     body {
         padding-top: 25px;

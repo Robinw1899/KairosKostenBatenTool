@@ -24,6 +24,8 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Analyse openen van andere jobcoach verhinderen
 * Demo jobcoach analyseren
 * Organisaties jobcoach implementeren zodat geen dubbels in de databank komen
+* Vorige- en Volgende-knop browser uitschakelen
+* Switch functie zodat cards naast elkaar en onder elkaar kunnen gezet worden
 
 ## Retrospective
 ### Wat ging goed?

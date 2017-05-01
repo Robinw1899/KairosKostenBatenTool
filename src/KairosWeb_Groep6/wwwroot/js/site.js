@@ -85,6 +85,15 @@
                     siteView.toonFormulier();
                 });
         });
+    },
+    initKlikbareRijen: function() {
+        $(".klikbareRij").click(function(event) {
+            var href = $(this).data("href");
+
+            if (href) {
+                window.location.href = href;
+            }
+        });
     }
 };
 
