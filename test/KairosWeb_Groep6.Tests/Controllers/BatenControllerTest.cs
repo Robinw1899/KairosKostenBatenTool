@@ -43,7 +43,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.Index(analyse) as ViewResult;
             var model = result?.Model as BatenIndexViewModel;
             
-            Assert.Equal(model?.GetType(), result?.Model.GetType());
+            Assert.Equal(typeof(BatenIndexViewModel), result?.Model.GetType());
         }
 
         [Fact]

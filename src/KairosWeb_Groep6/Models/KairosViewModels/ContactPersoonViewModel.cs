@@ -26,8 +26,9 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         [Display(Name = "E-mailadres *", Prompt = "E-mailades")]
         public string Email { get; set; }
 
-        [Display(Name = "Is dit de hoofdcontactpersoon?")]
-        public bool IsHoofd { get; set; }
+        public int AnalyseId { get; set; }
+
+       
         #endregion
 
         #region Constructor
@@ -46,7 +47,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
             Email = contactPersoon.Emailadres;
 
-            IsHoofd = contactPersoon.IsHoofdContactPersoon;
+           
 
             WerkgeverId = werkgeverid;
         }

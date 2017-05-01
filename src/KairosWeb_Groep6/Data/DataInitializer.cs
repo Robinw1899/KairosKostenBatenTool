@@ -48,12 +48,11 @@ namespace KairosWeb_Groep6.Data
                 // Doelgroepen aanmaken
                 InitializeDoelgroepen();
 
-                ContactPersoon contactThomas = new ContactPersoon("Thomas", "Aelbrecht", "thomasaelbrecht@live.com"){IsHoofdContactPersoon = true};
-                ContactPersoon contactRobin = new ContactPersoon("Robin", "Coppens", "robin.coppens.w1899@student.hogent.be") { IsHoofdContactPersoon = true };
-                ContactPersoon contactDimi = new ContactPersoon("Dimmy", "Maenhout", "dimmy.maenhout@telenet.be") { IsHoofdContactPersoon = true };
+                ContactPersoon contactThomas = new ContactPersoon("Thomas", "Aelbrecht", "thomasaelbrecht@live.com");
+                ContactPersoon contactRobin = new ContactPersoon("Robin", "Coppens", "robin.coppens.w1899@student.hogent.be") ;
+                ContactPersoon contactDimi = new ContactPersoon("Dimmy", "Maenhout", "dimmy.maenhout@telenet.be");
                 List<ContactPersoon> contacten = new List<ContactPersoon>();
-
-                contactThomas.IsHoofdContactPersoon = true;
+              
                 contacten.Add(contactThomas);
               
                 List<Departement> departementen = new List<Departement>();
@@ -67,8 +66,7 @@ namespace KairosWeb_Groep6.Data
                 _werkgeverRepository.Add(werkgever);
 
 
-                contacten.Remove(contactThomas);
-                contactRobin.IsHoofdContactPersoon = true;
+                contacten.Remove(contactThomas);              
                 contacten.Add(contactRobin);
 
                 werkgever =
@@ -82,8 +80,7 @@ namespace KairosWeb_Groep6.Data
                 _werkgeverRepository.Add(werkgever);
 
 
-                contacten.Remove(contactRobin);
-                contactDimi.IsHoofdContactPersoon = true;
+                contacten.Remove(contactRobin);            
                 contacten.Add(contactDimi);
 
                 werkgever =

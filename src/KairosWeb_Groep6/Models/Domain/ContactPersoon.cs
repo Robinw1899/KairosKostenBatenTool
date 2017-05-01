@@ -12,7 +12,6 @@
 
         public string Emailadres { get; set; }
 
-        public bool IsHoofdContactPersoon { get; set; }
         #endregion
 
         #region Constructors

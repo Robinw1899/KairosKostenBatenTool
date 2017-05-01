@@ -1,7 +1,11 @@
 ﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.ContactPersoonViewModel>
 @{
-    ViewData["Title"] = "Contactpersonen ";
+    ViewData["Title"] = "Contactpersonen";
 }
+
+<div>
+    @Html.Partial("_Tabs")
+</div>
 
 <div class="page-header" style="overflow: auto;">
     <!--Overflow omdat anders de border boven de h3 en knop staat-->
@@ -12,10 +16,13 @@
         <!--margin omdat de h3 dezelfde margin heeft-->
         <a asp-controller="ContactPersoon" asp-action="VoegContactPersoonToe" asp-route-id="@ViewData["WerkgeverId"]"
            class="btn btn-default">
-            <i class="fa fa-plus" aria-hidden="true"></i> Voeg een hoofd contactpersoon toe
+            <i class="fa fa-plus" aria-hidden="true"></i> Voeg een contactpersoon toe
         </a>
     </div>
 </div>
+
+<p>Klik op een bestaande contactpersoon in de tabel hieronder om deze te selecteren als hoofdcontactperoon
+     van deze analyse. Je kan ook een nieuwe contactpersoon toevoegen met de knop rechts boven naast de titel.</p>
 
 <div id="data">
     @Html.Partial("_OverzichtTabel", Model)
@@ -34,5 +41,11 @@
 @section Scripts {
     <script>       
         $("#contactpersoon").addClass("active");
+
+        if (siteView) {
+            siteView.initKlikbareRijen();
+        }
     </script>
+
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
