@@ -78,7 +78,7 @@ namespace KairosWeb_Groep6
             services.AddScoped<IDepartementRepository, DepartementRepository>();
             services.AddScoped<IAnalyseRepository, AnalyseRepository>();
             services.AddScoped<IWerkgeverRepository, WerkgeverRepository>();
-            // services.AddScoped<IContactPersoonRepository, ContactPersoonRepository>();
+            services.AddScoped<IContactPersoonRepository, ContactPersoonRepository>();
             services.AddScoped<IIntroductietekstRepository, IntroductietekstRepository>();
             services.AddScoped<IDoelgroepRepository, DoelgroepRepository>();
         }

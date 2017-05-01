@@ -17,8 +17,8 @@ else
         @foreach (var item in Model)
         {
                               
-                <tr class="klikbareRij" data-href="@Url.Action("SelecteerHoofdContactpersoon", "ContactPersoon",
-                                              new { WerkgeverId = item.WerkgeverId, ContactPersoonId = @item.PersoonId })">
+                <tr class="klikbareRij" data-href="@Url.Action("SelecteerBestaandeContactPersoon", "ContactPersoon",
+                                              new { WerkgeverId = item.WerkgeverId, ContactPersoonId = @item.PersoonId ,AnalyseId = ViewData["AnalyseId"]})">
                     <td>@item.Naam</td>
                     <td>@item.Voornaam</td>
                     <td>@item.Email</td>

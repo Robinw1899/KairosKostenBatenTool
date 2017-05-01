@@ -2,6 +2,7 @@
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -13,17 +14,20 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IDepartementRepository _departementRepository;
         private readonly IWerkgeverRepository _werkgeverRepository;
+        public readonly IContactPersoonRepository _contactPersoonRepository;
         #endregion 
 
         #region Constructor
         public ContactPersoonController(
             IAnalyseRepository analyseRepository,
             IDepartementRepository departementenRepository,
-            IWerkgeverRepository werkgeverRepository)
+            IWerkgeverRepository werkgeverRepository,
+            IContactPersoonRepository contactPersoonRepository)
         {
             _analyseRepository = analyseRepository;
             _departementRepository = departementenRepository;
             _werkgeverRepository = werkgeverRepository;
+            _contactPersoonRepository = contactPersoonRepository;
         }
         #endregion
 
@@ -35,11 +39,12 @@ namespace KairosWeb_Groep6.Controllers
             {
                 int id = analyse.Departement.Werkgever.WerkgeverId;
                 ViewData["WerkgeverId"] = id;
+                ViewData["AnalyseId"] = analyse.AnalyseId;
 
                 Werkgever werkgever = _werkgeverRepository.GetById(id);
                 if(analyse.contactPersooon != null)
                 {
-                    return RedirectToAction("SelecteerBestaandeContactPersoon", new { WerkgeverId = id, ContactPersoonId = analyse.contactPersooon.ContactPersoonId });
+                    return RedirectToAction("Bewerk", new { id = id, cpid = analyse.contactPersooon.ContactPersoonId });
                 }
 
                 if (werkgever.ContactPersonen.Any())
@@ -67,13 +72,48 @@ namespace KairosWeb_Groep6.Controllers
             }
         }
         #endregion
+
+        #region AlleContactPersonen
+        public IActionResult ViewAlleContactPersonen(Analyse analyse)
+        {         
+            try
+            {
+        
+                int id = analyse.Departement.Werkgever.WerkgeverId;
+                ViewData["WerkgeverId"] = id;              
+                Werkgever werkgever = _werkgeverRepository.GetById(id);             
+                if (werkgever.ContactPersonen.Any())
+                {
+                    // als er contactpersonen zijn
+                    IEnumerable<ContactPersoon> contactpersonen = werkgever.ContactPersonen;
+
+                    IEnumerable<ContactPersoonViewModel> viewModels
+                        = contactpersonen
+                            .Select(w => new ContactPersoonViewModel(w, id))
+                            .ToList();
+
+                    return View(viewModels);
+                }
+                else
+                {
+                    TempData["error"] = "Er is nog geen contactpersoon, voeg hier eventueel een contactpersoon toe";
+                    return RedirectToAction("VoegContactPersoonToe", "ContactPersoon", new { id = werkgever.WerkgeverId });
+                }
+            }
+            catch
+            {
+                TempData["error"] = "U hebt nog geen werkgever geselecteerd, gelieve deze eerst te selecteren";
+                return RedirectToAction("NieuweAnalyse", "Analyse");
+            }          
+        }
+        #endregion
         #region Contactpersonen
         public IActionResult VoegContactPersoonToe(int id)
         {
             ContactPersoonViewModel model = new ContactPersoonViewModel();
             model.WerkgeverId = id;
             return View(model);
-        }
+        }   
         [HttpPost]
         public IActionResult VoegContactPersoonToe(ContactPersoonViewModel cpViewModel)
         {
@@ -81,7 +121,9 @@ namespace KairosWeb_Groep6.Controllers
             ContactPersoon cp = new ContactPersoon(cpViewModel.Voornaam, cpViewModel.Naam, cpViewModel.Email);
 
             // controle op een reeds bestaand contactpersoon?
+            _contactPersoonRepository.Add(cp);
             werkgever.ContactPersonen.Add(cp);
+            _contactPersoonRepository.Save();
             _werkgeverRepository.Save();
             _departementRepository.Save();
 
@@ -96,10 +138,17 @@ namespace KairosWeb_Groep6.Controllers
             {
                 Werkgever werkgever = _werkgeverRepository.GetById(id);
                 ContactPersoon cp = werkgever.ContactPersonen.Where(w => w.ContactPersoonId == cpid).SingleOrDefault();
-
+             
                 werkgever.ContactPersonen.Remove(cp);
+                _contactPersoonRepository.Remove(cp);
                 _werkgeverRepository.Save();
+                _departementRepository.Save();             
+                _contactPersoonRepository.Save();
 
+            }
+            catch (DbUpdateException ex )
+            {
+                TempData["error"] = ex.Message;
             }
             catch
             {
@@ -122,6 +171,9 @@ namespace KairosWeb_Groep6.Controllers
 
                  model = new ContactPersoonViewModel(cp, id);
 
+                _werkgeverRepository.Save();
+                _departementRepository.Save();
+                _contactPersoonRepository.Save();
                 return View(model);
             }
             catch
@@ -152,17 +204,25 @@ namespace KairosWeb_Groep6.Controllers
             TempData["error"] = "Er is een fout opgetreden bij het aanpassen van de contactpersoon";
             return View(cpViewModel);          
 
-        }
-
-        public IActionResult SelecteerBestaandeContactPersoon(int WerkgeverId, int ContactPersoonId,Analyse analyse)
+        }      
+        public IActionResult SelecteerBestaandeContactPersoon(int WerkgeverId, int ContactPersoonId,int AnalyseId)
         {
+            
             Werkgever werkgever = _werkgeverRepository.GetById(WerkgeverId);
             ContactPersoon cp = werkgever.ContactPersonen.Where(w => w.ContactPersoonId == ContactPersoonId).FirstOrDefault();
 
-            analyse.contactPersooon = cp;        
+            Analyse analyse = _analyseRepository.GetById(AnalyseId);
+            analyse.contactPersooon = cp;
+            _analyseRepository.Save();
+            _contactPersoonRepository.Save();
+            _werkgeverRepository.Save();
 
             ContactPersoonViewModel model = new ContactPersoonViewModel(cp, WerkgeverId);
             return View("Bewerk", model);
         }
+
+        
+
+       
     }
 }
