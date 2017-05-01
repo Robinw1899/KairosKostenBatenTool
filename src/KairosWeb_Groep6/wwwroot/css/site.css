@@ -281,8 +281,9 @@ h6#infoTekstVerplichteVelden {
     }
 
 }
+
 /*formaat van Ipad (tablet)*/
-@media only screen and (max-width: 1024px) {
+@media only screen and (max-width: 1024px){
     body {
         padding-top: 25px;
         padding-bottom: 0 !important; /*de rand onderaan wordt hierdoor weggedaan*/
@@ -305,10 +306,11 @@ h6#infoTekstVerplichteVelden {
     .navRechtsIpad {
         padding-right: 15px;
     }
-    a {
-        color: black/*#97c900*/;
 
+    a {
+        color: black /*#97c900*/;
     }
+
     .inputFullWidth {
         width: 96% !important; /*zorgt ervoor dat de input fields van het bericht gelijk staan met de knop verzend*/
     }
@@ -349,19 +351,68 @@ h6#infoTekstVerplichteVelden {
         padding-top: 15px;
         margin-right: 2%
     }
+
     .btnsAnnAddLogistiekeBesparing { /*zorgt ervoor dat de btns annuleer/voeg toe niet tegen het input field er boven hangen*/
         padding-bottom: 15px;
         margin-right: 2%
     }
-    .btnsAnalyse{
+
+    .btnsAnalyse {
         padding-top: 15px;
         color: black !important;
     }
+
     .btnsAnnOpslInperkingOmzetVerlies {
         margin-right: 15px !important;
         padding-bottom: 15px !important;
     }
+
     .beschrijving {
         padding-top: 15px;
+    }
+    /*Inlog scherm*/
+    .intro {/*intro tekst goed zetten (in het midden v/d pagina*/
+        margin-right: 50px;
+        max-width: 60%;
+        margin-left: 20%;
+        margin-bottom: 5%;
+    }
+    .fa-2x {
+        float: right;
+    } .box-login {
+        width: 60% !important;
+        max-width: 60% !important;
+        margin-left: 20%;
+        margin-top: 15px;
+        margin-bottom: 5%;
+        height: 500px !important;
+        max-width: none;
+
+    }
+    /*Registreer scherm*/
+    .container.body-content .box-login {
+        height: 100% !important;
+    }
+    .btnToelichting{
+        margin-bottom: 10px;
+        padding-left: 70px !important;
+        margin-top: 10px !important;
+    }
+    .btnsAnnAddLogistiekeBesparing2 {
+        float: right !important;
+        padding-bottom: 15px;
+        padding-right: 33px;
+    }
+    #btnResultaat{
+        margin-left: 0 !important;
+    }
+    #btnVolgendeLogistiekeBesparing{
+        padding-right: 33px !important;
+    }
+    #btnVorigeLogistiekeBesparing{
+        padding-left: 20px;
+    }
+    #btnVolgendeExtraOmzet{
+        padding-right: 37px !important;
     }
 }
