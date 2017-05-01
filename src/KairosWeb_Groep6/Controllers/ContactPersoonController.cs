@@ -1,9 +1,11 @@
-﻿using KairosWeb_Groep6.Filters;
+﻿using System;
+using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -13,17 +15,20 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IDepartementRepository _departementRepository;
         private readonly IWerkgeverRepository _werkgeverRepository;
+        private readonly IContactPersoonRepository _contactPersoonRepository;
         #endregion 
 
         #region Constructor
         public ContactPersoonController(
             IAnalyseRepository analyseRepository,
             IDepartementRepository departementenRepository,
-            IWerkgeverRepository werkgeverRepository)
+            IWerkgeverRepository werkgeverRepository,
+            IContactPersoonRepository contactPersoonRepository)
         {
             _analyseRepository = analyseRepository;
             _departementRepository = departementenRepository;
             _werkgeverRepository = werkgeverRepository;
+            _contactPersoonRepository = contactPersoonRepository;
         }
         #endregion
 
@@ -31,12 +36,19 @@ namespace KairosWeb_Groep6.Controllers
         [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult Index(Analyse analyse)
         {
+            if (analyse?.Departement == null)
+            {
+                TempData["error"] = "U hebt nog geen werkgever geselecteerd, gelieve deze eerst te selecteren";
+                return RedirectToAction("Index", "Werkgever");
+            }
+
             try
             {
                 int id = analyse.Departement.Werkgever.WerkgeverId;
                 ViewData["WerkgeverId"] = id;
 
                 Werkgever werkgever = _werkgeverRepository.GetById(id);
+
                 if(analyse.contactPersooon != null)
                 {
                     return RedirectToAction("SelecteerBestaandeContactPersoon", new { WerkgeverId = id, ContactPersoonId = analyse.contactPersooon.ContactPersoonId });
@@ -57,39 +69,49 @@ namespace KairosWeb_Groep6.Controllers
                 else
                 {
                     TempData["error"] = "Er is nog geen contactpersoon, voeg hier eventueel een contactpersoon toe";
-                    return RedirectToAction("VoegContactPersoonToe", "ContactPersoon",new {id=werkgever.WerkgeverId });
+                    return RedirectToAction("VoegContactPersoonToe", "ContactPersoon",new { id = werkgever.WerkgeverId });
                 }
             }
             catch
             {
                 TempData["error"] = "U hebt nog geen werkgever geselecteerd, gelieve deze eerst te selecteren";
-                return RedirectToAction("NieuweAnalyse", "Analyse");
+                return RedirectToAction("Index", "Werkgever");
             }
         }
         #endregion
-        #region Contactpersonen
+
+        #region VoegToe
         public IActionResult VoegContactPersoonToe(int id)
         {
-            ContactPersoonViewModel model = new ContactPersoonViewModel();
-            model.WerkgeverId = id;
+            ContactPersoonViewModel model = new ContactPersoonViewModel {WerkgeverId = id};
+
             return View(model);
         }
+
         [HttpPost]
-        public IActionResult VoegContactPersoonToe(ContactPersoonViewModel cpViewModel)
+        public IActionResult VoegContactPersoonToe(ContactPersoonViewModel model)
         {
-            Werkgever werkgever = _werkgeverRepository.GetById(cpViewModel.WerkgeverId);
-            ContactPersoon cp = new ContactPersoon(cpViewModel.Voornaam, cpViewModel.Naam, cpViewModel.Email);
+            Werkgever werkgever = _werkgeverRepository.GetById(model.WerkgeverId);
+            ContactPersoon cp = new ContactPersoon(model.Voornaam, model.Naam, model.Email);
 
-            // controle op een reeds bestaand contactpersoon?
-            werkgever.ContactPersonen.Add(cp);
-            _werkgeverRepository.Save();
-            _departementRepository.Save();
+            try
+            {
+                _contactPersoonRepository.Add(cp);
+                _contactPersoonRepository.Save();
+                werkgever.ContactPersonen.Add(cp);
+                _werkgeverRepository.Save();
+            }
+            catch
+            {
+                ModelState.AddModelError("", "Er is al een contactpersoon met dit e-mailadres, gelieve een ander te kiezen");
+                return View(model);
+            }
 
-            return RedirectToAction("Index", new { id = cpViewModel.WerkgeverId });
+            return RedirectToAction("Index", new { id = model.WerkgeverId });
         }
         #endregion
-        
 
+        #region Verwijder
         public IActionResult Verwijder(int id,int cpid)
         {
             try
@@ -109,8 +131,9 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index", new { id = id });
 
         }
+        #endregion
 
-
+        #region Bewerk
         public IActionResult Bewerk(int id,int cpid)
         {
             ContactPersoonViewModel model;
@@ -153,7 +176,9 @@ namespace KairosWeb_Groep6.Controllers
             return View(cpViewModel);          
 
         }
+        #endregion
 
+        #region SelecteerBestaandeContactPersoon
         public IActionResult SelecteerBestaandeContactPersoon(int WerkgeverId, int ContactPersoonId,Analyse analyse)
         {
             Werkgever werkgever = _werkgeverRepository.GetById(WerkgeverId);
@@ -164,5 +189,6 @@ namespace KairosWeb_Groep6.Controllers
             ContactPersoonViewModel model = new ContactPersoonViewModel(cp, WerkgeverId);
             return View("Bewerk", model);
         }
+        #endregion
     }
 }

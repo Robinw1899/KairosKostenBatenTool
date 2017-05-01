@@ -219,7 +219,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Soort = soort
             };
 
-            string omschrijving = doelgroep.ToString();
+            string omschrijving = doelgroep.GeefOmschrijving();
 
             Assert.Equal(expected, omschrijving);
         }

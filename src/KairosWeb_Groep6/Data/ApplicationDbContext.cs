@@ -22,6 +22,8 @@ namespace KairosWeb_Groep6.Data
 
         public DbSet<Doelgroep> Doelgroepen { get; set; }
 
+        public DbSet<ContactPersoon> ContactPersonen { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

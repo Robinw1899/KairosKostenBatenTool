@@ -78,7 +78,7 @@ namespace KairosWeb_Groep6
             services.AddScoped<IDepartementRepository, DepartementRepository>();
             services.AddScoped<IAnalyseRepository, AnalyseRepository>();
             services.AddScoped<IWerkgeverRepository, WerkgeverRepository>();
-            // services.AddScoped<IContactPersoonRepository, ContactPersoonRepository>();
+            services.AddScoped<IContactPersoonRepository, ContactPersoonRepository>();
             services.AddScoped<IIntroductietekstRepository, IntroductietekstRepository>();
             services.AddScoped<IDoelgroepRepository, DoelgroepRepository>();
         }
@@ -121,10 +121,10 @@ namespace KairosWeb_Groep6
                     template: "{controller=Kairos}/{action=Index}/{id?}");
             });
 
-            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
-                                                              departementRepository, analyseRepository, werkgeverRepository,
-                                                             introductietekstRepository, doelgroepRepository);
-            initializer.InitializeData().Wait();
+            //DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
+            //                                                  departementRepository, analyseRepository, werkgeverRepository,
+            //                                                 introductietekstRepository, doelgroepRepository);
+            //initializer.InitializeData().Wait();
         }
 
         private RequestLocalizationOptions BuildLocalizationOptions()

@@ -18,6 +18,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         #region Properties
         private readonly LoonkostenController _controller;
         private readonly Analyse _analyse;
+        private readonly Mock<IDoelgroepRepository> _doelgroepRepositoryMock;
         #endregion
 
         #region Constructors
@@ -25,8 +26,9 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         {
             var dbContext = new DummyApplicationDbContext();
             var analyseRepo = new Mock<AnalyseRepository>();
+            _doelgroepRepositoryMock = new Mock<IDoelgroepRepository>();
 
-            _controller = new LoonkostenController(analyseRepo.Object, null);
+            _controller = new LoonkostenController(analyseRepo.Object, _doelgroepRepositoryMock.Object);
             _analyse = new Analyse { Loonkosten = dbContext.Loonkosten };
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
@@ -72,7 +74,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         {
             LoonkostViewModel model = new LoonkostViewModel
             {
-                Id = 1,
+                Id = 4,
                 Type = Type.Kost,
                 Soort = Soort.Loonkost,
                 BrutoMaandloonFulltime = 1800,
@@ -82,6 +84,9 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
             };
+
+            _doelgroepRepositoryMock.Setup(d => d.GetByDoelgroepSoort(It.IsAny<DoelgroepSoort>()))
+                .Returns(new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M));
 
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
