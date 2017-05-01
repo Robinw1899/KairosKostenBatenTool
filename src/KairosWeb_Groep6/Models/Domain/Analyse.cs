@@ -24,7 +24,7 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public bool InArchief { get; set; } = false;
 
-        public ContactPersoon contactPersooon {get;set;}
+        public ContactPersoon ContactPersooon {get;set;}
         #endregion
 
         #region Kosten

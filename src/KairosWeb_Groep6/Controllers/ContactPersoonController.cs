@@ -49,9 +49,9 @@ namespace KairosWeb_Groep6.Controllers
 
                 Werkgever werkgever = _werkgeverRepository.GetById(id);
 
-                if(analyse.contactPersooon != null)
+                if(analyse.ContactPersooon != null)
                 {
-                    ContactPersoonViewModel model = new ContactPersoonViewModel(analyse.contactPersooon, 
+                    ContactPersoonViewModel model = new ContactPersoonViewModel(analyse.ContactPersooon, 
                         analyse.Departement.Werkgever.WerkgeverId);
                     return View("Bewerk", model);
                 }
@@ -115,6 +115,8 @@ namespace KairosWeb_Groep6.Controllers
                 _contactPersoonRepository.Save();
                 werkgever.ContactPersonen.Add(cp);
                 _werkgeverRepository.Save();
+
+                TempData["message"] = "De contactpersoon " + cp.Voornaam + " " + cp.Naam + " is succesvol toegevoegd";
             }
             catch
             {
@@ -122,7 +124,7 @@ namespace KairosWeb_Groep6.Controllers
                 return View(model);
             }
 
-            return RedirectToAction("Index", new { id = model.WerkgeverId });
+            return RedirectToAction("ToonAlleContactPersonen");
         }
         #endregion
 
@@ -170,8 +172,8 @@ namespace KairosWeb_Groep6.Controllers
                         
                         _contactPersoonRepository.Save();
 
-                        TempData["message"] = "De contactpersoon " + model.Voornaam + " " + model.Naam + " is succesvol aangepast";
-                        return RedirectToAction("Index");
+                        TempData["message"] = "De contactpersoon " + model.Voornaam + " " + model.Naam + " is succesvol opgeslaan";
+                        return RedirectToAction("ToonAlleContactPersonen");
                     }
                 }
             }
@@ -186,13 +188,22 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region Verwijder
-        public IActionResult Verwijder(int id, int werkgeverid)
+        [ServiceFilter(typeof(AnalyseFilter))]
+        public IActionResult VerwijderContactpersoon(int id, int werkgeverid, Analyse analyse)
         {
             // id is het id van de contactpersoon
-
             try
             {
                 ContactPersoon cp = _contactPersoonRepository.GetById(id);
+
+                if (analyse.ContactPersooon != null && analyse.ContactPersooon.Equals(cp))
+                {
+                    TempData["error"] = "Deze contactpersoon is ingesteld als contactpersoon voor deze analyse " +
+                                          "en kan dus niet verwijderd worden. Kies eerst een andere " +
+                                          "contactpersoon voor deze analyse.";
+
+                    return RedirectToAction("ToonAlleContactPersonen");
+                }
 
                 ViewData["contactPersoonId"] = id;
                 ViewData["werkgeverId"] = werkgeverid;
@@ -201,9 +212,10 @@ namespace KairosWeb_Groep6.Controllers
             catch
             {
                 TempData["error"] = "Er is een fout opgetreden tijdens het voorbereiden van het verwijderen, probeer later opnieuw";
+                return RedirectToAction("ToonAlleContactPersonen");
             }
 
-            return View();
+            return View("Verwijder");
         }
 
         [ActionName("Verwijder")]
@@ -223,13 +235,15 @@ namespace KairosWeb_Groep6.Controllers
                 // nadien de contactpersoon
                 _contactPersoonRepository.Remove(cp);
                 _contactPersoonRepository.Save();
+
+                TempData["message"] = "De contactpersoon " + cp.Voornaam + " " + cp.Naam + " is succesvol verwijderd";
             }
             catch
             {
                 TempData["error"] = "Er is een fout opgetreden tijdens het verwijderen van de contactpersoon, probeer later opnieuw";
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ToonAlleContactPersonen");
 
         }
         #endregion
@@ -265,7 +279,7 @@ namespace KairosWeb_Groep6.Controllers
 
                 if (cp != null)
                 {
-                    analyse.contactPersooon = cp;
+                    analyse.ContactPersooon = cp;
                     _analyseRepository.Save();
                 }
                 else

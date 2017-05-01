@@ -24,6 +24,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public IEnumerable<Analyse> GetAnalysesNietInArchief()
         {
             return _analyses
+                .Include(a => a.ContactPersooon)
                 .Include(a => a.Departement)
                     .ThenInclude(d => d.Werkgever)
                     .ThenInclude(w => w.ContactPersonen)
@@ -54,6 +55,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public IEnumerable<Analyse> GetAnalysesUitArchief()
         {
             return _analyses
+                .Include(a => a.ContactPersooon)
                 .Include(a => a.Departement)
                     .ThenInclude(d => d.Werkgever)
                 .Include(a => a.BegeleidingsKosten)
@@ -83,6 +85,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public Analyse GetById(int id)
         {
             return _analyses
+                .Include(a => a.ContactPersooon)
                 .Include(a => a.Departement)
                     .ThenInclude(d => d.Werkgever)
                 .Include(a => a.BegeleidingsKosten)
