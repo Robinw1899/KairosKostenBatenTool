@@ -26,6 +26,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         [Display(Name = "E-mailadres *", Prompt = "E-mailades")]
         public string Email { get; set; }
 
+        public int AnalyseId { get; set; }
+
        
         #endregion
 
