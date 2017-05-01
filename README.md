@@ -8,6 +8,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 
 ## Vragen voor klant
 * Moeten er extra doelgroepen kunnen gemaakt worden?
+* Moeten er gebruikers kunnen geselecteerd worden om te exporteren?
 
 ## Niet vergeten!
 * Vaak committen
