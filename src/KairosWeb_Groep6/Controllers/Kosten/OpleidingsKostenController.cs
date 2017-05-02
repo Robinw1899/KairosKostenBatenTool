@@ -48,12 +48,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 if (ModelState.IsValid)
                 {
+                    DecimalConverter dc = new DecimalConverter();
                     OpleidingsKost kost = new OpleidingsKost
                     {
                         Type = model.Type,
                         Soort = model.Soort,
                         Beschrijving = model.Beschrijving,
-                        Bedrag = model.Bedrag
+                        Bedrag = dc.ConvertToDecimal(model.Bedrag)
                     };
 
                     analyse.OpleidingsKosten.Add(kost);
@@ -81,6 +82,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 OpleidingsKostViewModel model = new OpleidingsKostViewModel();
 
+                DecimalConverter dc = new DecimalConverter();
                 if (kost != null)
                 {
                     // parameters voor formulier instellen
@@ -88,7 +90,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     model.Type = kost.Type;
                     model.Soort = kost.Soort;
                     model.Beschrijving = kost.Beschrijving;
-                    model.Bedrag = kost.Bedrag;
+                    model.Bedrag = dc.ConvertToString(kost.Bedrag);
 
                     return PartialView("_Formulier", model);
                 }
@@ -107,6 +109,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             try
             {
                 OpleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.OpleidingsKosten, model.Id);
+                DecimalConverter dc = new DecimalConverter();
 
                 if (ModelState.IsValid && kost != null)
                 {
@@ -114,7 +117,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     kost.Type = model.Type;
                     kost.Soort = model.Soort;
                     kost.Beschrijving = model.Beschrijving;
-                    kost.Bedrag = model.Bedrag;
+                    kost.Bedrag = dc.ConvertToDecimal(model.Bedrag);
 
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();

@@ -46,12 +46,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             if (ModelState.IsValid)
             {
+                DecimalConverter dc = new DecimalConverter();
                 PersoneelsKost kost = new PersoneelsKost
                 {
                     Type = model.Type,
                     Soort = model.Soort,
                     Beschrijving = model.Beschrijving,
-                    Bedrag = model.Bedrag
+                    Bedrag = dc.ConvertToDecimal(model.Bedrag)
                 };
 
                 try
@@ -83,6 +84,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 PersoneelsKostViewModel model = new PersoneelsKostViewModel();
 
+                DecimalConverter dc = new DecimalConverter();
                 if (kost != null)
                 {
                     // parameters voor formulier instellen
@@ -90,7 +92,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     model.Type = kost.Type;
                     model.Soort = kost.Soort;
                     model.Beschrijving = kost.Beschrijving;
-                    model.Bedrag = kost.Bedrag;
+                    model.Bedrag = dc.ConvertToString(kost.Bedrag);
 
                     return PartialView("_Formulier", model);
                 }
@@ -109,14 +111,14 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             try
             {
                 PersoneelsKost kost = KostOfBaatExtensions.GetBy(analyse.PersoneelsKosten, model.Id);
-
+                DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && kost != null)
                 {
                     kost.Id = model.Id;
                     kost.Type = model.Type;
                     kost.Soort = model.Soort;
                     kost.Beschrijving = model.Beschrijving;
-                    kost.Bedrag = model.Bedrag;
+                    kost.Bedrag = dc.ConvertToDecimal(model.Bedrag);
 
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();

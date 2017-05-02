@@ -23,7 +23,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         [Required(ErrorMessage = "Gelieve het bedrag op te geven.")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bedrag op te geven.")]
-        public decimal Bedrag { get; set; }
+        public string Bedrag { get; set; }
         #endregion
 
         #region Constructors
@@ -34,11 +34,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         public ExtraBesparingViewModel(ExtraBesparing besparing)
         {
+            DecimalConverter dc = new DecimalConverter();
             Id = besparing.Id;
             Type = besparing.Type;
             Soort = besparing.Soort;
             Beschrijving = besparing.Beschrijving;
-            Bedrag = besparing.Bedrag;
+            Bedrag = dc.ConvertToString(besparing.Bedrag);
         }
         #endregion
     }

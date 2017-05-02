@@ -20,12 +20,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
         [Display(Name = "Jaarbedrag transportkosten", Prompt = "Transportkosten")]
         [Required(ErrorMessage = "Gelieve het jaarbedrag van de transportkosten op te geven.")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het jaarbedrag van de transportkosten op te geven.")]
-        public decimal TransportKosten { get; set; }
+        public string TransportKosten { get; set; }
 
         [Display(Name = "Jaarbedrag logistieke handlingskosten", Prompt = "Logistieke handlingskosten")]
         [Required(ErrorMessage = "Gelieve het jaarbedrag van de logistieke handlingskosten op te geven.")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het jaarbedrag van de logistieke handlingskosten op te geven.")]
-        public decimal LogistiekHandlingsKosten { get; set; }
+        public string LogistiekHandlingsKosten { get; set; }
         #endregion
 
         #region Constructors
@@ -40,9 +40,10 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
         {
             if (baat != null)
             {
+                DecimalConverter dc = new DecimalConverter();
                 Id = baat.Id;
-                TransportKosten = baat.TransportKosten;
-                LogistiekHandlingsKosten = baat.LogistiekHandlingsKosten;
+                TransportKosten = dc.ConvertToString(baat.TransportKosten);
+                LogistiekHandlingsKosten = dc.ConvertToString(baat.LogistiekHandlingsKosten);
             }
         }
         #endregion

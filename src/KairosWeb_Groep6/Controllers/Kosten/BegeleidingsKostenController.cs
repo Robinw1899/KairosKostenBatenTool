@@ -46,12 +46,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 if (ModelState.IsValid)
                 {
+                    DecimalConverter dc = new DecimalConverter();
                     BegeleidingsKost kost = new BegeleidingsKost
                     {
                         Type = model.Type,
                         Soort = model.Soort,
                         Uren = model.Uren,
-                        BrutoMaandloonBegeleider = model.BrutoMaandloonBegeleider
+                        BrutoMaandloonBegeleider =dc.ConvertToDecimal( model.BrutoMaandloonBegeleider)
                     };
 
                     analyse.BegeleidingsKosten.Add(kost);
@@ -77,7 +78,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 BegeleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, id);
                 BegeleidingsKostViewModel model = new BegeleidingsKostViewModel();
-
+                DecimalConverter dc = new DecimalConverter();
                 if (kost != null)
                 {
                     // parameters voor formulier instellen
@@ -85,7 +86,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     model.Type = kost.Type;
                     model.Soort = kost.Soort;
                     model.Uren = kost.Uren;
-                    model.BrutoMaandloonBegeleider = kost.BrutoMaandloonBegeleider;
+                    model.BrutoMaandloonBegeleider = dc.ConvertToString(kost.BrutoMaandloonBegeleider);
 
                     return PartialView("_Formulier", model);
                 }
@@ -104,14 +105,14 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             try
             {
                 BegeleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, model.Id);
-
+                DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && kost != null)
                 {
                     kost.Id = model.Id;
                     kost.Type = model.Type;
                     kost.Soort = model.Soort;
                     kost.Uren = model.Uren;
-                    kost.BrutoMaandloonBegeleider = model.BrutoMaandloonBegeleider;
+                    kost.BrutoMaandloonBegeleider = dc.ConvertToDecimal(model.BrutoMaandloonBegeleider);
 
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
@@ -162,13 +163,14 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Helpers
         private IEnumerable<BegeleidingsKostViewModel> MaakModel(Analyse analyse)
         {
+            DecimalConverter dc = new DecimalConverter();
             return analyse
                 .BegeleidingsKosten
                 .Select(m => new BegeleidingsKostViewModel(m)
                 {
                     Bedrag = analyse.Departement == null
-                        ? 0
-                        : m.GeefJaarbedrag(analyse.Departement.Werkgever.PatronaleBijdrage)
+                        ? ""
+                        : dc.ConvertToString(m.GeefJaarbedrag(analyse.Departement.Werkgever.PatronaleBijdrage))
                 })
                 .ToList();
         }

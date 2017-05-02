@@ -48,12 +48,13 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 if (ModelState.IsValid)
                 {
+                    DecimalConverter dc = new DecimalConverter();
                     UitzendKrachtBesparing baat = new UitzendKrachtBesparing
                     {
                         Type = model.Type,
                         Soort = model.Soort,
                         Beschrijving = model.Beschrijving,
-                        Bedrag = model.Bedrag
+                        Bedrag = dc.ConvertToDecimal(model.Bedrag)
                     };
 
                     analyse.UitzendKrachtBesparingen.Add(baat);
@@ -80,14 +81,14 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, id);
 
                 UitzendKrachtBesparingViewModel model = new UitzendKrachtBesparingViewModel();
-
+                DecimalConverter dc = new DecimalConverter();
                 if (baat != null)
                 {
                     model.Id = id;
                     model.Type = baat.Type;
                     model.Soort = baat.Soort;
                     model.Beschrijving = baat.Beschrijving;
-                    model.Bedrag = baat.Bedrag;
+                    model.Bedrag = dc.ConvertToString(baat.Bedrag);
 
                     return PartialView("_Formulier", model);
                 }
@@ -106,14 +107,14 @@ namespace KairosWeb_Groep6.Controllers.Baten
             try
             {
                 UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, model.Id);
-
+                DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && baat != null)
                 {
                     baat.Id = model.Id;
                     baat.Type = model.Type;
                     baat.Soort = model.Soort;
                     baat.Beschrijving = model.Beschrijving;
-                    baat.Bedrag = model.Bedrag;
+                    baat.Bedrag = dc.ConvertToDecimal(model.Bedrag);
 
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();

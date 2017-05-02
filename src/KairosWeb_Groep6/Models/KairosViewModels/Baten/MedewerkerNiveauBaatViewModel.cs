@@ -25,9 +25,9 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
         [Required(ErrorMessage = "Gelieve een bruto maandloon op te geven")]
         [Display(Name = "Bruto maandloon (fulltime)")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bruto maandloon op te geven.")]
-        public decimal BrutoMaandloonFulltime { get; set; }
+        public string BrutoMaandloonFulltime { get; set; }
 
-        public decimal Bedrag { get; set; }
+        public string Bedrag { get; set; }
         #endregion
 
         #region Constructors
@@ -38,12 +38,13 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         public MedewerkerNiveauBaatViewModel(MedewerkerNiveauBaat baat)
         {
+            DecimalConverter dc = new DecimalConverter();
             Id = baat.Id;
             Type = baat.Type;
             Soort = baat.Soort;
             Uren = baat.Uren;
-            BrutoMaandloonFulltime = baat.BrutoMaandloonFulltime;
-            Bedrag = baat.Bedrag;
+            BrutoMaandloonFulltime = dc.ConvertToString(baat.BrutoMaandloonFulltime);
+            Bedrag = dc.ConvertToString(baat.Bedrag);
         }
         #endregion
     }

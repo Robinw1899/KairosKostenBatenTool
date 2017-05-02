@@ -24,8 +24,8 @@
         {
             <tr>
                 <td>@baat.Uren.ToString("F", new CultureInfo("nl-BE"))</td>
-                <td>@baat.BrutoMaandloonFulltime.ToString("C", new CultureInfo("nl-BE"))</td>
-                <td>@baat.Bedrag.ToString("C", new CultureInfo("nl-BE"))</td>
+                <td>@baat.BrutoMaandloonFulltime</td>
+                <td>@baat.Bedrag</td>
                 <td>
                     <div class="options">
                         <a asp-action="Bewerk" asp-route-id="@baat.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>

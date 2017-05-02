@@ -23,7 +23,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         [Required(ErrorMessage = "Gelieve een bedrag op te geven.")]
         [Display(Name = "Jaarbedrag")]
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief bedrag op te geven.")]
-        public decimal Bedrag { get; set; }
+        public string Bedrag { get; set; }
         #endregion
 
         #region Constructors
@@ -33,10 +33,11 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         }
         public EnclaveKostViewModel(EnclaveKost kost)
         {
+            DecimalConverter dc = new DecimalConverter();
             Id = kost.Id;
             Type = kost.Type;
             Soort = kost.Soort;
-            Bedrag = kost.Bedrag;
+            Bedrag = dc.ConvertToString(kost.Bedrag);
             Beschrijving = kost.Beschrijving;
         }
         #endregion

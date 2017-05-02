@@ -20,8 +20,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         [Required(ErrorMessage = "Gelieve een bedrag in te vullen")]
         [Display(Name = "Jaarbedrag")]
-        [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het aantal uur op te geven.")]
-        public decimal Bedrag { get; set; }
+        [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het aantal uur op te geven.")]        
+        public string Bedrag { get; set; }
         #endregion
 
         #region Constructors
@@ -32,11 +32,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         public ExterneInkoopViewModel(ExterneInkoop baat)
         {
+            DecimalConverter dc = new DecimalConverter();
             Id = baat.Id;
             Type = baat.Type;
             Soort = baat.Soort;
             Beschrijving = baat.Beschrijving;
-            Bedrag = baat.Bedrag;
+            Bedrag = dc.ConvertToString(baat.Bedrag);
         }
         #endregion
     }

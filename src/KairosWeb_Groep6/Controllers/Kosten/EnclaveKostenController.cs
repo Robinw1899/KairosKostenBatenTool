@@ -48,12 +48,13 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 if (ModelState.IsValid)
                 {
+                    DecimalConverter dc = new DecimalConverter();
                     EnclaveKost kost = new EnclaveKost
                     {
                         Soort = model.Soort,
                         Type = model.Type,
                         Beschrijving = model.Beschrijving,
-                        Bedrag = model.Bedrag
+                        Bedrag = dc.ConvertToDecimal(model.Bedrag)
                     };
 
                     analyse.EnclaveKosten.Add(kost);
@@ -81,7 +82,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 EnclaveKost kost = KostOfBaatExtensions.GetBy(analyse.EnclaveKosten, id);
                 EnclaveKostViewModel model = new EnclaveKostViewModel();
-
+                DecimalConverter dc = new DecimalConverter();
                 if (kost != null)
                 {
                     // parameters voor formulier instellen
@@ -89,7 +90,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     model.Type = kost.Type;
                     model.Beschrijving = kost.Beschrijving;
                     model.Soort = kost.Soort;
-                    model.Bedrag = kost.Bedrag;
+                    model.Bedrag = dc.ConvertToString(kost.Bedrag);
 
                     return PartialView("_Formulier", model);
                 }
@@ -108,14 +109,14 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             try
             {
                 EnclaveKost kost = KostOfBaatExtensions.GetBy(analyse.EnclaveKosten, model.Id);
-                
+                DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && kost != null)
                 {
                     kost.Id = model.Id;
                     kost.Type = model.Type;
                     kost.Beschrijving = model.Beschrijving;
                     kost.Soort = model.Soort;
-                    kost.Bedrag = model.Bedrag;
+                    kost.Bedrag = dc.ConvertToDecimal(model.Bedrag);
 
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
