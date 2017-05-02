@@ -1,4 +1,5 @@
-﻿using KairosWeb_Groep6.Controllers.Baten;
+﻿using System;
+using KairosWeb_Groep6.Controllers.Baten;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten;
 using KairosWeb_Groep6.Tests.Data;
@@ -38,9 +39,11 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         {
             var result = _controller.Index(_analyse) as ViewResult;
             var model = result?.Model as ExtraOmzetViewModel;
+            var jaarbedrag = Convert.ToDecimal(model?.JaarbedragOmzetverlies);
+            var besparing = Convert.ToDecimal(model?.Besparing);
 
-            Assert.Equal(12000M, model?.JaarbedragOmzetverlies);
-            Assert.Equal(5M, model?.Besparing);
+            Assert.Equal(12000M, jaarbedrag);
+            Assert.Equal(5M, besparing);
         }
         #endregion
 
@@ -50,16 +53,21 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         {
             ExtraOmzetViewModel model = new ExtraOmzetViewModel
             {
-                JaarbedragOmzetverlies = 25000,
-                Besparing = 10
+                JaarbedragOmzetverlies = "" + 25000,
+                Besparing = "" + 10
             };
 
             var result = _controller.Opslaan(_analyse, model) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
 
-            Assert.Equal(model.JaarbedragOmzetverlies, _analyse.ExtraOmzet.JaarbedragOmzetverlies);
-            Assert.Equal(model.Besparing, _analyse.ExtraOmzet.Besparing);
+            var expectedJaarbedrag = Convert.ToDecimal(model.JaarbedragOmzetverlies);
+            var actualJaarbedrag = Convert.ToDecimal(_analyse.ExtraOmzet.JaarbedragOmzetverlies);
+            var expectedBesparing = Convert.ToDecimal(model.Besparing);
+            var actualBesparing = Convert.ToDecimal(_analyse.ExtraOmzet.Besparing);
+
+            Assert.Equal(expectedJaarbedrag, actualJaarbedrag);
+            Assert.Equal(expectedBesparing, actualBesparing);
         }
         #endregion
     }

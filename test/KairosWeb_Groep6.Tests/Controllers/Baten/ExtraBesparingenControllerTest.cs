@@ -75,7 +75,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
                 Type = Type.Kost,
                 Soort = Soort.ExtraBesparing,
                 Beschrijving = "inkoop papierwerk",
-                Bedrag = 2750
+                Bedrag = "" + 2750
             };
 
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
@@ -124,7 +124,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
                 Type = Type.Kost,
                 Soort = Soort.ExtraBesparing,
                 Beschrijving = "test",
-                Bedrag = 2900
+                Bedrag = "" + 2900
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
@@ -141,7 +141,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
                 Type = Type.Kost,
                 Soort = Soort.ExtraBesparing,
                 Beschrijving = "test",
-                Bedrag = 2750
+                Bedrag = "" + 2750
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;

@@ -74,7 +74,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Id = 1,
                 Type = Type.Kost,
                 Soort = Soort.BegeleidingsKost,
-                BrutoMaandloonBegeleider = 3240,
+                BrutoMaandloonBegeleider = "" + 3240,
                 Uren = 30
             };
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
@@ -122,7 +122,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Id = -1,
                 Type = Type.Kost,
                 Soort = Soort.BegeleidingsKost,
-                BrutoMaandloonBegeleider = 3240,
+                BrutoMaandloonBegeleider = "" + 3240,
                 Uren = 30
             };
 
@@ -139,7 +139,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Id = 1,
                 Type = Type.Kost,
                 Soort = Soort.BegeleidingsKost,
-                BrutoMaandloonBegeleider = 3240,
+                BrutoMaandloonBegeleider = "" + 3240,
                 Uren = 30
             };
 

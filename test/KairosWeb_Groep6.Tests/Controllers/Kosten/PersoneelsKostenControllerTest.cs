@@ -76,7 +76,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Type = Type.Kost,
                 Soort = Soort.PersoneelsKost,
                 Beschrijving = "test",
-                Bedrag = 9208
+                Bedrag = "" + 9208
             };
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
@@ -124,7 +124,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Type = Type.Kost,
                 Soort = Soort.PersoneelsKost,
                 Beschrijving = "test",
-                Bedrag = 9208
+                Bedrag = "" + 9208
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
@@ -141,7 +141,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Type = Type.Kost,
                 Soort = Soort.PersoneelsKost,
                 Beschrijving = "test",
-                Bedrag = 9208
+                Bedrag = "" + 9208
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;

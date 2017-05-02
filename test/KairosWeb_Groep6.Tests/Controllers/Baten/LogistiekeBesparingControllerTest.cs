@@ -1,4 +1,5 @@
-﻿using KairosWeb_Groep6.Controllers.Baten;
+﻿using System;
+using KairosWeb_Groep6.Controllers.Baten;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten;
 using KairosWeb_Groep6.Tests.Data;
@@ -39,8 +40,11 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
             var result = _controller.Index(_analyse) as ViewResult;
             var model = result?.Model as LogistiekeBesparingViewModel;
 
-            Assert.Equal(3000M, model?.TransportKosten);
-            Assert.Equal(2000M, model?.LogistiekHandlingsKosten);
+            var transportkosten = Convert.ToDecimal(model?.TransportKosten);
+            var handlingskosten = Convert.ToDecimal(model?.LogistiekHandlingsKosten);
+
+            Assert.Equal(3000M, transportkosten);
+            Assert.Equal(2000M, handlingskosten);
         }
         #endregion
 
@@ -50,16 +54,21 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         {
             LogistiekeBesparingViewModel model = new LogistiekeBesparingViewModel
             {
-                TransportKosten = 25000,
-                LogistiekHandlingsKosten = 2830
+                TransportKosten = "" + 25000,
+                LogistiekHandlingsKosten = "" + 2830
             };
 
             var result = _controller.Opslaan(_analyse, model) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
 
-            Assert.Equal(model.TransportKosten, _analyse.LogistiekeBesparing.TransportKosten);
-            Assert.Equal(model.LogistiekHandlingsKosten, _analyse.LogistiekeBesparing.LogistiekHandlingsKosten);
+            var expectedTransportkosten = Convert.ToDecimal(model.TransportKosten);
+            var actualTransportkosten = Convert.ToDecimal(_analyse.LogistiekeBesparing.TransportKosten);
+            var expectedHandlingskosten = Convert.ToDecimal(model.LogistiekHandlingsKosten);
+            var actualHandlingskosten = Convert.ToDecimal(_analyse.LogistiekeBesparing.LogistiekHandlingsKosten);
+
+            Assert.Equal(expectedTransportkosten, actualTransportkosten);
+            Assert.Equal(expectedHandlingskosten, actualHandlingskosten);
         }
         #endregion
     }

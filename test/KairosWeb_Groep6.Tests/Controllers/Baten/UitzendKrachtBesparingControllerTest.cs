@@ -77,7 +77,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
                 Type = Type.Baat,
                 Soort = Soort.UitzendkrachtBesparing,
                 Beschrijving = "Tuinier",
-                Bedrag = 2500
+                Bedrag = "" + 2500
             };
 
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
@@ -126,7 +126,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
                 Type = Type.Baat,
                 Soort = Soort.UitzendkrachtBesparing,
                 Beschrijving = "Tuinier",
-                Bedrag = 2500
+                Bedrag = "" + 2500
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
@@ -143,7 +143,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
                 Type = Type.Baat,
                 Soort = Soort.UitzendkrachtBesparing,
                 Beschrijving = "Tuinier",
-                Bedrag = 2500
+                Bedrag = "" + 2500
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;

@@ -31,7 +31,7 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public string ConvertToString(decimal getal)
         {
-            return getal.ToString("C", new CultureInfo("nl-BE"));
+            return getal.ToString("F", new CultureInfo("nl-BE"));
         }
 
     }

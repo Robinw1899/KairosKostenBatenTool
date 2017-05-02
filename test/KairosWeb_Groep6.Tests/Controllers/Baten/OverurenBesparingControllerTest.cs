@@ -1,4 +1,5 @@
-﻿using KairosWeb_Groep6.Controllers.Baten;
+﻿using System;
+using KairosWeb_Groep6.Controllers.Baten;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten;
 using KairosWeb_Groep6.Tests.Data;
@@ -39,7 +40,9 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
             var result = _controller.Index(_analyse) as ViewResult;
             var model = result?.Model as OverurenBesparingViewModel;
 
-            Assert.Equal(34570M, model?.Bedrag);
+            var bedrag = Convert.ToDecimal(model?.Bedrag);
+
+            Assert.Equal(34570M, bedrag);
         }
         #endregion
 
@@ -49,14 +52,17 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         {
             OverurenBesparingViewModel model = new OverurenBesparingViewModel
             {
-                Bedrag = 25000
+                Bedrag = "" + 25000
             };
 
             var result = _controller.Opslaan(_analyse, model) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
 
-            Assert.Equal(model.Bedrag, _analyse.OverurenBesparing.Bedrag);
+            var expected = Convert.ToDecimal(model.Bedrag);
+            var actual = Convert.ToDecimal(_analyse.OverurenBesparing.Bedrag);
+
+            Assert.Equal(expected, actual);
         }
         #endregion
     }
