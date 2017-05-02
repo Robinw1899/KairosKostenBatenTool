@@ -13,7 +13,6 @@ namespace KairosWeb_Groep6.Controllers
     public class WerkgeverController : Controller
     {
         #region Properties
-
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IDepartementRepository _departementRepository;
         private readonly IWerkgeverRepository _werkgeverRepository;
@@ -79,10 +78,12 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
+        #region SelecteerWerkgever
         public IActionResult SelecteerWerkgever()
         {
             return View("SelecteerWerkgever");
         }
+        #endregion
 
         #region Nieuwe werkgever
         public IActionResult NieuweWerkgever()
