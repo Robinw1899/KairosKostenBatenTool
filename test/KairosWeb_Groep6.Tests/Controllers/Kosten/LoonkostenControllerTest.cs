@@ -75,12 +75,12 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Id = 4,
                 Type = Type.Kost,
                 Soort = Soort.Loonkost,
-                BrutoMaandloonFulltime = 1800,
+                BrutoMaandloonFulltime = "" + 1800,
                 AantalUrenPerWeek = 37,
                 Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
-                IBOPremie = 564.0M
+                IBOPremie = "" + 564.0M
             };
 
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
@@ -128,12 +128,12 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Id = -1,
                 Type = Type.Kost,
                 Soort = Soort.Loonkost,
-                BrutoMaandloonFulltime = 1800,
+                BrutoMaandloonFulltime = "" + 1800,
                 AantalUrenPerWeek = 37,
                 Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
-                IBOPremie = 564.0M
+                IBOPremie = "" + 564.0M
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
@@ -149,12 +149,12 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Id = 1,
                 Type = Type.Kost,
                 Soort = Soort.Loonkost,
-                BrutoMaandloonFulltime = 1800,
+                BrutoMaandloonFulltime = "" + 1800,
                 AantalUrenPerWeek = 37,
                 Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
-                IBOPremie = 564.0M
+                IBOPremie = "" + 564.0M
             };
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
