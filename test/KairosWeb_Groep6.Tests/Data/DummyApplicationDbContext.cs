@@ -22,6 +22,9 @@ namespace KairosWeb_Groep6.Tests.Data
         #endregion
 
         #region Kosten
+
+        public Doelgroep Laaggeschoold { get; set; } = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M);
+
         public Loonkost Poetsvrouw { get; set; }
 
         public Loonkost Secretaresse { get; set; }

@@ -98,7 +98,6 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region MaakExcel
-
         public IActionResult MaakExcel(int id)
         {
             try

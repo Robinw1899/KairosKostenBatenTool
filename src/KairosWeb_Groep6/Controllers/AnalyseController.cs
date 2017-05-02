@@ -35,13 +35,16 @@ namespace KairosWeb_Groep6.Controllers
                 _analyseRepository.Add(analyse);
                 _analyseRepository.Save();
 
-                if (jobcoach != null && HttpContext != null)
+                if (jobcoach != null)
                 {
                     jobcoach = _jobcoachRepository.GetById(jobcoach.PersoonId);
                     jobcoach.Analyses.Add(analyse);
                     _jobcoachRepository.Save();
 
-                    AnalyseFilter.SetAnalyseInSession(HttpContext, analyse);
+                    if (HttpContext != null)
+                    {// nodig voor testen, HttpContext kan je niet mocken
+                        AnalyseFilter.SetAnalyseInSession(HttpContext, analyse);
+                    }
 
                     return RedirectToAction("SelecteerWerkgever", "Werkgever");
                 }
@@ -63,12 +66,12 @@ namespace KairosWeb_Groep6.Controllers
                 Analyse analyse = _analyseRepository.GetById(id);
 
                 if (HttpContext != null)
-                {
+                {// nodig voor testen, HttpContext kan je niet mocken
                     // analyse instellen in Session
                     AnalyseFilter.SetAnalyseInSession(HttpContext, analyse);
-
-                    return RedirectToAction("Index", "Resultaat");
                 }
+
+                return RedirectToAction("Index", "Resultaat");
             }
             catch
             {
