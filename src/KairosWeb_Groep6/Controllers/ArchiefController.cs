@@ -40,20 +40,14 @@ namespace KairosWeb_Groep6.Controllers
 
                     List<Analyse> analysesInArchief = new List<Analyse>();
 
-
-
-                    jobcoach.Analyses = jobcoach
-                        .Analyses
-                        .InArchief()
-                        .OrderByDescending(t => t.DatumLaatsteAanpassing)
-                        .ToList();
+                    _analyseRepository.SetAnalysesJobcoach(jobcoach, true);
                     int totaal = jobcoach.Analyses.Count(); //13
 
                     bool volgende = false;
                     bool vorige = false;
 
                     //volgende knop laten zien of niet
-                    if (totaal > 9 && model.EindIndex < totaal - 1)
+                    if (totaal > 9 && model.EindIndex < totaal )
                     {
                         volgende = true;//true // false
                     }
@@ -64,28 +58,13 @@ namespace KairosWeb_Groep6.Controllers
                         vorige = true;//false //true
                     }
                     //controle voor het correct aantal te taken
-                    int aantal;
-                    if (model.EindIndex > totaal && model.BeginIndex != 0)
-                        aantal = totaal;
-                    else if (model.EindIndex > totaal && model.BeginIndex == 0)
-                        aantal = model.EindIndex - totaal;
-                    else
-                        aantal = 9;
+                    int aantal = 9;
 
-                    jobcoach.Analyses = jobcoach
-                          .Analyses
-                          .Skip(model.BeginIndex)
-                          .Take(aantal)
-                          .ToList();
-
-
-                    foreach (Analyse a in jobcoach.Analyses.InArchief())
-                    {
-                        analysesInArchief.Add(_analyseRepository.GetById(a.AnalyseId));
-                    }
+                    analysesInArchief = _analyseRepository
+                            .GetAnalyses(jobcoach, model.BeginIndex, aantal)
+                            .ToList();
 
                     jobcoach.Analyses = analysesInArchief;
-
                     model = new IndexViewModel(jobcoach)
                     {
                         BeginIndex = model.BeginIndex,
