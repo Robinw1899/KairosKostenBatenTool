@@ -12,10 +12,13 @@ namespace KairosWeb_Groep6.Controllers
     [Authorize]
     public class ProfielController : Controller
     {
+        #region Properties
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJobcoachRepository _gebruikerRepository;
+        #endregion
 
+        #region Constructors
         public ProfielController(
             UserManager<ApplicationUser> userManager, 
             IJobcoachRepository gebruikerRepository,
@@ -25,14 +28,18 @@ namespace KairosWeb_Groep6.Controllers
             _signInManager = signInManager;
             _gebruikerRepository = gebruikerRepository;
         }
+        #endregion
 
+        #region Index
         public IActionResult Index()
         {
             Jobcoach gebruiker = _gebruikerRepository.GetByEmail(HttpContext.User.Identity.Name);
 
             return View(new ProfielViewModel(gebruiker));
         }
+        #endregion
 
+        #region Opslaan
         [HttpPost]
         public async Task<IActionResult> Opslaan(ProfielViewModel model)
         {
@@ -54,7 +61,7 @@ namespace KairosWeb_Groep6.Controllers
                     jobcoach.Organisatie.Straat = model.StraatOrganisatie;
                     jobcoach.Organisatie.Bus = model.BusOrganisatie;
 
-                    if (!model.Email.Equals(HttpContext.User.Identity.Name))
+                    if (model.Email != null && !model.Email.Equals(HttpContext.User.Identity.Name))
                     {// email is gewijzigd
                         var user = await _userManager.GetUserAsync(User);
                         string token = await _userManager.GenerateChangeEmailTokenAsync(user, model.Email);
@@ -67,11 +74,10 @@ namespace KairosWeb_Groep6.Controllers
 
                         // Dus opnieuw inloggen
                         await _signInManager.SignOutAsync();
+
                         TempData["message"] =
                             "Je hebt je e-mailadres gewijzigd. Gelieve opnieuw in te loggen met dit e-mailadres, " +
                             "zo is alles correct gewijzigd.";
-
-                        return RedirectToAction(nameof(Index));
                     }
 
                     _gebruikerRepository.Save();
@@ -80,13 +86,14 @@ namespace KairosWeb_Groep6.Controllers
 
                     return RedirectToAction(nameof(Index));
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ModelState.AddModelError("", ex.Message);
+                    TempData["error"] = "Er ging onverwachts iets mis, probeer later opnieuw";
                 }
             }
 
             return RedirectToAction("Index");
         }
+        #endregion
     }
 }

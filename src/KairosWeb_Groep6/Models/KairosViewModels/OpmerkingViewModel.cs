@@ -16,8 +16,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         #region Constructors
         public OpmerkingViewModel()
         {
-            Onderwerp = "";
-            Bericht = "";
+            
         }
 
         public OpmerkingViewModel(string onderwerp, string bericht)

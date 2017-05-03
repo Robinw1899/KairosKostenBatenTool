@@ -130,7 +130,6 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
-
         #region Zoek analyse
         [HttpPost]
         public IActionResult Zoek(string zoekterm)
@@ -178,15 +177,25 @@ namespace KairosWeb_Groep6.Controllers
         #region Eerste keer aanmelden
         public async Task<IActionResult> EersteKeerAanmelden()
         {
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-            Jobcoach jobcoach = _jobcoachRepository.GetByEmail(user.UserName);
-            EersteKeerAanmeldenViewModel model = new EersteKeerAanmeldenViewModel
+            try
             {
-                Email = user.Email,
-                AlAangemeld = jobcoach.AlAangemeld
-            };
+                ApplicationUser user = await _userManager.GetUserAsync(User);
+                Jobcoach jobcoach = _jobcoachRepository.GetByEmail(user.UserName);
+                EersteKeerAanmeldenViewModel model = new EersteKeerAanmeldenViewModel
+                {
+                    Email = user.Email,
+                    AlAangemeld = jobcoach.AlAangemeld
+                };
 
-            return View(model);
+                return View(model);
+            }
+            catch
+            {
+                TempData["error"] = "Er ging onverwachts iets is, probeer later opnieuw";
+            }
+
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
@@ -220,6 +229,7 @@ namespace KairosWeb_Groep6.Controllers
                 TempData["error"] = "Er liep iets is, probeer later opnieuw";
             }
 
+            await _signInManager.SignOutAsync();
             return RedirectToAction(nameof(AccountController.Login), "Account");
         }
         #endregion
@@ -261,7 +271,7 @@ namespace KairosWeb_Groep6.Controllers
                         TempData["error"] = "De opmerking kan momenteel niet verzonden worden, probeer het later opnieuw.";
                     }
                 }
-                catch (Exception)
+                catch
                 {
                     // er is iets fout gelopen, ga verder en toon de pagina opnieuw
                     TempData["error"] = "Er is onverwacht iets fout gelopen, onze excuses voor het ongemak! " +

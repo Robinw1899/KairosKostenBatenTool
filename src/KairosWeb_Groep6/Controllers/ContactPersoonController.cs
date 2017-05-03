@@ -64,7 +64,7 @@ namespace KairosWeb_Groep6.Controllers
                 else
                 {
                     TempData["error"] = "Er is nog geen contactpersoon, voeg hier eventueel een contactpersoon toe";
-                    return RedirectToAction("VoegContactPersoonToe", "ContactPersoon",new { id = werkgever.WerkgeverId });
+                    return RedirectToAction("VoegContactPersoonToe", new { id = werkgever.WerkgeverId });
                 }
             }
             catch
@@ -79,19 +79,28 @@ namespace KairosWeb_Groep6.Controllers
         [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult ToonAlleContactPersonen(Analyse analyse)
         {
-            int werkgeverId = analyse.Departement.Werkgever.WerkgeverId;
-            Werkgever werkgever = _werkgeverRepository.GetById(werkgeverId);
+            try
+            {
+                int werkgeverId = analyse.Departement.Werkgever.WerkgeverId;
+                Werkgever werkgever = _werkgeverRepository.GetById(werkgeverId);
 
-            IEnumerable<ContactPersoon> contactpersonen = werkgever.ContactPersonen;
+                IEnumerable<ContactPersoon> contactpersonen = werkgever.ContactPersonen;
 
-            IEnumerable<ContactPersoonViewModel> viewModels
-                = contactpersonen
-                    .Select(w => new ContactPersoonViewModel(w, werkgever.WerkgeverId))
-                    .ToList();
+                IEnumerable<ContactPersoonViewModel> viewModels
+                    = contactpersonen
+                        .Select(w => new ContactPersoonViewModel(w, werkgever.WerkgeverId))
+                        .ToList();
 
-            ViewData["WerkgeverId"] = werkgeverId;
+                ViewData["WerkgeverId"] = werkgeverId;
 
-            return View("Index", viewModels);
+                return View("Index", viewModels);
+            }
+            catch
+            {
+                TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
+            }
+
+            return RedirectToAction("Index", "Werkgever");
         }
         #endregion
 
@@ -106,11 +115,11 @@ namespace KairosWeb_Groep6.Controllers
         [HttpPost]
         public IActionResult VoegContactPersoonToe(ContactPersoonViewModel model)
         {
-            Werkgever werkgever = _werkgeverRepository.GetById(model.WerkgeverId);
-            ContactPersoon cp = new ContactPersoon(model.Voornaam, model.Naam, model.Email);
-
             try
             {
+                Werkgever werkgever = _werkgeverRepository.GetById(model.WerkgeverId);
+                ContactPersoon cp = new ContactPersoon(model.Voornaam, model.Naam, model.Email);
+
                 _contactPersoonRepository.Add(cp);
                 _contactPersoonRepository.Save();
                 werkgever.ContactPersonen.Add(cp);
@@ -251,20 +260,11 @@ namespace KairosWeb_Groep6.Controllers
         #region SelecteerContactPersoon
         public IActionResult SelecteerHoofdContactPersoon(int werkgeverId, int contactPersoonId)
         {
-            try
+            return RedirectToAction("SelecteerContactPersoon", new
             {
-                return RedirectToAction("SelecteerContactPersoon", new
-                {
-                    werkgeverId,
-                    contactPersoonId
-                });
-            }
-            catch
-            {
-                TempData["error"] = "Er ging iets mis tijdens het ophalen van de huidige analyse";
-            }
-
-            return RedirectToAction("Index");
+                werkgeverId,
+                contactPersoonId
+            });
         }
 
         [ServiceFilter(typeof(AnalyseFilter))]
@@ -285,7 +285,6 @@ namespace KairosWeb_Groep6.Controllers
                 else
                 {
                     TempData["error"] = "Deze contactpersoon bestaat niet, kies een andere";
-
                 }
             }
             catch
