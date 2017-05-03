@@ -27,6 +27,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Organisaties jobcoach implementeren zodat geen dubbels in de databank komen
 * Vorige- en Volgende-knop browser uitschakelen
 * Switch functie zodat cards naast elkaar en onder elkaar kunnen gezet worden
+* ArchiefController - Index/VolgendeAnalyses/VorigeAnalyses/ZoekAnalyse testen + volledig nakijken
 
 ## Retrospective
 ### Wat ging goed?

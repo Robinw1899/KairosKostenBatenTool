@@ -28,22 +28,26 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Loonkosten = dbContext.Loonkosten,
                 ExtraKosten = dbContext.ExtraKosten,
                 BegeleidingsKosten = dbContext.BegeleidingsKosten,
-                MedewerkersZelfdeNiveauBaat = dbContext.MedewerkerNiveauBaten,
-                UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen,
-                ExterneInkopen = dbContext.ExterneInkopen,
                 OpleidingsKosten = dbContext.OpleidingsKosten,
                 PersoneelsKosten = dbContext.PersoneelsKosten,
                 GereedschapsKosten = dbContext.GereedschapsKosten,
                 VoorbereidingsKosten = dbContext.VoorbereidingsKosten,
                 EnclaveKosten = dbContext.EnclaveKosten,
-                Subsidie = dbContext.Subsidie,
-                LogistiekeBesparing = dbContext.LogistiekeBesparing
             };
 
             var result = _controller.Index(analyse) as ViewResult;
             var model = result?.Model as KostenIndexViewModel;
 
             Assert.Equal(model?.GetType(), result?.Model.GetType());
+
+            Assert.True(model?.LoonkostenIngevuld);
+            Assert.True(model?.ExtraKostenIngevuld);
+            Assert.True(model?.BegeleidingsKostenIngevuld);
+            Assert.True(model?.OpleidingsKostenIngevuld);
+            Assert.True(model?.PersoneelsKostenIngevuld);
+            Assert.True(model?.GereedschapsKostenIngevuld);
+            Assert.True(model?.VoorbereidingsKostenIngevuld);
+            Assert.True(model?.EnclaveKostenIngevuld);
         }
 
         [Fact]

@@ -25,17 +25,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             {
                 Departement = dbContext.Aldi,
 
-                Loonkosten = dbContext.Loonkosten,
-                ExtraKosten = dbContext.ExtraKosten,
-                BegeleidingsKosten = dbContext.BegeleidingsKosten,
                 MedewerkersZelfdeNiveauBaat = dbContext.MedewerkerNiveauBaten,
                 UitzendKrachtBesparingen =  dbContext.UitzendKrachtBesparingen,
                 ExterneInkopen = dbContext.ExterneInkopen,
-                OpleidingsKosten = dbContext.OpleidingsKosten,
-                PersoneelsKosten = dbContext.PersoneelsKosten,
-                GereedschapsKosten = dbContext.GereedschapsKosten,
-                VoorbereidingsKosten = dbContext.VoorbereidingsKosten,
-                EnclaveKosten = dbContext.EnclaveKosten,
                 Subsidie = dbContext.Subsidie,
                 LogistiekeBesparing = dbContext.LogistiekeBesparing
             };
@@ -43,7 +35,19 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.Index(analyse) as ViewResult;
             var model = result?.Model as BatenIndexViewModel;
             
-            Assert.Equal(typeof(BatenIndexViewModel), result?.Model.GetType());
+            Assert.Equal(model?.GetType(), result?.Model.GetType());
+
+            Assert.True(model?.MedewerkersZelfdeNiveauBaatIngevuld);
+            Assert.True(model?.UitzendKrachtBesparingenIngevuld);
+            Assert.True(model?.ExterneInkopenIngevuld);
+            Assert.True(model?.SubsidieIngevuld);
+            Assert.True(model?.LogistiekeBesparingIngevuld);
+
+            Assert.False(model?.MedewerkersHogerNiveauBaatIngevuld);
+            Assert.False(model?.ExtraBesparingenIngevuld);
+            Assert.False(model?.ExtraOmzetIngevuld);
+            Assert.False(model?.ExtraProductiviteitIngevuld);
+            Assert.False(model?.ExtraBesparingenIngevuld);
         }
 
         [Fact]

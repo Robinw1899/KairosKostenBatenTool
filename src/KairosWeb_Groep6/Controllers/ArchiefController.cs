@@ -180,18 +180,27 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
-        #region Methoden voor de opties bij een AnalyseCard
+        #region HaalAnalyseUitArchief
         public IActionResult HaalAnalyseUitArchief(int id)
         {
-            ViewData["analyseId"] = id;
-            Analyse analyse = _analyseRepository.GetById(id);
-
-            if (analyse.Departement != null)
+            try
             {
-                ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+                ViewData["analyseId"] = id;
+                Analyse analyse = _analyseRepository.GetById(id);
+
+                if (analyse.Departement != null)
+                {
+                    ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+                }
+
+                return View("HaalAnalyseUitArchief");
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets mis tijdens het ophalen van de analyse, probeer later opnieuw";
             }
 
-            return View("HaalAnalyseUitArchief");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -226,35 +235,47 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction("Index");
         }
+        #endregion
 
+        #region OpenAnalyse
         public IActionResult OpenAnalyse(int id)
         {
             return RedirectToAction("OpenAnalyse", "Analyse",  id);
         }
+        #endregion
 
+        #region VerwijderAnalyse
         public IActionResult VerwijderAnalyse(int id)
         {
             return RedirectToAction("VerwijderAnalyse", "Analyse", id);
         }
+        #endregion
 
-        public IActionResult MaakExcelAnalyse()
+        #region MaakExcelAnalyse
+        public IActionResult MaakExcelAnalyse(int id)
         {
-            throw new NotImplementedException("Archief/MaakExcelAnalyse");
+            return RedirectToAction("MaakExcel", "Resultaat", id);
         }
+        #endregion
 
-        public IActionResult MaakPdfAnalyse()
+        #region MaakPdfAnalyse
+        public IActionResult MaakPdfAnalyse(int id)
         {
             throw new NotImplementedException("Archief/MaakPdfAnalyse");
         }
+        #endregion
 
-        public IActionResult AfdrukkenAnalyse()
+        #region AfdrukkenAnalyse
+        public IActionResult AfdrukkenAnalyse(int id)
         {
             throw new NotImplementedException("Archief/AfdrukkenAnalyse");
         }
+        #endregion
 
-        public IActionResult MailAnalyse()
+        #region MailAnalyse
+        public IActionResult MailAnalyse(int id)
         {
-            throw new NotImplementedException("Archief/MailAnalyse");
+            return RedirectToAction("Mail", "Resultaat", id);
         }
         #endregion
 

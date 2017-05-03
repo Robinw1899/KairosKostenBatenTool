@@ -16,20 +16,21 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
     public class LoonkostenControllerTest
     {
         #region Properties
+        private readonly DummyApplicationDbContext _dbContext;
         private readonly LoonkostenController _controller;
         private readonly Analyse _analyse;
-        private readonly Mock<IDoelgroepRepository> _doelgroepRepositoryMock;
+        private readonly Mock<IDoelgroepRepository> _doelgroepRepository;
         #endregion
 
         #region Constructors
         public LoonkostenControllerTest()
         {
-            var dbContext = new DummyApplicationDbContext();
+            _dbContext = new DummyApplicationDbContext();
             var analyseRepo = new Mock<AnalyseRepository>();
-            _doelgroepRepositoryMock = new Mock<IDoelgroepRepository>();
+            _doelgroepRepository = new Mock<IDoelgroepRepository>();
 
-            _controller = new LoonkostenController(analyseRepo.Object, _doelgroepRepositoryMock.Object);
-            _analyse = new Analyse { Loonkosten = dbContext.Loonkosten };
+            _controller = new LoonkostenController(analyseRepo.Object, _doelgroepRepository.Object);
+            _analyse = new Analyse { Loonkosten = _dbContext.Loonkosten };
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
         }
@@ -72,6 +73,9 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         [Fact]
         public void TestVoegToe_Succes_RedirectsToIndex()
         {
+            _doelgroepRepository.Setup(r => r.GetByDoelgroepSoort(DoelgroepSoort.LaaggeschooldTot25))
+                .Returns(_dbContext.Laaggeschoold);
+
             LoonkostViewModel model = new LoonkostViewModel
             {
                 Id = 4,
@@ -84,9 +88,6 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 AantalMaandenIBO = 2,
                 IBOPremie = "" + 564.0M
             };
-
-            _doelgroepRepositoryMock.Setup(d => d.GetByDoelgroepSoort(It.IsAny<DoelgroepSoort>()))
-                .Returns(new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M));
 
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 

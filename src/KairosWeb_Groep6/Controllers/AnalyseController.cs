@@ -15,7 +15,6 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region Constructors
-
         public AnalyseController(
             IAnalyseRepository analyseRepository,
             IJobcoachRepository jobcoachRepository)
@@ -28,50 +27,86 @@ namespace KairosWeb_Groep6.Controllers
         #region NieuweAnalyse
         [ServiceFilter(typeof(JobcoachFilter))]
         public IActionResult NieuweAnalyse(Jobcoach jobcoach)
-        {//hier word gekozen tussen een nieuwe of bestaande werkgever
-            Analyse analyse = new Analyse();
-
-            _analyseRepository.Add(analyse);
-            _analyseRepository.Save();
-
-            if (jobcoach != null)
+        {
+            try
             {
-                jobcoach = _jobcoachRepository.GetById(jobcoach.PersoonId);
-                jobcoach.Analyses.Add(analyse);
-                _jobcoachRepository.Save();
-            }
+                Analyse analyse = new Analyse();
 
-            AnalyseFilter.SetAnalyseInSession(HttpContext, analyse);
+                _analyseRepository.Add(analyse);
+                _analyseRepository.Save();
+
+                if (jobcoach != null)
+                {
+                    jobcoach = _jobcoachRepository.GetById(jobcoach.PersoonId);
+                    jobcoach.Analyses.Add(analyse);
+                    _jobcoachRepository.Save();
+
+                    if (HttpContext != null)
+                    {// nodig voor testen, HttpContext kan je niet mocken
+                        AnalyseFilter.SetAnalyseInSession(HttpContext, analyse);
+                    }
+
+                    return RedirectToAction("SelecteerWerkgever", "Werkgever");
+                }
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets fout tijdens het starten van een nieuwe analyse, probeer later opnieuw";
+            }
             
-            return RedirectToAction("SelecteerWerkgever", "Werkgever");
+            return RedirectToAction("Index", "Kairos");
         }
         #endregion
 
         #region OpenAnalyse
         public IActionResult OpenAnalyse(int id)
         {
-            Analyse analyse = _analyseRepository.GetById(id); // analyse instellen in Session
-            AnalyseFilter.SetAnalyseInSession(HttpContext, analyse);
+            try
+            {
+                Analyse analyse = _analyseRepository.GetById(id);
 
-            return RedirectToAction("Index", "Resultaat");
+                if (HttpContext != null)
+                {// nodig voor testen, HttpContext kan je niet mocken
+                    // analyse instellen in Session
+                    AnalyseFilter.SetAnalyseInSession(HttpContext, analyse);
+                }
+
+                return RedirectToAction("Index", "Resultaat");
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets fout tijdens het ophalen van de analyse, probeer later opnieuw";
+            }
+
+            return RedirectToAction("Index", "Kairos");
         }
         #endregion
 
         #region VerwijderAnalyse
         public IActionResult VerwijderAnalyse(int id, string from)
         {
-            Analyse analyse = _analyseRepository.GetById(id);
-
-            ViewData["analyseId"] = id;
-
-            if (analyse.Departement != null)
+            try
             {
-                ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+                Analyse analyse = _analyseRepository.GetById(id);
+
+                ViewData["analyseId"] = id;
+
+                if (analyse.Departement != null)
+                {
+                    ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+                }
+
+                ViewData["returnUrl"] = from;
+
+                return View();
+            }
+            catch
+            {
+                TempData["error"] =
+                    "Er ging iets fout tijdens het voorbereiden van het verwijderen, probeer later opnieuw";
             }
 
-            ViewData["returnUrl"] = from;
-
-            return View();
+            return RedirectToAction("Index", "Kairos");
         }
 
         [HttpPost]
@@ -111,15 +146,24 @@ namespace KairosWeb_Groep6.Controllers
         #region Archiveer
         public IActionResult Archiveer(int id)
         {
-            ViewData["analyseId"] = id;
-            Analyse analyse = _analyseRepository.GetById(id);
-
-            if (analyse.Departement != null)
+            try
             {
-                ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+                ViewData["analyseId"] = id;
+                Analyse analyse = _analyseRepository.GetById(id);
+
+                if (analyse.Departement != null)
+                {
+                    ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+                }
+
+                return View("ArchiveerAnalyse");
+            }
+            catch
+            {
+                TempData["error"] = "Er ging iets fout tijdens het ophalen van de analyse, probeer later opnieuw";
             }
 
-            return View("ArchiveerAnalyse");
+            return RedirectToAction("Index", "Kairos");
         }
 
         [HttpPost]
