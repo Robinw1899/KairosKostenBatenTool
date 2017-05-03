@@ -28,6 +28,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Vorige- en Volgende-knop browser uitschakelen
 * Switch functie zodat cards naast elkaar en onder elkaar kunnen gezet worden
 * ArchiefController - Index/VolgendeAnalyses/VorigeAnalyses/ZoekAnalyse testen + volledig nakijken
+* Bestaande werkgever toon meer?
 
 ## Retrospective
 ### Wat ging goed?
