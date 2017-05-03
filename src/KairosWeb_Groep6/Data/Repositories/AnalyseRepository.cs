@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -108,7 +109,8 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.UitzendKrachtBesparingen)
                 .Include(a => a.VoorbereidingsKosten)
                 .SingleOrDefault(a => a.AnalyseId == id);
-        }       
+        }     
+        
 
         public void Add(Analyse analyse)
         {
@@ -127,6 +129,20 @@ namespace KairosWeb_Groep6.Data.Repositories
         public void Save(int id)
         {
             _dbContext.SaveChangesAsync();
+        }
+
+        public IEnumerable<Analyse> GetAnalyses(bool archief, int beginIndex, int eindIndex)
+        {
+            IEnumerable<Analyse> analyses;
+            if (archief)
+                analyses = GetAnalysesUitArchief();
+            else
+                analyses = GetAnalysesNietInArchief();
+
+            analyses.Skip(beginIndex).Take(eindIndex - beginIndex);
+
+            return analyses;
+
         }
     }
 }
