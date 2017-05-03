@@ -113,8 +113,29 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.UitzendKrachtBesparingen)
                 .Include(a => a.VoorbereidingsKosten)
                 .SingleOrDefault(a => a.AnalyseId == id);
-        }     
-        
+        }
+        public IEnumerable<Analyse> GetAnalyses(Jobcoach jobcoach, int index, int aantal)
+        {
+            List<Analyse> analyses = new List<Analyse>();
+
+            foreach (Analyse a in jobcoach.Analyses)
+            {
+                analyses.Add(GetById(a.AnalyseId));
+            }
+
+            return analyses
+                 .Skip(index)
+                 .Take(aantal);
+        }
+
+        public void SetAnalysesJobcoach(Jobcoach jobcoach, bool archief)
+        {
+            jobcoach.Analyses = jobcoach
+                        .Analyses
+                        .Where(j => j.InArchief == archief)
+                        .OrderByDescending(t => t.DatumLaatsteAanpassing)
+                        .ToList();
+        }
 
         public void Add(Analyse analyse)
         {
@@ -135,28 +156,6 @@ namespace KairosWeb_Groep6.Data.Repositories
             _dbContext.SaveChangesAsync();
         }
 
-        public IEnumerable<Analyse> GetAnalyses(Jobcoach jobcoach, int index, int aantal)
-        {
-            List<Analyse> analyses = new List<Analyse>();
-              
-            foreach (Analyse a in jobcoach.Analyses)
-            {
-                analyses.Add(GetById(a.AnalyseId));
-            }
-
-           return analyses
-                .Skip(index)
-                .Take(aantal); 
-            
-        }
-
-        public void SetAnalysesJobcoach(Jobcoach jobcoach, bool archief)
-        {
-            jobcoach.Analyses = jobcoach
-                        .Analyses
-                        .Where(j=>j.InArchief == archief)
-                        .OrderByDescending(t => t.DatumLaatsteAanpassing)
-                        .ToList();
-        }
+       
     }
 }
