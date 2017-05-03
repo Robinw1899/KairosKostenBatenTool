@@ -59,11 +59,7 @@ namespace KairosWeb_Groep6.Controllers
                 Jobcoach jobcoach = _jobcoachRepository.GetByEmail(user.Email);
                 List<Analyse> analyses = new List<Analyse>();
 
-                jobcoach.Analyses = jobcoach
-                    .Analyses
-                    .NietInArchief()
-                    .OrderByDescending(t => t.DatumLaatsteAanpassing)
-                    .ToList();
+                _analyseRepository.SetAnalysesJobcoach(jobcoach, false);
                 int totaal = jobcoach.Analyses.Count(); //13
 
 
@@ -71,7 +67,7 @@ namespace KairosWeb_Groep6.Controllers
                 bool vorige = false;
 
                 //volgende knop laten zien of niet
-                if (totaal > 9 && model.EindIndex < totaal - 1)
+                if (totaal > 8 && model.EindIndex < totaal )
                 {
                     volgende = true;//true // false
                 }
@@ -82,31 +78,17 @@ namespace KairosWeb_Groep6.Controllers
                     vorige = true;//false //true
                 }
 
-                int aantal;
-                if (model.EindIndex > totaal && model.BeginIndex != 0)
-                    aantal = totaal;
-                else if (model.EindIndex > totaal && model.BeginIndex == 0)
-                    aantal = model.EindIndex - totaal;
-                else
-                    aantal = 9;
-
-                jobcoach.Analyses = jobcoach// moet vervangen worden door repo methode 
-                      .Analyses
-                      .Skip(model.BeginIndex)
-                      .Take(aantal)
-                      .ToList();
-
-                foreach (Analyse a in jobcoach.Analyses) //9
-                {
-                    analyses.Add(_analyseRepository.GetById(a.AnalyseId));
-                }
-
+                int aantal = 8;
+                analyses =  _analyseRepository
+                    .GetAnalyses(jobcoach, model.BeginIndex, aantal)
+                    .ToList();
+           
                 jobcoach.Analyses = analyses;
 
                 model = new IndexViewModel(jobcoach)
                 {
                     BeginIndex = model.BeginIndex,
-                    EindIndex = model.BeginIndex + 9,
+                    EindIndex = model.BeginIndex + 8,
                     ShowVolgende = volgende,
                     ShowVorige = vorige
                 };
@@ -127,7 +109,7 @@ namespace KairosWeb_Groep6.Controllers
             IndexViewModel model = new IndexViewModel
             {
                 BeginIndex = eindIndex,     //1
-                EindIndex = eindIndex + 9
+                EindIndex = eindIndex + 8
             };
 
             return RedirectToAction("Index", model);
@@ -140,7 +122,7 @@ namespace KairosWeb_Groep6.Controllers
 
             IndexViewModel model = new IndexViewModel
             {
-                BeginIndex = beginIndex - 9,
+                BeginIndex = beginIndex - 8,
                 EindIndex = beginIndex
             };
 
