@@ -1,13 +1,13 @@
 ﻿using KairosWeb_Groep6.Controllers;
 using KairosWeb_Groep6.Models;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using Xunit;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using KairosWeb_Groep6.Tests.Data;
+using KairosWeb_Groep6.Tests.Managers;
 using Microsoft.AspNetCore.Identity;
-using Org.BouncyCastle.Asn1.Ocsp;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace KairosWeb_Groep6.Tests.Controllers
 {
@@ -51,17 +51,15 @@ namespace KairosWeb_Groep6.Tests.Controllers
             };
             //_jobcoachThomas = new Jobcoach("Ae", "thomas", Email, new Organisatie());
 
-            //var signInManager = new Mock<SignInManager<ApplicationUser>>();
-            //var userManager = new Mock<UserManager<ApplicationUser>>();
-            //_controller = new KairosController(signInManager.Object, userManager.Object, 
-            //    _jobcoachRepository.Object, _analyseRepository.Object);
-            //_controller.TempData = new Mock<ITempDataDictionary>().Object;
+            _controller = new KairosController(Mock.Of<FakeSignInManager>(), Mock.Of<FakeUserManager>(),
+                _jobcoachRepository.Object, _analyseRepository.Object);
+            _controller.TempData = new Mock<ITempDataDictionary>().Object;
         }
 
         #endregion
 
         #region 1steKeerAanmelden HttpGet
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void EersteKeerAanmelden()
         {
 
