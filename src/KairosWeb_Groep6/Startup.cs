@@ -121,10 +121,10 @@ namespace KairosWeb_Groep6
                     template: "{controller=Kairos}/{action=Index}/{id?}");
             });
 
-            //DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
-            //                                                  departementRepository, analyseRepository, werkgeverRepository,
-            //                                                 introductietekstRepository, doelgroepRepository);
-            //initializer.InitializeData().Wait();
+            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
+                                                              departementRepository, analyseRepository, werkgeverRepository,
+                                                             introductietekstRepository, doelgroepRepository);
+            initializer.InitializeData().Wait();
         }
 
         private RequestLocalizationOptions BuildLocalizationOptions()
