@@ -29,6 +29,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Switch functie zodat cards naast elkaar en onder elkaar kunnen gezet worden
 * ArchiefController - Index/VolgendeAnalyses/VorigeAnalyses/ZoekAnalyse testen + volledig nakijken
 * Bestaande werkgever toon meer?
+* Kairos/Index testen
 
 ## Retrospective
 ### Wat ging goed?
