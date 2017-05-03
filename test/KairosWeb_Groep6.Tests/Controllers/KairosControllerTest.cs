@@ -1,10 +1,13 @@
 ﻿using KairosWeb_Groep6.Controllers;
+using KairosWeb_Groep6.Models;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using Xunit;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using KairosWeb_Groep6.Tests.Data;
+using Microsoft.AspNetCore.Identity;
+using Org.BouncyCastle.Asn1.Ocsp;
 
 namespace KairosWeb_Groep6.Tests.Controllers
 {
@@ -13,7 +16,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #region Properties
         private readonly KairosController _controller;
         private readonly Mock<IJobcoachRepository> _jobcoachRepository;
-
+        private readonly Mock<IAnalyseRepository> _analyseRepository;
         private readonly DummyApplicationDbContext _dbContext;
 
         private EersteKeerAanmeldenViewModel _aanmeldenViewModel;
@@ -31,10 +34,8 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _dbContext = new DummyApplicationDbContext();
             _jobcoachRepository = new Mock<IJobcoachRepository>();
+            _analyseRepository = new Mock<IAnalyseRepository>();
             
-            //eens vragen            //_accountController = new AccountController(new UserManager<ApplicationUser>(), );
-            _controller.TempData = new Mock<ITempDataDictionary>().Object;
-
             _aanmeldenViewModel = new EersteKeerAanmeldenViewModel()
             {
                 Email = Email,
@@ -50,6 +51,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
             };
             //_jobcoachThomas = new Jobcoach("Ae", "thomas", Email, new Organisatie());
 
+            //var signInManager = new Mock<SignInManager<ApplicationUser>>();
+            //var userManager = new Mock<UserManager<ApplicationUser>>();
+            //_controller = new KairosController(signInManager.Object, userManager.Object, 
+            //    _jobcoachRepository.Object, _analyseRepository.Object);
+            //_controller.TempData = new Mock<ITempDataDictionary>().Object;
         }
 
         #endregion
