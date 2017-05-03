@@ -391,16 +391,38 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region VerwijderBevestigd
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void TestVerwijderBevestigd_RepositoryGooitException_ToontAlleContactPersonen()
         {
+            _contactPersoonRepository.Setup(c => c.GetById(It.IsAny<int>())).Throws(new Exception());
 
+            var result = _controller.VerwijderBevestigd(0, 0) as RedirectToActionResult;
+
+            Assert.Equal("ToonAlleContactPersonen", result?.ActionName);
         }
 
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void TestVerwijderBevestigd_Succes()
         {
+            ContactPersoon cp = new ContactPersoon
+            {
+                Voornaam = "Thomas",
+                Naam = "Aelbrecht",
+                Emailadres = "iets@voorbeeld.be"
+            };
 
+            _dbContext.Aldi.Werkgever.ContactPersonen = new List<ContactPersoon> { cp };
+            _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Returns(_dbContext.Aldi.Werkgever);
+            _contactPersoonRepository.Setup(c => c.GetById(It.IsAny<int>())).Returns(cp);
+
+            var result = _controller.VerwijderBevestigd(0, 0) as RedirectToActionResult;
+
+            Assert.Equal("ToonAlleContactPersonen", result?.ActionName);
+
+            _contactPersoonRepository.Verify(c => c.Remove(cp), Times.Once);
+            _contactPersoonRepository.Verify(c => c.Save(), Times.Once);
+
+            _werkgeverRepository.Verify(c => c.Save(), Times.Once);
         }
         #endregion
 
@@ -415,16 +437,34 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region SelecteerContactPersoon -- met analyse --
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void TestSelecteerContactPersoon_RepositoryGooitException_RedirectsToIndex()
         {
+            _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Throws(new Exception());
 
+            var result = _controller.SelecteerContactPersoon(0, 0, _analyse.Object) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
         }
 
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void TestSelecteerContactPersoon_MetAnalyse_Succes()
         {
-            
+            ContactPersoon cp = new ContactPersoon
+            {
+                Voornaam = "Thomas",
+                Naam = "Aelbrecht",
+                Emailadres = "iets@voorbeeld.be"
+            };
+
+            _dbContext.Aldi.Werkgever.ContactPersonen = new List<ContactPersoon> { cp };
+            _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Returns(_dbContext.Aldi.Werkgever);
+
+            var result = _controller.SelecteerContactPersoon(0, 0, _analyse.Object) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+
+            _analyseRepository.Verify(a => a.Save(), Times.Once);
         }
         #endregion
     }
