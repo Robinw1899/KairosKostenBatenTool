@@ -15,6 +15,7 @@ namespace KairosWeb_Groep6.Models.Domain
         public IList<Analyse> Analyses { get; set; } = new List<Analyse>();
         #endregion
 
+        #region Constructors
         public Jobcoach()
         {
             
@@ -32,6 +33,7 @@ namespace KairosWeb_Groep6.Models.Domain
             Organisatie = organisatie;
             Analyses = new List<Analyse>();
         }
+        #endregion
 
         #region Methods
 

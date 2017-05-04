@@ -10,6 +10,9 @@
         public string Voornaam { get; set; }
 
         public string Emailadres { get; set; }
+
+        // enkel nodig voor in de Java
+        public bool WachtwoordVergeten { get; set; }
         #endregion
 
         #region Constructors

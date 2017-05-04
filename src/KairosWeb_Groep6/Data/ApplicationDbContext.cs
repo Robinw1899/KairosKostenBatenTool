@@ -228,6 +228,9 @@ namespace KairosWeb_Groep6.Data
             p.Property(t => t.Emailadres)
                 .IsRequired();
 
+            p.Property(t => t.WachtwoordVergeten)
+                .IsRequired(false);
+
             p.HasIndex(t => t.Emailadres)
                 .IsUnique();
 
