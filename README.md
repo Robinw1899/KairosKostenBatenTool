@@ -4,6 +4,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 
 ## Opgenomen priors in sprint 5
 * Prior 130: administator moet overzicht van de werkgevers waarvoor een berekening gemaakt werd kunnen exporteren naar Excel
+* Prior 200: de administrator moet doelgroepen (subsidies) kunnen toevoegen/aanpassen/verwijderen
 
 ## Vragen voor klant
 * Moeten er extra doelgroepen kunnen gemaakt worden?
