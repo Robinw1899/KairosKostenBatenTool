@@ -170,13 +170,13 @@ namespace KairosWeb_Groep6.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Baten
-            a.HasMany(t => t.MedewerkersZelfdeNiveauBaat)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
+            //a.HasMany(t => t.MedewerkersZelfdeNiveauBaat)
+            //    .WithOne()
+            //    .OnDelete(DeleteBehavior.Cascade);
 
-            a.HasMany(t => t.MedewerkersHogerNiveauBaat)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
+            //a.HasMany(t => t.MedewerkersHogerNiveauBaat)
+            //    .WithOne()
+            //    .OnDelete(DeleteBehavior.Cascade);
 
             a.HasMany(t => t.UitzendKrachtBesparingen)
                 .WithOne()

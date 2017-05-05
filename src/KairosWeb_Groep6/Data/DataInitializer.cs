@@ -111,7 +111,7 @@ namespace KairosWeb_Groep6.Data
 
                 analyse.MedewerkersZelfdeNiveauBaat = MaakMedewerkerNiveauBaten();
 
-                analyse.Subsidie = new Subsidie { Id = 2, Bedrag = 1500 };
+                analyse.Subsidie = new Subsidie { Bedrag = 1500 };
 
                 analyse.UitzendKrachtBesparingen = MaakUitzendKrachtBesparingen();
 
@@ -124,7 +124,7 @@ namespace KairosWeb_Groep6.Data
             _dbContext.SaveChanges();
         }
 
-        private void InitializeDoelgroepen()
+        public void InitializeDoelgroepen()
         {
             Doelgroep doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M);
             _doelgroepRepository.Add(doelgroep);
@@ -144,7 +144,7 @@ namespace KairosWeb_Groep6.Data
             _doelgroepRepository.Save();
         }
 
-        private void InitializeIntrotekst()
+        public void InitializeIntrotekst()
         {
             Introductietekst tekst = new Introductietekst
             {
@@ -254,7 +254,6 @@ namespace KairosWeb_Groep6.Data
         {
             Loonkost poetsvrouw = new Loonkost
             {
-                Id = 1,
                 Beschrijving = "Poetsvrouw",
                 BrutoMaandloonFulltime = 1800,
                 AantalUrenPerWeek = 37,
@@ -266,7 +265,6 @@ namespace KairosWeb_Groep6.Data
 
             Loonkost secretaresse = new Loonkost
             {
-                Id = 2,
                 Beschrijving = "Secretaresse",
                 BrutoMaandloonFulltime = 2200,
                 AantalUrenPerWeek = 23,
@@ -278,7 +276,6 @@ namespace KairosWeb_Groep6.Data
 
             Loonkost postbode = new Loonkost
             {
-                Id = 3,
                 Beschrijving = "Postbode",
                 BrutoMaandloonFulltime = 1900,
                 AantalUrenPerWeek = 35,
@@ -300,9 +297,9 @@ namespace KairosWeb_Groep6.Data
         {
             List<ExtraKost> extraKosten = new List<ExtraKost>
             {
-                new ExtraKost {Id = 1, Bedrag = 150, Beschrijving = "Stagekosten"},
-                new ExtraKost {Id = 2, Bedrag = 1000, Beschrijving = "Uitrusting"},
-                new ExtraKost {Id = 3, Bedrag = 400, Beschrijving = "Boeken en ander studiemateriaal"}
+                new ExtraKost { Bedrag = 150, Beschrijving = "Stagekosten"},
+                new ExtraKost { Bedrag = 1000, Beschrijving = "Uitrusting"},
+                new ExtraKost { Bedrag = 400, Beschrijving = "Boeken en ander studiemateriaal"}
             };
             return extraKosten;
         }
@@ -313,19 +310,16 @@ namespace KairosWeb_Groep6.Data
             {
                 new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
                 {
-                    Id = 1,
                     Uren = 35,
                     BrutoMaandloonFulltime = 2300
                 },
                 new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
                 {
-                    Id = 2,
                     Uren = 30,
                     BrutoMaandloonFulltime = 2000
                 },
                 new MedewerkerNiveauBaat(Soort.MedewerkersZelfdeNiveau)
                 {
-                    Id = 3,
                     Uren = 37,
                     BrutoMaandloonFulltime = 3250
                 }
@@ -337,9 +331,9 @@ namespace KairosWeb_Groep6.Data
         {
             List<UitzendKrachtBesparing> baten = new List<UitzendKrachtBesparing>
             {
-                new UitzendKrachtBesparing() {Id = 1, Beschrijving = "Tuinier", Bedrag = 2500},
-                new UitzendKrachtBesparing() {Id = 2, Beschrijving = "Klusjesman", Bedrag = 3500},
-                new UitzendKrachtBesparing() {Id = 3, Beschrijving = "WC-madam", Bedrag = 2750}
+                new UitzendKrachtBesparing() { Beschrijving = "Tuinier", Bedrag = 2500},
+                new UitzendKrachtBesparing() { Beschrijving = "Klusjesman", Bedrag = 3500},
+                new UitzendKrachtBesparing() { Beschrijving = "WC-madam", Bedrag = 2750}
             };
 
             return baten;

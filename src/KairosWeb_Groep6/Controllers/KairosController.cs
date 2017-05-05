@@ -102,6 +102,12 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
+        public IActionResult Error()
+        {
+            string error = HttpContext.Request.Method;
+            return View();
+        }
+
         #region VolgendeAnalyses
         public IActionResult Volgende(int beginIndex, int eindIndex)
         {                                   //0             13

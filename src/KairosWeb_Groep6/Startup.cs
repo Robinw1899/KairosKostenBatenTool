@@ -46,7 +46,7 @@ namespace KairosWeb_Groep6
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                           options.UseMySql(Configuration["Data:DefaultConnection:ConnectionString"]));
+                           options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
@@ -98,10 +98,13 @@ namespace KairosWeb_Groep6
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
+                app.UseExceptionHandler("/Kairos/Error");
+                app.UseStatusCodePages();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Kairos/Error");
+                app.UseStatusCodePages();
             }
 
             app.UseApplicationInsightsExceptionTelemetry();
@@ -121,9 +124,14 @@ namespace KairosWeb_Groep6
                     template: "{controller=Kairos}/{action=Index}/{id?}");
             });
 
-            //DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
-            //                                                  departementRepository, analyseRepository, werkgeverRepository,
-            //                                                 introductietekstRepository, doelgroepRepository);
+            //context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
+
+            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
+                                                              departementRepository, analyseRepository, werkgeverRepository,
+                                                             introductietekstRepository, doelgroepRepository);
+            initializer.InitializeIntrotekst();
+            initializer.InitializeDoelgroepen();
             //initializer.InitializeData().Wait();
         }
 
