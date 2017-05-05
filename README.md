@@ -3,8 +3,7 @@
 Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worden en wat goed/minder goed ging.
 
 ## Opgenomen priors in sprint 5
-* Prior 80: De jobcoach moet het resultaat van de berekening in pdf kunnen opslaan, afdrukken of rechtstreeks via mail kunnen versturen naar werkgever
-* Prior 180: de jobcoach moet de contactpersonen van een werkgever kunnen aanpassen/verwijderen
+* Prior 130: administator moet overzicht van de werkgevers waarvoor een berekening gemaakt werd kunnen exporteren naar Excel
 
 ## Vragen voor klant
 * Moeten er extra doelgroepen kunnen gemaakt worden?
@@ -21,15 +20,8 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 
 ## To do:
 ### To do voor webapplicatie
-* Opslaan-icoon in "_Tabs"-partial zetten
-* Analyse openen van andere jobcoach verhinderen
 * Demo jobcoach analyseren
-* Organisaties jobcoach implementeren zodat geen dubbels in de databank komen
 * Vorige- en Volgende-knop browser uitschakelen
-* Switch functie zodat cards naast elkaar en onder elkaar kunnen gezet worden
-* ArchiefController - Index/VolgendeAnalyses/VorigeAnalyses/ZoekAnalyse testen + volledig nakijken
-* Bestaande werkgever toon meer?
-* KairosController - Index/VolgendeAnalyses/VorigeAnalyses/ZoekAnalyse testen + volledig nakijken
 
 ## Retrospective
 ### Wat ging goed?
