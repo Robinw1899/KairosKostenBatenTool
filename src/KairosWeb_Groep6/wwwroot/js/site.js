@@ -56,8 +56,14 @@
             // de hoogte van het loginform gelijk zetten aan de hoogte van de introtekst
             var width = $(document).width();
             if (width >= 768) {
-                var introHeight = $("#intro").height();
-                $("#login").height(introHeight);
+                var introHeight = $("#intro").height() + 60;
+                var loginHeight = $("#login").height() + 60; // + 60 voor de padding
+
+                if (loginHeight < introHeight) {
+                    $("#login").css("min-height", introHeight);
+                } else {
+                    $("#intro").css("min-height", loginHeight);
+                }
             }
         });
 

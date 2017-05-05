@@ -202,7 +202,7 @@ namespace KairosWeb_Groep6.Controllers
 
                 return RedirectToAction("Index", "ContactPersoon");
             }
-            catch
+            catch(Exception e)
             {
                 TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
             }
