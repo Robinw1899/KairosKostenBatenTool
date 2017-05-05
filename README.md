@@ -41,6 +41,3 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Opslaan icoon bij de partial views zetten
 * Terug uit archief halen niet direct gevonden omdat iconen niet zichtbaar waren (momenteel on hover)
 * resultaat verzenden niet direct gevonden (op home met recente analyses)
-
-## Observatie Bart Moens
-
