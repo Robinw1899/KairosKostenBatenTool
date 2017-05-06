@@ -43,12 +43,12 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region VoegToe
         public IActionResult VoegToe()
         {
-            LoonkostViewModel model = new LoonkostViewModel();
+            LoonkostFormViewModel model = new LoonkostFormViewModel(_doelgroepRepository.GetAll());
             return PartialView("_Formulier", model);
         }
 
         [HttpPost]
-        public IActionResult VoegToe(Analyse analyse, LoonkostViewModel model)
+        public IActionResult VoegToe(Analyse analyse, LoonkostFormViewModel model)
         {
             try
             {
@@ -60,11 +60,16 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                         Beschrijving = model.Beschrijving,
                         AantalUrenPerWeek = model.AantalUrenPerWeek,
                         BrutoMaandloonFulltime =  dc.ConvertToDecimal(model.BrutoMaandloonFulltime),
-                        Doelgroep = _doelgroepRepository.GetById(model.Doelgroep.DoelgroepId),
                         Ondersteuningspremie = model.Ondersteuningspremie,
                         AantalMaandenIBO = model.AantalMaandenIBO,
                         IBOPremie = dc.ConvertToDecimal(model.IBOPremie)
                     };
+
+                    if (model.doelgroep != null)
+                    {
+                        int doelgroepid = model.doelgroep ?? 0;
+                        kost.Doelgroep = _doelgroepRepository.GetById(doelgroepid);
+                    }
 
                     analyse.Loonkosten.Add(kost);
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
@@ -73,7 +78,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     TempData["message"] = Meldingen.VoegToeSuccesvolKost;
                 }
             }
-            catch
+            catch (Exception e)
             {
                 TempData["error"] = Meldingen.VoegToeFoutmeldingKost;
             }
@@ -91,7 +96,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 if (kost != null)
                 {
-                    LoonkostViewModel model = new LoonkostViewModel(kost, _doelgroepRepository.GetAll());
+                    LoonkostFormViewModel model = new LoonkostFormViewModel(kost, _doelgroepRepository.GetAll());
 
                     return PartialView("_Formulier", model);
                 }
@@ -173,7 +178,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             DecimalConverter dc = new DecimalConverter();
             return analyse
                 .Loonkosten
-                .Select(m => new LoonkostViewModel(m, _doelgroepRepository.GetAll())
+                .Select(m => new LoonkostViewModel(m)
                 {
                     Bedrag = analyse.Departement == null
                         ? ""

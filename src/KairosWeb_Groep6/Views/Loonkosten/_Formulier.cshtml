@@ -1,5 +1,4 @@
-﻿@using KairosWeb_Groep6.Models.Domain.Kosten
-@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonkostViewModel
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.Kosten.LoonkostFormViewModel
 @{
     var action = Model.Id == 0 ? "VoegToe" : "Bewerk";
     ViewData["action"] = Model.Id == 0 ? "Voeg toe" : "Opslaan";
@@ -40,12 +39,12 @@
                 </div>
 
                 <div class="col-md-4 required">
-                    <label asp-for="Doelgroep" class="control-label paddingTopLabel"></label>
+                    <label asp-for="doelgroep" class="control-label paddingTopLabel"></label>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-users" aria-hidden="true"></i>
                         </span>
-                        <select asp-for="Doelgroep" asp-items="@(Model.DoelgroepSelectList as SelectList)" class="form-control">
+                        <select asp-for="doelgroep" asp-items="@(Model.DoelgroepSelectList as SelectList)" class="form-control">
                             <option value="">-- selecteer een doelgroep --</option>
                         </select>
                     </div>
