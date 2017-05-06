@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Mvc;
-using Type = KairosWeb_Groep6.Models.Domain.Type;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
 {
-    public class LoonkostViewModel
+    public class LoonkostFormViewModel
     {
         #region Properties
         [HiddenInput]
@@ -46,18 +47,27 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor de IBO premie")]
         public string IBOPremie { get; set; }
 
-        public Doelgroep Doelgroep { get; set; }
+        public int? doelgroep { get; set; }
 
         public string Bedrag { get; set; }
+
+        public SelectList DoelgroepSelectList { get; set; }
         #endregion
 
         #region Constructors
-        public LoonkostViewModel()
+        public LoonkostFormViewModel()
         {
-            
+
         }
 
-        public LoonkostViewModel(Loonkost loon)
+        public LoonkostFormViewModel(IEnumerable<Doelgroep> doelgroepen)
+        {
+            DoelgroepSelectList = new SelectList(doelgroepen, nameof(Doelgroep.DoelgroepId),
+                nameof(Doelgroep.Omschrijving), doelgroep);
+        }
+
+        public LoonkostFormViewModel(Loonkost loon, IEnumerable<Doelgroep> doelgroepen)
+            : this(doelgroepen)
         {
             DecimalConverter dc = new DecimalConverter();
             Id = loon.Id;
@@ -65,10 +75,10 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
             Beschrijving = loon.Beschrijving;
             Bedrag = dc.ConvertToString(loon.Bedrag);
             BrutoMaandloonFulltime = dc.ConvertToString(loon.BrutoMaandloonFulltime);
-            Ondersteuningspremie = (int) loon.Ondersteuningspremie;
+            Ondersteuningspremie = (int)loon.Ondersteuningspremie;
             AantalMaandenIBO = loon.AantalMaandenIBO;
             IBOPremie = dc.ConvertToString(loon.IBOPremie);
-            Doelgroep = loon.Doelgroep;
+            doelgroep = loon.Doelgroep?.DoelgroepId;
         }
         #endregion
     }

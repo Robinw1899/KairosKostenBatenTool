@@ -3,7 +3,9 @@
     public class Doelgroep
     {
         #region Properties
-        public DoelgroepSoort Soort { get; set; }
+        public int DoelgroepId { get; set; }
+
+        public string Omschrijving { get; set; }
 
         // het minimum brutoloon dat hoort bij deze doelgroep, dit kan veranderen!
         public decimal MinBrutoloon { get; set; }
@@ -18,9 +20,9 @@
             
         }
 
-        public Doelgroep(DoelgroepSoort soort, decimal minBrutoloon, decimal standaardDoelgroepVermindering)
+        public Doelgroep(string omschrijving, decimal minBrutoloon, decimal standaardDoelgroepVermindering)
         {
-            Soort = soort;
+            Omschrijving = omschrijving;
             MinBrutoloon = minBrutoloon;
             StandaardDoelgroepVermindering = standaardDoelgroepVermindering;
         }
@@ -67,10 +69,10 @@
         public decimal BerekenDoelgroepVermindering(decimal brutoloon, decimal aantalUrenPerWeek, 
             decimal aantalWerkuren, decimal patronaleBijdrage)
         {
-            if (Soort == DoelgroepSoort.Andere)
-            {// andere is steeds 0
-                return 0;
-            }
+            //if (Omschrijving.Equals("Andere"))
+            //{
+            //    return 0;
+            //}
 
             if (ControleerGegevensOntbreken(brutoloon, aantalUrenPerWeek, aantalWerkuren, patronaleBijdrage))
             {
@@ -90,23 +92,9 @@
             return 0;
         }
 
-        public string GeefOmschrijving()
+        public override string ToString()
         {
-            switch (Soort)
-            {
-                case DoelgroepSoort.LaaggeschooldTot25:
-                    return "Wn's < 25 jaar laaggeschoold";
-                case DoelgroepSoort.MiddengeschooldTot25:
-                    return "Wn's < 25 jaar middengeschoold";
-                case DoelgroepSoort.Tussen55En60:
-                    return "Wn's ≥ 55 en < 60 jaar";
-                case DoelgroepSoort.Vanaf60:
-                    return "Wns ≥ 60 jaar";
-                case DoelgroepSoort.Andere:
-                    return "Andere";
-                default:
-                    return "";
-            }
+            return Omschrijving ?? "";
         }
         #endregion
     }

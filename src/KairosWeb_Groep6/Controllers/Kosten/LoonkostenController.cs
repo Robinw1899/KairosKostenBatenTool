@@ -17,15 +17,19 @@ namespace KairosWeb_Groep6.Controllers.Kosten
     [ServiceFilter(typeof(AnalyseFilter))]
     public class LoonkostenController : Controller
     {
+        #region Properties
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IDoelgroepRepository _doelgroepRepository;
+        #endregion
 
+        #region Constructors
         public LoonkostenController(IAnalyseRepository analyseRepository,
             IDoelgroepRepository doelgroepRepository)
         {
             _analyseRepository = analyseRepository;
             _doelgroepRepository = doelgroepRepository;
         }
+        #endregion
 
         #region Index
         public IActionResult Index(Analyse analyse)
@@ -39,12 +43,12 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region VoegToe
         public IActionResult VoegToe()
         {
-            LoonkostViewModel model = new LoonkostViewModel();
+            LoonkostFormViewModel model = new LoonkostFormViewModel(_doelgroepRepository.GetAll());
             return PartialView("_Formulier", model);
         }
 
         [HttpPost]
-        public IActionResult VoegToe(Analyse analyse, LoonkostViewModel model)
+        public IActionResult VoegToe(Analyse analyse, LoonkostFormViewModel model)
         {
             try
             {
@@ -56,11 +60,16 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                         Beschrijving = model.Beschrijving,
                         AantalUrenPerWeek = model.AantalUrenPerWeek,
                         BrutoMaandloonFulltime =  dc.ConvertToDecimal(model.BrutoMaandloonFulltime),
-                        Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(model.DoelgroepSoort),
                         Ondersteuningspremie = model.Ondersteuningspremie,
                         AantalMaandenIBO = model.AantalMaandenIBO,
                         IBOPremie = dc.ConvertToDecimal(model.IBOPremie)
                     };
+
+                    if (model.doelgroep != null)
+                    {
+                        int doelgroepid = model.doelgroep ?? 0;
+                        kost.Doelgroep = _doelgroepRepository.GetById(doelgroepid);
+                    }
 
                     analyse.Loonkosten.Add(kost);
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
@@ -69,7 +78,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     TempData["message"] = Meldingen.VoegToeSuccesvolKost;
                 }
             }
-            catch
+            catch (Exception e)
             {
                 TempData["error"] = Meldingen.VoegToeFoutmeldingKost;
             }
@@ -87,7 +96,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 if (kost != null)
                 {
-                    LoonkostViewModel model = new LoonkostViewModel(kost);
+                    LoonkostFormViewModel model = new LoonkostFormViewModel(kost, _doelgroepRepository.GetAll());
 
                     return PartialView("_Formulier", model);
                 }
@@ -113,7 +122,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     kost.Beschrijving = model.Beschrijving;
                     kost.AantalUrenPerWeek = model.AantalUrenPerWeek;
                     kost.BrutoMaandloonFulltime = dc.ConvertToDecimal(model.BrutoMaandloonFulltime);
-                    kost.Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(model.DoelgroepSoort);
+                    kost.Doelgroep = _doelgroepRepository.GetById(model.Doelgroep.DoelgroepId);
                     kost.Ondersteuningspremie = model.Ondersteuningspremie;
                     kost.AantalMaandenIBO = model.AantalMaandenIBO;
                     kost.IBOPremie = dc.ConvertToDecimal(model.IBOPremie);
