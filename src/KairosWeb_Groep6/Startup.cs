@@ -125,13 +125,13 @@ namespace KairosWeb_Groep6
             });
 
             //context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
+            //context.Database.EnsureCreated();
 
-            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
-                                                              departementRepository, analyseRepository, werkgeverRepository,
-                                                             introductietekstRepository, doelgroepRepository);
-            initializer.InitializeIntrotekst();
-            initializer.InitializeDoelgroepen();
+            //DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
+            //                                                  departementRepository, analyseRepository, werkgeverRepository,
+            //                                                 introductietekstRepository, doelgroepRepository);
+            //initializer.InitializeIntrotekst();
+            //initializer.InitializeDoelgroepen();
             //initializer.InitializeData().Wait();
         }
 

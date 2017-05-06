@@ -234,8 +234,7 @@ namespace KairosWeb_Groep6.Data
             p.HasIndex(t => t.Emailadres)
                 .IsUnique();
 
-            p.HasDiscriminator<string>("Discriminator")
-                .HasValue<Persoon>("Persoon")
+            p.HasDiscriminator<string>("PersoonType")
                 .HasValue<Jobcoach>("Jobcoach");
         }
 

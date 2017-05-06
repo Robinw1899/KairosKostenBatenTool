@@ -1,6 +1,6 @@
 ﻿namespace KairosWeb_Groep6.Models.Domain
 {
-    public class Persoon
+    public abstract class Persoon
     {
         #region Properties
         public int PersoonId { get; set; }
