@@ -45,7 +45,7 @@
                         <span class="input-group-addon">
                             <i class="fa fa-users" aria-hidden="true"></i>
                         </span>
-                        <select asp-for="DoelgroepSoort" asp-items="@(Html.GetEnumSelectList<DoelgroepSoort>())" class="form-control">
+                        <select asp-for="Doelgroep" asp-items="@(Model.DoelgroepSelectList as SelectList)" class="form-control">
                             <option value="">-- selecteer een doelgroep --</option>
                         </select>
                     </div>

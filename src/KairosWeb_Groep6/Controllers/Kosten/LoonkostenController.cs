@@ -17,15 +17,19 @@ namespace KairosWeb_Groep6.Controllers.Kosten
     [ServiceFilter(typeof(AnalyseFilter))]
     public class LoonkostenController : Controller
     {
+        #region Properties
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IDoelgroepRepository _doelgroepRepository;
+        #endregion
 
+        #region Constructors
         public LoonkostenController(IAnalyseRepository analyseRepository,
             IDoelgroepRepository doelgroepRepository)
         {
             _analyseRepository = analyseRepository;
             _doelgroepRepository = doelgroepRepository;
         }
+        #endregion
 
         #region Index
         public IActionResult Index(Analyse analyse)
@@ -56,7 +60,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                         Beschrijving = model.Beschrijving,
                         AantalUrenPerWeek = model.AantalUrenPerWeek,
                         BrutoMaandloonFulltime =  dc.ConvertToDecimal(model.BrutoMaandloonFulltime),
-                        Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(model.DoelgroepSoort),
+                        Doelgroep = _doelgroepRepository.GetById(model.Doelgroep.DoelgroepId),
                         Ondersteuningspremie = model.Ondersteuningspremie,
                         AantalMaandenIBO = model.AantalMaandenIBO,
                         IBOPremie = dc.ConvertToDecimal(model.IBOPremie)
@@ -87,7 +91,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 
                 if (kost != null)
                 {
-                    LoonkostViewModel model = new LoonkostViewModel(kost);
+                    LoonkostViewModel model = new LoonkostViewModel(kost, _doelgroepRepository.GetAll());
 
                     return PartialView("_Formulier", model);
                 }
@@ -113,7 +117,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     kost.Beschrijving = model.Beschrijving;
                     kost.AantalUrenPerWeek = model.AantalUrenPerWeek;
                     kost.BrutoMaandloonFulltime = dc.ConvertToDecimal(model.BrutoMaandloonFulltime);
-                    kost.Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(model.DoelgroepSoort);
+                    kost.Doelgroep = _doelgroepRepository.GetById(model.Doelgroep.DoelgroepId);
                     kost.Ondersteuningspremie = model.Ondersteuningspremie;
                     kost.AantalMaandenIBO = model.AantalMaandenIBO;
                     kost.IBOPremie = dc.ConvertToDecimal(model.IBOPremie);
@@ -169,7 +173,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             DecimalConverter dc = new DecimalConverter();
             return analyse
                 .Loonkosten
-                .Select(m => new LoonkostViewModel(m)
+                .Select(m => new LoonkostViewModel(m, _doelgroepRepository.GetAll())
                 {
                     Bedrag = analyse.Departement == null
                         ? ""

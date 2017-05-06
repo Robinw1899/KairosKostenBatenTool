@@ -1,7 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
@@ -46,12 +48,11 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor de IBO premie")]
         public string IBOPremie { get; set; }
 
-        [Required(ErrorMessage = "Gelieve een doelgroep op te geven.")]
-        public DoelgroepSoort DoelgroepSoort { get; set; }
-
         public Doelgroep Doelgroep { get; set; }
 
         public string Bedrag { get; set; }
+
+        public SelectList DoelgroepSelectList { get; set; }
         #endregion
 
         #region Constructors
@@ -60,7 +61,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
             
         }
 
-        public LoonkostViewModel(Loonkost loon)
+        public LoonkostViewModel(Loonkost loon, IEnumerable<Doelgroep> doelgroepen)
         {
             DecimalConverter dc = new DecimalConverter();
             Id = loon.Id;
@@ -73,10 +74,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
             IBOPremie = dc.ConvertToString(loon.IBOPremie);
             
             Doelgroep = loon.Doelgroep;
-            if (loon.Doelgroep != null)
-            {
-                DoelgroepSoort = loon.Doelgroep.Soort;
-            }
+
+            DoelgroepSelectList = new SelectList(doelgroepen, Doelgroep);
         }
         #endregion
     }

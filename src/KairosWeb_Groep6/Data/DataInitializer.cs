@@ -126,19 +126,19 @@ namespace KairosWeb_Groep6.Data
 
         public void InitializeDoelgroepen()
         {
-            Doelgroep doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M);
+            Doelgroep doelgroep = new Doelgroep("Wn's < 25 jaar laaggeschoold", 2500M, 1550M);
             _doelgroepRepository.Add(doelgroep);
 
-            doelgroep = new Doelgroep(DoelgroepSoort.MiddengeschooldTot25, 2500M, 1000M);
+            doelgroep = new Doelgroep("Wn's < 25 jaar middengeschoold", 2500M, 1000M);
             _doelgroepRepository.Add(doelgroep);
 
-            doelgroep = new Doelgroep(DoelgroepSoort.Tussen55En60, 4466.66M, 1150M);
+            doelgroep = new Doelgroep("Wn's ≥ 55 en < 60 jaar", 4466.66M, 1150M);
             _doelgroepRepository.Add(doelgroep);
 
-            doelgroep = new Doelgroep(DoelgroepSoort.Vanaf60, 4466.66M, 1500M);
+            doelgroep = new Doelgroep("Wns ≥ 60 jaar", 4466.66M, 1500M);
             _doelgroepRepository.Add(doelgroep);
 
-            doelgroep = new Doelgroep(DoelgroepSoort.Andere, 0M, 0M);
+            doelgroep = new Doelgroep("Andere", 0M, 0M);
             _doelgroepRepository.Add(doelgroep);
 
             _doelgroepRepository.Save();
@@ -257,7 +257,7 @@ namespace KairosWeb_Groep6.Data
                 Beschrijving = "Poetsvrouw",
                 BrutoMaandloonFulltime = 1800,
                 AantalUrenPerWeek = 37,
-                Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(DoelgroepSoort.LaaggeschooldTot25),
+                Doelgroep = _doelgroepRepository.GetById(1),
                 Ondersteuningspremie = 20M,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -268,7 +268,7 @@ namespace KairosWeb_Groep6.Data
                 Beschrijving = "Secretaresse",
                 BrutoMaandloonFulltime = 2200,
                 AantalUrenPerWeek = 23,
-                Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(DoelgroepSoort.MiddengeschooldTot25),
+                Doelgroep = _doelgroepRepository.GetById(2),
                 Ondersteuningspremie = 20M,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -279,7 +279,7 @@ namespace KairosWeb_Groep6.Data
                 Beschrijving = "Postbode",
                 BrutoMaandloonFulltime = 1900,
                 AantalUrenPerWeek = 35,
-                Doelgroep = _doelgroepRepository.GetByDoelgroepSoort(DoelgroepSoort.Tussen55En60),
+                Doelgroep = _doelgroepRepository.GetById(3),
                 Ondersteuningspremie = 20M,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M

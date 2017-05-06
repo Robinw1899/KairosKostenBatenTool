@@ -22,10 +22,10 @@ namespace KairosWeb_Groep6.Data.Repositories
         #endregion
 
         #region Methods
-        public Doelgroep GetByDoelgroepSoort(DoelgroepSoort soort)
+        public Doelgroep GetById(int id)
         {
             return doelgroepen
-                .FirstOrDefault(t => t.Soort == soort);
+                .FirstOrDefault(t => t.DoelgroepId == id);
         }
 
         public IEnumerable<Doelgroep> GetAll()

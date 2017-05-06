@@ -49,7 +49,7 @@ namespace KairosWeb_Groep6.Data
         {
             d.ToTable("Doelgroep");
 
-            d.HasKey(t => t.Soort);
+            d.HasKey(t => t.DoelgroepId);
 
             d.Property(t => t.MinBrutoloon)
                 .IsRequired();
