@@ -22,9 +22,6 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 ## To do:
 ### To do voor webapplicatie
 * Demo jobcoach analyseren
-* Vorige- en Volgende-knop browser uitschakelen (AntiForgeryToken)
-* Mogelijkheid tot aanvinken dat analyse klaar is
-* Mails verzenden in BCC
 
 ## Retrospective
 ### Wat ging goed?
