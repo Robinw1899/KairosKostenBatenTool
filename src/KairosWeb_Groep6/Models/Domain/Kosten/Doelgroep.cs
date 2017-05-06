@@ -69,10 +69,10 @@
         public decimal BerekenDoelgroepVermindering(decimal brutoloon, decimal aantalUrenPerWeek, 
             decimal aantalWerkuren, decimal patronaleBijdrage)
         {
-            if (Omschrijving.Equals("Andere"))
-            {
-                return 0;
-            }
+            //if (Omschrijving.Equals("Andere"))
+            //{
+            //    return 0;
+            //}
 
             if (ControleerGegevensOntbreken(brutoloon, aantalUrenPerWeek, aantalWerkuren, patronaleBijdrage))
             {

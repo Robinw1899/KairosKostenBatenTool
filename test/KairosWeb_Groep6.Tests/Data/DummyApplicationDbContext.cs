@@ -23,7 +23,7 @@ namespace KairosWeb_Groep6.Tests.Data
 
         #region Kosten
 
-        public Doelgroep Laaggeschoold { get; set; } = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M);
+        public Doelgroep Laaggeschoold { get; set; } = new Doelgroep("Wn's < 25 jaar laaggeschoold", 2500M, 1550M);
 
         public Loonkost Poetsvrouw { get; set; }
 
@@ -145,12 +145,16 @@ namespace KairosWeb_Groep6.Tests.Data
         #region Methoden kosten
         private void MaakLoonkosten()
         {
+            string laaggeschoold = "Wn's < 25 jaar laaggeschoold";
+            string middengeschoold = "Wn's < 25 jaar middengeschoold";
+            string tussen55En60 = "Wn's ≥ 55 en < 60 jaar";
+
             Poetsvrouw = new Loonkost
             {
                 Id = 1,
                 BrutoMaandloonFulltime = 1800,
                 AantalUrenPerWeek = 37,
-                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
+                Doelgroep = new Doelgroep(laaggeschoold, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -161,7 +165,7 @@ namespace KairosWeb_Groep6.Tests.Data
                 Id = 2,
                 BrutoMaandloonFulltime = 2200,
                 AantalUrenPerWeek = 23,
-                Doelgroep = new Doelgroep(DoelgroepSoort.MiddengeschooldTot25, 2500M, 1000M),
+                Doelgroep = new Doelgroep(middengeschoold, 2500M, 1000M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -172,7 +176,7 @@ namespace KairosWeb_Groep6.Tests.Data
                 Id = 3,
                 BrutoMaandloonFulltime = 1900,
                 AantalUrenPerWeek = 35,
-                Doelgroep = new Doelgroep(DoelgroepSoort.Tussen55En60, 2500M, 1150M),
+                Doelgroep = new Doelgroep(tussen55En60, 2500M, 1150M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M

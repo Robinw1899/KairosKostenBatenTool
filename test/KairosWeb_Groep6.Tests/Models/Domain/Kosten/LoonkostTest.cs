@@ -8,12 +8,19 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
 {
     public class LoonkostTest
     {
+        #region Properties
         private Loonkost _loonkost;
 
         private int _aantalWerkuren;
 
-        private decimal patronaleBijdrage = 35M;
+        private const decimal PatronaleBijdrage = 35M;
 
+        private const string Laaggeschoold = "Wn's < 25 jaar laaggeschoold";
+        private const string Middengeschoold = "Wn's < 25 jaar middengeschoold";
+        private const string Tussen55En60 = "Wn's ≥ 55 en < 60 jaar";
+        private const string Vanaf60 = "Wns ≥ 60 jaar";
+        #endregion
+        
         [Fact]
         public void TestConstructorSetsTypeEnSoort()
         {
@@ -31,7 +38,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
-                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
+                Doelgroep = new Doelgroep(Laaggeschoold, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
@@ -51,7 +58,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 AantalUrenPerWeek = 23
             };
 
-            Assert.Equal(0, _loonkost.BerekenBrutoloonPerMaand(_aantalWerkuren, patronaleBijdrage));
+            Assert.Equal(0, _loonkost.BerekenBrutoloonPerMaand(_aantalWerkuren, PatronaleBijdrage));
         }
 
         [Fact]
@@ -65,15 +72,15 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 AantalUrenPerWeek = 0
             };
 
-            Assert.Equal(0, _loonkost.BerekenBrutoloonPerMaand(_aantalWerkuren, patronaleBijdrage));
+            Assert.Equal(0, _loonkost.BerekenBrutoloonPerMaand(_aantalWerkuren, PatronaleBijdrage));
         }
 
         [Theory]
-        [InlineData(37, 1800, 37, DoelgroepSoort.LaaggeschooldTot25, 2500, 1550, 2430.00)]
-        [InlineData(37, 2200, 23, DoelgroepSoort.MiddengeschooldTot25, 2500, 1000, 1846.22)]
-        [InlineData(37, 1900, 35, DoelgroepSoort.Tussen55En60, 4466.66, 1150, 2426.35)]
+        [InlineData(37, 1800, 37, Laaggeschoold, 2500, 1550, 2430.00)]
+        [InlineData(37, 2200, 23, Middengeschoold, 2500, 1000, 1846.22)]
+        [InlineData(37, 1900, 35, Tussen55En60, 4466.66, 1150, 2426.35)]
         public void TestBerekenBrutoloonPerMaand_AlleGegevensIngevuld
-            (int werkuren, decimal brutoloon, int urenPerWeek, DoelgroepSoort soort, 
+            (int werkuren, decimal brutoloon, int urenPerWeek, string omschrijving, 
             decimal minBrutoloon, decimal doelgroepvermindering, decimal expected)
         {
             _aantalWerkuren = werkuren;
@@ -82,10 +89,10 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = brutoloon,
                 AantalUrenPerWeek = urenPerWeek,
-                Doelgroep = new Doelgroep(soort, minBrutoloon, doelgroepvermindering)
+                Doelgroep = new Doelgroep(omschrijving, minBrutoloon, doelgroepvermindering)
             };
 
-            decimal brutoloonPerMaand = _loonkost.BerekenBrutoloonPerMaand(_aantalWerkuren, patronaleBijdrage);
+            decimal brutoloonPerMaand = _loonkost.BerekenBrutoloonPerMaand(_aantalWerkuren, PatronaleBijdrage);
             // afronden omdat je werkt met decimals, de excel is ook afgerond op 2 decimalen
             brutoloonPerMaand = Math.Round(brutoloonPerMaand, 2);
             Assert.Equal(expected, brutoloonPerMaand);
@@ -103,7 +110,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 AantalUrenPerWeek = 23
             };
 
-            Assert.Equal(0,_loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, patronaleBijdrage));
+            Assert.Equal(0,_loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, PatronaleBijdrage));
         }
 
         [Fact]
@@ -119,16 +126,16 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 Ondersteuningspremie = 30
             };
 
-            Assert.Equal(0, _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, patronaleBijdrage));
+            Assert.Equal(0, _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, PatronaleBijdrage));
         }
 
         [Theory]
-        [InlineData(1800, 37, DoelgroepSoort.LaaggeschooldTot25, 2500, 1550, 20, 408.50)]
-        [InlineData(2200, 23, DoelgroepSoort.MiddengeschooldTot25, 2500, 1000, 30, 507.24)]
-        [InlineData(3540, 35, DoelgroepSoort.Tussen55En60, 4466.66, 1150, 40, 1699.49)]
-        [InlineData(4300, 30, DoelgroepSoort.Vanaf60, 4466.66, 1500,0, 0)]
+        [InlineData(1800, 37, Laaggeschoold, 2500, 1550, 20, 408.50)]
+        [InlineData(2200, 23, Middengeschoold, 2500, 1000, 30, 507.24)]
+        [InlineData(3540, 35, Tussen55En60, 4466.66, 1150, 40, 1699.49)]
+        [InlineData(4300, 30, Vanaf60, 4466.66, 1500,0, 0)]
         public void TestBerekenGemiddeldeVOPPerMaand_AlleGegevensIngevuld
-            (decimal brutoloon, decimal urenPerWeerk, DoelgroepSoort soort, decimal minBrutoloon,
+            (decimal brutoloon, decimal urenPerWeerk, string omschrijving, decimal minBrutoloon,
             decimal doelgroepvermindering, decimal VOP, decimal expected)
         {
             _aantalWerkuren = 37;
@@ -137,11 +144,11 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = brutoloon,
                 AantalUrenPerWeek = urenPerWeerk,
-                Doelgroep = new Doelgroep(soort, minBrutoloon, doelgroepvermindering),
+                Doelgroep = new Doelgroep(omschrijving, minBrutoloon, doelgroepvermindering),
                 Ondersteuningspremie = VOP
             };
 
-            decimal gemiddeldeVopPerMaand = _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, patronaleBijdrage);
+            decimal gemiddeldeVopPerMaand = _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, PatronaleBijdrage);
             // afronden omdat je werkt met decimals, de excel is ook afgerond op 2 decimalen
             gemiddeldeVopPerMaand = Math.Round(gemiddeldeVopPerMaand, 2);
             Assert.Equal(expected, gemiddeldeVopPerMaand);
@@ -157,11 +164,11 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
-                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
+                Doelgroep = new Doelgroep(Laaggeschoold, 2500M, 1550M),
                 Ondersteuningspremie = 20
             };
 
-            Assert.Equal(0, _loonkost.BerekenTotaleLoonkost(_aantalWerkuren, patronaleBijdrage));
+            Assert.Equal(0, _loonkost.BerekenTotaleLoonkost(_aantalWerkuren, PatronaleBijdrage));
         }
 
         [Fact]
@@ -179,7 +186,7 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
                 IBOPremie = 0
             };
 
-            Assert.Equal(0, _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, patronaleBijdrage));
+            Assert.Equal(0, _loonkost.BerekenGemiddeldeVOPPerMaand(_aantalWerkuren, PatronaleBijdrage));
         }
 
         [Fact]
@@ -191,13 +198,13 @@ namespace KairosWeb_Groep6.Tests.Models.Domain.Kosten
             {
                 BrutoMaandloonFulltime = 2000,
                 AantalUrenPerWeek = 23,
-                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
+                Doelgroep = new Doelgroep(Laaggeschoold, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = 564.0M
             };
 
-            decimal totaleLoonkost = _loonkost.BerekenTotaleLoonkost(_aantalWerkuren, patronaleBijdrage);
+            decimal totaleLoonkost = _loonkost.BerekenTotaleLoonkost(_aantalWerkuren, PatronaleBijdrage);
             // afronden omdat je werkt met decimals, de excel is ook afgerond op 2 decimalen
             totaleLoonkost = Math.Round(totaleLoonkost, 2);
             Assert.Equal(14272.00M, totaleLoonkost);

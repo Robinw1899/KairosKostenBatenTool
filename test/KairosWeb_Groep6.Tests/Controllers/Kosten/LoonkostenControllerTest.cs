@@ -20,6 +20,8 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         private readonly LoonkostenController _controller;
         private readonly Analyse _analyse;
         private readonly Mock<IDoelgroepRepository> _doelgroepRepository;
+
+        private const string Laaggeschoold = "Wn's < 25 jaar laaggeschoold";
         #endregion
 
         #region Constructors
@@ -63,7 +65,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         public void TestVoegToe_ModelError_RedirectsToIndex()
         {
             _controller.ModelState.AddModelError("", "Model error");
-            LoonkostViewModel model = new LoonkostViewModel();
+            LoonkostFormViewModel model = new LoonkostFormViewModel();
 
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
@@ -73,17 +75,17 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         [Fact]
         public void TestVoegToe_Succes_RedirectsToIndex()
         {
-            _doelgroepRepository.Setup(r => r.GetByDoelgroepSoort(DoelgroepSoort.LaaggeschooldTot25))
+            _doelgroepRepository.Setup(r => r.GetById(1))
                 .Returns(_dbContext.Laaggeschoold);
 
-            LoonkostViewModel model = new LoonkostViewModel
+            LoonkostFormViewModel model = new LoonkostFormViewModel
             {
                 Id = 4,
                 Type = Type.Kost,
                 Soort = Soort.Loonkost,
                 BrutoMaandloonFulltime = "" + 1800,
                 AantalUrenPerWeek = 37,
-                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
+                doelgroep = 1,
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = "" + 564.0M
@@ -136,7 +138,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Soort = Soort.Loonkost,
                 BrutoMaandloonFulltime = "" + 1800,
                 AantalUrenPerWeek = 37,
-                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
+                Doelgroep = new Doelgroep(Laaggeschoold, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = "" + 564.0M
@@ -157,7 +159,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 Soort = Soort.Loonkost,
                 BrutoMaandloonFulltime = "" + 1800,
                 AantalUrenPerWeek = 37,
-                Doelgroep = new Doelgroep(DoelgroepSoort.LaaggeschooldTot25, 2500M, 1550M),
+                Doelgroep = new Doelgroep(Laaggeschoold, 2500M, 1550M),
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
                 IBOPremie = "" + 564.0M
