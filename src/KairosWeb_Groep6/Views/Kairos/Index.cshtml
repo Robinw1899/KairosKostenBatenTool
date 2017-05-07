@@ -1,7 +1,4 @@
-﻿@using System.Linq;
-@using KairosWeb_Groep6.Models.KairosViewModels
-@model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
-
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
 @{
     ViewData["title"] = ViewData["zoeken"] == null? "Home" : "Zoekresultaten";
     var klasse = ViewData["zoeken"] == null ? "col-md-12" : "col-md-9";
@@ -34,55 +31,27 @@
         </div>
     </div>
     
+    <div>
+        <img src="/images/loader.gif" alt="Laad-icoon analyses" id="loader" />
+    </div>
+
     <div class="row">
-        @if (Model == null || !Model.Analyses.Any())
-        {
-            if (ViewData["zoeken"] == null)
-            {
-                <div class="col-md-12">
-                    <p style="font-size: 1.2em;">
-                        Er zijn nog geen analyses om te tonen. Klik op de <i class="fa fa-plus" aria-hidden="true"></i> hieronder
-                        of op het <i class="fa fa-line-chart" aria-hidden="true"></i>-icoon hierboven om een nieuwe analyse toe te voegen.
-                    </p>
-                </div>
-            }
-        }
-
-        <div class="col-sm-12 col-md-6 col-lg-4">
-            <a asp-controller="Analyse" asp-action="NieuweAnalyse">
-                <div class="card text-center" style="color: black;">
-                    <i class="fa fa-plus fa-4x" aria-hidden="true" style="margin: auto 0;"></i>
-                </div>
-            </a>
+        <div class="col-md-12" id="analyses" data-href="@Url.Action("HaalAnalysesOpZonderModel", new
+                                                        {
+                                                            beginIndex = Model.BeginIndex,
+                                                            eindIndex = Model.EindIndex
+                                                        })">
+            
         </div>
-
-        @if (Model != null && Model.Analyses.Any())
-        {
-            <div id="data">
-               @foreach (AnalyseViewModel a in Model.Analyses)
-               {
-                    @Html.Partial("_AnalyseCard", a);
-               }
-            </div>
-
-            <div class="row" style="margin-top:20px">
-                <div class="col-xs-9 col-md-9">
-                    @if (Model.ShowVorige)
-                    {
-                        <a asp-controller="Kairos" asp-action="Vorige"  asp-route-beginIndex="@Model.BeginIndex" asp-route-eindIndex="@Model.EindIndex" style="margin-left: 15px" class="btn btn-default">
-                            <i class="fa fa-chevron-left" aria-hidden="true"></i> Vorige
-                        </a>
-                    }                  
-                </div>
-                <div class="col-xs-3 col-md-3 text-right">
-                    @if (Model.ShowVolgende)
-                    {
-                        <a asp-controller="Kairos" asp-action="Volgende"  asp-route-beginIndex="@Model.BeginIndex" asp-route-eindIndex="@Model.EindIndex" class="btn btn-default">
-                            Volgende <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                        </a>
-                    }
-                </div>
-            </div>
-        }
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            if (siteView) {
+                siteView.laadAnalysesIndex();
+            }
+        });
+    </script>
+}

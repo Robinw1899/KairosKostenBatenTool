@@ -41,7 +41,7 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region Index
-        public async Task<IActionResult> Index(IndexViewModel model = null)
+        public async Task<IActionResult> Index()
         {
             AnalyseFilter.ClearSession(HttpContext);
             ApplicationUser user = await _userManager.GetUserAsync(User);
@@ -53,36 +53,59 @@ namespace KairosWeb_Groep6.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            IndexViewModel model = new IndexViewModel
+            {
+                BeginIndex = 0,
+                EindIndex = 8
+            };
+
+            return View("Index", model);
+        }
+        #endregion
+
+        #region HaalAnalysesOp
+
+        public IActionResult HaalAnalysesOpZonderModel(int beginIndex, int eindIndex)
+        {
+            // methode om het IndexViewmodel te kunnen aanmaken
+            IndexViewModel model = new IndexViewModel
+            {
+                BeginIndex = beginIndex,
+                EindIndex = eindIndex
+            };
+
+            return RedirectToAction("HaalAnalysesOp", model);
+        }
+
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult HaalAnalysesOp(Jobcoach jobcoach, IndexViewModel model = null)
+        {
             try
             {
-
-                Jobcoach jobcoach = _jobcoachRepository.GetByEmail(user.Email);
-                List<Analyse> analyses = new List<Analyse>();
-
                 _analyseRepository.SetAnalysesJobcoach(jobcoach, false);
-                int totaal = jobcoach.Analyses.Count(); //13
+                int totaal = jobcoach.Analyses.Count; //13
 
 
                 bool volgende = false;
                 bool vorige = false;
 
                 //volgende knop laten zien of niet
-                if (totaal > 8 && model.EindIndex < totaal )
+                if (totaal > 8 && model?.EindIndex < totaal)
                 {
                     volgende = true;//true // false
                 }
 
                 //vorige knop laten zien of niet
-                if (model.BeginIndex != 0)
+                if (model?.BeginIndex != 0)
                 {
                     vorige = true;//false //true
                 }
 
                 int aantal = 8;
-                analyses =  _analyseRepository
+                var analyses = _analyseRepository
                     .GetAnalyses(jobcoach, model.BeginIndex, aantal)
                     .ToList();
-           
+
                 jobcoach.Analyses = analyses;
 
                 model = new IndexViewModel(jobcoach)
@@ -92,21 +115,17 @@ namespace KairosWeb_Groep6.Controllers
                     ShowVolgende = volgende,
                     ShowVorige = vorige
                 };
+
+                return PartialView("_Analyses", model);
             }
             catch
             {
                 TempData["error"] = "Er liep iets mis, probeer later opnieuw";
             }
 
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
         #endregion
-
-        public IActionResult Error()
-        {
-            string error = HttpContext.Request.Method;
-            return View();
-        }
 
         #region VolgendeAnalyses
         public IActionResult Volgende(int beginIndex, int eindIndex)
@@ -118,7 +137,7 @@ namespace KairosWeb_Groep6.Controllers
                 EindIndex = eindIndex + 8
             };
 
-            return RedirectToAction("Index", model);
+            return RedirectToAction("HaalAnalysesOp", model);
         }
         #endregion
 
@@ -132,7 +151,7 @@ namespace KairosWeb_Groep6.Controllers
                 EindIndex = beginIndex
             };
 
-            return RedirectToAction("Index", model);
+            return RedirectToAction("HaalAnalysesOp", model);
         }
         #endregion
 

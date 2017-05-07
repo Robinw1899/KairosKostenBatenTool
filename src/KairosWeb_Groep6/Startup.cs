@@ -98,12 +98,9 @@ namespace KairosWeb_Groep6
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
-                app.UseExceptionHandler("/Kairos/Error");
-                app.UseStatusCodePages();
             }
             else
             {
-                app.UseExceptionHandler("/Kairos/Error");
                 app.UseStatusCodePages();
             }
 

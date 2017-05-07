@@ -116,16 +116,20 @@ namespace KairosWeb_Groep6.Data.Repositories
         }
         public IEnumerable<Analyse> GetAnalyses(Jobcoach jobcoach, int index, int aantal)
         {
+            List<Analyse> legeAnalyses = jobcoach
+                .Analyses
+                .Skip(index)
+                .Take(aantal)
+                .ToList();
+
             List<Analyse> analyses = new List<Analyse>();
 
-            foreach (Analyse a in jobcoach.Analyses)
+            foreach (Analyse a in legeAnalyses)
             {
                 analyses.Add(GetById(a.AnalyseId));
             }
 
-            return analyses
-                 .Skip(index)
-                 .Take(aantal);
+            return analyses;
         }
 
         public void SetAnalysesJobcoach(Jobcoach jobcoach, bool archief)
