@@ -8,9 +8,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using KairosWeb_Groep6.Models.Domain.Excel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KairosWeb_Groep6.Controllers
 {
+    [Authorize]
     public class ResultaatController : Controller
     {
         private readonly string outputDir = "temp\\";
