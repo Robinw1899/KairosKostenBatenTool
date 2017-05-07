@@ -49,23 +49,25 @@ namespace KairosWeb_Groep6.Controllers
 
                 Werkgever werkgever = _werkgeverRepository.GetById(id);
 
-                if(analyse.ContactPersooon != null)
+                analyse.Departement = _departementRepository.GetById(analyse.Departement.DepartementId);
+
+                if(analyse.Departement?.ContactPersoon != null)
                 {
-                    ContactPersoonViewModel model = new ContactPersoonViewModel(analyse.ContactPersooon, 
+                    ContactPersoonViewModel model = new ContactPersoonViewModel(analyse.Departement?.ContactPersoon, 
                         analyse.Departement.Werkgever.WerkgeverId);
                     return View("Bewerk", model);
-                }
-
-                if (werkgever.ContactPersonen.Any())
-                {
-                    // doorsturen naar andere action die dit zal afhandelen
-                    return RedirectToAction("ToonAlleContactPersonen");
                 }
                 else
                 {
                     TempData["error"] = "Er is nog geen contactpersoon, voeg hier eventueel een contactpersoon toe";
                     return RedirectToAction("VoegContactPersoonToe", new { id = werkgever.WerkgeverId });
                 }
+
+                //if (werkgever.ContactPersonen.Any())
+                //{
+                //    // doorsturen naar andere action die dit zal afhandelen
+                //    return RedirectToAction("ToonAlleContactPersonen");
+                //}
             }
             catch
             {
@@ -76,32 +78,32 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region ToonAlleContactPersonen
-        [ServiceFilter(typeof(AnalyseFilter))]
-        public IActionResult ToonAlleContactPersonen(Analyse analyse)
-        {
-            try
-            {
-                int werkgeverId = analyse.Departement.Werkgever.WerkgeverId;
-                Werkgever werkgever = _werkgeverRepository.GetById(werkgeverId);
+        //[ServiceFilter(typeof(AnalyseFilter))]
+        //public IActionResult ToonAlleContactPersonen(Analyse analyse)
+        //{
+        //    try
+        //    {
+        //        int werkgeverId = analyse.Departement.Werkgever.WerkgeverId;
+        //        Werkgever werkgever = _werkgeverRepository.GetById(werkgeverId);
 
-                IEnumerable<ContactPersoon> contactpersonen = werkgever.ContactPersonen;
+        //        IEnumerable<ContactPersoon> contactpersonen = werkgever.ContactPersonen;
 
-                IEnumerable<ContactPersoonViewModel> viewModels
-                    = contactpersonen
-                        .Select(w => new ContactPersoonViewModel(w, werkgever.WerkgeverId))
-                        .ToList();
+        //        IEnumerable<ContactPersoonViewModel> viewModels
+        //            = contactpersonen
+        //                .Select(w => new ContactPersoonViewModel(w, werkgever.WerkgeverId))
+        //                .ToList();
 
-                ViewData["WerkgeverId"] = werkgeverId;
+        //        ViewData["WerkgeverId"] = werkgeverId;
 
-                return View("Index", viewModels);
-            }
-            catch
-            {
-                TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
-            }
+        //        return View("Index", viewModels);
+        //    }
+        //    catch
+        //    {
+        //        TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
+        //    }
 
-            return RedirectToAction("Index", "Werkgever");
-        }
+        //    return RedirectToAction("Index", "Werkgever");
+        //}
         #endregion
 
         #region VoegToe
@@ -113,17 +115,18 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         [HttpPost]
-        public IActionResult VoegContactPersoonToe(ContactPersoonViewModel model)
+        [ServiceFilter(typeof(AnalyseFilter))]
+        public IActionResult VoegContactPersoonToe(Analyse analyse, ContactPersoonViewModel model)
         {
             try
             {
-                Werkgever werkgever = _werkgeverRepository.GetById(model.WerkgeverId);
+                analyse.Departement = _departementRepository.GetById(analyse.Departement.DepartementId);
                 ContactPersoon cp = new ContactPersoon(model.Voornaam, model.Naam, model.Email);
 
                 _contactPersoonRepository.Add(cp);
                 _contactPersoonRepository.Save();
-                werkgever.ContactPersonen.Add(cp);
-                _werkgeverRepository.Save();
+                analyse.Departement.ContactPersoon = cp;
+                _departementRepository.Save();
 
                 TempData["message"] = "De contactpersoon " + cp.Voornaam + " " + cp.Naam + " is succesvol toegevoegd";
             }
@@ -138,7 +141,8 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region Bewerk
-        public IActionResult Bewerk(int id, int cpid)
+        [ServiceFilter(typeof(AnalyseFilter))]
+        public IActionResult Bewerk(Analyse analyse, int id, int cpid)
         {
             // id = werkgeverid
             // cpid = contactpersoonid
@@ -147,9 +151,8 @@ namespace KairosWeb_Groep6.Controllers
             try
             {
                 Werkgever werkgever = _werkgeverRepository.GetById(id);
-
-                ContactPersoon cp = werkgever.ContactPersonen
-                    .SingleOrDefault(w => w.ContactPersoonId == cpid);
+                Departement departement = _departementRepository.GetById(analyse.Departement.DepartementId);
+                ContactPersoon cp = departement.ContactPersoon;
 
                 model = new ContactPersoonViewModel(cp, id);
 
@@ -203,16 +206,17 @@ namespace KairosWeb_Groep6.Controllers
             // id is het id van de contactpersoon
             try
             {
+                analyse.Departement = _departementRepository.GetById(analyse.Departement.DepartementId);
                 ContactPersoon cp = _contactPersoonRepository.GetById(id);
 
-                if (analyse.ContactPersooon != null && analyse.ContactPersooon.Equals(cp))
-                {
-                    TempData["error"] = "Deze contactpersoon is ingesteld als contactpersoon voor deze analyse " +
-                                          "en kan dus niet verwijderd worden. Kies eerst een andere " +
-                                          "contactpersoon voor deze analyse.";
+                //if (analyse.Departement?.ContactPersoon != null && analyse.Departement.ContactPersoon.Equals(cp))
+                //{
+                //    TempData["error"] = "Deze contactpersoon is ingesteld als contactpersoon voor deze analyse " +
+                //                          "en kan dus niet verwijderd worden. Kies eerst een andere " +
+                //                          "contactpersoon voor deze analyse.";
 
-                    return RedirectToAction("ToonAlleContactPersonen");
-                }
+                //    return RedirectToAction("ToonAlleContactPersonen");
+                //}
 
                 ViewData["contactPersoonId"] = id;
                 ViewData["werkgeverId"] = werkgeverid;
@@ -235,11 +239,11 @@ namespace KairosWeb_Groep6.Controllers
             try
             {
                 ContactPersoon cp = _contactPersoonRepository.GetById(id);
-                Werkgever werkgever = _werkgeverRepository.GetById(werkgeverid);
+                //Werkgever werkgever = _werkgeverRepository.GetById(werkgeverid);
 
-                // eerst bij de werkgever verwijderen
-                werkgever.ContactPersonen.Remove(cp);
-                _werkgeverRepository.Save();
+                //// eerst bij de werkgever verwijderen
+                //werkgever.ContactPersonen.Remove(cp);
+                //_werkgeverRepository.Save();
 
                 // nadien de contactpersoon
                 _contactPersoonRepository.Remove(cp);
@@ -258,42 +262,42 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region SelecteerContactPersoon
-        public IActionResult SelecteerHoofdContactPersoon(int werkgeverId, int contactPersoonId)
-        {
-            return RedirectToAction("SelecteerContactPersoon", new
-            {
-                werkgeverId,
-                contactPersoonId
-            });
-        }
+        //public IActionResult SelecteerHoofdContactPersoon(int werkgeverId, int contactPersoonId)
+        //{
+        //    return RedirectToAction("SelecteerContactPersoon", new
+        //    {
+        //        werkgeverId,
+        //        contactPersoonId
+        //    });
+        //}
 
-        [ServiceFilter(typeof(AnalyseFilter))]
-        public IActionResult SelecteerContactPersoon(int werkgeverId, int contactPersoonId, Analyse analyse)
-        {
-            try
-            {
-                Werkgever werkgever = _werkgeverRepository.GetById(werkgeverId);
-                ContactPersoon cp = werkgever
-                    .ContactPersonen
-                    .FirstOrDefault(c => c.ContactPersoonId == contactPersoonId);
+        //[ServiceFilter(typeof(AnalyseFilter))]
+        //public IActionResult SelecteerContactPersoon(int werkgeverId, int contactPersoonId, Analyse analyse)
+        //{
+        //    try
+        //    {
+        //        Werkgever werkgever = _werkgeverRepository.GetById(werkgeverId);
+        //        ContactPersoon cp = werkgever
+        //            .ContactPersonen
+        //            .FirstOrDefault(c => c.ContactPersoonId == contactPersoonId);
 
-                if (cp != null)
-                {
-                    analyse.ContactPersooon = cp;
-                    _analyseRepository.Save();
-                }
-                else
-                {
-                    TempData["error"] = "Deze contactpersoon bestaat niet, kies een andere";
-                }
-            }
-            catch
-            {
-                TempData["error"] = "Er ging iets mis tijdens het ophalen en instellen van de contactpersoon";
-            }
+        //        if (cp != null)
+        //        {
+        //            analyse.ContactPersooon = cp;
+        //            _analyseRepository.Save();
+        //        }
+        //        else
+        //        {
+        //            TempData["error"] = "Deze contactpersoon bestaat niet, kies een andere";
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        TempData["error"] = "Er ging iets mis tijdens het ophalen en instellen van de contactpersoon";
+        //    }
 
-            return RedirectToAction("Index");
-        }
+        //    return RedirectToAction("Index");
+        //}
         #endregion
     }
 }

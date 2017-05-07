@@ -24,7 +24,7 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public decimal PatronaleBijdrage { get; set; } = 35M;
              
-        public List<Departement> Departementen { get; set; }
+        public List<Departement> Departementen { get; set; } = new List<Departement>();
         #endregion
 
         #region Constructors

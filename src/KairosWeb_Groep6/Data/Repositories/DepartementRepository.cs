@@ -21,6 +21,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             return _departementen
                 .Include(d => d.Werkgever)
+                .Include(d => d.ContactPersoon)
                 .AsNoTracking()
                 .ToList();
         }
@@ -29,6 +30,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             return _departementen
                 .Include(d => d.Werkgever)
+                .Include(d => d.ContactPersoon)
                 .Where(d => d.Werkgever != null)
                 .Where(d => d.Werkgever.WerkgeverId == id)
                 .ToList();
@@ -38,6 +40,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             return _departementen
                 .Include(d => d.Werkgever)
+                .Include(d => d.ContactPersoon)
                 .FirstOrDefault(d => d.Naam.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
@@ -45,6 +48,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             return _departementen
                 .Include(d => d.Werkgever)
+                .Include(d => d.ContactPersoon)
                 .SingleOrDefault(w => w.DepartementId == id);
         }
 

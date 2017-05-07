@@ -120,6 +120,10 @@ namespace KairosWeb_Groep6.Data
             d.HasOne(t => t.Werkgever)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            d.HasOne(t => t.ContactPersoon)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         private static void MapAnalyse(EntityTypeBuilder<Analyse> a)
@@ -278,10 +282,6 @@ namespace KairosWeb_Groep6.Data
 
             w.Property(t => t.Gemeente)
                 .IsRequired();
-
-            w.HasMany(t => t.ContactPersonen)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Restrict); 
 
             w.HasMany(t => t.Departementen)
                 .WithOne()
