@@ -1,5 +1,4 @@
-﻿using System;
-using KairosWeb_Groep6.Filters;
+﻿using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -93,18 +92,17 @@ namespace KairosWeb_Groep6.Controllers
 
                 TempData["message"] = "De contactpersoon " + cp.Voornaam + " " + cp.Naam + " is succesvol toegevoegd";
             }
-            catch(Exception e)
+            catch
             {
-                //ModelState.AddModelError("", "Er is al een contactpersoon met dit e-mailadres, gelieve een ander te kiezen");
-                ModelState.AddModelError("", e.Message);
-                return View(model);
+                ModelState.AddModelError("", "Er is al een contactpersoon met dit e-mailadres, gelieve een ander te kiezen");
+                return View("Index", model);
             }
 
             return RedirectToAction("Index");
         }
         #endregion
 
-        #region Bewerk
+        #region Opslaan
         [HttpPost]
         public IActionResult Opslaan(ContactPersoonViewModel model)
         {
@@ -120,11 +118,16 @@ namespace KairosWeb_Groep6.Controllers
                         cp.Naam = model.Naam;
                         cp.Voornaam = model.Voornaam;
                         cp.Emailadres = model.Email;
-                        
+
                         _contactPersoonRepository.Save();
 
-                        TempData["message"] = "De contactpersoon " + model.Voornaam + " " + model.Naam + " is succesvol opgeslaan";
+                        TempData["message"] = "De contactpersoon " + model.Voornaam + " " + model.Naam +
+                                              " is succesvol opgeslaan";
                         return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["error"] = "Er ging iets mis tijdens het opslaan, probeer later opnieuw";
                     }
                 }
             }
