@@ -122,7 +122,8 @@ namespace KairosWeb_Groep6.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             d.HasOne(t => t.ContactPersoon)
-                .WithOne()
+                .WithOne(t => t.Departement)
+                .HasForeignKey<ContactPersoon>(t => t.ContactPersoonId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
 

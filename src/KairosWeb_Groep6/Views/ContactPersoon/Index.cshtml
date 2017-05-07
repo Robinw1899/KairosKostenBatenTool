@@ -1,13 +1,65 @@
-﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.ContactPersoonViewModel>
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.ContactPersoonViewModel
 @{
     ViewData["Title"] = "Contactpersonen";
+    var action = Model.PersoonId == 0 ? "VoegContactPersoonToe" : "Opslaan";
+    var submitText = Model.PersoonId == 0 ? "Voeg toe" : "Opslaan";
 }
 
 <div>
-    @Html.Partial("_Tabs")
+    <div>
+        @Html.Partial("_Tabs")
+    </div>
+    
+    @if (Model.PersoonId != 0)
+    {
+        <div class="page-header col-md-offset-1">
+            <h3>@ViewData["Title"] - @Model.Voornaam @Model.Naam</h3>
+        </div>
+    }
+    else
+    {
+        <div class="page-header col-md-offset-1">
+            <h3>@ViewData["Title"]</h3>
+        </div>
+    }
+
+    <form asp-controller="ContactPersoon" asp-action="@action" method="post" class="form-horizontal">
+        <div class="col-md-offset-1">
+            <h6 id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input asp-for="WerkgeverId" />
+            <input asp-for="PersoonId" />
+
+            <div class="form-group">
+                <div class="col-md-4 required">
+                    <label asp-for="Voornaam"></label>
+                    <input asp-for="Voornaam" class="form-control" />
+                </div>
+                <div class="col-md-4 required">
+                    <label asp-for="Naam"></label>
+                    <input asp-for="Naam" class="form-control" />
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-8 required">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-8 text-right">
+                    <a asp-action="VerwijderContactpersoon" asp-route-id="@Model.PersoonId"
+                       asp-route-werkgeverid="@Model.WerkgeverId" class="btn btn-danger">Verwijder contactpersoon</a>
+                    <button type="submit" class="btn btn-info" style="margin-left: 15px;">@submitText</button>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 
-<div class="page-header" style="overflow: auto;">
+@*<div class="page-header" style="overflow: auto;">
     <!--Overflow omdat anders de border boven de h3 en knop staat-->
     <div class="col-md-9">
         <h3>@ViewData["Title"]</h3>
@@ -28,7 +80,7 @@
     @Html.Partial("_OverzichtTabel", Model)
 </div>
 
-<br />
+<br />*@
 
 @Html.Partial("_VorigeVolgende")
 
@@ -36,9 +88,9 @@
     <script>       
         $("#contactpersoon").addClass("active");
 
-        if (siteView) {
-            siteView.initKlikbareRijen();
-        }
+        //if (siteView) {
+        //    siteView.initKlikbareRijen();
+        //}
     </script>
 
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
