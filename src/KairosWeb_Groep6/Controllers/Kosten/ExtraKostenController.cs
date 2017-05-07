@@ -14,6 +14,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
+    [AutoValidateAntiforgeryToken]
     public class ExtraKostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;

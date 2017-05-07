@@ -12,6 +12,7 @@ using KairosWeb_Groep6.Services;
 namespace KairosWeb_Groep6.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class ManageController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;

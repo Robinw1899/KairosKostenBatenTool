@@ -10,6 +10,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
+    [AutoValidateAntiforgeryToken]
     public class ExtraOmzetController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;

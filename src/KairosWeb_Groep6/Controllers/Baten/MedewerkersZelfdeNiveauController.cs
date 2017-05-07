@@ -14,6 +14,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
+    [AutoValidateAntiforgeryToken]
     public class MedewerkersZelfdeNiveauController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;

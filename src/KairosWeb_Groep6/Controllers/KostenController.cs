@@ -2,9 +2,11 @@
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Mvc;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KairosWeb_Groep6.Controllers
 {
+    [Authorize]
     public class KostenController : Controller
     {
         [ServiceFilter(typeof(AnalyseFilter))]

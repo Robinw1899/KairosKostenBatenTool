@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KairosWeb_Groep6.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class WerkgeverController : Controller
     {
         #region Properties

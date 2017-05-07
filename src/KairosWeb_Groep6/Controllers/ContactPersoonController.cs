@@ -1,10 +1,13 @@
 ﻿using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Controllers
 {
+    [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class ContactPersoonController : Controller
     {
         #region Properties

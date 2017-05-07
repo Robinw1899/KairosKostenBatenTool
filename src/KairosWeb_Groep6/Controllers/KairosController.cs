@@ -13,6 +13,7 @@ using KairosWeb_Groep6.Models.Domain.Extensions;
 namespace KairosWeb_Groep6.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class KairosController : Controller
     {
         #region Properties
