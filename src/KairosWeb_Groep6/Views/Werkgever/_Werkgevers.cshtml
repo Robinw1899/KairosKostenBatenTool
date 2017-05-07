@@ -1,9 +1,13 @@
-﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.WerkgeverViewModel>
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.BestaandeWerkgeverViewModel
 
 
-@if (!Model.Any())
+@if (!Model.Werkgevers.Any() && Model.FirstLoad == false)
 {
     <p class="alert alert-info animated shake">Er zijn geen werkgevers gevonden. Probeer een andere zoekterm of maak een nieuwe werkgever aan.</p>
+}
+else if(!Model.Werkgevers.Any() && Model.FirstLoad == true)
+{
+    //doe niets
 }
 else
 {
@@ -13,7 +17,7 @@ else
             <th>Adres</th>
         </tr>
     
-        @foreach (var item in Model)
+        @foreach (var item in Model.Werkgevers)
         {
             <tr class="klikbareRij" data-href="@Url.Action("BestaandDepartement", "Werkgever", new { Id = item.WerkgeverId })">
                 <td>@item.Naam</td>
@@ -22,3 +26,30 @@ else
         }
     </table>
 }
+<div class="row" style="margin-top:20px">
+    <div class="col-xs-9 col-md-9">
+        @if (Model.ShowVorige)
+        {
+            <a asp-controller="Kairos" asp-action="Vorige" asp-route-beginIndex="@Model.BeginIndex" asp-route-eindIndex="@Model.EindIndex" style="margin-left: 15px" class="btn btn-default">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i> Vorige
+            </a>
+        }
+    </div>
+    <div class="col-xs-3 col-md-3 text-right">
+        @if (Model.ShowVolgende)
+        {
+            <a asp-controller="Kairos" asp-action="Volgende" asp-route-beginIndex="@Model.BeginIndex" asp-route-eindIndex="@Model.EindIndex" class="btn btn-default">
+                Volgende <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </a>
+        }
+    </div>
+</div>
+
+
+
+    <script>   
+        if (siteView) {
+            siteView.initKlikbareRijen();
+        }
+    </script>   
+

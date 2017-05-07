@@ -168,12 +168,12 @@ namespace KairosWeb_Groep6.Controllers
         {
             try
             {
-                IEnumerable<Werkgever> werkgevers = _werkgeverRepository.GetAll().Take(10).ToList();
-                BestaandeWerkgeverViewModel model = new BestaandeWerkgeverViewModel
-                {
+                // IEnumerable<Werkgever> werkgevers = _werkgeverRepository.GetAll().Take(10).ToList();
+                BestaandeWerkgeverViewModel model = new BestaandeWerkgeverViewModel();
+               /* {
                     Werkgevers = werkgevers.Select(w => new WerkgeverViewModel(w))
                         .ToList()
-                };
+                };*/
 
                 return View(model);
             }
@@ -240,23 +240,26 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         [HttpPost]
-        public IActionResult ZoekWerkgever(string naam)
+        public IActionResult ZoekWerkgever(string naam,BestaandeWerkgeverViewModel model = null)
         {
             try
             {
                 IEnumerable<Werkgever> werkgevers;
 
                 if (naam == null || naam.Equals(""))
-                    werkgevers = _werkgeverRepository.GetAll();
+                    werkgevers = _werkgeverRepository.GetWerkgevers(model.Index, model.Aantal);
                 else
                 {
                     werkgevers = _werkgeverRepository.GetByName(naam);
                 }
-
-                List<WerkgeverViewModel> viewModels = werkgevers.Select(w => new WerkgeverViewModel(w))
-                    .ToList();
-
-                return PartialView("_Werkgevers", viewModels);
+                BestaandeWerkgeverViewModel newModel = new BestaandeWerkgeverViewModel
+                {
+                    Werkgevers = werkgevers.Select(w => new WerkgeverViewModel(w))
+                    .ToList(),
+                    FirstLoad = false                  
+                 };
+              
+                return PartialView("_Werkgevers", newModel);
             }
             catch
             {

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace KairosWeb_Groep6.Data.Repositories
 {
@@ -38,6 +39,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Where(w => w.Naam.Contains(naam))
                 .ToList();
         }
+        
         public void Add(Werkgever werkgever)
         {
             _werkgevers.Add(werkgever);
@@ -51,6 +53,23 @@ namespace KairosWeb_Groep6.Data.Repositories
         public void Save()
         {
             _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<Werkgever> GetWerkgevers( int index, int aantal)
+        {
+            List<Werkgever> legeWerkgevers = _werkgevers              
+               .Skip(index)
+               .Take(aantal)
+               .ToList();
+
+            List<Werkgever> werkgevers = new List<Werkgever>();
+
+            foreach (Werkgever a in legeWerkgevers)
+            {
+                werkgevers.Add(GetById(a.WerkgeverId));
+            }
+
+            return werkgevers;
         }
     }
 }
