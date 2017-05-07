@@ -22,6 +22,9 @@ namespace KairosWeb_Groep6.Models.Domain
         public DateTime DatumLaatsteAanpassing { get; set; } = DateTime.Now;
 
         public bool InArchief { get; set; } = false;
+
+        // Deze boolean duidt aan dat de analyse klaar is, de jobcoach kan dit instellen
+        public bool Klaar { get; set; } = false;
         #endregion
 
         #region Kosten
