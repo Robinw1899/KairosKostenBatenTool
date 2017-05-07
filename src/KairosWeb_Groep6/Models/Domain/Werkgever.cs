@@ -6,7 +6,6 @@ namespace KairosWeb_Groep6.Models.Domain
     public class Werkgever
     {
         #region Properties
-       
         public int WerkgeverId { get; set; }
      
         public string Naam { get; set; } = "";
@@ -24,10 +23,8 @@ namespace KairosWeb_Groep6.Models.Domain
         public decimal AantalWerkuren { get; set; }
 
         public decimal PatronaleBijdrage { get; set; } = 35M;
-      
-        public List<ContactPersoon> ContactPersonen { get; set; } = new List<ContactPersoon>();
              
-        public List<Departement> Departementen { get; set; }
+        public List<Departement> Departementen { get; set; } = new List<Departement>();
         #endregion
 
         #region Constructors

@@ -94,7 +94,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region EersteKeerAanmelden -- POST --
-        [Fact]
+        [Fact(Skip = "Not implemented yet")]
         public async void EersteKeerAanmelden_ResultNotSucceeded_LogUit()
         {
             Mock<IdentityResult> idResult = new Mock<IdentityResult>();
@@ -155,7 +155,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
         #region Opmerking -- POST --
         [Fact]
-        public void TestOpmerking_ModelStateInvalid_ReturnsViewWithModel()
+        public async void TestOpmerking_ModelStateInvalid_ReturnsViewWithModel()
         {
             string bericht = "Dit is het bericht";
             string onderwerp = "Dummy onderwerp";
@@ -163,7 +163,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
             _controller.ModelState.AddModelError("", "Error");
 
-            var result = _controller.Opmerking() as ViewResult;
+            var result = await _controller.Opmerking(model) as ViewResult;
             var resultModel = result?.Model as OpmerkingViewModel;
 
             Assert.Equal(onderwerp, resultModel?.Onderwerp);

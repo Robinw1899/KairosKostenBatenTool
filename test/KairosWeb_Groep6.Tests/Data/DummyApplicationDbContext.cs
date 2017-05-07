@@ -78,7 +78,8 @@ namespace KairosWeb_Groep6.Tests.Data
             /* ANDERE */
             Aldi = new Departement("Verkoop")
             {
-                Werkgever = new Werkgever("ALDI", "Arbeidstraat", 14, "", 9300, "Aalst", 37)
+                Werkgever = new Werkgever("ALDI", "Arbeidstraat", 14, "", 9300, "Aalst", 37),
+                ContactPersoon = new ContactPersoon("Thomas", "Aelbrecht", "thomas@test.com")
             };
 
             MaakOrganisaties();

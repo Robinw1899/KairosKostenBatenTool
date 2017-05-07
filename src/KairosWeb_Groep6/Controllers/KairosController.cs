@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
@@ -101,12 +100,6 @@ namespace KairosWeb_Groep6.Controllers
             return View("Index", model);
         }
         #endregion
-
-        public IActionResult Error()
-        {
-            string error = HttpContext.Request.Method;
-            return View();
-        }
 
         #region VolgendeAnalyses
         public IActionResult Volgende(int beginIndex, int eindIndex)
