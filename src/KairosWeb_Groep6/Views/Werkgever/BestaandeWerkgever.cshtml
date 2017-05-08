@@ -35,6 +35,10 @@
     @Html.Partial("_Werkgevers", Model)
 </div>
 
+<div>
+    <a  id="#toonmeer" class="btn btn-default">Toon Meer</a>
+</div>
+
 
 
 
@@ -50,6 +54,17 @@
             return false;
         });    
 
+
+       
+        $("#toonmeer").click( 
+            $.ajax({
+                type: "POST",
+                url: "Werkgever/ZoekWerkgever",
+                data: "model="+  @Model + "toonmeer=" + true ,
+                success: function (data) {
+                    $("#data").html(data);
+                }}));                  
+         
         $("#werkgever").addClass("active");
 
     </script>

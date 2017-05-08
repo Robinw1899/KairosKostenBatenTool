@@ -30,47 +30,24 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Where(w => w.WerkgeverId == id)
                 .Include(w=>w.Departementen)
                 .First();
-        }
-        public IEnumerable<Werkgever> GetAllByName(string naam)
-        {
-            if (naam.Equals(""))
-                return GetAll();
-            return _werkgevers
-                .Where(w => w.Naam.Contains(naam))                            
-                .Include(w => w.Departementen)
-                .ToList();
-        }
-
-        public IEnumerable<Werkgever> GetByName(string naam,int beginIndex , int eindIndex)
+        }     
+        public IEnumerable<Werkgever> GetByName(string naam)
         {
             return _werkgevers
                 .Where(w => w.Naam.Contains(naam))
-                .Skip(beginIndex)
-                .Take(eindIndex - beginIndex)
                 .Include(w => w.Departementen)
                 .ToList();
-                
+
         }
-        public IEnumerable<Werkgever> GetWerkgevers(string naam = "", int beginIndex = 0, int eindIndex = 10)
-        {
-            //dit zou best in de controller gebeure
-            List<Werkgever> legeWerkgevers;
-            if (!naam.Equals(""))
-            {
-                legeWerkgevers = GetByName(naam, beginIndex, eindIndex).ToList();
-            }
-            else
-            {
-                legeWerkgevers = _werkgevers
-                    .Skip(beginIndex)
-                    .Take(eindIndex - beginIndex)
-                    .Include(w => w.Departementen)
-                    .ToList();
-
-            }
-
-            return legeWerkgevers;
-
+       
+       
+        public IEnumerable<Werkgever> GetWerkgevers()
+        {                                     
+            return _werkgevers
+                .Skip(0)
+                .Take(10)
+                .Include(w => w.Departementen)
+                .ToList();          
         }
 
         public void Add(Werkgever werkgever)

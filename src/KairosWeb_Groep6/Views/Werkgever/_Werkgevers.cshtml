@@ -26,25 +26,6 @@ else
         }
     </table>
 }
-<div class="row" style="margin-top:20px">
-    <div class="col-xs-9 col-md-9">
-        @if (Model.ShowVorige)
-        {
-            <a asp-controller="Werkgever" asp-action="Vorige" asp-route-model="@Model" style="margin-left: 15px" class="btn btn-default">
-                <i class="fa fa-chevron-left" aria-hidden="true"></i> Vorige
-            </a>
-        }
-    </div>
-    <div class="col-xs-3 col-md-3 text-right">
-        @if (Model.ShowVolgende)
-        {
-            <a asp-controller="Werkgever" asp-action="Volgende" asp-route-model="@Model" class="btn btn-default">
-                Volgende <i class="fa fa-chevron-right" aria-hidden="true"></i>
-            </a>
-        }
-    </div>
-</div>
-
 
 
     <script>   
