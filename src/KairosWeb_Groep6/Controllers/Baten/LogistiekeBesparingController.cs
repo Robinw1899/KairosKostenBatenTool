@@ -23,6 +23,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            if (analyse.Klaar)
+            {
+                TempData["error"] = Meldingen.AnalyseKlaar;
+                return RedirectToAction("Index", "Resultaat");
+            }
+
             LogistiekeBesparingViewModel model = new LogistiekeBesparingViewModel(analyse.LogistiekeBesparing);
 
             return View(model);
@@ -60,6 +66,5 @@ namespace KairosWeb_Groep6.Controllers.Baten
             return RedirectToAction("Index");
         }
         #endregion
-      
     }
 }

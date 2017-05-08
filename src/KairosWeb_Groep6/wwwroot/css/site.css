@@ -208,7 +208,7 @@ a.navbar-brand {
     font-size: 1.3em;
 }
 
-.headerButtons i:hover {
+.headerButtons a:hover {
     color: #97C900;
 }
 

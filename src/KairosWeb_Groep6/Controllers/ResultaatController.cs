@@ -31,6 +31,7 @@ namespace KairosWeb_Groep6.Controllers
 
             try
             {
+                model.AnalyseKlaar = analyse.Klaar;
                 model.AnalyseId = analyse.AnalyseId;
 
                 if (analyse.Departement != null)
@@ -199,6 +200,33 @@ namespace KairosWeb_Groep6.Controllers
                     "Er ging iets fout tijdens het verzenden van het resultaat, probeer later opnieuw";
             }
 
+            return RedirectToAction("Index");
+        }
+        #endregion
+
+        #region AnalyseKlaar
+        [ServiceFilter(typeof(AnalyseFilter))]
+        public IActionResult AnalyseKlaar(Analyse analyse)
+        {
+            try
+            {
+                analyse.Klaar = !analyse.Klaar;
+                _analyseRepository.Save();
+
+                if (analyse.Klaar)
+                {
+                    TempData["message"] = "De analyse is succesvol gemarkeerd als 'Klaar'";
+                }
+                else
+                {
+                    TempData["message"] = "De analyse is succesvol gemarkeerd als 'Nog niet klaar'";
+                }
+            }
+            catch
+            {
+                TempData["error"] = "Er ging onverwachts iets fout tijdens het opslaan van de wijzigingen aan de analyse, probeer later opnieuw";
+            }
+            
             return RedirectToAction("Index");
         }
         #endregion
