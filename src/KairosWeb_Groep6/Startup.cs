@@ -46,7 +46,7 @@ namespace KairosWeb_Groep6
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                           options.UseSqlServer(Configuration["Data:DefaultConnection:ConnectionString"]));
+                           options.UseMySql(Configuration["Data:DefaultConnection:ConnectionString"]));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
