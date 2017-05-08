@@ -58,9 +58,12 @@
             <div class="progress">
                 <div class="progress-bar progress-bar-success" role="progressbar"
                      style="width: @(Math.Round(Model.BatenPercent, 0))%">
+                    <b>@Model.BatenTotaal.ToString("C", new CultureInfo("nl-BE"))</b>
                 </div>
-                <div class="progress-bar progress-bar-danger" role="progressbar"
+                <div class="progress-bar progress-bar-danger @Model.BatenTotaal" role="progressbar" 
                      style="width: @(Math.Round(Model.KostenPercent, 0))%">
+                    
+                    <b>@Model.KostenTotaal.ToString("C", new CultureInfo("nl-BE"))</b>
                 </div>
             </div>
 
