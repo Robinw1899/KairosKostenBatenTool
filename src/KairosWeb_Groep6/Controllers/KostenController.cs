@@ -12,6 +12,12 @@ namespace KairosWeb_Groep6.Controllers
         [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult Index(Analyse analyse)
         {
+            if (analyse.Klaar)
+            {
+                TempData["error"] = Meldingen.AnalyseKlaar;
+                return RedirectToAction("Index", "Resultaat");
+            }
+
             KostenIndexViewModel model = new KostenIndexViewModel(analyse);
 
             return View(model);

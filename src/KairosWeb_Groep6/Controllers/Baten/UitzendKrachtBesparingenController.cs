@@ -27,6 +27,12 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            if (analyse.Klaar)
+            {
+                TempData["error"] = Meldingen.AnalyseKlaar;
+                return RedirectToAction("Index", "Resultaat");
+            }
+
             IEnumerable<UitzendKrachtBesparingViewModel> viewModels = MaakModel(analyse);
 
             PlaatsTotaalInViewData(analyse);
