@@ -252,7 +252,8 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestZoekWerkgever_RepositoryGooitException_RedirectsToBestaandeWerkgever()
         {
-            _werkgeverRepository.Setup(r => r.GetByName(It.IsAny<string>())).Throws(new Exception());
+            _werkgeverRepository.Setup(r => r.GetWerkgevers(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
+                .Throws(new Exception());
 
             var result = _controller.ZoekWerkgever("hallo") as RedirectToActionResult;
 

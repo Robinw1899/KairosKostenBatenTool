@@ -31,15 +31,48 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(w=>w.Departementen)
                 .First();
         }
-
-        public IEnumerable<Werkgever> GetByName(string naam)
+        public IEnumerable<Werkgever> GetAllByName(string naam)
         {
+            if (naam.Equals(""))
+                return GetAll();
             return _werkgevers
+                .Where(w => w.Naam.Contains(naam))                            
                 .Include(w => w.Departementen)
-                .Where(w => w.Naam.Contains(naam))
                 .ToList();
         }
-        
+
+        public IEnumerable<Werkgever> GetByName(string naam,int beginIndex , int eindIndex)
+        {
+            return _werkgevers
+                .Where(w => w.Naam.Contains(naam))
+                .Skip(beginIndex)
+                .Take(eindIndex - beginIndex)
+                .Include(w => w.Departementen)
+                .ToList();
+                
+        }
+        public IEnumerable<Werkgever> GetWerkgevers(string naam = "", int beginIndex = 0, int eindIndex = 10)
+        {
+            //dit zou best in de controller gebeure
+            List<Werkgever> legeWerkgevers;
+            if (!naam.Equals(""))
+            {
+                legeWerkgevers = GetByName(naam, beginIndex, eindIndex).ToList();
+            }
+            else
+            {
+                legeWerkgevers = _werkgevers
+                    .Skip(beginIndex)
+                    .Take(eindIndex - beginIndex)
+                    .Include(w => w.Departementen)
+                    .ToList();
+
+            }
+
+            return legeWerkgevers;
+
+        }
+
         public void Add(Werkgever werkgever)
         {
             _werkgevers.Add(werkgever);
@@ -55,21 +88,6 @@ namespace KairosWeb_Groep6.Data.Repositories
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<Werkgever> GetWerkgevers( int index, int aantal)
-        {
-            List<Werkgever> legeWerkgevers = _werkgevers              
-               .Skip(index)
-               .Take(aantal)
-               .ToList();
-
-            List<Werkgever> werkgevers = new List<Werkgever>();
-
-            foreach (Werkgever a in legeWerkgevers)
-            {
-                werkgevers.Add(GetById(a.WerkgeverId));
-            }
-
-            return werkgevers;
-        }
+      
     }
 }

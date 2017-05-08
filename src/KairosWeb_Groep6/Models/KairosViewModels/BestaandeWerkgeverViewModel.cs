@@ -9,10 +9,14 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public bool FirstLoad { get; set; }
 
-        public int Index { get; set; }
-        public int Aantal { get; set; }
+        public int BeginIndex { get; set; }
+
+        public int EindIndex { get; set; }
+        public int Totaal { get; set; }
         public bool ShowVolgende { get; set; }
         public bool ShowVorige { get; set; }
+
+        public string zoekstring { get; set; }
         #endregion
 
         public BestaandeWerkgeverViewModel()
