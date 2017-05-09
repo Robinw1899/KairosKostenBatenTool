@@ -50,7 +50,7 @@
             localStorage.setItem("intro", "verborgen");
         }
     },
-s    toonIntro: function() {
+    toonIntro: function() {
         $(".intro").show(500,
             function() {
                 // de hoogte van het loginform gelijk zetten aan de hoogte van de introtekst
