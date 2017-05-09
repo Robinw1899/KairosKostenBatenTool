@@ -50,8 +50,7 @@
             localStorage.setItem("intro", "verborgen");
         }
     },
-
-    toonIntro: function() {
+s    toonIntro: function() {
         $(".intro").show(500,
             function() {
                 // de hoogte van het loginform gelijk zetten aan de hoogte van de introtekst
@@ -102,15 +101,15 @@
             }
         });
     },
-    toonMeer: function () {
-        $("#toonmeer").click(function (event) {
+    toonMeer: function() {
+        $("#toonmeer").click(function(event) {
             event.preventDefault();
             var url = $(this).attr("href");
             $.get(url,
-                function (data) {
+                function(data) {
                     $("#data").html(data);
                 });
-        };
+        });
     },
     laadAnalyses: function () {
         var url = $("#analyses").data("href");
