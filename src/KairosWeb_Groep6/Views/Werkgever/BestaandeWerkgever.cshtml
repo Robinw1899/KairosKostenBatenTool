@@ -13,7 +13,8 @@
         <div class="col-md-offset-2 col-md-8 col-lg-8 col-sm-8 col-xs-8">
             <div class="form-group">
                 <input type="submit" value="Zoek" name ="#SubmitButton" style="display:none" class="btn btn-info" />           
-                <a asp-controller="Werkgever" asp-action="SelecteerWerkgever" class="btn btn-default" >Terug</a>
+                <a asp-controller="Werkgever" asp-action="SelecteerWerkgever" class="btn btn-default" >Terug</a>               
+                <a id="toonmeer" class="btn btn-default" href="@Url.Action("ToonAlles", "Werkgever")">Toon Meer</a>                
             </div>
             <div class="form-group">            
                 <div class="input-group">
@@ -35,9 +36,7 @@
     @Html.Partial("_Werkgevers", Model)
 </div>
 
-<div>
-    <a  id="#toonmeer" class="btn btn-default">Toon Meer</a>
-</div>
+
 
 
 
@@ -56,15 +55,10 @@
 
 
        
-        $("#toonmeer").click( 
-            $.ajax({
-                type: "POST",
-                url: "Werkgever/ZoekWerkgever",
-                data: "model="+  @Model + "toonmeer=" + true ,
-                success: function (data) {
-                    $("#data").html(data);
-                }}));                  
-         
+     
+        siteView.toonMeer()
+               
+                                               
         $("#werkgever").addClass("active");
 
     </script>

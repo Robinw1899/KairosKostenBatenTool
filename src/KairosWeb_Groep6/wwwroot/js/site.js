@@ -100,6 +100,16 @@
                 window.location.href = href;
             }
         });
+    },
+    toonMeer: function () {
+        $("#toonmeer").click(function (event) {
+            event.preventDefault();
+            var url = $(this).attr("href");
+            $.get(url,
+                function (data) {
+                    $("#data").html(data);
+                })
+        });
     }
 };
 

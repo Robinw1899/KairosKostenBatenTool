@@ -164,26 +164,12 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region Bestaande werkgever
-        public IActionResult BestaandeWerkgever(BestaandeWerkgeverViewModel model)
+        public IActionResult BestaandeWerkgever()
         {
             try
             {
-                /*_werkgeverRepository
-                 IEnumerable<Werkgever> werkgevers = _werkgeverRepository.GetAll().Take(10).ToList();
-                 BestaandeWerkgeverViewModel model = new BestaandeWerkgeverViewModel();
-                 {
-                     Werkgevers = werkgevers.Select(w => new WerkgeverViewModel(w))
-                         .ToList()
-                 };*/
-                /* if (model != null)
-                 {
-                     return View(model);
-                 }
-                 else
-                     return RedirectToAction("ZoekWerkgever", model);*/
-              
-                    return View(model);
-                
+                BestaandeWerkgeverViewModel model = new BestaandeWerkgeverViewModel();
+                return View(model);               
             }
             catch
             {
@@ -248,37 +234,26 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         
-        public IActionResult ZoekWerkgever(BestaandeWerkgeverViewModel model, bool toonmeer = false, string naam = "")
+        public IActionResult ZoekWerkgever(BestaandeWerkgeverViewModel model, string naam = "")
         {
             try
             {              
                 IEnumerable<Werkgever> werkgevers = new List<Werkgever>() ;
-                model.ToonMeer = toonmeer;
-                if (model != null && model.ToonMeer == true)
-                {
-                    werkgevers = _werkgeverRepository.GetAll();
-                }
+              
+                if (naam != null && !naam.Equals(""))
+                    werkgevers = _werkgeverRepository.GetByName(naam);
                 else
-                {
-                    if (naam != null && !naam.Equals(""))
-                        werkgevers = _werkgeverRepository.GetByName(naam);
-                    else
-                        werkgevers = _werkgeverRepository.GetWerkgevers();
-                }
-                BestaandeWerkgeverViewModel newModel = new BestaandeWerkgeverViewModel
+                    werkgevers = _werkgeverRepository.GetWerkgevers();
+
+
+                 model = new BestaandeWerkgeverViewModel
                 {
                     Werkgevers = werkgevers.Select(w => new WerkgeverViewModel(w))
                     .ToList(),
-                    FirstLoad = false,                  
+                    FirstLoad = false
                 };
-
-               /* if (Request.IsAjaxRequest())
-                {
-                    return PartialView("_Werkgevers", newModel);
-                }*/
-
-                // return RedirectToAction("BestaandeWerkgever", newModel);
-                return PartialView("_Werkgevers", newModel);
+           
+                return PartialView("_Werkgevers", model);
             }
             catch
             {
@@ -288,6 +263,8 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("BestaandeWerkgever");
         }
         #endregion
+
+        
 
 
         #region Bestaand departement
@@ -319,15 +296,18 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
-        public IActionResult ToonMeer(bool toonmeer)
+        public IActionResult ToonAlles()
         {
-            // return RedirectToAction("ZoekWerkgever", new {naam = "", model = new BestaandeWerkgeverViewModel {ToonMeer = true }});
-            BestaandeWerkgeverViewModel Model = new BestaandeWerkgeverViewModel()
+            BestaandeWerkgeverViewModel model = new BestaandeWerkgeverViewModel()
             {
-                ToonMeer = toonmeer,
-                FirstLoad = false
+                Werkgevers = _werkgeverRepository
+                .GetAll()
+                .Select(a => new WerkgeverViewModel(a))
+                .ToList(),
+                FirstLoad = false              
             };
-            return RedirectToAction("BestaandeWerkgever","Werkgever", new { model = Model });
+
+            return PartialView("_Werkgevers", model);
         }
       
         #region Nieuw departement
