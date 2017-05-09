@@ -11,8 +11,6 @@ namespace KairosWeb_Groep6.Data.Repositories
         
         private readonly DbSet<Analyse> _analyses;
 
-       
-
         public AnalyseRepository()
         {
            
@@ -23,6 +21,13 @@ namespace KairosWeb_Groep6.Data.Repositories
             _dbContext = dbContext;
             _analyses = dbContext.Analyses;
           
+        }
+
+        public IEnumerable<Analyse> GetAllZonderIncludes()
+        {
+            return _analyses
+                .AsNoTracking()
+                .ToList();
         }
 
         public IEnumerable<Analyse> GetAnalysesNietInArchief()
@@ -121,14 +126,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Take(aantal)
                 .ToList();
 
-            List<Analyse> analyses = new List<Analyse>();
-
-            foreach (Analyse a in legeAnalyses)
-            {
-                analyses.Add(GetById(a.AnalyseId));
-            }
-
-            return analyses;
+            return legeAnalyses;
         }
 
         public void SetAnalysesJobcoach(Jobcoach jobcoach, bool archief)

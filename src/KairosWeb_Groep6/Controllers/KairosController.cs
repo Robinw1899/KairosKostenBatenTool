@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
@@ -17,6 +16,7 @@ namespace KairosWeb_Groep6.Controllers
     public class KairosController : Controller
     {
         #region Properties
+        private const int MAX_AANTAL_ANALYSES = 9;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         private readonly UserManager<ApplicationUser> _userManager;
@@ -64,7 +64,6 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region HaalAnalysesOp
-
         public IActionResult HaalAnalysesOpZonderModel(int beginIndex, int eindIndex)
         {
             // methode om het IndexViewmodel te kunnen aanmaken
@@ -85,12 +84,11 @@ namespace KairosWeb_Groep6.Controllers
                 _analyseRepository.SetAnalysesJobcoach(jobcoach, false);
                 int totaal = jobcoach.Analyses.Count; //13
 
-
                 bool volgende = false;
                 bool vorige = false;
 
                 //volgende knop laten zien of niet
-                if (totaal > 8 && model?.EindIndex < totaal)
+                if (totaal > MAX_AANTAL_ANALYSES && model?.EindIndex < totaal)
                 {
                     volgende = true;//true // false
                 }
@@ -101,7 +99,7 @@ namespace KairosWeb_Groep6.Controllers
                     vorige = true;//false //true
                 }
 
-                int aantal = 8;
+                int aantal = MAX_AANTAL_ANALYSES;
                 var analyses = _analyseRepository
                     .GetAnalyses(jobcoach, model.BeginIndex, aantal)
                     .ToList();
@@ -111,7 +109,7 @@ namespace KairosWeb_Groep6.Controllers
                 model = new IndexViewModel(jobcoach)
                 {
                     BeginIndex = model.BeginIndex,
-                    EindIndex = model.BeginIndex + 8,
+                    EindIndex = model.BeginIndex + MAX_AANTAL_ANALYSES,
                     ShowVolgende = volgende,
                     ShowVorige = vorige
                 };
@@ -134,7 +132,7 @@ namespace KairosWeb_Groep6.Controllers
             IndexViewModel model = new IndexViewModel
             {
                 BeginIndex = eindIndex,     //1
-                EindIndex = eindIndex + 8
+                EindIndex = eindIndex + MAX_AANTAL_ANALYSES
             };
 
             return RedirectToAction("HaalAnalysesOp", model);
@@ -147,7 +145,7 @@ namespace KairosWeb_Groep6.Controllers
 
             IndexViewModel model = new IndexViewModel
             {
-                BeginIndex = beginIndex - 8,
+                BeginIndex = beginIndex - MAX_AANTAL_ANALYSES,
                 EindIndex = beginIndex
             };
 

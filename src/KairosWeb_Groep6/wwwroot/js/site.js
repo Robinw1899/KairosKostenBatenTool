@@ -101,8 +101,7 @@
             }
         });
     },
-    laadAnalysesIndex: function () {
-
+    laadAnalyses: function () {
         var url = $("#analyses").data("href");
 
         $.get(url, function (data) {

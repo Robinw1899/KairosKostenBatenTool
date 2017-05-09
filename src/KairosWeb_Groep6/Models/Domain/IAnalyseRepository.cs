@@ -7,6 +7,7 @@ namespace KairosWeb_Groep6.Models.Domain
         IEnumerable<Analyse> GetAnalysesNietInArchief();
         IEnumerable<Analyse> GetAnalysesUitArchief();
         IEnumerable<Analyse> GetAnalyses(Jobcoach jobcoach, int Index, int aantal);
+        IEnumerable<Analyse> GetAllZonderIncludes();
         void SetAnalysesJobcoach(Jobcoach jobcoach, bool archief);
         Analyse GetById(int id);
         void Add(Analyse analyse);
