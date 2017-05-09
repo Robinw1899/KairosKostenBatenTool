@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using System.Collections.Generic;
+using System.Linq;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
@@ -23,12 +25,18 @@ namespace KairosWeb_Groep6.Models.Domain
 
         public bool InArchief { get; set; } = false;
 
+        public ContactPersoon ContactPersooon {get;set;}
+
+        public decimal KostenTotaal { get; set; }
+
+        public decimal BatenTotaal { get; set; }
+      
         // Deze boolean duidt aan dat de analyse klaar is, de jobcoach kan dit instellen
         public bool Klaar { get; set; } = false;
         #endregion
 
         #region Kosten
-        
+
         public List<Loonkost> Loonkosten { get; set; } = new List<Loonkost>();
 
         
@@ -91,6 +99,36 @@ namespace KairosWeb_Groep6.Models.Domain
         #endregion
 
         #region Methods
+        public void UpdateTotalen(IAnalyseRepository repo)
+        {
+            Thread thread = new Thread(new ThreadStart(() =>
+            {
+                try
+                {
+                    // DatumLaatsteAanpassing ook aanpassen, zodat dit steeds up to date is
+                    DatumLaatsteAanpassing = DateTime.Now;
+
+                    // Kostentotaal
+                    IDictionary<Soort, decimal> totalenKosten = GeefTotalenKosten();
+                    decimal totaal = totalenKosten.Sum(e => e.Value);
+                    KostenTotaal = totaal;
+
+                    // Batentotaal
+                    IDictionary<Soort, decimal> totalenBaten = GeefTotalenBaten();
+                    totaal = totalenBaten.Sum(e => e.Value);
+                    BatenTotaal = totaal;
+
+                    repo.Save();
+                }
+                catch
+                {
+
+                }
+            }));
+            
+            thread.Start();
+        }
+
         public IDictionary<Soort, decimal> GeefTotalenKosten()
         {
             IDictionary<Soort, decimal> resultaat = new Dictionary<Soort, decimal>();

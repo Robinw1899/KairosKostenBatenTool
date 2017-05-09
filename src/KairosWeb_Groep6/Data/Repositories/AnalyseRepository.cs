@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -12,8 +11,6 @@ namespace KairosWeb_Groep6.Data.Repositories
         
         private readonly DbSet<Analyse> _analyses;
 
-       
-
         public AnalyseRepository()
         {
            
@@ -24,6 +21,13 @@ namespace KairosWeb_Groep6.Data.Repositories
             _dbContext = dbContext;
             _analyses = dbContext.Analyses;
           
+        }
+
+        public IEnumerable<Analyse> GetAllZonderIncludes()
+        {
+            return _analyses
+                .AsNoTracking()
+                .ToList();
         }
 
         public IEnumerable<Analyse> GetAnalysesNietInArchief()
@@ -112,16 +116,13 @@ namespace KairosWeb_Groep6.Data.Repositories
         }
         public IEnumerable<Analyse> GetAnalyses(Jobcoach jobcoach, int index, int aantal)
         {
-            List<Analyse> analyses = new List<Analyse>();
+            List<Analyse> legeAnalyses = jobcoach
+                .Analyses
+                .Skip(index)
+                .Take(aantal)
+                .ToList();
 
-            foreach (Analyse a in jobcoach.Analyses)
-            {
-                analyses.Add(GetById(a.AnalyseId));
-            }
-
-            return analyses
-                 .Skip(index)
-                 .Take(aantal);
+            return legeAnalyses;
         }
 
         public void SetAnalysesJobcoach(Jobcoach jobcoach, bool archief)

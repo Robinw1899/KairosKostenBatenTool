@@ -28,8 +28,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         public decimal AantalUrenPerWeek { get; set; }
 
         [Required(ErrorMessage = "Gelieve het bruto maandloon (fulltime) op te geven.")]
-        [Display(Name = "Brutomaandloon (fulltime)", Prompt = "Brutomaandloon (fulltime)")]
-        [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor het bruto maandloon")]
+        [Display(Name = "Brutomaandloon (fulltime)", Prompt = "Brutomaandloon (fulltime)")]     
         public string BrutoMaandloonFulltime { get; set; }
 
         [Required(ErrorMessage = "Gelieve de ondersteuningspremie in te vullen.")]
@@ -42,8 +41,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         public int AantalMaandenIBO { get; set; }
 
         [Required(ErrorMessage = "Gelieve de IBO premie in te vullen.")]
-        [Display(Name = "Totale productiviteitspremie IBO")]
-        [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te geven voor de IBO premie")]
+        [Display(Name = "Totale productiviteitspremie IBO")]     
         public string IBOPremie { get; set; }
 
         public Doelgroep Doelgroep { get; set; }

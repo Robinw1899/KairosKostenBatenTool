@@ -1,0 +1,50 @@
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
+
+@if (Model == null || !Model.Analyses.Any())
+{
+    if (ViewData["zoeken"] == null)
+    {
+        <p class="beschrijving" style="font-size: 1.2em;">
+            Er zijn nog geen analyses in het archief. Klik op het
+            <i class="fa fa-archive" aria-hidden="true"></i>-icoon bij elke analyse om een analyse te archiveren.
+        </p>
+    }
+}
+
+@if (Model != null && Model.Analyses.Any())
+{
+    <div id="data">
+        @foreach (var a in Model.Analyses)
+        {
+            @Html.Partial("_AnalyseCard", a);
+        }
+    </div>
+
+    <div class="col-md-12" style="margin-top: 20px;">
+        <div class="col-xs-9 col-md-9">
+            @if (Model.ShowVorige)
+            {
+                <a asp-controller="Archief" asp-action="Vorige" asp-route-beginIndex="@Model.BeginIndex"
+                   asp-route-eindIndex="@Model.EindIndex" style="margin-left: 15px" class="btn btn-default"
+                   id="vorige">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i> Vorige
+                </a>
+            }
+        </div>
+            <div class="col-xs-3 col-md-3 text-right">
+                @if (Model.ShowVolgende)
+                {
+                    <a asp-controller="Archief" asp-action="Volgende" asp-route-beginIndex="@Model.BeginIndex"
+                       asp-route-eindIndex="@Model.EindIndex" class="btn btn-default" id="volgende">
+                        Volgende <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    </a>
+                }
+            </div>
+    </div>
+}
+
+<script>
+    if (siteView) {
+        siteView.laadActionsVorigeVolgende();
+    }
+</script>

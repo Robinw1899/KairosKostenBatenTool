@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
@@ -52,6 +51,9 @@ namespace KairosWeb_Groep6.Controllers
                     model.BatenTotaal = batenTotaal;
                     model.Totaal = batenTotaal - kostenTotaal;
 
+                    ViewData["SubTotaalBaten"] = model.BatenTotaal;
+                   
+                   
                     // kleur voor nettoresultaat bepalen
                     if (model.Totaal < 0)
                     {
@@ -83,10 +85,12 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region Opslaan
-        public IActionResult Opslaan(int id)
+        [ServiceFilter(typeof(AnalyseFilter))]
+        public IActionResult Opslaan(Analyse analyse)
         {
             try
             {
+                analyse.UpdateTotalen(_analyseRepository);
                 _analyseRepository.Save();
 
                 TempData["message"] = "De analyse is succesvol opgeslaan.";
