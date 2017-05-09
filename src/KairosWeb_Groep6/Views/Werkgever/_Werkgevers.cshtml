@@ -1,9 +1,13 @@
-﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.WerkgeverViewModel>
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.BestaandeWerkgeverViewModel
 
 
-@if (!Model.Any())
+@if (!Model.Werkgevers.Any() && Model.FirstLoad == false)
 {
     <p class="alert alert-info animated shake">Er zijn geen werkgevers gevonden. Probeer een andere zoekterm of maak een nieuwe werkgever aan.</p>
+}
+else if(!Model.Werkgevers.Any() && Model.FirstLoad == true)
+{
+    //doe niets
 }
 else
 {
@@ -13,7 +17,7 @@ else
             <th>Adres</th>
         </tr>
     
-        @foreach (var item in Model)
+        @foreach (var item in Model.Werkgevers)
         {
             <tr class="klikbareRij" data-href="@Url.Action("BestaandDepartement", "Werkgever", new { Id = item.WerkgeverId })">
                 <td>@item.Naam</td>
@@ -22,3 +26,11 @@ else
         }
     </table>
 }
+
+
+    <script>   
+        if (siteView) {
+            siteView.initKlikbareRijen();
+        }
+    </script>   
+

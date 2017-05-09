@@ -75,7 +75,33 @@ namespace KairosWeb_Groep6.Data
                 werkgever.Departementen.Add(departement);
                 _departementRepository.Add(departement);
                 _werkgeverRepository.Add(werkgever);
-              
+
+                werkgever =
+                   new Werkgever("Coolblue", "Medialaan", 2, "", 1000, "Brussel", 35);
+                _werkgeverRepository.Add(werkgever);
+                werkgever =
+                   new Werkgever("Coolblue", "Medialaan", 3, "", 1000, "Brussel", 35);
+                _werkgeverRepository.Add(werkgever);
+                werkgever =
+                   new Werkgever("Coolblue", "Medialaan", 4, "", 1000, "Brussel", 35);
+                _werkgeverRepository.Add(werkgever);
+                werkgever =
+                   new Werkgever("Coolblue", "Medialaan", 5, "", 1000, "Brussel", 35);
+                _werkgeverRepository.Add(werkgever);
+                werkgever =
+                   new Werkgever("Coolblue", "Medialaan", 6, "", 1000, "Brussel", 35);
+                _werkgeverRepository.Add(werkgever);
+                werkgever =
+                   new Werkgever("Coolblue", "Medialaan", 7, "", 1000, "Brussel", 35);
+                _werkgeverRepository.Add(werkgever);
+                werkgever =
+                   new Werkgever("Coolblue", "Medialaan", 8, "", 1000, "Brussel", 35);
+                _werkgeverRepository.Add(werkgever);
+                werkgever =
+                   new Werkgever("Coolblue", "Medialaan", 9, "", 1000, "Brussel", 35);
+                _werkgeverRepository.Add(werkgever);
+
+
                 InitializeIntrotekst();
               
                 _departementRepository.Save();

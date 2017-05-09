@@ -1,27 +1,27 @@
 ﻿var siteView = {
-    init: function () {
+    init: function() {
         // Button "Annuleer" bij elk formulier onder een tabel
         // verbergt het formulier
-        $("#closeForm").click(function (event) {
+        $("#closeForm").click(function(event) {
             siteView.verbergFormulier();
         });
 
         // Button "+" onder elke tabel toont het formulier
-        $("#openForm").click(function (event) {
+        $("#openForm").click(function(event) {
             siteView.toonFormulier();
         });
 
         // verberg de intro bij het klikken op de x
-        $("#verbergIntro").click(function (event) {
+        $("#verbergIntro").click(function(event) {
             siteView.verbergIntro();
         });
 
         // toon de intro opnieuw
-        $("#toonIntro").click(function (event) {
+        $("#toonIntro").click(function(event) {
             siteView.toonIntro();
         });
 
-        $("#logoToonIntro").click(function (event) {
+        $("#logoToonIntro").click(function(event) {
             siteView.toonIntro();
         });
 
@@ -31,10 +31,10 @@
         $("#form").hide(500);
     },
 
-    toonFormulier: function () {
+    toonFormulier: function() {
         $("#form").show(500);
     },
-    controleerOfIntroGetoondMoetWorden: function () {
+    controleerOfIntroGetoondMoetWorden: function() {
         if (localStorage != null) {
             var value = localStorage.getItem("intro");
 
@@ -43,39 +43,39 @@
             }
         }
     },
-    verbergIntro: function () {
+    verbergIntro: function() {
         $(".intro").hide(500);
 
         if (localStorage != null) {
             localStorage.setItem("intro", "verborgen");
         }
     },
+s    toonIntro: function() {
+        $(".intro").show(500,
+            function() {
+                // de hoogte van het loginform gelijk zetten aan de hoogte van de introtekst
+                var width = $(document).width();
+                if (width >= 768) {
+                    var introHeight = $("#intro").height() + 60;
+                    var loginHeight = $("#login").height() + 60; // + 60 voor de padding
 
-    toonIntro: function () {
-        $(".intro").show(500, function() {
-            // de hoogte van het loginform gelijk zetten aan de hoogte van de introtekst
-            var width = $(document).width();
-            if (width >= 768) {
-                var introHeight = $("#intro").height() + 60;
-                var loginHeight = $("#login").height() + 60; // + 60 voor de padding
-
-                if (loginHeight < introHeight) {
-                    $("#login").css("min-height", introHeight);
-                } else {
-                    $("#intro").css("min-height", loginHeight);
+                    if (loginHeight < introHeight) {
+                        $("#login").css("min-height", introHeight);
+                    } else {
+                        $("#intro").css("min-height", loginHeight);
+                    }
                 }
-            }
-        });
+            });
 
         if (localStorage != null) {
             localStorage.setItem("intro", "");
         }
     },
     initFunctionsKostenEnBaten: function() {
-        $("a#add").click(function (event) {
+        $("a#add").click(function(event) {
             event.preventDefault();
             $.get($(this).attr("href"),
-                function (data) {
+                function(data) {
                     $("#divForm").html(data);
                     siteView.toonFormulier();
                 });
@@ -99,6 +99,50 @@
             if (href) {
                 window.location.href = href;
             }
+        });
+    },
+    toonMeer: function() {
+        $("#toonmeer").click(function(event) {
+            event.preventDefault();
+            var url = $(this).attr("href");
+            $.get(url,
+                function(data) {
+                    $("#data").html(data);
+                });
+        });
+    },
+    laadAnalyses: function () {
+        var url = $("#analyses").data("href");
+
+        $.get(url, function (data) {
+            $("#loader").slideUp(500);
+            $("#analyses").html(data);
+        });
+    },
+    laadActionsVorigeVolgende: function() {
+        // actions instellen
+        $("a#vorige").click(function (event) {
+            event.preventDefault();
+            $("#loader").slideDown(500);
+            $("#analyses").html("");
+
+            $.get($(this).attr("href"),
+                function (data) {
+                    $("#loader").slideUp(500);
+                    $("#analyses").html(data);
+                });
+        });
+
+        $("a#volgende").click(function (event) {
+            event.preventDefault();
+            $("#loader").slideDown(500);
+            $("#analyses").html("");
+
+            $.get($(this).attr("href"),
+                function (data) {
+                    $("#loader").slideUp(500);
+                    $("#analyses").html(data);
+                });
         });
     }
 };

@@ -39,6 +39,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 TempData["error"] = Meldingen.AnalyseKlaar;
                 return RedirectToAction("Index", "Resultaat");
             }
+            
+            analyse.UpdateTotalen(_analyseRepository);
 
             PlaatsTotaalInViewData(analyse);
 
