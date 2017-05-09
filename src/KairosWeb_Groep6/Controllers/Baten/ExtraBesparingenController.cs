@@ -26,6 +26,8 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse.UpdateTotalen(_analyseRepository);
+
             IEnumerable<ExtraBesparingViewModel> model = MaakModel(analyse);
 
             PlaatsTotaalInViewData(analyse);
