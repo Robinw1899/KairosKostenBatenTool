@@ -29,6 +29,16 @@
                             <button type="submit" class="btn btn-default">Zoek</button>
                         </span>
                     </div>
+                    <div class="col-md=1">
+                       @if (Model.List)
+                       {
+                         <a class="btn btn-info" asp-controller="Kairos" asp-action="ToggleGrid"  asp-route-beginIndex="@Model.BeginIndex" asp-route-eindIndex="@Model.EindIndex"><i class="fa fa-th-large" aria-hidden="true"></i></a>
+                       }
+                       else
+                       {
+                         <a class="btn btn-info" asp-controller="Kairos" asp-action="ToggleList" asp-route-beginIndex="@Model.BeginIndex" asp-route-eindIndex="@Model.EindIndex" ><i class="fa fa-list-ul" aria-hidden="true"></i> </a>
+                       }
+                    </div>
                 </form>
             </div>
         </div>
@@ -58,12 +68,26 @@
 
         @if (Model != null && Model.Analyses.Any())
         {
-            <div id="data">
-               @foreach (AnalyseViewModel a in Model.Analyses)
-               {
-                    @Html.Partial("_AnalyseCard", a);
-               }
-            </div>
+            if (!Model.List)
+            {
+                <div id="data">
+                    @foreach (AnalyseViewModel a in Model.Analyses)
+                    {
+                        @Html.Partial("_AnalyseCard", a);
+                    }
+                </div>
+            }
+            else
+            {
+                <div id="data">
+                    @foreach (AnalyseViewModel a in Model.Analyses)
+                    {
+                        @Html.Partial("_AnalyseCardList", a);
+                    }
+                </div>
+            }
+
+
 
             <div class="row" style="margin-top:20px">
                 <div class="col-xs-9 col-md-9">
@@ -86,3 +110,4 @@
         }
     </div>
 </div>
+

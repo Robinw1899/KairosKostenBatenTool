@@ -22,6 +22,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public bool ShowVolgende { get; set; }
         public bool ShowVorige { get; set; }
+
+        public bool List { get; set; }
         public IndexViewModel()
         {          
             Analyses = new List<AnalyseViewModel>();

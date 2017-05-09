@@ -65,6 +65,7 @@ namespace KairosWeb_Groep6.Controllers
 
                 bool volgende = false;
                 bool vorige = false;
+               
 
                 //volgende knop laten zien of niet
                 if (totaal > 8 && model.EindIndex < totaal )
@@ -90,7 +91,8 @@ namespace KairosWeb_Groep6.Controllers
                     BeginIndex = model.BeginIndex,
                     EindIndex = model.BeginIndex + 8,
                     ShowVolgende = volgende,
-                    ShowVorige = vorige
+                    ShowVorige = vorige,
+                    List = model.List
                 };
             }
             catch
@@ -128,6 +130,33 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction("Index", model);
         }
+        #endregion
+
+        #region Grid and List
+        public IActionResult ToggleGrid(int beginIndex,int eindIndex)
+        {
+            IndexViewModel model = new IndexViewModel()
+            {
+                BeginIndex = beginIndex,
+                EindIndex = eindIndex,
+                List = false
+            };
+          
+            return RedirectToAction("Index", "Kairos", model);
+        }
+        public IActionResult ToggleList(int beginIndex, int eindIndex)
+        {
+            IndexViewModel model = new IndexViewModel()
+            {
+                BeginIndex = beginIndex,
+                EindIndex = eindIndex,
+                List = true
+            };
+
+            return RedirectToAction("Index", "Kairos", model);
+        }
+
+
         #endregion
 
         #region Zoek analyse
