@@ -22,8 +22,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         public decimal Uren { get; set; }
 
         [Required(ErrorMessage = "Gelieve een bruto maandloon op te geven")]
-        [Display(Name = "Bruto maandloon begeleider")]
-        [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bruto maandloon op te geven.")]
+        [Display(Name = "Bruto maandloon begeleider")]     
         public string BrutoMaandloonBegeleider { get; set; }
 
         [Display(Name = "Jaarbedrag")]

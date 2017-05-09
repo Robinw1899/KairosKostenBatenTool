@@ -21,8 +21,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         [Display(Name = "Type")]
         public string Beschrijving { get; set; }
 
-        [Required(ErrorMessage = "Gelieve een bedrag in te vullen")]
-        [Range(0, double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal in te vullen voor het bedrag")]
+        [Required(ErrorMessage = "Gelieve een bedrag in te vullen")]    
         public string Bedrag { get; set; }
         #endregion
 

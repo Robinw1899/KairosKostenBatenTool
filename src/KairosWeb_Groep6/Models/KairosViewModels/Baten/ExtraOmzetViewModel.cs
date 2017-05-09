@@ -20,13 +20,11 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
         public Soort Soort { get; set; }
 
         [Display(Name = "Jaarbedrag omzetverlies")]
-        [Required(ErrorMessage = "Gelieve het jaarbedrag van de omzetverlies op te geven.")]
-        [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positieve waarde op te geven voor het jaarbedrag.")]
+        [Required(ErrorMessage = "Gelieve het jaarbedrag van de omzetverlies op te geven.")]      
         public string JaarbedragOmzetverlies { get; set; }
 
         [Required(ErrorMessage = "Gelieve een percentage voor de besparing op te geven.")]
-        [Display(Name = "% besparing")]
-        [Range(typeof(decimal), "0.00", "100.00", ErrorMessage = "Gelieve een geldig percentage tussen 0 en 100 op te geven.")]
+        [Display(Name = "% besparing")]      
         public string Besparing { get; set; }
 
         public string Bedrag { get; set; }

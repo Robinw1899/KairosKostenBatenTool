@@ -21,8 +21,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
         [Required(ErrorMessage = "Gelieve een beschrijving op te geven.")]
         public string Beschrijving { get; set; }
 
-        [Required(ErrorMessage = "Gelieve het bedrag op te geven.")]
-        [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bedrag op te geven.")]
+        [Required(ErrorMessage = "Gelieve het bedrag op te geven.")]    
         public string Bedrag { get; set; }
         #endregion
 

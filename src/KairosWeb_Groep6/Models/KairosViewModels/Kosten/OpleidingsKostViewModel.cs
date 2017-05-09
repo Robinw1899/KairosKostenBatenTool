@@ -23,8 +23,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         [Required(ErrorMessage = "Gelieve een (korte) beschrijving op te geven")]
         public string Beschrijving { get; set; }
       
-        [Required(ErrorMessage = "Gelieve een bedrag op te geven")]
-        [Range(0, Double.MaxValue, ErrorMessage = "Gelieve enkel een positief getal op te geven voor het bedrag")]
+        [Required(ErrorMessage = "Gelieve een bedrag op te geven")]     
         public string Bedrag { get; set; }
         #endregion
 
