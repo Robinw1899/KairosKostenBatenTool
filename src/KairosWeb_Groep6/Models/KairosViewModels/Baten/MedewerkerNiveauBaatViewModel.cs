@@ -18,13 +18,11 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
         [HiddenInput]
         public Soort Soort { get; set; }
         
-        [Required(ErrorMessage = "Gelieve een aantal uren op te geven")]
-        [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het aantal uur op te geven.")]
+        [Required(ErrorMessage = "Gelieve een aantal uren op te geven")]      
         public decimal Uren { get; set; }
 
         [Required(ErrorMessage = "Gelieve een bruto maandloon op te geven")]
-        [Display(Name = "Bruto maandloon (fulltime)")]
-        [Range(0, double.MaxValue, ErrorMessage = "Gelieve een positief getal voor het bruto maandloon op te geven.")]
+        [Display(Name = "Bruto maandloon (fulltime)")]     
         public string BrutoMaandloonFulltime { get; set; }
 
         public string Bedrag { get; set; }
