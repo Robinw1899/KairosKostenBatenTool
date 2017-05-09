@@ -97,13 +97,15 @@ namespace KairosWeb_Groep6.Models.Domain
         #endregion
 
         #region Methods
-
         public void UpdateTotalen(IAnalyseRepository repo)
         {
             Thread thread = new Thread(new ThreadStart(() =>
             {
                 try
                 {
+                    // DatumLaatsteAanpassing ook aanpassen, zodat dit steeds up to date is
+                    DatumLaatsteAanpassing = DateTime.Now;
+
                     // Kostentotaal
                     IDictionary<Soort, decimal> totalenKosten = GeefTotalenKosten();
                     decimal totaal = totalenKosten.Sum(e => e.Value);
