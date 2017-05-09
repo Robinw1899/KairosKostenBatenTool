@@ -52,6 +52,9 @@ namespace KairosWeb_Groep6.Controllers
                     model.BatenTotaal = batenTotaal;
                     model.Totaal = batenTotaal - kostenTotaal;
 
+                    ViewData["SubTotaalBaten"] = model.BatenTotaal;
+                   
+                   
                     // kleur voor nettoresultaat bepalen
                     if (model.Totaal < 0)
                     {
