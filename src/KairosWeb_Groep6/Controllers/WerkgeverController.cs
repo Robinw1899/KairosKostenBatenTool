@@ -175,14 +175,8 @@ namespace KairosWeb_Groep6.Controllers
         {
             try
             {
-                IEnumerable<Werkgever> werkgevers = _werkgeverRepository.GetAll().Take(10).ToList();
-                BestaandeWerkgeverViewModel model = new BestaandeWerkgeverViewModel
-                {
-                    Werkgevers = werkgevers.Select(w => new WerkgeverViewModel(w))
-                        .ToList()
-                };
-
-                return View(model);
+                BestaandeWerkgeverViewModel model = new BestaandeWerkgeverViewModel();
+                return View(model);               
             }
             catch
             {
@@ -214,7 +208,7 @@ namespace KairosWeb_Groep6.Controllers
                 TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
             }
 
-            return RedirectToAction("BestaandeWerkgever");
+            return RedirectToAction("BestaandeWerkgever","",null);
         }
         #endregion
 
@@ -246,24 +240,27 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("BestaandDepartement");
         }
 
-        [HttpPost]
-        public IActionResult ZoekWerkgever(string naam)
+        
+        public IActionResult ZoekWerkgever(BestaandeWerkgeverViewModel model, string naam = "")
         {
             try
-            {
-                IEnumerable<Werkgever> werkgevers;
-
-                if (naam == null || naam.Equals(""))
-                    werkgevers = _werkgeverRepository.GetAll();
-                else
-                {
+            {              
+                IEnumerable<Werkgever> werkgevers = new List<Werkgever>() ;
+              
+                if (naam != null && !naam.Equals(""))
                     werkgevers = _werkgeverRepository.GetByName(naam);
-                }
+                else
+                    werkgevers = _werkgeverRepository.GetWerkgevers();
 
-                List<WerkgeverViewModel> viewModels = werkgevers.Select(w => new WerkgeverViewModel(w))
-                    .ToList();
 
-                return PartialView("_Werkgevers", viewModels);
+                 model = new BestaandeWerkgeverViewModel
+                {
+                    Werkgevers = werkgevers.Select(w => new WerkgeverViewModel(w))
+                    .ToList(),
+                    FirstLoad = false
+                };
+           
+                return PartialView("_Werkgevers", model);
             }
             catch
             {
@@ -273,6 +270,9 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("BestaandeWerkgever");
         }
         #endregion
+
+        
+
 
         #region Bestaand departement
         public IActionResult BestaandDepartement(int id)
@@ -303,6 +303,20 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
+        public IActionResult ToonAlles()
+        {
+            BestaandeWerkgeverViewModel model = new BestaandeWerkgeverViewModel()
+            {
+                Werkgevers = _werkgeverRepository
+                .GetAll()
+                .Select(a => new WerkgeverViewModel(a))
+                .ToList(),
+                FirstLoad = false              
+            };
+
+            return PartialView("_Werkgevers", model);
+        }
+      
         #region Nieuw departement
         public IActionResult NieuwDepartement(int id)
         {

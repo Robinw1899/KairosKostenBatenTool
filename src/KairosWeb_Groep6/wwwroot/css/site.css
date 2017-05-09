@@ -65,6 +65,12 @@ footer {
     max-width: 280px;
 }
 
+.input-search-werkgver{
+    max-width:600px;
+}
+
+
+
 /* Elke knop een groene kleur geven */
 .btn-info,
 .btn-succes{

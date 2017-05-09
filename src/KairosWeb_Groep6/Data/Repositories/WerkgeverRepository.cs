@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace KairosWeb_Groep6.Data.Repositories
 {
@@ -29,15 +30,26 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Where(w => w.WerkgeverId == id)
                 .Include(w=>w.Departementen)
                 .First();
-        }
-
+        }     
         public IEnumerable<Werkgever> GetByName(string naam)
         {
             return _werkgevers
-                .Include(w => w.Departementen)
                 .Where(w => w.Naam.Contains(naam))
+                .Include(w => w.Departementen)
                 .ToList();
+
         }
+       
+       
+        public IEnumerable<Werkgever> GetWerkgevers()
+        {                                     
+            return _werkgevers
+                .Skip(0)
+                .Take(10)
+                .Include(w => w.Departementen)
+                .ToList();          
+        }
+
         public void Add(Werkgever werkgever)
         {
             _werkgevers.Add(werkgever);
@@ -52,5 +64,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             _dbContext.SaveChanges();
         }
+
+      
     }
 }
