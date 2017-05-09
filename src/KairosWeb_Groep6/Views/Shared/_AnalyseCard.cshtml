@@ -55,21 +55,68 @@
                 <p>@Model.Departement</p>
             }
             
-            <div class="progress">
-                <div class="progress-bar progress-bar-success" role="progressbar"
-                     style="width: @(Math.Round(Model.BatenPercent, 0))%">
+            <div class="col-xs-12 col-md-12 subTotalen">
+                <div class="col-xs-6  col-md-6 text-left bedragBaat">
                     <b>@Model.BatenTotaal.ToString("C", new CultureInfo("nl-BE"))</b>
                 </div>
-                <div class="progress-bar progress-bar-danger @Model.BatenTotaal" role="progressbar" 
-                     style="width: @(Math.Round(Model.KostenPercent, 0))%">
-                    
+                <div class=" col-xs-6 col-md-6 text-right bedragKost">
                     <b>@Model.KostenTotaal.ToString("C", new CultureInfo("nl-BE"))</b>
                 </div>
             </div>
-
+            <div class="progress progressBalk">
+                <div class="progress-bar progress-bar-success" role="progressbar" id="subTotaalBaten"
+                     style="width: @(Math.Round(Model.BatenPercent, 0))%">
+                    
+                   
+                </div>
+      
+                <div class="progress-bar progress-bar-danger @Model.BatenTotaal" role="progressbar" id="subTotaalKosten"  
+                     style="width: @(Math.Round(Model.KostenPercent, 0))%">
+                    
+                    
+                </div>
+            </div>
+        
             <div class="text-center resultaat alert @Model.KlasseTotaal">
                 <b>@Model.NettoResultaat.ToString("C", new CultureInfo("nl-BE"))</b>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        if (@Model.BatenTotaal < @Model.KostenTotaal){//igv baten > kosten
+            var huidigPercent = @Model.BatenPercent;
+            var lengte = [@Model.BatenTotaal];
+            var length = lengte.length;
+            var width = (length * 2) + 2;
+            var percentVoorKost = 100 - width;
+            @Model.BatenTotaal.
+
+            document.getElementById("#subTotaalBaten").style.width = width;
+
+            document.getElementById("#subTotaalKosten").style.width = percentVoorKost;
+        }
+        else {//igv kosten > baten
+            var lengte = [@Model.KostenTotaal];
+            var length = lengte.length;
+            var width = (length * 2) + 2;
+            var percentVoorBaat = 100 - width;
+
+
+            document.getElementById("#subTotaalBaten").style.width = "percentVoorBaat%";
+
+            document.getElementById("#subTotaalKosten").style.width = "width%";
+        }
+        
+        var widthBaten = document.getElementById("#subTotaalBaten").style.width;
+        var widthKosten = document.getElementById("#subTotaalKosten").style.width;
+            /*var height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+            if (width <= 1024) {
+                $("#intro").insertAfter("#login");
+            }*/
+    </script>
+    
+}

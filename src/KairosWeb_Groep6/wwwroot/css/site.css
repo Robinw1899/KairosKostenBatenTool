@@ -254,6 +254,23 @@ h6#infoTekstVerplichteVelden {
     content: "\f040";
     font-family: FontAwesome;
 }
+.progress-bar {
+    color: black !important;
+}
+.progressBalk {
+    margin-top: 10% !important;
+}
+.subTotalen {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.bedragBaat {
+    padding-left: 7px;
+} 
+.bedragKost {
+    padding-right: 7px;
+}
+
 
 @media only screen and (min-width: 1024px) {
     .mobile {
