@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using KairosWeb_Groep6.Controllers;
-using KairosWeb_Groep6.Models.AccountViewModels;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using KairosWeb_Groep6.Tests.Data;
@@ -53,6 +50,20 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
+        public void TestIndex_AnalyseKlaar_RedirectsToResultaat()
+        {
+            Analyse analyse = new Analyse
+            {
+                Klaar = true
+            };
+
+            var result = _controller.Index(analyse) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Resultaat", result?.ControllerName);
+        }
+
+        [Fact]
         public void TestIndex_RepositoryGooitException_RedirectNaarWerkgeverIndex()
         {
             _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Throws(new Exception());
@@ -64,17 +75,18 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
-        public void TestIndex_ContactPersoonReedsGeselecteerd_ReturnedBewerkView()
+        public void TestIndex_ContactPersoonReedsGeselecteerd_ReturnedIndexView()
         {
-            ContactPersoon cp = new ContactPersoon("Thomas", "Aelbrecht", "iets@voorbeeld.be");
+            _departementRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(_dbContext.Aldi);
+            ContactPersoon cp = new ContactPersoon("Thomas", "Aelbrecht", "thomas@test.com");
             ContactPersoonViewModel model = new ContactPersoonViewModel(cp, 0);
 
-            Analyse analyse = new Analyse {ContactPersooon = cp, Departement = _dbContext.Aldi};
+            Analyse analyse = new Analyse { Departement = _dbContext.Aldi};
 
             var result = _controller.Index(analyse) as ViewResult;
             var resultModel = result?.Model as ContactPersoonViewModel;
 
-            Assert.Equal("Bewerk", result?.ViewName);
+            Assert.Equal("Index", result?.ViewName);
             Assert.Equal(model.AnalyseId, resultModel?.AnalyseId);
             Assert.Equal(model.Email, resultModel?.Email);
             Assert.Equal(model.Naam, resultModel?.Naam);
@@ -84,66 +96,16 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
-        public void TestIndex_GeenContactPersoonNietIngesteld_ToontAlleContactpersonen()
+        public void TestIndex_GeenContactPersoonIngesteld_RedirectNaarVoegContactPersoonToe()
         {
             Analyse analyse = new Analyse { Departement = _dbContext.Aldi };
-            ContactPersoon cp = new ContactPersoon("Thomas", "Aelbrecht", "iets@voorbeeld.be");
-            Werkgever werkgever = new Werkgever
-            {
-                ContactPersonen = new List<ContactPersoon>
-                {
-                    cp
-                }
-            };
-
-            _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Returns(werkgever);
-
-            var result = _controller.Index(analyse) as RedirectToActionResult;
-
-            Assert.Equal("ToonAlleContactPersonen", result?.ActionName);
-        }
-
-        [Fact]
-        public void TestIndex_GeenContactPersonenInWerkgever_VoegContactPersoonToe()
-        {
-            Analyse analyse = new Analyse { Departement = _dbContext.Aldi };
-            Werkgever werkgever = new Werkgever{ContactPersonen = new List<ContactPersoon>()};
+            Werkgever werkgever = new Werkgever();
 
             _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Returns(werkgever);
 
             var result = _controller.Index(analyse) as RedirectToActionResult;
 
             Assert.Equal("VoegContactPersoonToe", result?.ActionName);
-        }
-        #endregion
-
-        #region ToonAlleContactPersonen
-        [Fact]
-        public void TestToonAlleContactPersonen_RepositoryGooitException_RedirectNaarWerkgeverIndex()
-        {
-            Analyse analyse = new Analyse {Departement = _dbContext.Aldi};
-            _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Throws(new Exception());
-
-            var result = _controller.ToonAlleContactPersonen(analyse) as RedirectToActionResult;
-
-            Assert.Equal("Index", result?.ActionName);
-            Assert.Equal("Werkgever", result?.ControllerName);
-        }
-
-        [Fact]
-        public void TestToonAlleContactPersonen_Succes()
-        {
-            ContactPersoon cp = new ContactPersoon("Thomas", "Aelbrecht", "iets@voorbeeld.be");
-            Analyse analyse = new Analyse { Departement = _dbContext.Aldi };
-            analyse.Departement.Werkgever.ContactPersonen = new List<ContactPersoon> { cp };
-
-            _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Returns(analyse.Departement.Werkgever);
-
-            var result = _controller.ToonAlleContactPersonen(analyse) as ViewResult;
-            var model = result?.Model as IEnumerable<ContactPersoonViewModel>;
-
-            Assert.Equal("Index", result?.ViewName);
-            Assert.Equal(1, model.Count());
         }
         #endregion
 
@@ -155,6 +117,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var model = result?.Model as ContactPersoonViewModel;
 
             Assert.Equal(1, model?.WerkgeverId);
+            Assert.Equal("Index", result?.ViewName);
         }
         #endregion
 
@@ -162,6 +125,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestVoegToe_RepositoryGooitException_ReturnViewWithModel()
         {
+            Analyse analyse = new Analyse
+            {
+                Departement = _dbContext.Aldi
+            };
+
             _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Throws(new Exception());
             ContactPersoonViewModel model = new ContactPersoonViewModel
             {
@@ -171,19 +139,26 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Email = "iets@voorbeeld.be"
             };
 
-            var result = _controller.VoegContactPersoonToe(model) as ViewResult;
+            var result = _controller.VoegContactPersoonToe(analyse, model) as ViewResult;
             var resultModel = result?.Model as ContactPersoonViewModel;
 
             Assert.Equal(model.Naam, resultModel?.Naam);
             Assert.Equal(model.Voornaam, resultModel?.Voornaam);
             Assert.Equal(model.Email, resultModel?.Email);
             Assert.Equal(model.AnalyseId, resultModel?.AnalyseId);
+            Assert.Equal("Index", result?.ViewName);
         }
 
         [Fact]
         public void TestVoegToe_Succes()
         {
-            _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Returns(_dbContext.Aldi.Werkgever);
+            Analyse analyse = new Analyse
+            {
+                Departement = _dbContext.Aldi
+            };
+
+            _departementRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(_dbContext.Aldi);
+
             ContactPersoonViewModel model = new ContactPersoonViewModel
             {
                 AnalyseId = 1,
@@ -192,52 +167,12 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Email = "iets@voorbeeld.be"
             };
 
-            var result = _controller.VoegContactPersoonToe(model) as RedirectToActionResult;
+            var result = _controller.VoegContactPersoonToe(analyse, model) as RedirectToActionResult;
 
-            _contactPersoonRepository.Verify(c => c.Add(It.IsAny<ContactPersoon>()), Times.Once);
-            _contactPersoonRepository.Verify(c => c.Save(), Times.Once);
-
-            _werkgeverRepository.Verify(w => w.Save(), Times.Once);
-
-            Assert.Equal("ToonAlleContactPersonen", result?.ActionName);
-        }
-        #endregion
-
-        #region Bewerk -- GET --
-        [Fact]
-        public void TestBewerkGET_RepositoryGooitException_RedirectToIndex()
-        {
-            _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Throws(new Exception());
-
-            var result = _controller.Bewerk(0, 0) as RedirectToActionResult;
+            _departementRepository.Verify(c => c.Save(), Times.Once);
+            _analyseRepository.Verify(c => c.Save(), Times.Once);
 
             Assert.Equal("Index", result?.ActionName);
-        }
-
-        [Fact]
-        public void TestBewerkGET_Succes()
-        {
-            ContactPersoon cp = new ContactPersoon("Thomas", "Aelbrecht", "iets@voorbeeld.be");
-            _dbContext.Aldi.Werkgever.ContactPersonen = new List<ContactPersoon> { cp };
-
-            _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Returns(_dbContext.Aldi.Werkgever);
-            ContactPersoonViewModel expectedModel = new ContactPersoonViewModel
-            {
-                Voornaam = "Thomas",
-                Naam = "Aelbrecht",
-                Email = "iets@voorbeeld.be",
-                WerkgeverId = 0,
-                PersoonId = 0
-            };
-
-            var result = _controller.Bewerk(0, 0) as ViewResult;
-            var resultModel = result?.Model as ContactPersoonViewModel;
-
-            Assert.Equal(expectedModel.Naam, resultModel?.Naam);
-            Assert.Equal(expectedModel.Voornaam, resultModel?.Voornaam);
-            Assert.Equal(expectedModel.Email, resultModel?.Email);
-            Assert.Equal(expectedModel.WerkgeverId, resultModel?.WerkgeverId);
-            Assert.Equal(expectedModel.PersoonId, resultModel?.PersoonId);
         }
         #endregion
 
@@ -256,9 +191,10 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 PersoonId = 0
             };
 
-            var result = _controller.Bewerk(expectedModel) as ViewResult;
+            var result = _controller.Opslaan(expectedModel) as ViewResult;
             var resultModel = result?.Model as ContactPersoonViewModel;
 
+            Assert.Equal("Index", result?.ViewName);
             Assert.Equal(expectedModel.Naam, resultModel?.Naam);
             Assert.Equal(expectedModel.Voornaam, resultModel?.Voornaam);
             Assert.Equal(expectedModel.Email, resultModel?.Email);
@@ -282,9 +218,10 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 PersoonId = 0
             };
 
-            var result = _controller.Bewerk(expectedModel) as ViewResult;
+            var result = _controller.Opslaan(expectedModel) as ViewResult;
             var resultModel = result?.Model as ContactPersoonViewModel;
 
+            Assert.Equal("Index", result?.ViewName);
             Assert.Equal(expectedModel.Naam, resultModel?.Naam);
             Assert.Equal(expectedModel.Voornaam, resultModel?.Voornaam);
             Assert.Equal(expectedModel.Email, resultModel?.Email);
@@ -306,9 +243,10 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
             _controller.ModelState.AddModelError("", "Error");
 
-            var result = _controller.Bewerk(expectedModel) as ViewResult;
+            var result = _controller.Opslaan(expectedModel) as ViewResult;
             var resultModel = result?.Model as ContactPersoonViewModel;
 
+            Assert.Equal("Index", result?.ViewName);
             Assert.Equal(expectedModel.Naam, resultModel?.Naam);
             Assert.Equal(expectedModel.Voornaam, resultModel?.Voornaam);
             Assert.Equal(expectedModel.Email, resultModel?.Email);
@@ -330,9 +268,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 PersoonId = 0
             };
 
-            var result = _controller.Bewerk(model) as RedirectToActionResult;
+            var result = _controller.Opslaan(model) as RedirectToActionResult;
 
-            Assert.Equal("ToonAlleContactPersonen", result?.ActionName);
+            Assert.Equal("Index", result?.ActionName);
 
             _contactPersoonRepository.Verify(c => c.Save(), Times.Once);
         }
@@ -340,31 +278,13 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
         #region VerwijderContactPersoon
         [Fact]
-        public void TestVerwijderContactPersoon_RepositoryGooitException_ToontAlleContactPersonen()
+        public void TestVerwijderContactPersoon_RepositoryGooitException_RedirectToIndex()
         {
             _contactPersoonRepository.Setup(c => c.GetById(It.IsAny<int>())).Throws(new Exception());
 
-            var result = _controller.VerwijderContactpersoon(0, 0, _analyse.Object) as RedirectToActionResult;
+            var result = _controller.VerwijderContactpersoon(0, 0) as RedirectToActionResult;
             
-            Assert.Equal("ToonAlleContactPersonen", result?.ActionName);
-        }
-
-        [Fact]
-        public void TestVerwijderContactPersoon_ContactpersoonIsHoofdcontactpersoon_ToontAlleContactpersonen()
-        {
-            ContactPersoon cp = new ContactPersoon
-            {
-                Voornaam = "Thomas",
-                Naam = "Aelbrecht",
-                Emailadres = "iets@voorbeeld.be"
-            };
-
-            Analyse analyse = new Analyse {ContactPersooon = cp};
-            _contactPersoonRepository.Setup(c => c.GetById(It.IsAny<int>())).Returns(cp);
-
-            var result = _controller.VerwijderContactpersoon(0, 0, analyse) as RedirectToActionResult;
-
-            Assert.Equal("ToonAlleContactPersonen", result?.ActionName);
+            Assert.Equal("Index", result?.ActionName);
         }
 
         [Fact]
@@ -377,10 +297,12 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Emailadres = "iets@voorbeeld.be"
             };
 
-            Analyse analyse = new Analyse { ContactPersooon = new ContactPersoon() };
+            _dbContext.Aldi.ContactPersoon = new ContactPersoon();
+            Analyse analyse = new Analyse { Departement = _dbContext.Aldi};
+
             _contactPersoonRepository.Setup(c => c.GetById(It.IsAny<int>())).Returns(cp);
 
-            var result = _controller.VerwijderContactpersoon(0, 0, analyse) as ViewResult;
+            var result = _controller.VerwijderContactpersoon(0, 0) as ViewResult;
 
             Assert.Equal("Verwijder", result?.ViewName);
             Assert.Equal(0, result?.ViewData["contactPersoonId"]);
@@ -396,14 +318,16 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _contactPersoonRepository.Setup(c => c.GetById(It.IsAny<int>())).Throws(new Exception());
 
-            var result = _controller.VerwijderBevestigd(0, 0) as RedirectToActionResult;
+            var result = _controller.VerwijderBevestigd(0, 0, _analyse.Object) as RedirectToActionResult;
 
-            Assert.Equal("ToonAlleContactPersonen", result?.ActionName);
+            Assert.Equal("Index", result?.ActionName);
         }
 
         [Fact]
         public void TestVerwijderBevestigd_Succes()
         {
+            Analyse analyse = new Analyse {Departement = _dbContext.Aldi};
+
             ContactPersoon cp = new ContactPersoon
             {
                 Voornaam = "Thomas",
@@ -411,60 +335,15 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Emailadres = "iets@voorbeeld.be"
             };
 
-            _dbContext.Aldi.Werkgever.ContactPersonen = new List<ContactPersoon> { cp };
-            _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Returns(_dbContext.Aldi.Werkgever);
             _contactPersoonRepository.Setup(c => c.GetById(It.IsAny<int>())).Returns(cp);
 
-            var result = _controller.VerwijderBevestigd(0, 0) as RedirectToActionResult;
+            var result = _controller.VerwijderBevestigd(0, 0, analyse) as RedirectToActionResult;
 
-            Assert.Equal("ToonAlleContactPersonen", result?.ActionName);
+            Assert.Equal("Index", result?.ActionName);
 
             _contactPersoonRepository.Verify(c => c.Remove(cp), Times.Once);
             _contactPersoonRepository.Verify(c => c.Save(), Times.Once);
-
-            _werkgeverRepository.Verify(c => c.Save(), Times.Once);
-        }
-        #endregion
-
-        #region SelecteerContactPersoon -- met id --
-        [Fact]
-        public void TestSelecteerContactPersoon_MetId()
-        {
-            var result = _controller.SelecteerHoofdContactPersoon(0, 0) as RedirectToActionResult;
-
-            Assert.Equal("SelecteerContactPersoon", result?.ActionName);
-        }
-        #endregion
-
-        #region SelecteerContactPersoon -- met analyse --
-        [Fact]
-        public void TestSelecteerContactPersoon_RepositoryGooitException_RedirectsToIndex()
-        {
-            _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Throws(new Exception());
-
-            var result = _controller.SelecteerContactPersoon(0, 0, _analyse.Object) as RedirectToActionResult;
-
-            Assert.Equal("Index", result?.ActionName);
-        }
-
-        [Fact]
-        public void TestSelecteerContactPersoon_MetAnalyse_Succes()
-        {
-            ContactPersoon cp = new ContactPersoon
-            {
-                Voornaam = "Thomas",
-                Naam = "Aelbrecht",
-                Emailadres = "iets@voorbeeld.be"
-            };
-
-            _dbContext.Aldi.Werkgever.ContactPersonen = new List<ContactPersoon> { cp };
-            _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Returns(_dbContext.Aldi.Werkgever);
-
-            var result = _controller.SelecteerContactPersoon(0, 0, _analyse.Object) as RedirectToActionResult;
-
-            Assert.Equal("Index", result?.ActionName);
-
-            _analyseRepository.Verify(a => a.Save(), Times.Once);
+            _analyseRepository.Verify(c => c.Save(), Times.Once);
         }
         #endregion
     }

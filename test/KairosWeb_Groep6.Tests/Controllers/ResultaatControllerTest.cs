@@ -133,5 +133,54 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal("Index", result?.ActionName);
         }
         #endregion
+
+        #region AnalyseKlaar
+        [Fact]
+        public void TestAnalyseKlaar_RepositoryGooiException_RedirectToIndex()
+        {
+            Analyse analyse = new Analyse
+            {
+                Klaar = true
+            };
+
+            _analyseRepo.Setup(r => r.Save()).Throws(new Exception());
+
+            var result = _controller.AnalyseKlaar(analyse) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+        }
+
+        [Fact]
+        public void TestAnalyseKlaar_AnalyseReedsKlaar_TerugOpFalseZetten()
+        {
+            Analyse analyse = new Analyse
+            {
+                Klaar = true
+            };
+
+            var result = _controller.AnalyseKlaar(analyse) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.False(analyse.Klaar);
+
+            _analyseRepo.Verify(r => r.Save(), Times.Once);
+        }
+
+        [Fact]
+        public void TestAnalyseKlaar_AnalyseNogNietKlaar_OpTrueZetten()
+        {
+            Analyse analyse = new Analyse
+            {
+                Klaar = false
+            };
+
+            var result = _controller.AnalyseKlaar(analyse) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.True(analyse.Klaar);
+
+            _analyseRepo.Verify(r => r.Save(), Times.Once);
+        }
+        #endregion
     }
 }

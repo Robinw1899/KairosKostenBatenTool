@@ -1,44 +1,84 @@
-﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.ContactPersoonViewModel>
+﻿@model KairosWeb_Groep6.Models.KairosViewModels.ContactPersoonViewModel
 @{
     ViewData["Title"] = "Contactpersonen";
+    var action = Model.PersoonId == 0 ? "VoegContactPersoonToe" : "Opslaan";
+    var submitText = Model.PersoonId == 0 ? "Voeg toe" : "Opslaan";
 }
 
 <div>
-    @Html.Partial("_Tabs")
+    <div>
+        @Html.Partial("_Tabs")
+    </div>
+    
+    @if (Model.PersoonId != 0)
+    {
+        <div class="page-header col-md-offset-1">
+            <h3>@ViewData["Title"] - @Model.Voornaam @Model.Naam</h3>
+        </div>
+    }
+    else
+    {
+        <div class="page-header col-md-offset-1">
+            <h3>@ViewData["Title"]</h3>
+        </div>
+    }
+
+    <form asp-controller="ContactPersoon" asp-action="@action" method="post" class="form-horizontal">
+        <div class="col-md-offset-1">
+            <h6 id="infoTekstVerplichteVelden">Velden aangeduid met een * zijn verplicht in te vullen</h6>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <input asp-for="WerkgeverId" />
+            <input asp-for="PersoonId" />
+
+            <div class="form-group">
+                <div class="col-md-4 required">
+                    <label asp-for="Voornaam"></label>
+                    <input asp-for="Voornaam" class="form-control" />
+                </div>
+                <div class="col-md-4 required">
+                    <label asp-for="Naam"></label>
+                    <input asp-for="Naam" class="form-control" />
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-8 required">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-8 text-right">
+                    @if (Model.PersoonId != 0)
+                    {
+                        <a asp-action="VerwijderContactpersoon" asp-route-id="@Model.PersoonId"
+                           asp-route-werkgeverid="@Model.WerkgeverId" class="btn btn-danger">Verwijder contactpersoon</a>
+                    }
+                    <button type="submit" class="btn btn-info" style="margin-left: 15px;">@submitText</button>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 
-<div class="page-header" style="overflow: auto;">
-    <!--Overflow omdat anders de border boven de h3 en knop staat-->
-    <div class="col-md-9">
-        <h3>@ViewData["Title"]</h3>
+
+<div class="row" style="margin-top:20px">
+    <div class="col-xs-10 col-md-10">
+        <a asp-controller="Werkgever" asp-action="Index" class="btn btn-default">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> Werkgever
+        </a>
     </div>
-    <div class="col-md-3" style="margin-top: 20px;">
-        <!--margin omdat de h3 dezelfde margin heeft-->
-        <a asp-controller="ContactPersoon" asp-action="VoegContactPersoonToe" asp-route-id="@ViewData["WerkgeverId"]"
-           class="btn btn-default">
-            <i class="fa fa-plus" aria-hidden="true"></i> Voeg een contactpersoon toe
+    <div class="col-xs-2 col-md-2 text-right" id="btnResultaat">
+        <a asp-controller="Kosten" asp-action="Index" style="margin-left:15px" class="btn btn-default">
+            Kosten <i class="fa fa-chevron-right" aria-hidden="true"></i>
         </a>
     </div>
 </div>
 
-<p>Klik op een bestaande contactpersoon in de tabel hieronder om deze te selecteren als hoofdcontactperoon
-     van deze analyse. Je kan ook een nieuwe contactpersoon toevoegen met de knop rechts boven naast de titel.</p>
-
-<div id="data">
-    @Html.Partial("_OverzichtTabel", Model)
-</div>
-
-<br />
-
-@Html.Partial("_VorigeVolgende")
-
 @section Scripts {
     <script>       
         $("#contactpersoon").addClass("active");
-
-        if (siteView) {
-            siteView.initKlikbareRijen();
-        }
     </script>
 
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }

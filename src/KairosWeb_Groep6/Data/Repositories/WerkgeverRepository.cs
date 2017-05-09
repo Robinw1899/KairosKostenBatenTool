@@ -20,7 +20,6 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             return _werkgevers
                 .Include(w=>w.Departementen)
-                .Include(w => w.ContactPersonen)
                 .AsNoTracking();
         }
 
@@ -29,7 +28,6 @@ namespace KairosWeb_Groep6.Data.Repositories
             return _werkgevers
                 .Where(w => w.WerkgeverId == id)
                 .Include(w=>w.Departementen)
-                .Include(w => w.ContactPersonen)
                 .First();
         }
 
@@ -37,7 +35,6 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             return _werkgevers
                 .Include(w => w.Departementen)
-                .Include(w => w.ContactPersonen)
                 .Where(w => w.Naam.Contains(naam))
                 .ToList();
         }

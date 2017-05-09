@@ -9,12 +9,12 @@ using KairosWeb_Groep6.Models.Domain.Kosten;
 using KairosWeb_Groep6.Models.KairosViewModels.Kosten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
+    [AutoValidateAntiforgeryToken]
     public class LoonkostenController : Controller
     {
         #region Properties
@@ -34,6 +34,12 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            if (analyse.Klaar)
+            {
+                TempData["error"] = Meldingen.AnalyseKlaar;
+                return RedirectToAction("Index", "Resultaat");
+            }
+            
             analyse.UpdateTotalen(_analyseRepository);
 
             PlaatsTotaalInViewData(analyse);

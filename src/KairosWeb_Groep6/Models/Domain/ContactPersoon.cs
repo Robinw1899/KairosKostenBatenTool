@@ -12,6 +12,7 @@
 
         public string Emailadres { get; set; }
 
+        public Departement Departement { get; set; }
         #endregion
 
         #region Constructors

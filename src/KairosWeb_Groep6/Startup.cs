@@ -81,6 +81,7 @@ namespace KairosWeb_Groep6
             services.AddScoped<IContactPersoonRepository, ContactPersoonRepository>();
             services.AddScoped<IIntroductietekstRepository, IntroductietekstRepository>();
             services.AddScoped<IDoelgroepRepository, DoelgroepRepository>();
+            services.AddScoped<IOrganisatieRepository, OrganisatieRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -121,15 +122,15 @@ namespace KairosWeb_Groep6
                     template: "{controller=Kairos}/{action=Index}/{id?}");
             });
 
-            //context.Database.EnsureDeleted();
-            //context.Database.EnsureCreated();
+            context.Database.EnsureDeleted();
+            context.Database.EnsureCreated();
 
-            //DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
-            //                                                  departementRepository, analyseRepository, werkgeverRepository,
-            //                                                 introductietekstRepository, doelgroepRepository);
+            DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
+                                                              departementRepository, analyseRepository, werkgeverRepository,
+                                                             introductietekstRepository, doelgroepRepository);
             //initializer.InitializeIntrotekst();
             //initializer.InitializeDoelgroepen();
-            //initializer.InitializeData().Wait();
+            initializer.InitializeData().Wait();
         }
 
         private RequestLocalizationOptions BuildLocalizationOptions()

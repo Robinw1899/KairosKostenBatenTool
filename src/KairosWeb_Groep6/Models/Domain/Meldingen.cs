@@ -4,6 +4,10 @@
     {
         private static string einde = ", probeer later opnieuw";
 
+        public static string AnalyseKlaar { get; } =
+            "U hebt de analyse reeds aangevinkt als 'Klaar', u kan niets meer bewerken. " +
+            "Wilt u toch iets bewerken, vink het vinkje bij het resultaat uit.";
+
         #region VoegToe foutmeldingen
         public static string VoegToeFoutmeldingKost = "Er ging iets mis tijdens het toevoegen van de kost" + einde;
         public static string VoegToeFoutmeldingBaat = "Er ging iets mis tijdens het toevoegen van de baat" + einde;

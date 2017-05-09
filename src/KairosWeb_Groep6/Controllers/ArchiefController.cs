@@ -12,6 +12,7 @@ namespace KairosWeb_Groep6.Controllers
 {
     [Authorize]
     [ServiceFilter(typeof(JobcoachFilter))]
+    [AutoValidateAntiforgeryToken]
     public class ArchiefController : Controller
     {
         #region Properties

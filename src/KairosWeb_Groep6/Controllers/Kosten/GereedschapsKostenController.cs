@@ -14,6 +14,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
+    [AutoValidateAntiforgeryToken]
     public class GereedschapsKostenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
@@ -26,6 +27,12 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            if (analyse.Klaar)
+            {
+                TempData["error"] = Meldingen.AnalyseKlaar;
+                return RedirectToAction("Index", "Resultaat");
+            }
+            
             analyse.UpdateTotalen(_analyseRepository);
 
             IEnumerable<GereedschapsKostViewModel> viewModels = MaakModel(analyse);

@@ -45,6 +45,20 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
             Assert.Equal(12000M, jaarbedrag);
             Assert.Equal(5M, besparing);
         }
+
+        [Fact]
+        public void TestIndex_AnalyseKlaar_RedirectsToResultaat()
+        {
+            Analyse analyse = new Analyse
+            {
+                Klaar = true
+            };
+
+            var result = _controller.Index(analyse) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Resultaat", result?.ControllerName);
+        }
         #endregion
 
         #region Opslaan

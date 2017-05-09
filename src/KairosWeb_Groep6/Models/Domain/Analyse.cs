@@ -11,7 +11,6 @@ namespace KairosWeb_Groep6.Models.Domain
     public class Analyse
     {
         #region Andere properties
-
         public int AnalyseId { get; set; }
 
 
@@ -31,6 +30,9 @@ namespace KairosWeb_Groep6.Models.Domain
         public decimal KostenTotaal { get; set; }
 
         public decimal BatenTotaal { get; set; }
+      
+        // Deze boolean duidt aan dat de analyse klaar is, de jobcoach kan dit instellen
+        public bool Klaar { get; set; } = false;
         #endregion
 
         #region Kosten

@@ -10,7 +10,7 @@ namespace KairosWeb_Groep6.Models.Domain
         public static async Task<bool> SendRegisterMailWithPassword(string name, string email, string password)
         {
             var message = CreateBaseMessage();
-            message.To.Add(new MailboxAddress(name, email));
+            message.Bcc.Add(new MailboxAddress(name, email));
             message.Subject = @"Welkom bij KAIROS' kosten-baten tool!";
 
             var builder = new BodyBuilder();
@@ -25,7 +25,7 @@ namespace KairosWeb_Groep6.Models.Domain
         public static async Task<bool> SendForgotPasswordMail(string name, string email, string password, string url)
         {
             var message = CreateBaseMessage();
-            message.To.Add(new MailboxAddress(name, email));
+            message.Bcc.Add(new MailboxAddress(name, email));
             message.Subject = "Paswoord KAIROS kosten-baten tool vergeten";
 
             var builder = new BodyBuilder();
@@ -41,7 +41,7 @@ namespace KairosWeb_Groep6.Models.Domain
         {
             var message = CreateBaseMessage();
             //message.To.Add(new MailboxAddress("Bart Moens", "bart@werkgeversbenadering.be"));
-            message.To.Add(new MailboxAddress("Bart Moens", "thomasaelbrecht@live.com"));
+            message.Bcc.Add(new MailboxAddress("Bart Moens", "thomasaelbrecht@live.com"));
             message.Subject = "Melding Kairos: " + subject;
 
             // instellen dat Bart Moens kan antwoorden op deze mail om te mailen met de jobcoach:
@@ -61,7 +61,7 @@ namespace KairosWeb_Groep6.Models.Domain
         {
             var message = CreateBaseMessage();
             
-            message.To.Add(new MailboxAddress(naam, email));
+            message.Bcc.Add(new MailboxAddress(naam, email));
             message.Subject = subject;
 
             var builder = new BodyBuilder {TextBody = body};

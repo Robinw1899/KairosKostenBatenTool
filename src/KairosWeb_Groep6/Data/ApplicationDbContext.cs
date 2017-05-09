@@ -24,6 +24,8 @@ namespace KairosWeb_Groep6.Data
 
         public DbSet<ContactPersoon> ContactPersonen { get; set; }
 
+        public DbSet<Organisatie> Organisaties { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -120,6 +122,11 @@ namespace KairosWeb_Groep6.Data
             d.HasOne(t => t.Werkgever)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            d.HasOne(t => t.ContactPersoon)
+                .WithOne(t => t.Departement)
+                .HasForeignKey<ContactPersoon>(t => t.ContactPersoonId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         private static void MapAnalyse(EntityTypeBuilder<Analyse> a)
@@ -129,6 +136,10 @@ namespace KairosWeb_Groep6.Data
             a.HasKey(t => t.AnalyseId);
 
             a.Property(t => t.InArchief)
+                .HasDefaultValue(false)
+                .IsRequired();
+
+            a.Property(t => t.Klaar)
                 .HasDefaultValue(false)
                 .IsRequired();
 
@@ -278,10 +289,6 @@ namespace KairosWeb_Groep6.Data
 
             w.Property(t => t.Gemeente)
                 .IsRequired();
-
-            w.HasMany(t => t.ContactPersonen)
-                .WithOne()
-                .OnDelete(DeleteBehavior.Restrict); 
 
             w.HasMany(t => t.Departementen)
                 .WithOne()
