@@ -101,6 +101,40 @@
                 window.location.href = href;
             }
         });
+    },
+    laadAnalyses: function () {
+        var url = $("#analyses").data("href");
+
+        $.get(url, function (data) {
+            $("#loader").slideUp(500);
+            $("#analyses").html(data);
+        });
+    },
+    laadActionsVorigeVolgende: function() {
+        // actions instellen
+        $("a#vorige").click(function (event) {
+            event.preventDefault();
+            $("#loader").slideDown(500);
+            $("#analyses").html("");
+
+            $.get($(this).attr("href"),
+                function (data) {
+                    $("#loader").slideUp(500);
+                    $("#analyses").html(data);
+                });
+        });
+
+        $("a#volgende").click(function (event) {
+            event.preventDefault();
+            $("#loader").slideDown(500);
+            $("#analyses").html("");
+
+            $.get($(this).attr("href"),
+                function (data) {
+                    $("#loader").slideUp(500);
+                    $("#analyses").html(data);
+                });
+        });
     }
 };
 

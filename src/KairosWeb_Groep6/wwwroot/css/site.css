@@ -11,6 +11,12 @@
     font-family: 'Asap', Cambria, sans-serif;
 }
 
+/*id om het laad-icoon voor de analyses op te maken*/
+#loader {
+    display: block;
+    margin: 0 auto;
+}
+
 /* Klasse die wat opmaak geeft aan de rijen van de tabellen waarop geklikt kan worden */
 .klikbareRij {
     cursor: pointer;
