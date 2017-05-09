@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace KairosWeb_Groep6.Controllers
         private readonly ILogger _logger;
         private readonly IJobcoachRepository _jobcoachRepository;
         private readonly IIntroductietekstRepository _introductietekstRepository;
+        private readonly IOrganisatieRepository _organisatieRepository;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -32,7 +34,8 @@ namespace KairosWeb_Groep6.Controllers
             ISmsSender smsSender,
             ILoggerFactory loggerFactory,
             IJobcoachRepository jobcoachRepository,
-            IIntroductietekstRepository introductietekstRepository)
+            IIntroductietekstRepository introductietekstRepository,
+            IOrganisatieRepository organisatieRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -41,6 +44,7 @@ namespace KairosWeb_Groep6.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
             _jobcoachRepository = jobcoachRepository;
             _introductietekstRepository = introductietekstRepository;
+            _organisatieRepository = organisatieRepository;
         }
 
         //
@@ -161,6 +165,19 @@ namespace KairosWeb_Groep6.Controllers
                 {
                     Organisatie organisatie = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie,
                             model.NrOrganisatie, model.Bus, model.Postcode, model.Gemeente);
+
+                    IEnumerable<Organisatie> possibleOrgs = _organisatieRepository.GetAllByNaam(model.OrganisatieNaam);
+
+                    if (possibleOrgs.Any())
+                    {// er kan een dubbele organisatie inkomen als we nu niet ingrijpen, we zoeken de evt dubbele
+                        Organisatie dubbel = possibleOrgs.SingleOrDefault(o => o.Equals(organisatie));
+
+                        if (dubbel != null)
+                        {
+                            organisatie = dubbel;
+                        }
+                    }
+
                     Jobcoach jobcoach = new Jobcoach(model.Naam, model.Voornaam, model.Email, organisatie);
                     _jobcoachRepository.Add(jobcoach);
                     _jobcoachRepository.Save();

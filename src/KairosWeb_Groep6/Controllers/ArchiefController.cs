@@ -12,9 +12,11 @@ namespace KairosWeb_Groep6.Controllers
 {
     [Authorize]
     [ServiceFilter(typeof(JobcoachFilter))]
+    [AutoValidateAntiforgeryToken]
     public class ArchiefController : Controller
     {
         #region Properties
+        private const int MAX_AANTAL_ANALYSES = 9;
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IJobcoachRepository _gebruikerRepository;
         #endregion
@@ -29,62 +31,77 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region Index
-        public IActionResult Index(Jobcoach jobcoach, IndexViewModel model = null)//problemen; aantalShow moet aantal zijn.(aantal analyses en niet aantal op scherm)
+        public IActionResult Index()
         {
+            IndexViewModel model = new IndexViewModel
+            {
+                BeginIndex = 0,
+                EindIndex = MAX_AANTAL_ANALYSES
+            };
 
+            return View("Index", model);
+        }
+        #endregion
 
+        #region HaalAnalysesOp
+        public IActionResult HaalAnalysesOpZonderModel(int beginIndex, int eindIndex)
+        {
+            // methode om het IndexViewmodel te kunnen aanmaken
+            IndexViewModel model = new IndexViewModel
+            {
+                BeginIndex = beginIndex,
+                EindIndex = eindIndex
+            };
+
+            return RedirectToAction("HaalAnalysesOp", model);
+        }
+
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult HaalAnalysesOp(Jobcoach jobcoach, IndexViewModel model = null)
+        {
             try
             {
-                if (jobcoach != null)
+                _analyseRepository.SetAnalysesJobcoach(jobcoach, true);
+                int totaal = jobcoach.Analyses.Count; //13
+
+                bool volgende = false;
+                bool vorige = false;
+
+                //volgende knop laten zien of niet
+                if (totaal > MAX_AANTAL_ANALYSES && model?.EindIndex < totaal)
                 {
-
-                    List<Analyse> analysesInArchief = new List<Analyse>();
-
-                    _analyseRepository.SetAnalysesJobcoach(jobcoach, true);
-                    int totaal = jobcoach.Analyses.Count(); //13
-
-                    bool volgende = false;
-                    bool vorige = false;
-
-                    //volgende knop laten zien of niet
-                    if (totaal > 9 && model.EindIndex < totaal )
-                    {
-                        volgende = true;//true // false
-                    }
-
-                    //vorige knop laten zien of niet
-                    if (model.BeginIndex != 0)
-                    {
-                        vorige = true;//false //true
-                    }
-                    //controle voor het correct aantal te taken
-                    int aantal = 9;
-
-                    analysesInArchief = _analyseRepository
-                            .GetAnalyses(jobcoach, model.BeginIndex, aantal)
-                            .ToList();
-
-                    jobcoach.Analyses = analysesInArchief;
-                    model = new IndexViewModel(jobcoach)
-                    {
-                        BeginIndex = model.BeginIndex,
-                        EindIndex = model.BeginIndex + 9,
-                        ShowVolgende = volgende,
-                        ShowVorige = vorige
-                    };
-
+                    volgende = true;//true // false
                 }
-                else
+
+                //vorige knop laten zien of niet
+                if (model?.BeginIndex != 0)
                 {
-                    TempData["error"] = "Gelieve eerst in te loggen alvorens deze pagina te bezoeken.";
+                    vorige = true;//false //true
                 }
+
+                int aantal = MAX_AANTAL_ANALYSES;
+                var analyses = _analyseRepository
+                    .GetAnalyses(jobcoach, model.BeginIndex, aantal)
+                    .ToList();
+
+                jobcoach.Analyses = analyses;
+
+                model = new IndexViewModel(jobcoach)
+                {
+                    BeginIndex = model.BeginIndex,
+                    EindIndex = model.BeginIndex + MAX_AANTAL_ANALYSES,
+                    ShowVolgende = volgende,
+                    ShowVorige = vorige
+                };
+
+                return PartialView("_Analyses", model);
             }
             catch
             {
-                TempData["error"] = "Er ging onverwacht iets fout, probeer later opnieuw";
+                TempData["error"] = "Er liep iets mis, probeer later opnieuw";
             }
 
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
         #endregion
 
@@ -95,10 +112,10 @@ namespace KairosWeb_Groep6.Controllers
             IndexViewModel model = new IndexViewModel
             {
                 BeginIndex = eindIndex,     //1
-                EindIndex = eindIndex + 9
+                EindIndex = eindIndex + MAX_AANTAL_ANALYSES
             };
 
-            return RedirectToAction("Index", model);
+            return RedirectToAction("HaalAnalysesOp", model);
         }
         #endregion
 
@@ -108,11 +125,11 @@ namespace KairosWeb_Groep6.Controllers
 
             IndexViewModel model = new IndexViewModel
             {
-                BeginIndex = beginIndex - 9,
+                BeginIndex = beginIndex - MAX_AANTAL_ANALYSES,
                 EindIndex = beginIndex
             };
 
-            return RedirectToAction("Index", model);
+            return RedirectToAction("HaalAnalysesOp", model);
         }
         #endregion
 

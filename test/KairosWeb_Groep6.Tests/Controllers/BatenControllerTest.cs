@@ -3,6 +3,8 @@ using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten;
 using KairosWeb_Groep6.Tests.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Moq;
 using Xunit;
 
 namespace KairosWeb_Groep6.Tests.Controllers
@@ -48,6 +50,22 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.False(model?.ExtraOmzetIngevuld);
             Assert.False(model?.ExtraProductiviteitIngevuld);
             Assert.False(model?.ExtraBesparingenIngevuld);
+        }
+
+        [Fact]
+        public void TestIndex_AnalyseKlaar_RedirectsToResultaat()
+        {
+            _controller.TempData = new Mock<ITempDataDictionary>().Object;
+
+            Analyse analyse = new Analyse
+            {
+                Klaar = true
+            };
+
+            var result = _controller.Index(analyse) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Resultaat", result?.ControllerName);
         }
 
         [Fact]

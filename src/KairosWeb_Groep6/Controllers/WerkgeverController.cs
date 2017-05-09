@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KairosWeb_Groep6.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class WerkgeverController : Controller
     {
         #region Properties
@@ -35,6 +36,12 @@ namespace KairosWeb_Groep6.Controllers
         [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult Index(Analyse analyse)
         {
+            if (analyse.Klaar)
+            {
+                TempData["error"] = Meldingen.AnalyseKlaar;
+                return RedirectToAction("Index", "Resultaat");
+            }
+
             if (analyse.Departement == null || analyse.Departement.Naam.Length == 0)
             {
                 // er is nog geen werkgever, vragen om een werkgever te selecteren

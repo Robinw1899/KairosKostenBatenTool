@@ -13,9 +13,11 @@ using KairosWeb_Groep6.Models.Domain.Extensions;
 namespace KairosWeb_Groep6.Controllers
 {
     [Authorize]
+    [AutoValidateAntiforgeryToken]
     public class KairosController : Controller
     {
         #region Properties
+        private const int MAX_AANTAL_ANALYSES = 9;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         private readonly UserManager<ApplicationUser> _userManager;
@@ -40,7 +42,7 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region Index
-        public async Task<IActionResult> Index(IndexViewModel model = null)
+        public async Task<IActionResult> Index()
         {
             AnalyseFilter.ClearSession(HttpContext);
             ApplicationUser user = await _userManager.GetUserAsync(User);
@@ -52,52 +54,75 @@ namespace KairosWeb_Groep6.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            IndexViewModel model = new IndexViewModel
+            {
+                BeginIndex = 0,
+                EindIndex = 8
+            };
+
+            return View("Index", model);
+        }
+        #endregion
+
+        #region HaalAnalysesOp
+        public IActionResult HaalAnalysesOpZonderModel(int beginIndex, int eindIndex)
+        {
+            // methode om het IndexViewmodel te kunnen aanmaken
+            IndexViewModel model = new IndexViewModel
+            {
+                BeginIndex = beginIndex,
+                EindIndex = eindIndex
+            };
+
+            return RedirectToAction("HaalAnalysesOp", model);
+        }
+
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult HaalAnalysesOp(Jobcoach jobcoach, IndexViewModel model = null)
+        {
             try
             {
-
-                Jobcoach jobcoach = _jobcoachRepository.GetByEmail(user.Email);
-                List<Analyse> analyses = new List<Analyse>();
-
                 _analyseRepository.SetAnalysesJobcoach(jobcoach, false);
-                int totaal = jobcoach.Analyses.Count(); //13
-
+                int totaal = jobcoach.Analyses.Count; //13
 
                 bool volgende = false;
                 bool vorige = false;
 
                 //volgende knop laten zien of niet
-                if (totaal > 8 && model.EindIndex < totaal )
+                if (totaal > MAX_AANTAL_ANALYSES && model?.EindIndex < totaal)
                 {
                     volgende = true;//true // false
                 }
 
                 //vorige knop laten zien of niet
-                if (model.BeginIndex != 0)
+                if (model?.BeginIndex != 0)
                 {
                     vorige = true;//false //true
                 }
 
-                int aantal = 8;
-                analyses =  _analyseRepository
+                int aantal = MAX_AANTAL_ANALYSES;
+                var analyses = _analyseRepository
                     .GetAnalyses(jobcoach, model.BeginIndex, aantal)
                     .ToList();
-           
+
                 jobcoach.Analyses = analyses;
 
                 model = new IndexViewModel(jobcoach)
                 {
                     BeginIndex = model.BeginIndex,
-                    EindIndex = model.BeginIndex + 8,
+                    EindIndex = model.BeginIndex + MAX_AANTAL_ANALYSES,
                     ShowVolgende = volgende,
                     ShowVorige = vorige
                 };
+
+                return PartialView("_Analyses", model);
             }
             catch
             {
                 TempData["error"] = "Er liep iets mis, probeer later opnieuw";
             }
 
-            return View("Index", model);
+            return RedirectToAction("Index");
         }
         #endregion
 
@@ -108,10 +133,10 @@ namespace KairosWeb_Groep6.Controllers
             IndexViewModel model = new IndexViewModel
             {
                 BeginIndex = eindIndex,     //1
-                EindIndex = eindIndex + 8
+                EindIndex = eindIndex + MAX_AANTAL_ANALYSES
             };
 
-            return RedirectToAction("Index", model);
+            return RedirectToAction("HaalAnalysesOp", model);
         }
         #endregion
 
@@ -121,11 +146,11 @@ namespace KairosWeb_Groep6.Controllers
 
             IndexViewModel model = new IndexViewModel
             {
-                BeginIndex = beginIndex - 8,
+                BeginIndex = beginIndex - MAX_AANTAL_ANALYSES,
                 EindIndex = beginIndex
             };
 
-            return RedirectToAction("Index", model);
+            return RedirectToAction("HaalAnalysesOp", model);
         }
         #endregion
 

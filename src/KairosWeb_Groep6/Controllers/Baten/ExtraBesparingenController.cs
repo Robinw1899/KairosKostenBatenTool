@@ -14,6 +14,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 {
     [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
+    [AutoValidateAntiforgeryToken]
     public class ExtraBesparingenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
@@ -26,6 +27,14 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            if (analyse.Klaar)
+            {
+                TempData["error"] = Meldingen.AnalyseKlaar;
+                return RedirectToAction("Index", "Resultaat");
+            }
+            
+            analyse.UpdateTotalen(_analyseRepository);
+
             IEnumerable<ExtraBesparingViewModel> model = MaakModel(analyse);
 
             PlaatsTotaalInViewData(analyse);

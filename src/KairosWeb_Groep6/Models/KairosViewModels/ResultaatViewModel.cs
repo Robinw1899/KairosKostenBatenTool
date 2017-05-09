@@ -11,6 +11,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         public decimal KostenTotaal { get; set; }
         public decimal BatenTotaal { get; set; }
         public decimal Totaal { get; set; }
+        public bool AnalyseKlaar { get; set; }
         #endregion
 
         #region Constructors

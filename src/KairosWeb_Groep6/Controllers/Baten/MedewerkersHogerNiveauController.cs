@@ -7,11 +7,14 @@ using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Baten;
 using KairosWeb_Groep6.Models.Domain.Extensions;
 using KairosWeb_Groep6.Models.KairosViewModels.Baten;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KairosWeb_Groep6.Controllers.Baten
 {
+    [Authorize]
     [ServiceFilter(typeof(AnalyseFilter))]
+    [AutoValidateAntiforgeryToken]
     public class MedewerkersHogerNiveauController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
@@ -24,6 +27,14 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            if (analyse.Klaar)
+            {
+                TempData["error"] = Meldingen.AnalyseKlaar;
+                return RedirectToAction("Index", "Resultaat");
+            }
+            
+            analyse.UpdateTotalen(_analyseRepository);
+
             IEnumerable<MedewerkerNiveauBaatViewModel> viewModels = MaakModel(analyse);
 
             PlaatsTotaalInViewData(analyse);

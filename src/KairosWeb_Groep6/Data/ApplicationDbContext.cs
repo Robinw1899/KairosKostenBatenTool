@@ -24,6 +24,8 @@ namespace KairosWeb_Groep6.Data
 
         public DbSet<ContactPersoon> ContactPersonen { get; set; }
 
+        public DbSet<Organisatie> Organisaties { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -134,6 +136,10 @@ namespace KairosWeb_Groep6.Data
             a.HasKey(t => t.AnalyseId);
 
             a.Property(t => t.InArchief)
+                .HasDefaultValue(false)
+                .IsRequired();
+
+            a.Property(t => t.Klaar)
                 .HasDefaultValue(false)
                 .IsRequired();
 

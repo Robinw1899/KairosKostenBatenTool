@@ -1,5 +1,4 @@
 ﻿using KairosWeb_Groep6.Models.Domain;
-using System.Linq;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels
 {
@@ -53,11 +52,9 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
                 Departement = "Onbekend";
             }
 
-            KostenTotaal =  analyse.GeefTotalenKosten()
-                                     .Sum(x => x.Value);
+            KostenTotaal = analyse.KostenTotaal;
 
-            BatenTotaal = analyse.GeefTotalenBaten()
-                                    .Sum(x => x.Value);
+            BatenTotaal = analyse.BatenTotaal;
 
             NettoResultaat = BatenTotaal - KostenTotaal;
 

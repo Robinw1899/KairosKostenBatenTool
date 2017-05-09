@@ -81,6 +81,7 @@ namespace KairosWeb_Groep6
             services.AddScoped<IContactPersoonRepository, ContactPersoonRepository>();
             services.AddScoped<IIntroductietekstRepository, IntroductietekstRepository>();
             services.AddScoped<IDoelgroepRepository, DoelgroepRepository>();
+            services.AddScoped<IOrganisatieRepository, OrganisatieRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -98,12 +99,9 @@ namespace KairosWeb_Groep6
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
-                app.UseExceptionHandler("/Kairos/Error");
-                app.UseStatusCodePages();
             }
             else
             {
-                app.UseExceptionHandler("/Kairos/Error");
                 app.UseStatusCodePages();
             }
 
