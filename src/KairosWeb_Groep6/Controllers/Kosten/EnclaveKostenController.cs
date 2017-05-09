@@ -26,6 +26,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse.UpdateTotalen(_analyseRepository);
             IEnumerable<EnclaveKostViewModel> viewModels = MaakModel(analyse);
 
             PlaatsTotaalInViewData(analyse);
