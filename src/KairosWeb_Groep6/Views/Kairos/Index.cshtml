@@ -1,18 +1,18 @@
 ﻿@model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
 @{
     ViewData["title"] = ViewData["zoeken"] == null? "Home" : "Zoekresultaten";
-    var klasse = ViewData["zoeken"] == null ? "col-md-12" : "col-md-9";
+    var klasse = ViewData["zoeken"] == null ? "col-md-11" : "col-md-8";
 }
 <div>
     <div class="page-header" style="overflow: auto;">
         <!--Overflow omdat anders de border boven de h3 en knop staat-->
-        <div class="col-md-7">
+        <div class="col-md-5">
             <h3>@ViewData["title"]</h3>
         </div>
-        <div class="col-md-5" style="margin-top: 20px;">
+        <div class="col-md-7" style="margin-top: 20px;">
             @if (ViewData["zoeken"] != null)
             {// als we gezocht hebben knop tonen
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <a class="btn btn-default" asp-action="Index" asp-controller="Kairos">Toon alles</a>
                 </div>
             }
@@ -26,11 +26,12 @@
                             <button type="submit" class="btn btn-default">Zoek</button>
                         </span>
                     </div>
-                    <div class="col-md=1">                   
-                         <a class="btn btn-info" id="toggleGrid"><i class="fa fa-th-large" id="toggle" aria-hidden="true"></i></a> 
-                        <a class="btn btn-info" id="toggleList"><i class="fa fa-list-ul" id="toggle" aria-hidden="true"></i></a> 
-                    </div>
                 </form>
+            </div>
+
+            <div class="col-md-1">                   
+                <a class="btn btn-info" id="toggleGrid"><i class="fa fa-th-large" id="toggle" aria-hidden="true"></i></a> 
+                <a class="btn btn-info" id="toggleList"><i class="fa fa-list-ul" id="toggle" aria-hidden="true"></i></a> 
             </div>
         </div>
     </div>
@@ -40,7 +41,7 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12" id="analyses" data-href="@Url.Action("HaalAnalysesOpZonderModel", new
+        <div class="col-md-12" id="analyses" data-href="@Url.Action("HaalAnalysesOpZonderModel", "Kairos", new
                                                         {
                                                             beginIndex = Model.BeginIndex,
                                                             eindIndex = Model.EindIndex
@@ -52,19 +53,17 @@
 
 @section Scripts{
     <script>
-        $("#toggleList").click(function () {         
+        $("#toggleList").click(function() {
             $("#toggleList").toggle();
             $("#toggleGrid").toggle();
-            $(".card").removeClass("col-sm-12 col-md-6 col-lg-4").addClass( "col-sm-12 col-md-12 col-lg-12") 
-        })
-        $("#toggleGrid").click(function () {
+            $(".card_wrapper").removeClass("col-sm-12 col-md-6 col-lg-4").addClass("col-sm-12 col-md-12 col-lg-12");
+        });
+
+        $("#toggleGrid").click(function() {
             $("#toggleList").toggle();
             $("#toggleGrid").toggle();
-            $(".card").removeClass("col-sm-12 col-md-12 col-lg-12").addClass("col-sm-12 col-md-6 col-lg-4")        
-        })
-      
-        
-       
+            $(".card_wrapper").removeClass("col-sm-12 col-md-12 col-lg-12").addClass("col-sm-12 col-md-6 col-lg-4");
+        });
 
         $(document).ready(function () {
             $("#toggleGrid").toggle();          

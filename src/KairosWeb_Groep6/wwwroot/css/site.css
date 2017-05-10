@@ -196,7 +196,8 @@ a.navbar-brand {
 }
 
 /* Opmaak voor de card van een analyse */
-.card_wrapper {
+.card {
+    overflow: auto;
     margin-top: 20px;
     padding: 10px 20px;
     border: none;
@@ -266,12 +267,12 @@ h6#infoTekstVerplichteVelden {
     content: "\f040";
     font-family: FontAwesome;
 }
-.progress-bar {
+/*.progress-bar {
     color: black !important;
-}
-.progressBalk {
+}*/
+/*.progressBalk {
     margin-top: 10% !important;
-}
+}*/
 .subTotalen {
     padding-left: 0px !important;
     padding-right: 0px !important;

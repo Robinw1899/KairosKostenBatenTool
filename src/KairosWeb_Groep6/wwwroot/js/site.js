@@ -115,7 +115,7 @@
         var url = $("#analyses").data("href");
 
         $.get(url, function (data) {
-            $("#loader").slideUp(500);
+            $("#loader").slideUp(300);
             $("#analyses").html(data);
         });
     },
@@ -124,7 +124,7 @@
         $("a#vorige").click(function (event) {
             event.preventDefault();
             $("#analyses").html("");
-            $("#loader").slideDown(500);
+            $("#loader").slideDown(300);
 
             $.get($(this).attr("href"),
                 function (data) {
