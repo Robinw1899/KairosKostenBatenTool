@@ -179,8 +179,6 @@ namespace KairosWeb_Groep6.Controllers
 
             return RedirectToAction("Index", "Kairos", model);
         }
-
-
         #endregion
 
         #region Zoek analyse
