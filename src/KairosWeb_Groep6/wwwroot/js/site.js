@@ -123,8 +123,8 @@
         // actions instellen
         $("a#vorige").click(function (event) {
             event.preventDefault();
-            $("#loader").slideDown(500);
             $("#analyses").html("");
+            $("#loader").slideDown(500);
 
             $.get($(this).attr("href"),
                 function (data) {
@@ -135,8 +135,8 @@
 
         $("a#volgende").click(function (event) {
             event.preventDefault();
-            $("#loader").slideDown(500);
             $("#analyses").html("");
+            $("#loader").slideDown(500);
 
             $.get($(this).attr("href"),
                 function (data) {
