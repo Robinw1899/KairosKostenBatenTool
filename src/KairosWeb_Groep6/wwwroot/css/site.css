@@ -196,7 +196,7 @@ a.navbar-brand {
 }
 
 /* Opmaak voor de card van een analyse */
-.card {
+.card_wrapper {
     margin-top: 20px;
     padding: 10px 20px;
     border: none;

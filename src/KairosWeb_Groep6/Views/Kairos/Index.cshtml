@@ -26,15 +26,9 @@
                             <button type="submit" class="btn btn-default">Zoek</button>
                         </span>
                     </div>
-                    <div class="col-md=1">
-                       @if (Model.List)
-                       {
-                         <a class="btn btn-info" asp-controller="Kairos" asp-action="ToggleGrid"  asp-route-beginIndex="@Model.BeginIndex" asp-route-eindIndex="@Model.EindIndex"><i class="fa fa-th-large" aria-hidden="true"></i></a>
-                       }
-                       else
-                       {
-                         <a class="btn btn-info" asp-controller="Kairos" asp-action="ToggleList" asp-route-beginIndex="@Model.BeginIndex" asp-route-eindIndex="@Model.EindIndex" ><i class="fa fa-list-ul" aria-hidden="true"></i> </a>
-                       }
+                    <div class="col-md=1">                   
+                         <a class="btn btn-info" id="toggleGrid"><i class="fa fa-th-large" id="toggle" aria-hidden="true"></i></a> 
+                        <a class="btn btn-info" id="toggleList"><i class="fa fa-list-ul" id="toggle" aria-hidden="true"></i></a> 
                     </div>
                 </form>
             </div>
@@ -58,7 +52,22 @@
 
 @section Scripts{
     <script>
-        $(document).ready(function() {
+        $("#toggleList").click(function () {         
+            $("#toggleList").toggle();
+            $("#toggleGrid").toggle();
+            $(".card").removeClass("col-sm-12 col-md-6 col-lg-4").addClass( "col-sm-12 col-md-12 col-lg-12") 
+        })
+        $("#toggleGrid").click(function () {
+            $("#toggleList").toggle();
+            $("#toggleGrid").toggle();
+            $(".card").removeClass("col-sm-12 col-md-12 col-lg-12").addClass("col-sm-12 col-md-6 col-lg-4")        
+        })
+      
+        
+       
+
+        $(document).ready(function () {
+            $("#toggleGrid").toggle();          
             if (siteView) {
                 siteView.laadAnalyses();
             }

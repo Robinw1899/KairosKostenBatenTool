@@ -113,8 +113,7 @@ namespace KairosWeb_Groep6.Controllers
                     BeginIndex = model.BeginIndex,
                     EindIndex = model.BeginIndex + MAX_AANTAL_ANALYSES,
                     ShowVolgende = volgende,
-                    ShowVorige = vorige,
-                    List = model.List
+                    ShowVorige = vorige                   
                 };
 
                 return PartialView("_Analyses", model);
@@ -155,31 +154,7 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("HaalAnalysesOp", model);
         }
         #endregion
-
-        #region Grid and List
-        public IActionResult ToggleGrid(int beginIndex,int eindIndex)
-        {
-            IndexViewModel model = new IndexViewModel()
-            {
-                BeginIndex = beginIndex,
-                EindIndex = eindIndex,
-                List = false
-            };
-          
-            return RedirectToAction("Index", "Kairos", model);
-        }
-        public IActionResult ToggleList(int beginIndex, int eindIndex)
-        {
-            IndexViewModel model = new IndexViewModel()
-            {
-                BeginIndex = beginIndex,
-                EindIndex = eindIndex,
-                List = true
-            };
-
-            return RedirectToAction("Index", "Kairos", model);
-        }
-        #endregion
+     
 
         #region Zoek analyse
         [HttpPost]
