@@ -11,7 +11,9 @@ using KairosWeb_Groep6.Tests.Data;
 using KairosWeb_Groep6.Tests.Managers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Routing;
 
 namespace KairosWeb_Groep6.Tests.Controllers
 {
@@ -47,15 +49,86 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region Index
+        [Fact]
+        public async void TestIndex_UserNull_SignsOutAndRedirectsToLogin()
+        {
+            user = null;
+            _userManager.Setup(u => u.GetUserAsync(null))
+                .Returns(() => Task.FromResult(user));
+
+            var result = await _controller.Index() as RedirectToActionResult;
+
+            Assert.Equal("Login", result?.ActionName);
+            Assert.Equal("Account", result?.ControllerName);
+
+            _signManager.Verify(s => s.SignOutAsync());
+        }
+
+        [Fact]
+        public async void TestIndex_Succes_ReturnsViewWithModel()
+        {
+            _userManager.Setup(u => u.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .Returns(() => Task.FromResult(user));
+
+            var result = await _controller.Index() as ViewResult;
+            var model = result?.Model as IndexViewModel;
+
+            Assert.Equal("Index", result?.ViewName);
+            Assert.Equal(0, model?.BeginIndex);
+            Assert.Equal(9, model?.EindIndex);
+        }
+        #endregion
+
+        #region HaalAnalysesOpZonderModel
+        [Fact]
+        public void TestHaalAnalysesOpZonderModel_RedirectsToHaalAnalysesOp()
+        {
+            var result = _controller.HaalAnalysesOpZonderModel(18, 27) as RedirectToActionResult;
+            RouteValueDictionary model = result?.RouteValues;
+
+            Assert.Equal("HaalAnalysesOp", result?.ActionName);
+            if (model != null)
+            {
+                Assert.Equal(18, model["BeginIndex"]);
+                Assert.Equal(27, model["EindIndex"]);
+            }
+        }
+        #endregion
+
+        #region HaalAnalysesOp
         // To do
         #endregion
 
         #region VolgendeAnalyse
-        // To do
+        [Fact]
+        public void TestVolgende_RedirectsToHaalAnalyseOp()
+        {
+            var result = _controller.Volgende(0, 9) as RedirectToActionResult;
+            RouteValueDictionary model = result?.RouteValues; 
+
+            Assert.Equal("HaalAnalysesOp", result?.ActionName);
+            if (model != null)
+            {
+                Assert.Equal(9, model["BeginIndex"]);
+                Assert.Equal(18, model["EindIndex"]);
+            }
+        }
         #endregion
 
         #region VorigeAnalyse
-        // To do
+        [Fact]
+        public void TestVorige_RedirectsToHaalAnalyseOp()
+        {
+            var result = _controller.Vorige(9, 18) as RedirectToActionResult;
+            RouteValueDictionary model = result?.RouteValues;
+
+            Assert.Equal("HaalAnalysesOp", result?.ActionName);
+            if (model != null)
+            {
+                Assert.Equal(0, model["BeginIndex"]);
+                Assert.Equal(9, model["EindIndex"]);
+            }
+        }
         #endregion
 
         #region ZoekAnalyse

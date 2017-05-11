@@ -44,7 +44,11 @@ namespace KairosWeb_Groep6.Controllers
         #region Index
         public async Task<IActionResult> Index()
         {
-            AnalyseFilter.ClearSession(HttpContext);
+            if (HttpContext != null)
+            {
+                AnalyseFilter.ClearSession(HttpContext);
+            }
+            
             ApplicationUser user = await _userManager.GetUserAsync(User);
 
             if (user == null)
@@ -57,7 +61,7 @@ namespace KairosWeb_Groep6.Controllers
             IndexViewModel model = new IndexViewModel
             {
                 BeginIndex = 0,
-                EindIndex = 8
+                EindIndex = MAX_AANTAL_ANALYSES
             };
 
             return View("Index", model);
@@ -154,7 +158,6 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("HaalAnalysesOp", model);
         }
         #endregion
-     
 
         #region Zoek analyse
         [HttpPost]
