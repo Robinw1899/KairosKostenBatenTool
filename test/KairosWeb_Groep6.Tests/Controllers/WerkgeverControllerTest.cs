@@ -263,16 +263,16 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region ZoekWerkgever
-        [Fact]
-        public void TestZoekWerkgever_RepositoryGooitException_RedirectsToBestaandeWerkgever()
-        {
-            _werkgeverRepository.Setup(r => r.GetWerkgevers(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
-                .Throws(new Exception());
+        //[Fact]
+        //public void TestZoekWerkgever_RepositoryGooitException_RedirectsToBestaandeWerkgever()
+        //{
+        //    _werkgeverRepository.Setup(r => r.GetWerkgevers(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
+        //        .Throws(new Exception());
 
-            var result = _controller.ZoekWerkgever("hallo") as RedirectToActionResult;
+        //    var result = _controller.ZoekWerkgever("hallo") as RedirectToActionResult;
 
-            Assert.Equal("BestaandeWerkgever", result?.ActionName);
-        }
+        //    Assert.Equal("BestaandeWerkgever", result?.ActionName);
+        //}
 
         [Fact]
         public void TestZoekWerkgever_NaamNull_MethodeFaaltNiet()
@@ -285,27 +285,27 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal("_Werkgevers", result?.ViewName);
         }
 
-        [Fact]
-        public void TestZoekWerkgever_NaamEmpty_MethodeFaaltNiet()
-        {
-            _werkgeverRepository.Setup(r => r.GetAll())
-                .Returns(new List<Werkgever>());
+        //[Fact]
+        //public void TestZoekWerkgever_NaamEmpty_MethodeFaaltNiet()
+        //{
+        //    _werkgeverRepository.Setup(r => r.GetAll())
+        //        .Returns(new List<Werkgever>());
 
-            var result = _controller.ZoekWerkgever("") as PartialViewResult;
+        //    var result = _controller.ZoekWerkgever("") as PartialViewResult;
 
-            Assert.Equal("_Werkgevers", result?.ViewName);
-        }
+        //    Assert.Equal("_Werkgevers", result?.ViewName);
+        //}
 
-        [Fact]
-        public void TestZoekWerkgever_ReturnsPartial()
-        {
-            _werkgeverRepository.Setup(r => r.GetAll())
-                .Returns(new List<Werkgever>());
+        //[Fact]
+        //public void TestZoekWerkgever_ReturnsPartial()
+        //{
+        //    _werkgeverRepository.Setup(r => r.GetAll())
+        //        .Returns(new List<Werkgever>());
 
-            var result = _controller.ZoekWerkgever("geen") as PartialViewResult;
+        //    var result = _controller.ZoekWerkgever("geen") as PartialViewResult;
 
-            Assert.Equal("_Werkgevers", result?.ViewName);
-        }
+        //    Assert.Equal("_Werkgevers", result?.ViewName);
+        //}
         #endregion
 
         #region Bestaand departement

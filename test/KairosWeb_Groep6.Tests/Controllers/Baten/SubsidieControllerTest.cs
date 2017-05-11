@@ -13,6 +13,8 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
     public class SubsidieControllerTest
     {
         #region Properties
+        private readonly Mock<IAnalyseRepository> _analyseRepository;
+        private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
         private readonly SubsidieController _controller;
         private readonly Analyse _analyse;
         #endregion
@@ -21,9 +23,10 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         public SubsidieControllerTest()
         {
             DummyApplicationDbContext dbContext = new DummyApplicationDbContext();
+            _analyseRepository = new Mock<IAnalyseRepository>();
+            _exceptionLogRepository = new Mock<IExceptionLogRepository>();
 
-            var analyseRepo = new Mock<IAnalyseRepository>();
-            _controller = new SubsidieController(analyseRepo.Object);
+            _controller = new SubsidieController(_analyseRepository.Object, _exceptionLogRepository.Object);
             _analyse = new Analyse
             {
                 Subsidie = dbContext.Subsidie
@@ -61,6 +64,20 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         #endregion
 
         #region Opslaan
+        [Fact]
+        public void TestOpslaan_RepoGooitException_RedirectsToIndex()
+        {
+            _analyseRepository.Setup(r => r.Save()).Throws(new Exception());
+            SubsidieViewModel model = new SubsidieViewModel();
+
+            var result = _controller.Opslaan(_analyse, model) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
+        }
+
         [Fact]
         public void TestOpslaan_RedirectsToIndex()
         {

@@ -17,6 +17,8 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
     public class UitzendKrachtBesparingControllerTest
     {
         #region Properties
+        private readonly Mock<IAnalyseRepository> _analyseRepository;
+        private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
         private readonly UitzendKrachtBesparingenController _controller;
         private readonly Analyse _analyse;
         #endregion
@@ -25,9 +27,10 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         public UitzendKrachtBesparingControllerTest()
         {
             var dbContext = new DummyApplicationDbContext();
-            var analyseRepo = new Mock<AnalyseRepository>();
+            _analyseRepository = new Mock<IAnalyseRepository>();
+            _exceptionLogRepository = new Mock<IExceptionLogRepository>();
 
-            _controller = new UitzendKrachtBesparingenController(analyseRepo.Object);
+            _controller = new UitzendKrachtBesparingenController(_analyseRepository.Object, _exceptionLogRepository.Object);
             _analyse = new Analyse { UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen };
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
@@ -83,6 +86,20 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         }
 
         [Fact]
+        public void TestVoegToe_RepositoryGooitException_ReturnsView()
+        {
+            _analyseRepository.Setup(r => r.Save()).Throws(new Exception());
+            UitzendKrachtBesparingViewModel model = new UitzendKrachtBesparingViewModel();
+
+            var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
+        }
+
+        [Fact]
         public void TestVoegToe_Succes_RedirectsToIndex()
         {
             UitzendKrachtBesparingViewModel model = new UitzendKrachtBesparingViewModel()
@@ -132,6 +149,20 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         }
 
         [Fact]
+        public void TestBewerk_RepoGooitException_RedirectsToIndex()
+        {
+            _analyseRepository.Setup(r => r.Save()).Throws(new Exception());
+            UitzendKrachtBesparingViewModel model = new UitzendKrachtBesparingViewModel { Id = 1 };
+
+            var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
+        }
+
+        [Fact]
         public void TestBewerk_BaatNull_RedirectsToIndex()
         {
             UitzendKrachtBesparingViewModel model = new UitzendKrachtBesparingViewModel()
@@ -174,6 +205,20 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
             var result = _controller.Verwijder(_analyse, -1) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
+        }
+
+
+        [Fact]
+        public void TestVerwijder_RepoGooitException_RedirectsToIndex()
+        {
+            _analyseRepository.Setup(r => r.Save()).Throws(new Exception());
+
+            var result = _controller.Verwijder(_analyse, 1) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]

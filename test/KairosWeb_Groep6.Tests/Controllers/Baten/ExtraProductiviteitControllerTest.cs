@@ -13,6 +13,8 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
     public class ExtraProductiviteitControllerTest
     {
         #region Properties
+        private readonly Mock<IAnalyseRepository> _analyseRepository;
+        private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
         private readonly ExtraProductiviteitController _controller;
         private readonly Analyse _analyse;
         #endregion
@@ -21,9 +23,11 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         public ExtraProductiviteitControllerTest()
         {
             DummyApplicationDbContext dbContext = new DummyApplicationDbContext();
+            _analyseRepository = new Mock<IAnalyseRepository>();
+            _exceptionLogRepository = new Mock<IExceptionLogRepository>();
 
-            var analyseRepo = new Mock<IAnalyseRepository>();
-            _controller = new ExtraProductiviteitController(analyseRepo.Object);
+            _controller = new ExtraProductiviteitController(_analyseRepository.Object, _exceptionLogRepository.Object);
+
             _analyse = new Analyse
             {
                 ExtraProductiviteit = dbContext.ExtraProductiviteit
@@ -60,6 +64,20 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
         #endregion
 
         #region Opslaan
+        [Fact]
+        public void TestOpslaan_RepoGooitException_RedirectsToIndex()
+        {
+            _analyseRepository.Setup(r => r.Save()).Throws(new Exception());
+            ExtraProductiviteitViewModel model = new ExtraProductiviteitViewModel();
+
+            var result = _controller.Opslaan(_analyse, model) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
+        }
+
         [Fact]
         public void TestOpslaan_RedirectsToIndex()
         {

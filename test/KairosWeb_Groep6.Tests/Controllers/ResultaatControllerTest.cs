@@ -82,9 +82,10 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepo.Setup(a => a.GetById(1)).Returns(_analyse);
 
-            var result = _controller.Opslaan(1) as RedirectToActionResult;
+            var result = _controller.Opslaan(_analyse) as RedirectToActionResult;
 
-            _analyseRepo.Verify(a => a.Save(), Times.Once);
+            _analyseRepo.Verify(a => a.Save(), Times.Exactly(2));
+
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);
         }
@@ -94,7 +95,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepo.Setup(a => a.GetById(1)).Throws(new Exception());
 
-            var result = _controller.Opslaan(1) as RedirectToActionResult;
+            var result = _controller.Opslaan(_analyse) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
         }
