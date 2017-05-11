@@ -165,7 +165,7 @@ namespace KairosWeb_Groep6.Controllers
                 IndexViewModel model = new IndexViewModel(jobcoach);           
 
                 ViewData["zoeken"] = "zoeken";
-                return View("Index", model);
+                return PartialView("_Analyses", model);
             }
             catch
             {

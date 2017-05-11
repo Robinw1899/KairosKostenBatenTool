@@ -20,9 +20,9 @@
 
             <div class="@klasse">
                 <!--margin omdat de h3 dezelfde margin heeft-->
-                <form asp-action="Zoek" method="post">
+                <form asp-action="Zoek" method="post" id="zoekterm">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Zoek analyses" id="zoekterm" name="zoekterm">
+                        <input type="text" class="form-control" placeholder="Zoek analyses"  name="zoekterm">
                         <span class="input-group-btn">
                             <button type="submit" class="btn btn-default">Zoek</button>
                         </span>
@@ -52,5 +52,16 @@
                 siteView.laadAnalyses();
             }
         });
+
+        $("#zoekterm").submit(function (event) {
+            event.preventDefault();
+            $.post(this.action, $(this).serialize(),
+                function (data) {
+                    $("#analyses").html(data);
+                    $("#loader").slideUp(500);
+
+                });
+
+        })
     </script>
 }
