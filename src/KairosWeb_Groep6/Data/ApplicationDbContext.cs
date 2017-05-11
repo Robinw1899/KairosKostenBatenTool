@@ -26,6 +26,8 @@ namespace KairosWeb_Groep6.Data
 
         public DbSet<Organisatie> Organisaties { get; set; }
 
+        public DbSet<ExceptionLog> ExceptionLogs { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -45,6 +47,14 @@ namespace KairosWeb_Groep6.Data
             builder.Entity<Introductietekst>(MapIntroductietekst);
             builder.Entity<Paragraaf>(MapParagraaf);
             builder.Entity<Doelgroep>(MapDoelgroep);
+            builder.Entity<ExceptionLog>(MapExceptionLog);
+        }
+
+        private static void MapExceptionLog(EntityTypeBuilder<ExceptionLog> e)
+        {
+            e.ToTable("ExceptionLog");
+
+            e.HasKey(t => t.ExceptionLogId);
         }
 
         private void MapDoelgroep(EntityTypeBuilder<Doelgroep> d)
