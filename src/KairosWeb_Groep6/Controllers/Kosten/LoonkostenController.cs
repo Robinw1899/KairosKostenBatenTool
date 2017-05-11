@@ -20,14 +20,16 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Properties
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IDoelgroepRepository _doelgroepRepository;
+        private readonly IExceptionLogRepository _exceptionLogRepository;
         #endregion
 
         #region Constructors
         public LoonkostenController(IAnalyseRepository analyseRepository,
-            IDoelgroepRepository doelgroepRepository)
+            IDoelgroepRepository doelgroepRepository, IExceptionLogRepository exceptionLogRepository)
         {
             _analyseRepository = analyseRepository;
             _doelgroepRepository = doelgroepRepository;
+            _exceptionLogRepository = exceptionLogRepository;
         }
         #endregion
 
@@ -39,7 +41,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                 TempData["error"] = Meldingen.AnalyseKlaar;
                 return RedirectToAction("Index", "Resultaat");
             }
-            
+
             analyse.UpdateTotalen(_analyseRepository);
 
             PlaatsTotaalInViewData(analyse);
@@ -88,6 +90,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             }
             catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "LoonKosten", "VoegToe -- POST --"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = Meldingen.VoegToeFoutmeldingKost;
             }
 
@@ -109,8 +113,11 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     return PartialView("_Formulier", model);
                 }
             }
-            catch
+            catch(Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "LoonKosten", "Bewerk -- GET --"));
+                _exceptionLogRepository.Save();
+
                 TempData["error"] = Meldingen.OphalenFoutmeldingKost;
             }
 
@@ -148,8 +155,10 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     TempData["message"] = Meldingen.OpslaanSuccesvolKost;
                 }
             }
-            catch
+            catch(Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "LoonKosten", "Bewerk -- GET --"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
             }
 
@@ -171,8 +180,10 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     _analyseRepository.Save();
                 }
             }
-            catch
+            catch(Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "LoonKosten", "Verwijder"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = Meldingen.VerwijderFoutmeldingKost;
             }
 

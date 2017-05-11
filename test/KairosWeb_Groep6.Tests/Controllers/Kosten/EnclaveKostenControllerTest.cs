@@ -1,4 +1,5 @@
-﻿using KairosWeb_Groep6.Controllers.Kosten;
+﻿using System;
+using KairosWeb_Groep6.Controllers.Kosten;
 using KairosWeb_Groep6.Data.Repositories;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Tests.Data;
@@ -16,6 +17,8 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
     public class EnclaveKostenControllerTest
     {
         #region Properties
+        private readonly Mock<IAnalyseRepository> _analyseRepository;
+        private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
         private readonly EnclaveKostenController _controller;
         private readonly Analyse _analyse;
         #endregion
@@ -24,9 +27,10 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         public EnclaveKostenControllerTest()
         {
             var dbContext = new DummyApplicationDbContext();
-            var analyseRepo = new Mock<AnalyseRepository>();
+            _analyseRepo = new Mock<IAnalyseRepository>();
+            _exceptionLogRepository = new Mock<IExceptionLogRepository>();
 
-            _controller = new EnclaveKostenController(analyseRepo.Object);
+            _controller = new EnclaveKostenController(_analyseRepo.Object, _exceptionLogRepository.Object);
             _analyse = new Analyse { EnclaveKosten = dbContext.EnclaveKosten };
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
@@ -79,6 +83,20 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
+        }
+
+        [Fact]
+        public void TestVoegToe_RepositoryGooitException_ReturnsView()
+        {
+            _analyseRepository.Setup(r => r.Save()).Throws(new Exception());
+            EnclaveKostViewModel model = new EnclaveKostViewModel();
+
+            var result = _controller.VoegToe(_analyse, model) as ViewResult;
+
+            Assert.Equal("Index", result?.ViewName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
