@@ -14,10 +14,13 @@ namespace KairosWeb_Groep6.Controllers.Baten
     public class ExtraOmzetController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
+        private readonly IExceptionLogRepository _exceptionLogRepository;
 
-        public ExtraOmzetController(IAnalyseRepository analyseRepository)
+        public ExtraOmzetController(IAnalyseRepository analyseRepository,
+            IExceptionLogRepository exceptionLogRepository)
         {
             _analyseRepository = analyseRepository;
+            _exceptionLogRepository = exceptionLogRepository;
         }
 
         #region Index
@@ -28,7 +31,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 TempData["error"] = Meldingen.AnalyseKlaar;
                 return RedirectToAction("Index", "Resultaat");
             }
-            
+
             analyse.UpdateTotalen(_analyseRepository);
 
             ExtraOmzetViewModel model = MaakModel(analyse);
@@ -52,7 +55,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                         JaarbedragOmzetverlies =dc.ConvertToDecimal( model.JaarbedragOmzetverlies),
                         Besparing = dc.ConvertToDecimal(model.Besparing)
                     };
-
+                    
                     analyse.ExtraOmzet = baat;
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
@@ -60,8 +63,10 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     TempData["message"] = Meldingen.OpslaanSuccesvolBaat;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "ExtraOmzet", "Opslaan"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = Meldingen.OpslaanFoutmeldingBaat;
             }
 

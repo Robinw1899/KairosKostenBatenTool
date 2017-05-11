@@ -121,7 +121,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
                 doelgroep = 1,
                 Ondersteuningspremie = 20,
                 AantalMaandenIBO = 2,
-                IBOPremie = "" + 564.0M
+                IBOPremie = "" + 564.0
             };
 
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;

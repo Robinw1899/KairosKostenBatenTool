@@ -18,10 +18,13 @@ namespace KairosWeb_Groep6.Controllers.Baten
     public class UitzendKrachtBesparingenController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
+        private readonly IExceptionLogRepository _exceptionLogRepository;
 
-        public UitzendKrachtBesparingenController(IAnalyseRepository analyseRepository)
+        public UitzendKrachtBesparingenController(IAnalyseRepository analyseRepository,
+            IExceptionLogRepository exceptionLogRepository)
         {
             _analyseRepository = analyseRepository;
+            _exceptionLogRepository = exceptionLogRepository;
         }
 
         #region Index
@@ -32,7 +35,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 TempData["error"] = Meldingen.AnalyseKlaar;
                 return RedirectToAction("Index", "Resultaat");
             }
-            
+
             analyse.UpdateTotalen(_analyseRepository);
 
             IEnumerable<UitzendKrachtBesparingViewModel> viewModels = MaakModel(analyse);
@@ -73,8 +76,10 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     TempData["message"] = Meldingen.VoegToeSuccesvolBaat;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "UitzendKrachtBesparingen", "VoegToe -- POST --"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = Meldingen.VoegToeFoutmeldingBaat;
             }
 
@@ -102,8 +107,10 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     return PartialView("_Formulier", model);
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "UitzendKrachtBesparingen", "Bewerk -- GET --"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = Meldingen.OphalenFoutmeldingBaat;
             }
 
@@ -131,8 +138,10 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     TempData["message"] = Meldingen.OpslaanSuccesvolBaat;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "UitzendKrachtBesparingen", "Bewerk -- POST --"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = Meldingen.OpslaanFoutmeldingBaat;
             }
             
@@ -154,8 +163,10 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     _analyseRepository.Save();
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "UitzendKrachtBesparingen", "Verwijder"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = Meldingen.VerwijderFoutmeldingBaat;
             }
 

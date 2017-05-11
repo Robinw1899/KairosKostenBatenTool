@@ -14,10 +14,13 @@ namespace KairosWeb_Groep6.Controllers.Baten
     public class ExtraProductiviteitController : Controller
     {
         private readonly IAnalyseRepository _analyseRepository;
+        private readonly IExceptionLogRepository _exceptionLogRepository;
 
-        public ExtraProductiviteitController(IAnalyseRepository analyseRepository)
+        public ExtraProductiviteitController(IAnalyseRepository analyseRepository,
+            IExceptionLogRepository exceptionLogRepository)
         {
             _analyseRepository = analyseRepository;
+            _exceptionLogRepository = exceptionLogRepository;
         }
 
         #region Index
@@ -28,7 +31,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                 TempData["error"] = Meldingen.AnalyseKlaar;
                 return RedirectToAction("Index", "Resultaat");
             }
-            
+
             analyse.UpdateTotalen(_analyseRepository);
 
             var model = MaakModel(analyse);
@@ -59,8 +62,10 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     TempData["message"] = Meldingen.OpslaanSuccesvolBaat;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "ExtraProductiviteit", "Opslaan"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = Meldingen.OpslaanFoutmeldingBaat;
             }
 
