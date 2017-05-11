@@ -90,9 +90,9 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
             _analyseRepository.Setup(r => r.Save()).Throws(new Exception());
             BegeleidingsKostViewModel model = new BegeleidingsKostViewModel();
 
-            var result = _controller.VoegToe(_analyse, model) as ViewResult;
+            var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
-            Assert.Equal("Index", result?.ViewName);
+            Assert.Equal("Index", result?.ActionName);
 
             _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
             _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
@@ -210,7 +210,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         {
             _analyseRepository.Setup(r => r.Save()).Throws(new Exception());
 
-            var result = _controller.Verwijder(_analyse, -1) as RedirectToActionResult;
+            var result = _controller.Verwijder(_analyse, 1) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Controllers.Kosten;
 using KairosWeb_Groep6.Data.Repositories;
@@ -9,12 +10,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using Xunit;
+using Type = KairosWeb_Groep6.Models.Domain.Type;
 
 namespace KairosWeb_Groep6.Tests.Controllers.Kosten
 {
     public class ExtraKostenControllerTest
     {
         #region Properties
+        private Mock<IAnalyseRepository> _analyseRepository;
+        private Mock<IExceptionLogRepository> _exceptionLogRepository;
         private readonly ExtraKostenController _controller;
         private readonly Analyse _analyse;
         #endregion
@@ -23,9 +27,10 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         public ExtraKostenControllerTest()
         {
             var dbContext = new DummyApplicationDbContext();
-            var analyseRepo = new Mock<AnalyseRepository>();
+            _analyseRepository = new Mock<IAnalyseRepository>();
+            _exceptionLogRepository = new Mock<IExceptionLogRepository>();
 
-            _controller = new ExtraKostenController(analyseRepo.Object);
+            _controller = new ExtraKostenController(_analyseRepository.Object, _exceptionLogRepository.Object);
             _analyse = new Analyse { ExtraKosten = dbContext.ExtraKosten };
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
@@ -69,6 +74,19 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         #endregion
 
         #region VoegToe -- POST --
+        [Fact]
+        public void TestVoegToe_RepositoryGooitException_ReturnsView()
+        {
+            ExtraKostViewModel model = new ExtraKostViewModel();
+
+            var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
+        }
+
         [Fact]
         public void TestVoegToe_ModelError_RedirectsToIndex()
         {
@@ -129,6 +147,20 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         }
 
         [Fact]
+        public void TestBewerk_RepoGooitException_RedirectsToIndex()
+        {
+            _analyseRepository.Setup(r => r.Save()).Throws(new Exception());
+
+            ExtraKostViewModel model = new ExtraKostViewModel{Id = 1};
+            var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
+        }
+
+        [Fact]
         public void TestBewerk_KostNull_RedirectsToIndex()
         {
             ExtraKostViewModel model = new ExtraKostViewModel
@@ -165,6 +197,19 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         #endregion
 
         #region Verwijder -- POST --
+        [Fact]
+        public void TestVerwijder_RepoGooitException_RedirectToIndex()
+        {
+            _analyseRepository.Setup(r => r.Save()).Throws(new Exception());
+
+            var result = _controller.Verwijder(_analyse, 1) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
+        }
+
         [Fact]
         public void TestVerwijder_KostNull_MethodeFaaltNiet()
         {

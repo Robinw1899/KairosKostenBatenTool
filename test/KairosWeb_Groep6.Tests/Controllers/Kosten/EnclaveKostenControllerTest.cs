@@ -1,6 +1,5 @@
 ﻿using System;
 using KairosWeb_Groep6.Controllers.Kosten;
-using KairosWeb_Groep6.Data.Repositories;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Tests.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -27,10 +26,10 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         public EnclaveKostenControllerTest()
         {
             var dbContext = new DummyApplicationDbContext();
-            _analyseRepo = new Mock<IAnalyseRepository>();
+            _analyseRepository = new Mock<IAnalyseRepository>();
             _exceptionLogRepository = new Mock<IExceptionLogRepository>();
 
-            _controller = new EnclaveKostenController(_analyseRepo.Object, _exceptionLogRepository.Object);
+            _controller = new EnclaveKostenController(_analyseRepository.Object, _exceptionLogRepository.Object);
             _analyse = new Analyse { EnclaveKosten = dbContext.EnclaveKosten };
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
@@ -91,9 +90,9 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
             _analyseRepository.Setup(r => r.Save()).Throws(new Exception());
             EnclaveKostViewModel model = new EnclaveKostViewModel();
 
-            var result = _controller.VoegToe(_analyse, model) as ViewResult;
+            var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
-            Assert.Equal("Index", result?.ViewName);
+            Assert.Equal("Index", result?.ActionName);
 
             _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
             _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
