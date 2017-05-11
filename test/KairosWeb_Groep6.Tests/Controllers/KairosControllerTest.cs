@@ -12,7 +12,6 @@ using KairosWeb_Groep6.Tests.Data;
 using KairosWeb_Groep6.Tests.Managers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
 
@@ -263,11 +262,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region EersteKeerAanmelden -- POST --
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public async void EersteKeerAanmelden_ResultNotSucceeded_LogUit()
         {
             Mock<IdentityResult> idResult = new Mock<IdentityResult>();
-            idResult.Setup(r => r.Succeeded).Returns(false);
+            //idResult.Setup(r => r.Succeeded).Returns(false);
 
             _userManager.Setup(u => u.ResetPasswordAsync(user, It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(idResult.Object));
@@ -283,17 +282,20 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _signManager.Verify(s => s.SignOutAsync(), Times.Once);
         }
 
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public async void EersteKeerAanmeldenPOST_Succes()
         {
-            Mock<IdentityResult> idResult = new Mock<IdentityResult>();
-            idResult.Setup(r => r.Succeeded).Returns(true);
-
+            IdentityResult idResult = IdentityResult.Success;
+            Microsoft.AspNetCore.Identity.SignInResult signInResult
+                = Microsoft.AspNetCore.Identity.SignInResult.Success;
+           
             _userManager.Setup(u => u.ResetPasswordAsync(user, It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(Task.FromResult(idResult.Object));
+                .Returns(Task.FromResult(idResult));
             _userManager.Setup(u => u.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .Returns(() => Task.FromResult(user));
-            _jobcoachRepository.Setup(j => j.GetByEmail(_dbContext.Thomas.Emailadres))
+            _signManager.Setup(s => s.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), false, false))
+                .Returns(Task.FromResult(signInResult));
+            _jobcoachRepository.Setup(j => j.GetByEmail(It.IsAny<string>()))
                 .Returns(_dbContext.Thomas);
 
             var result = await _controller.EersteKeerAanmelden(new EersteKeerAanmeldenViewModel()) as RedirectToActionResult;
