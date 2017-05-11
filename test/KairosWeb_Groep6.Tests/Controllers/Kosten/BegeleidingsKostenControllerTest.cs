@@ -150,7 +150,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         public void TestBewerk_RepoGooitException_RedirectsToIndex()
         {
             _analyseRepository.Setup(r => r.Save()).Throws(new Exception());
-            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel();
+            BegeleidingsKostViewModel model = new BegeleidingsKostViewModel{Id = 1};
 
             var result = _controller.Bewerk(_analyse, model) as RedirectToActionResult;
 
