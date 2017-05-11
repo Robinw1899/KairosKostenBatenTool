@@ -62,8 +62,18 @@
             return true;
         }
 
-        private bool ControleerGegevensGemiddeldeVOPAanwezig()
+        private bool ControleerGegevensGemiddeldeVOPAanwezig(decimal aantalWerkuren, decimal patronaleBijdrage)
         {
+            if (aantalWerkuren <= 0)
+            {
+                return false;
+            }
+
+            if (patronaleBijdrage <= 0)
+            {
+                return false;
+            }
+
             if (Doelgroep == null)
             {
                 return false;
@@ -83,7 +93,7 @@
             {
                 return false;
             }
-            if (!ControleerGegevensGemiddeldeVOPAanwezig())
+            if (!ControleerGegevensGemiddeldeVOPAanwezig(aantalWerkuren, patronaleBijdrage))
             {
                 return false;
             }
@@ -126,7 +136,7 @@
         {
             //(bruto maandloon incl werkgeverslasten – maandelijkse doelgroepvermindering) * percentage VOP premie
 
-            if (ControleerGegevensGemiddeldeVOPAanwezig())
+            if (ControleerGegevensGemiddeldeVOPAanwezig(aantalWerkuren, patronaleBijdrage))
             {
                 decimal brutoloon = BerekenBrutoloonPerMaand(aantalWerkuren, patronaleBijdrage);
                 decimal doelgroepvermindering = Doelgroep?.BerekenDoelgroepVermindering(BrutoMaandloonFulltime, AantalUrenPerWeek, aantalWerkuren, patronaleBijdrage) ?? 0;
