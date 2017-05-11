@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using KairosWeb_Groep6.Models;
 using KairosWeb_Groep6.Models.Domain;
@@ -25,6 +26,8 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IJobcoachRepository _jobcoachRepository;
 
         private readonly IAnalyseRepository _analyseRepository;
+
+        private readonly IExceptionLogRepository _exceptionLogRepository;
         #endregion
 
         #region Constructors
@@ -32,12 +35,14 @@ namespace KairosWeb_Groep6.Controllers
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             IJobcoachRepository gebruikerRepository,
-            IAnalyseRepository analyseRepository)
+            IAnalyseRepository analyseRepository,
+            IExceptionLogRepository exceptionLogRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _jobcoachRepository = gebruikerRepository;
             _analyseRepository = analyseRepository;
+            _exceptionLogRepository = exceptionLogRepository;
         }
         #endregion
 
@@ -92,7 +97,6 @@ namespace KairosWeb_Groep6.Controllers
                 bool volgende = false;
                 bool vorige = false;
                
-
                 //volgende knop laten zien of niet
                 if (totaal > MAX_AANTAL_ANALYSES && model?.EindIndex < totaal)
                 {
@@ -122,8 +126,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return PartialView("_Analyses", model);
             }
-            catch
+            catch(Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Kairos", "HaalAnalysesOp"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er liep iets mis, probeer later opnieuw";
             }
 
