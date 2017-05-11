@@ -81,7 +81,7 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult HaalAnalysesOp(Jobcoach jobcoach, IndexViewModel model = null)
         {
             try
-            {
+            {              
                 _analyseRepository.SetAnalysesJobcoach(jobcoach, false);
                 int totaal = jobcoach.Analyses.Count; //13
 
@@ -189,7 +189,8 @@ namespace KairosWeb_Groep6.Controllers
                 IndexViewModel model = new IndexViewModel(jobcoach);              
 
                 ViewData["zoeken"] = "zoeken";
-                return View("Index", model);
+                return PartialView("_Analyses",model);
+               
             }
             catch
             {
