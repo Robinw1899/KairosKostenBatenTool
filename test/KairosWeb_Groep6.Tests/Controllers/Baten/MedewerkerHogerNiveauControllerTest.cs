@@ -31,7 +31,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
             _exceptionLogRepository = new Mock<IExceptionLogRepository>();
 
             _controller = new MedewerkersHogerNiveauController(_analyseRepository.Object, _exceptionLogRepository.Object);
-            _analyse = new Analyse {MedewerkersHogerNiveauBaat = dbContext.MedewerkerNiveauBaten};
+            _analyse = new Analyse {MedewerkersHogerNiveauBaten = dbContext.MedewerkerNiveauBaten};
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
         }
@@ -114,7 +114,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
             var result = _controller.VoegToe(_analyse, model) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
-            Assert.Equal(7, _analyse.MedewerkersHogerNiveauBaat.Count);
+            Assert.Equal(7, _analyse.MedewerkersHogerNiveauBaten.Count);
         }
         #endregion
 

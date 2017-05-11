@@ -34,12 +34,12 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Baten
 
         public BatenIndexViewModel(Analyse analyse)
         {
-            if (analyse.MedewerkersZelfdeNiveauBaat.Count != 0)
+            if (analyse.MedewerkersZelfdeNiveauBaten.Count != 0)
             {
                 MedewerkersZelfdeNiveauBaatIngevuld = true;
             }
 
-            if (analyse.MedewerkersHogerNiveauBaat.Count != 0)
+            if (analyse.MedewerkersHogerNiveauBaten.Count != 0)
             {
                 MedewerkersHogerNiveauBaatIngevuld = true;
             }

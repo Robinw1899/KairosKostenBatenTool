@@ -69,7 +69,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
                         BrutoMaandloonFulltime = dc.ConvertToDecimal(model.BrutoMaandloonFulltime)
                     };
 
-                    analyse.MedewerkersZelfdeNiveauBaat.Add(baat);
+                    analyse.MedewerkersZelfdeNiveauBaten.Add(baat);
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
 
@@ -92,7 +92,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         {// id is het id van de baat die moet bewerkt wordens
             try
             {
-                MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, id);
+                MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaten, id);
                 MedewerkerNiveauBaatViewModel model = new MedewerkerNiveauBaatViewModel();
                 DecimalConverter dc = new DecimalConverter();
                 if (baat != null)
@@ -122,7 +122,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         {// id is het id van de baat die moet bewerkt worden
             try
             {
-                MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, model.Id);
+                MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaten, model.Id);
                 DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && baat != null)
                 {
@@ -154,11 +154,11 @@ namespace KairosWeb_Groep6.Controllers.Baten
         {// id is het id van de baat die moet verwijderd worden
             try
             {
-                MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaat, id);
+                MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersZelfdeNiveauBaten, id);
 
                 if (baat != null)
                 {
-                    analyse.MedewerkersZelfdeNiveauBaat.Remove(baat);
+                    analyse.MedewerkersZelfdeNiveauBaten.Remove(baat);
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
                 }
@@ -181,7 +181,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
 
             
             return analyse
-                .MedewerkersZelfdeNiveauBaat
+                .MedewerkersZelfdeNiveauBaten
                 .Select(m => new MedewerkerNiveauBaatViewModel(m)
                 {                  
                     Bedrag = analyse.Departement == null
@@ -194,14 +194,14 @@ namespace KairosWeb_Groep6.Controllers.Baten
         
         private void PlaatsTotaalInViewData(Analyse analyse)
         {
-            if (analyse.MedewerkersZelfdeNiveauBaat.Count == 0)
+            if (analyse.MedewerkersZelfdeNiveauBaten.Count == 0)
             {
                 ViewData["totaal"] = 0;
             }
 
             if(analyse.Departement != null) {
                 decimal totaal = MedewerkerNiveauBaatExtensions.GeefTotaal(
-                    analyse.MedewerkersZelfdeNiveauBaat,
+                    analyse.MedewerkersZelfdeNiveauBaten,
                     analyse.Departement.Werkgever.AantalWerkuren,
                     analyse.Departement.Werkgever.PatronaleBijdrage);
 

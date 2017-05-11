@@ -34,7 +34,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Loonkosten = _dbContext.Loonkosten,
                 ExtraKosten = _dbContext.ExtraKosten,
                 BegeleidingsKosten = _dbContext.BegeleidingsKosten,
-                MedewerkersZelfdeNiveauBaat = _dbContext.MedewerkerNiveauBaten,
+                MedewerkersZelfdeNiveauBaten = _dbContext.MedewerkerNiveauBaten,
                 UitzendKrachtBesparingen = _dbContext.UitzendKrachtBesparingen,
                 ExterneInkopen = _dbContext.ExterneInkopen,
                 OpleidingsKosten = _dbContext.OpleidingsKosten,

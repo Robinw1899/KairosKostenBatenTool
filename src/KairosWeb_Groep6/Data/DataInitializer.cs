@@ -118,7 +118,7 @@ namespace KairosWeb_Groep6.Data
 
                 analyse.ExtraKosten = MaakExtraKosten();
 
-                analyse.MedewerkersZelfdeNiveauBaat = MaakMedewerkerNiveauBaten();
+                analyse.MedewerkersZelfdeNiveauBaten = MaakMedewerkerNiveauBaten();
 
                 analyse.Subsidie = new Subsidie { Bedrag = 1500 };
 

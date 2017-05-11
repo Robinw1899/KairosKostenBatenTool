@@ -63,10 +63,10 @@ namespace KairosWeb_Groep6.Models.Domain
 
         #region Baten
        
-        public List<MedewerkerNiveauBaat> MedewerkersZelfdeNiveauBaat { get; set; } = new List<MedewerkerNiveauBaat>();
+        public List<MedewerkerNiveauBaat> MedewerkersZelfdeNiveauBaten { get; set; } = new List<MedewerkerNiveauBaat>();
 
         
-        public List<MedewerkerNiveauBaat> MedewerkersHogerNiveauBaat { get; set; } = new List<MedewerkerNiveauBaat>();
+        public List<MedewerkerNiveauBaat> MedewerkersHogerNiveauBaten{ get; set; } = new List<MedewerkerNiveauBaat>();
 
         
         public List<UitzendKrachtBesparing> UitzendKrachtBesparingen { get; set; } = new List<UitzendKrachtBesparing>();
@@ -210,7 +210,7 @@ namespace KairosWeb_Groep6.Models.Domain
             if (Departement != null)
             {
                 totaal = MedewerkerNiveauBaatExtensions.GeefTotaal(
-                                                        MedewerkersZelfdeNiveauBaat,
+                                                        MedewerkersZelfdeNiveauBaten,
                                                         Departement.Werkgever.AantalWerkuren,
                                                         Departement.Werkgever.PatronaleBijdrage);
             }
@@ -225,7 +225,7 @@ namespace KairosWeb_Groep6.Models.Domain
             if (Departement != null)
             {
                 totaal = MedewerkerNiveauBaatExtensions.GeefTotaal(
-                                                        MedewerkersHogerNiveauBaat,
+                                                        MedewerkersHogerNiveauBaten,
                                                         Departement.Werkgever.AantalWerkuren,
                                                         Departement.Werkgever.PatronaleBijdrage);
             }

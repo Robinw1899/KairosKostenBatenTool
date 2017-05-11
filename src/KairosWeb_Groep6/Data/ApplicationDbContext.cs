@@ -195,7 +195,7 @@ namespace KairosWeb_Groep6.Data
             //    .WithOne()
             //    .OnDelete(DeleteBehavior.Cascade);
 
-            //a.HasMany(t => t.MedewerkersHogerNiveauBaat)
+            //a.HasMany(t => t.MedewerkersHogerNiveauBaten)
             //    .WithOne()
             //    .OnDelete(DeleteBehavior.Cascade);
 

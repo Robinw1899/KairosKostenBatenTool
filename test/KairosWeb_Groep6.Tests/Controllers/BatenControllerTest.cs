@@ -27,7 +27,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
             {
                 Departement = dbContext.Aldi,
 
-                MedewerkersZelfdeNiveauBaat = dbContext.MedewerkerNiveauBaten,
+                MedewerkersZelfdeNiveauBaten = dbContext.MedewerkerNiveauBaten,
                 UitzendKrachtBesparingen =  dbContext.UitzendKrachtBesparingen,
                 ExterneInkopen = dbContext.ExterneInkopen,
                 Subsidie = dbContext.Subsidie,

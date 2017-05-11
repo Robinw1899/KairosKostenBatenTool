@@ -130,8 +130,8 @@ namespace KairosWeb_Groep6.Tests.Models.Domain
                 EnclaveKosten = dbContext.EnclaveKosten,
 
                 /* BATEN */
-                MedewerkersZelfdeNiveauBaat = dbContext.MedewerkerNiveauBaten,
-                MedewerkersHogerNiveauBaat = dbContext.MedewerkerNiveauBaten,
+                MedewerkersZelfdeNiveauBaten = dbContext.MedewerkerNiveauBaten,
+                MedewerkersHogerNiveauBaten = dbContext.MedewerkerNiveauBaten,
                 UitzendKrachtBesparingen = dbContext.UitzendKrachtBesparingen,
                 ExterneInkopen = dbContext.ExterneInkopen,
                 ExtraOmzet = dbContext.ExtraOmzet,
