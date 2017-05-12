@@ -96,8 +96,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
             Assert.Equal("Index", result?.ViewName);
 
-            _signManager.Verify(s => s.SignOutAsync());
-
             _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
             _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
@@ -431,10 +429,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public async void EersteKeerAanmelden_UserManagerGooitException_RedirectToLogin()
         {
-            Mock<IdentityResult> idResult = new Mock<IdentityResult>();
-            //idResult.Setup(r => r.Succeeded).Returns(false);
-
-            _userManager.Setup(u => u.ResetPasswordAsync(user, It.IsAny<string>(), It.IsAny<string>()))
+            _userManager.Setup(u => u.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .Throws(new Exception());
 
             var result =
@@ -443,7 +438,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal("Login", result?.ActionName);
             Assert.Equal("Account", result?.ControllerName);
 
-            _userManager.Verify(u => u.GeneratePasswordResetTokenAsync(user), Times.Once);
             _signManager.Verify(s => s.SignOutAsync(), Times.Once);
 
             _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
@@ -555,10 +549,15 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
-        [Fact]
+        [Fact(Skip = "E-mailadres Bart Moens reeds ingevuld")]
         public async void TestOpmerking_Succes()
         {
-            string bericht = "Dit is het bericht";
+            string bericht = "Beste mr. Moens\n\n" +
+                             "Als u deze mail krijgt, zijn we onze testen aan het uitvoeren en hebben we per ongeluk " +
+                             "een testmail naar u verzeonden...\n" +
+                             "Onze excuses voor het ongemak!\n\n" +
+                             "Mvg\n" +
+                             "Thomas Aelbrecht";
             string onderwerp = "Dummy onderwerp";
             OpmerkingViewModel model = new OpmerkingViewModel(onderwerp, bericht);
 

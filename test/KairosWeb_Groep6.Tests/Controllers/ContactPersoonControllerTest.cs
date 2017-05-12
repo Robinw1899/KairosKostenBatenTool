@@ -70,7 +70,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Throws(new Exception());
 
-            var result = _controller.Index(new Analyse()) as RedirectToActionResult;
+            var result = _controller.Index(new Analyse{Departement = _dbContext.Aldi}) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Werkgever", result?.ControllerName);
@@ -209,8 +209,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal(expectedModel.WerkgeverId, resultModel?.WerkgeverId);
             Assert.Equal(expectedModel.PersoonId, resultModel?.PersoonId);
 
-            Assert.Equal(1, _controller.ModelState.ErrorCount); // er is een modelerror toegevoegd
-
             _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
             _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
@@ -312,7 +310,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
             };
 
             _dbContext.Aldi.ContactPersoon = new ContactPersoon();
-            Analyse analyse = new Analyse { Departement = _dbContext.Aldi};
 
             _contactPersoonRepository.Setup(c => c.GetById(It.IsAny<int>())).Returns(cp);
 

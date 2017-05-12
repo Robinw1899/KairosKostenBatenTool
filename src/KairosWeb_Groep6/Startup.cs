@@ -82,7 +82,7 @@ namespace KairosWeb_Groep6
             services.AddScoped<IIntroductietekstRepository, IntroductietekstRepository>();
             services.AddScoped<IDoelgroepRepository, DoelgroepRepository>();
             services.AddScoped<IOrganisatieRepository, OrganisatieRepository>();
-            services.AddScoped<IExceptionLogRepository, IExceptionLogRepository>();
+            services.AddScoped<IExceptionLogRepository, ExceptionLogRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

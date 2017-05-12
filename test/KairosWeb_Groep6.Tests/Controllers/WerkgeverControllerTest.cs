@@ -199,31 +199,12 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
         #region Bestaande werkgever -- GET --
         [Fact]
-        public void TestBestaandeWerkgeverGET_RepositoryGooitException_MethodeFaaltNiet()
-        {
-            _werkgeverRepository.Setup(r => r.GetAll()).Throws(new Exception());
-
-            var result = _controller.BestaandeWerkgever() as RedirectToActionResult;
-
-            Assert.Equal("Index", result?.ActionName);
-
-            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
-            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
-        }
-
-        [Fact]
         public void TestBestaandeWerkgever_ReturnsViewWithModel()
         {
-            _werkgeverRepository.Setup(r => r.GetAll())
-                .Returns(new List<Werkgever>
-                {
-                    _dbContext.Aldi.Werkgever
-                });
-
             var result = _controller.BestaandeWerkgever() as ViewResult;
             var model = result?.Model as BestaandeWerkgeverViewModel;
 
-            Assert.Equal(1, model?.Werkgevers.Count());
+            Assert.Equal(0, model?.Werkgevers.Count());
         }
         #endregion
 

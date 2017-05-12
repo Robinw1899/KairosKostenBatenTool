@@ -22,14 +22,14 @@ namespace KairosWeb_Groep6.Models.Domain
             return gelukt;
         }
 
-        public static async Task<bool> SendForgotPasswordMail(string name, string email, string password, string url)
+        public static async Task<bool> SendForgotPasswordMail(string name, string email, string url)
         {
             var message = CreateBaseMessage();
             message.Bcc.Add(new MailboxAddress(name, email));
             message.Subject = "Paswoord KAIROS kosten-baten tool vergeten";
 
             var builder = new BodyBuilder();
-            builder.HtmlBody = CreateForgotPasswordMail(name, password, url);
+            builder.HtmlBody = CreateForgotPasswordMail(name, url);
 
             message.Body = builder.ToMessageBody();
 
@@ -40,8 +40,8 @@ namespace KairosWeb_Groep6.Models.Domain
         public static async Task<bool> SendMailAdmin(string nameJobcoach, string emailJobcoach, string subject, string body)
         {
             var message = CreateBaseMessage();
-            //message.To.Add(new MailboxAddress("Bart Moens", "bart@werkgeversbenadering.be"));
-            message.Bcc.Add(new MailboxAddress("Bart Moens", "thomasaelbrecht@live.com"));
+            message.To.Add(new MailboxAddress("Bart Moens", "bart@werkgeversbenadering.be"));
+            //message.Bcc.Add(new MailboxAddress("Bart Moens", "thomasaelbrecht@live.com"));
             message.Subject = "Melding Kairos: " + subject;
 
             // instellen dat Bart Moens kan antwoorden op deze mail om te mailen met de jobcoach:
@@ -107,7 +107,7 @@ namespace KairosWeb_Groep6.Models.Domain
             return true;
         }
 
-        private static string CreateForgotPasswordMail(string name, string password, string url)
+        private static string CreateForgotPasswordMail(string name, string url)
         {
             return CreateHtmlHead() + 
             @"s

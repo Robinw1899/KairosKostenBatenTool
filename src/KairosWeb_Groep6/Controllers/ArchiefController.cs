@@ -226,8 +226,10 @@ namespace KairosWeb_Groep6.Controllers
                                           " is succesvol uit het archief gehaald.";
                 }
             }
-            catch
+            catch(Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Archief", "HaalAnalyseUitArchiefBevestigd"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging onverwacht iets fout, probeer later opnieuw";
             }
 
