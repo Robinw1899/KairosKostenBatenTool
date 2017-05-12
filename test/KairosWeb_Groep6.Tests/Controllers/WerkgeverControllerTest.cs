@@ -18,6 +18,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         private readonly Mock<IAnalyseRepository> _analyseRepository;
         private readonly Mock<IDepartementRepository> _departementRepository;
         private readonly Mock<IWerkgeverRepository> _werkgeverRepository;
+        private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
         private readonly WerkgeverController _controller;
         private readonly Mock<Analyse> _analyse;
         private readonly DummyApplicationDbContext _dbContext;
@@ -29,10 +30,13 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _analyseRepository = new Mock<IAnalyseRepository>();
             _departementRepository = new Mock<IDepartementRepository>();
             _werkgeverRepository = new Mock<IWerkgeverRepository>();
+            _exceptionLogRepository = new Mock<IExceptionLogRepository>();
 
             _controller = new WerkgeverController(_analyseRepository.Object,
-                _departementRepository.Object, _werkgeverRepository.Object);
-            _controller.TempData = new Mock<ITempDataDictionary>().Object;
+                _departementRepository.Object, _werkgeverRepository.Object, _exceptionLogRepository.Object)
+            {
+                TempData = new Mock<ITempDataDictionary>().Object
+            };
 
             _analyse = new Mock<Analyse>();
             _dbContext = new DummyApplicationDbContext();
@@ -65,7 +69,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestIndex_Succes()
         {
-            Analyse analyse = new Analyse {Departement = _dbContext.Aldi};
+            Analyse analyse = new Analyse { Departement = _dbContext.Aldi };
 
             var result = _controller.Index(analyse) as ViewResult;
             var model = result?.Model as WerkgeverViewModel;
@@ -88,6 +92,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
             Assert.Equal(model, resultModel);
             Assert.Equal("Index", result?.ViewName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -141,6 +148,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
             Assert.Equal(model, resultModel);
             Assert.Equal("NieuweWerkgever", result?.ViewName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -189,13 +199,31 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
         #region Bestaande werkgever -- GET --
         [Fact]
+        public void TestBestaandeWerkgeverGET_RepositoryGooitException_MethodeFaaltNiet()
+        {
+            _werkgeverRepository.Setup(r => r.GetAll()).Throws(new Exception());
+
+            var result = _controller.BestaandeWerkgever() as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
+        }
+
+        [Fact]
         public void TestBestaandeWerkgever_ReturnsViewWithModel()
         {
+            _werkgeverRepository.Setup(r => r.GetAll())
+                .Returns(new List<Werkgever>
+                {
+                    _dbContext.Aldi.Werkgever
+                });
+
             var result = _controller.BestaandeWerkgever() as ViewResult;
             var model = result?.Model as BestaandeWerkgeverViewModel;
 
-            Assert.Equal(0, model?.Werkgevers.Count());
-            Assert.True(model?.FirstLoad);
+            Assert.Equal(1, model?.Werkgevers.Count());
         }
         #endregion
 
@@ -208,6 +236,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.SelecteerBestaandeWerkgever(_analyse.Object, 1, 1) as RedirectToActionResult;
 
             Assert.Equal("BestaandeWerkgever", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -233,6 +264,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.ZoekDepartementen(1, "hallo") as RedirectToActionResult;
 
             Assert.Equal("BestaandDepartement", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -257,6 +291,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.ZoekWerkgever(new BestaandeWerkgeverViewModel(), "hallo") as RedirectToActionResult;
 
             Assert.Equal("BestaandeWerkgever", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -338,6 +375,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.BestaandDepartement(1) as RedirectToActionResult;
 
             Assert.Equal("BestaandeWerkgever", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -366,6 +406,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.NieuwDepartement(1) as RedirectToActionResult;
 
             Assert.Equal("BestaandeWerkgever", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -391,6 +434,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.NieuwDepartement(_analyse.Object, new WerkgeverViewModel()) as ViewResult;
 
             Assert.Equal(typeof(WerkgeverViewModel), result?.Model.GetType());
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]

@@ -17,18 +17,20 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IDepartementRepository _departementRepository;
         private readonly IWerkgeverRepository _werkgeverRepository;
+        private readonly IExceptionLogRepository _exceptionLogRepository;
         #endregion
 
         #region Constructors
-
         public WerkgeverController(
             IAnalyseRepository analyseRepository,
             IDepartementRepository departementenRepository,
-            IWerkgeverRepository werkgeverRepository)
+            IWerkgeverRepository werkgeverRepository,
+            IExceptionLogRepository exceptionLogRepository)
         {
             _analyseRepository = analyseRepository;
             _departementRepository = departementenRepository;
             _werkgeverRepository = werkgeverRepository;
+            _exceptionLogRepository = exceptionLogRepository;
         }
         #endregion
 
@@ -86,8 +88,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "Opslaan"));
+                _exceptionLogRepository.Save();
                 TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
             }
 
@@ -161,8 +165,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return RedirectToAction("Index", "ContactPersoon");
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "NieuweWerkgever -- POST --"));
+                _exceptionLogRepository.Save();
                 TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
             }
 
@@ -178,8 +184,10 @@ namespace KairosWeb_Groep6.Controllers
                 BestaandeWerkgeverViewModel model = new BestaandeWerkgeverViewModel();
                 return View(model);               
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "BestaandeWerkgever -- GET --"));
+                _exceptionLogRepository.Save();
                 TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
             }
 
@@ -203,8 +211,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return RedirectToAction("Index", "ContactPersoon");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "BestaandeWerkgever -- POST --"));
+                _exceptionLogRepository.Save();
                 TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
             }
 
@@ -232,8 +242,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return PartialView("_Departementen", models);
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "ZoekDepartement"));
+                _exceptionLogRepository.Save();
                 TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
             }
 
@@ -262,8 +274,10 @@ namespace KairosWeb_Groep6.Controllers
            
                 return PartialView("_Werkgevers", model);
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "ZoekWerkgever"));
+                _exceptionLogRepository.Save();
                 TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
             }
 
@@ -291,8 +305,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return View(model);
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "BestaandDepartement"));
+                _exceptionLogRepository.Save();
                 TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
             }
 
@@ -330,8 +346,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return View(model);
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "NieuwDepartement -- GET --"));
+                _exceptionLogRepository.Save();
                 TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
             }
 
@@ -385,8 +403,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return RedirectToAction("Index", "Resultaat");
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "NieuwDepartement -- POST --"));
+                _exceptionLogRepository.Save();
                 TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
             }
 
