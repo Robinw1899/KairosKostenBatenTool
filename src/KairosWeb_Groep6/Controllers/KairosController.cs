@@ -20,13 +20,9 @@ namespace KairosWeb_Groep6.Controllers
         #region Properties
         private const int MAX_AANTAL_ANALYSES = 9;
         private readonly SignInManager<ApplicationUser> _signInManager;
-
         private readonly UserManager<ApplicationUser> _userManager;
-
         private readonly IJobcoachRepository _jobcoachRepository;
-
         private readonly IAnalyseRepository _analyseRepository;
-
         private readonly IExceptionLogRepository _exceptionLogRepository;
         #endregion
 
@@ -49,27 +45,38 @@ namespace KairosWeb_Groep6.Controllers
         #region Index
         public async Task<IActionResult> Index()
         {
-            if (HttpContext != null)
+            try
             {
-                AnalyseFilter.ClearSession(HttpContext);
+                if (HttpContext != null)
+                {
+                    AnalyseFilter.ClearSession(HttpContext);
+                }
+
+                ApplicationUser user = await _userManager.GetUserAsync(User);
+
+                if (user == null)
+                {
+                    TempData["error"] = "Gelieve je eerst aan te melden alvorens deze pagina te bezoeken.";
+                    await _signInManager.SignOutAsync();
+                    return RedirectToAction("Login", "Account");
+                }
+
+                IndexViewModel model = new IndexViewModel
+                {
+                    BeginIndex = 0,
+                    EindIndex = MAX_AANTAL_ANALYSES
+                };
+
+                return View("Index", model);
             }
-            
-            ApplicationUser user = await _userManager.GetUserAsync(User);
-
-            if (user == null)
+            catch (Exception e)
             {
-                TempData["error"] = "Gelieve je eerst aan te melden alvorens deze pagina te bezoeken.";
-                await _signInManager.SignOutAsync();
-                return RedirectToAction("Login", "Account");
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Kairos", "Index"));
+                _exceptionLogRepository.Save();
+                TempData["error"] = "Je analyses konder niet geladen worden, probeer later opnieuw";
             }
 
-            IndexViewModel model = new IndexViewModel
-            {
-                BeginIndex = 0,
-                EindIndex = MAX_AANTAL_ANALYSES
-            };
-
-            return View("Index", model);
+            return View("Index", new IndexViewModel());
         }
         #endregion
 
@@ -202,8 +209,10 @@ namespace KairosWeb_Groep6.Controllers
                 return PartialView("_Analyses",model);
                
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Kairos", "Zoek"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er liep iets mis, probeer later opnieuw.";
             }
 
@@ -226,8 +235,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return View(model);
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Kairos", "EersteKeerAanmelden -- GET --"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging onverwachts iets is, probeer later opnieuw";
             }
 
@@ -261,8 +272,10 @@ namespace KairosWeb_Groep6.Controllers
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Kairos", "EersteKeerAanmelden -- POST --"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er liep iets is, probeer later opnieuw";
             }
 
@@ -308,8 +321,10 @@ namespace KairosWeb_Groep6.Controllers
                         TempData["error"] = "De opmerking kan momenteel niet verzonden worden, probeer het later opnieuw.";
                     }
                 }
-                catch
+                catch (Exception e)
                 {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "Kairos", "Opmerking"));
+                    _exceptionLogRepository.Save();
                     // er is iets fout gelopen, ga verder en toon de pagina opnieuw
                     TempData["error"] = "Er is onverwacht iets fout gelopen, onze excuses voor het ongemak! " +
                                         "Probeer het later opnieuw.";
