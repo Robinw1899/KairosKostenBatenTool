@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
@@ -14,13 +15,19 @@ namespace KairosWeb_Groep6.Controllers
     [Authorize]
     public class ResultaatController : Controller
     {
+        #region Properties
         private readonly string outputDir = "temp\\";
         private readonly IAnalyseRepository _analyseRepository;
-        
-        public ResultaatController(IAnalyseRepository analyseRepository)
+        private readonly IExceptionLogRepository _exceptionLogRepository;
+        #endregion
+
+        #region Constructors
+        public ResultaatController(IAnalyseRepository analyseRepository, IExceptionLogRepository exceptionLogRepository)
         {
             _analyseRepository = analyseRepository;
+            _exceptionLogRepository = exceptionLogRepository;
         }
+        #endregion
 
         #region Index
         [ServiceFilter(typeof(AnalyseFilter))]
@@ -75,11 +82,14 @@ namespace KairosWeb_Groep6.Controllers
                             "berekend worden voor deze analyse.";
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Resultaat", "Index"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
             }
-            
+
+
             return View(model);
         }
         #endregion
@@ -95,8 +105,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 TempData["message"] = "De analyse is succesvol opgeslaan.";
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Resultaat", "Opslaan"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw.";
             }
 
@@ -119,8 +131,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return File(fileBytes, "application/x-msdownload", fileName);
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Resultaat", "MaakExcel"));
+                _exceptionLogRepository.Save();
                 TempData["error"] =
                     "Er ging iets fout tijdens het samenstellen van het Excel-bestand, probeer later opnieuw";
             }
@@ -164,8 +178,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return View(model);
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Resultaat", "Mail -- GET --"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging onverwacht iets fout, probeer later opnieuw";
             }
 
@@ -198,8 +214,10 @@ namespace KairosWeb_Groep6.Controllers
                         "Het is op dit moment niet mogelijk om mails te verzenden, probeer later opnieuw";
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Resultaat", "Mail -- POST --"));
+                _exceptionLogRepository.Save();
                 TempData["error"] =
                     "Er ging iets fout tijdens het verzenden van het resultaat, probeer later opnieuw";
             }
@@ -226,11 +244,13 @@ namespace KairosWeb_Groep6.Controllers
                     TempData["message"] = "De analyse is succesvol gemarkeerd als 'Nog niet klaar'";
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Resultaat", "AnalyseKlaar"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging onverwachts iets fout tijdens het opslaan van de wijzigingen aan de analyse, probeer later opnieuw";
             }
-            
+
             return RedirectToAction("Index");
         }
         #endregion
