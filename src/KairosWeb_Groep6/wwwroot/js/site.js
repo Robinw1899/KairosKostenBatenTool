@@ -115,8 +115,8 @@
         var url = $("#analyses").data("href");
 
         $.get(url, function (data) {
-            $("#loader").slideUp(300);
-            $("#analyses").html(data);
+            $("#loader").slideUp(500);
+            $("#analyses").html(data);        
         });
     },
     laadActionsVorigeVolgende: function() {
