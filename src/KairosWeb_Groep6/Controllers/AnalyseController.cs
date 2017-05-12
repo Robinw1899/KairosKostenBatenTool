@@ -13,15 +13,18 @@ namespace KairosWeb_Groep6.Controllers
         #region Properties
         private readonly IAnalyseRepository _analyseRepository;
         private readonly IJobcoachRepository _jobcoachRepository;
+        private readonly IExceptionLogRepository _exceptionLogRepository;
         #endregion
 
         #region Constructors
         public AnalyseController(
             IAnalyseRepository analyseRepository,
-            IJobcoachRepository jobcoachRepository)
+            IJobcoachRepository jobcoachRepository,
+            IExceptionLogRepository exceptionLogRepository)
         {
             _analyseRepository = analyseRepository;
             _jobcoachRepository = jobcoachRepository;
+            _exceptionLogRepository = exceptionLogRepository;
         }
         #endregion
 
@@ -50,11 +53,13 @@ namespace KairosWeb_Groep6.Controllers
                     return RedirectToAction("SelecteerWerkgever", "Werkgever");
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Analyse", "NieuweAnalyse"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging iets fout tijdens het starten van een nieuwe analyse, probeer later opnieuw";
             }
-            
+
             return RedirectToAction("Index", "Kairos");
         }
         #endregion
@@ -74,8 +79,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return RedirectToAction("Index", "Resultaat");
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Analyse", "OpenAnalyse"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging iets fout tijdens het ophalen van de analyse, probeer later opnieuw";
             }
 
@@ -101,8 +108,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return View();
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Analyse", "VerwijderAnalyse"));
+                _exceptionLogRepository.Save();
                 TempData["error"] =
                     "Er ging iets fout tijdens het voorbereiden van het verwijderen, probeer later opnieuw";
             }
@@ -135,11 +144,13 @@ namespace KairosWeb_Groep6.Controllers
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Analyse", "VerwijderAnalyseBevestigd"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw.";
             }
-            
+
             return RedirectToAction("Index", "Kairos");
         }
         #endregion
@@ -159,8 +170,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return View("ArchiveerAnalyse");
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Analyse", "Archiveer"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging iets fout tijdens het ophalen van de analyse, probeer later opnieuw";
             }
 
@@ -201,8 +214,10 @@ namespace KairosWeb_Groep6.Controllers
                 }
                
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Analyse", "ArchiveerBevestigd"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er liep iets mis, probeer later opnieuw";
             }
 

@@ -11,22 +11,21 @@ using Microsoft.AspNetCore.Mvc;
 namespace KairosWeb_Groep6.Controllers
 {
     [Authorize]
-    [ServiceFilter(typeof(JobcoachFilter))]
     [AutoValidateAntiforgeryToken]
     public class ArchiefController : Controller
     {
         #region Properties
         private const int MAX_AANTAL_ANALYSES = 9;
         private readonly IAnalyseRepository _analyseRepository;
-        private readonly IJobcoachRepository _gebruikerRepository;
+        private readonly IExceptionLogRepository _exceptionLogRepository;
         #endregion
 
         #region Constructors
         public ArchiefController(IAnalyseRepository analyseRepository,
-            IJobcoachRepository gebruikerRepository)
+            IExceptionLogRepository exceptionLogRepository)
         {
             _analyseRepository = analyseRepository;
-            _gebruikerRepository = gebruikerRepository;
+            _exceptionLogRepository = exceptionLogRepository;
         }
         #endregion
 
@@ -96,8 +95,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return PartialView("_Analyses", model);
             }
-            catch
+            catch(Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Archief", "HaalAnalysesOp"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er liep iets mis, probeer later opnieuw";
             }
 
@@ -164,8 +165,10 @@ namespace KairosWeb_Groep6.Controllers
                 ViewData["zoeken"] = "zoeken";
                 return PartialView("_Analyses", model);
             }
-            catch
+            catch(Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Arhief", "Zoek"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging onverwacht iets fout, probeer later opnieuw";
             }
 
@@ -188,8 +191,10 @@ namespace KairosWeb_Groep6.Controllers
 
                 return View("HaalAnalyseUitArchief");
             }
-            catch
+            catch(Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Archief", "HaalAnalyseUitArchief"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging iets mis tijdens het ophalen van de analyse, probeer later opnieuw";
             }
 
@@ -221,8 +226,10 @@ namespace KairosWeb_Groep6.Controllers
                                           " is succesvol uit het archief gehaald.";
                 }
             }
-            catch
+            catch(Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Archief", "HaalAnalyseUitArchiefBevestigd"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er ging onverwacht iets fout, probeer later opnieuw";
             }
 
@@ -248,20 +255,6 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult MaakExcelAnalyse(int id)
         {
             return RedirectToAction("MaakExcel", "Resultaat", id);
-        }
-        #endregion
-
-        #region MaakPdfAnalyse
-        public IActionResult MaakPdfAnalyse(int id)
-        {
-            throw new NotImplementedException("Archief/MaakPdfAnalyse");
-        }
-        #endregion
-
-        #region AfdrukkenAnalyse
-        public IActionResult AfdrukkenAnalyse(int id)
-        {
-            throw new NotImplementedException("Archief/AfdrukkenAnalyse");
         }
         #endregion
 

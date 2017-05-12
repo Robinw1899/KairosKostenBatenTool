@@ -86,6 +86,21 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
+        public async void TestIndex_UserManagerGooitException_ReturnsIndexView()
+        {
+            user = null;
+            _userManager.Setup(u => u.GetUserAsync(null))
+                .Throws(new Exception());
+
+            var result = await _controller.Index() as ViewResult;
+
+            Assert.Equal("Index", result?.ViewName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
+        }
+
+        [Fact]
         public async void TestIndex_Succes_ReturnsViewWithModel()
         {
             _userManager.Setup(u => u.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
@@ -101,7 +116,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region HaalAnalysesOpZonderModel
-
         [Fact]
         public void TestHaalAnalysesOpZonderModel_RedirectsToHaalAnalysesOp()
         {
@@ -115,11 +129,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Assert.Equal(27, model["EindIndex"]);
             }
         }
-
         #endregion
 
         #region HaalAnalysesOp
-
         [Fact]
         public void TestHaalAnalysesOp_RepoGooitException_RedirectsToIndex()
         {
@@ -250,6 +262,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.Zoek(_dbContext.Thomas, "verk") as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -376,7 +391,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region EersteKeerAanmelden -- GET --
-
         [Fact]
         public async void EersteKeerAanmeldenGET_ExceptionGegooid_LogtUit()
         {
@@ -389,6 +403,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal("Account", result?.ControllerName);
 
             _signManager.Verify(s => s.SignOutAsync(), Times.Once);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -409,6 +426,23 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region EersteKeerAanmelden -- POST --
+        [Fact]
+        public async void EersteKeerAanmelden_UserManagerGooitException_RedirectToLogin()
+        {
+            _userManager.Setup(u => u.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .Throws(new Exception());
+
+            var result =
+                await _controller.EersteKeerAanmelden(new EersteKeerAanmeldenViewModel()) as RedirectToActionResult;
+
+            Assert.Equal("Login", result?.ActionName);
+            Assert.Equal("Account", result?.ControllerName);
+
+            _signManager.Verify(s => s.SignOutAsync(), Times.Once);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
+        }
 
         [Fact]
         public async void EersteKeerAanmelden_ResultNotSucceeded_LogUit()
@@ -510,12 +544,20 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
             Assert.Equal(onderwerp, resultModel?.Onderwerp);
             Assert.Equal(bericht, resultModel?.Bericht);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
-        [Fact]
+        [Fact(Skip = "E-mailadres Bart Moens reeds ingevuld")]
         public async void TestOpmerking_Succes()
         {
-            string bericht = "Dit is het bericht";
+            string bericht = "Beste mr. Moens\n\n" +
+                             "Als u deze mail krijgt, zijn we onze testen aan het uitvoeren en hebben we per ongeluk " +
+                             "een testmail naar u verzeonden...\n" +
+                             "Onze excuses voor het ongemak!\n\n" +
+                             "Mvg\n" +
+                             "Thomas Aelbrecht";
             string onderwerp = "Dummy onderwerp";
             OpmerkingViewModel model = new OpmerkingViewModel(onderwerp, bericht);
 

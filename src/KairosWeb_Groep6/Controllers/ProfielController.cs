@@ -17,26 +17,41 @@ namespace KairosWeb_Groep6.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJobcoachRepository _gebruikerRepository;
+        private readonly IExceptionLogRepository _exceptionLogRepository;
         #endregion
 
         #region Constructors
         public ProfielController(
-            UserManager<ApplicationUser> userManager, 
+            UserManager<ApplicationUser> userManager,
             IJobcoachRepository gebruikerRepository,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IExceptionLogRepository exceptionLogRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _gebruikerRepository = gebruikerRepository;
+            _exceptionLogRepository = exceptionLogRepository;
         }
         #endregion
 
         #region Index
         public IActionResult Index()
         {
-            Jobcoach gebruiker = _gebruikerRepository.GetByEmail(HttpContext.User.Identity.Name);
+            try
+            {
+                Jobcoach gebruiker = _gebruikerRepository.GetByEmail(HttpContext.User.Identity.Name);
 
-            return View(new ProfielViewModel(gebruiker));
+                return View(new ProfielViewModel(gebruiker));
+            }
+            catch (Exception e)
+            {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Profiel", "Index"));
+                _exceptionLogRepository.Save();
+                TempData["error"] = "Er ging onverwachts iets fout tijdens het ophalen van je gegevens," +
+                                    " probeer later opnieuw";
+            }
+
+            return RedirectToAction("Index", "Kairos");
         }
         #endregion
 
@@ -87,8 +102,10 @@ namespace KairosWeb_Groep6.Controllers
 
                     return RedirectToAction(nameof(Index));
                 }
-                catch
+                catch (Exception e)
                 {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "Profiel", "Opslaan"));
+                    _exceptionLogRepository.Save();
                     TempData["error"] = "Er ging onverwachts iets mis, probeer later opnieuw";
                 }
             }

@@ -14,11 +14,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
     {
         #region Properties
         private readonly ResultaatController _controller;
-
         private readonly Mock<IAnalyseRepository> _analyseRepo;
-
+        private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
         private readonly DummyApplicationDbContext _dbContext;
-
         private readonly Analyse _analyse;
         #endregion
 
@@ -47,8 +45,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             };
 
             _analyseRepo = new Mock<IAnalyseRepository>();
+            _exceptionLogRepository = new Mock<IExceptionLogRepository>();
 
-            _controller = new ResultaatController(_analyseRepo.Object);
+            _controller = new ResultaatController(_analyseRepo.Object, _exceptionLogRepository.Object);
 
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
         }
@@ -94,11 +93,14 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestOpslaan_Faalt_RedirectsToIndex()
         {
-            _analyseRepo.Setup(a => a.GetById(1)).Throws(new Exception());
+            _analyseRepo.Setup(a => a.Save()).Throws(new Exception());
 
             var result = _controller.Opslaan(_analyse) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
         #endregion
 
@@ -133,6 +135,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = await _controller.Mail(new ResultaatMailViewModel(){AnalyseId = 1}) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
         #endregion
 
@@ -150,6 +155,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.AnalyseKlaar(analyse) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]

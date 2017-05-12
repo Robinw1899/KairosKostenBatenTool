@@ -18,7 +18,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #region Properties
         private readonly ArchiefController _controller;
         private readonly Mock<IAnalyseRepository> _analyseRepository;
-        private readonly Mock<IJobcoachRepository> _jobcoachRepository;
+        private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
         private readonly DummyApplicationDbContext _dbContext;
         private readonly Analyse _analyseAldi;
         private readonly Analyse _analyse;
@@ -29,12 +29,12 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _dbContext = new DummyApplicationDbContext();
             _analyseRepository = new Mock<IAnalyseRepository>();
-            _jobcoachRepository = new Mock<IJobcoachRepository>();
+            _exceptionLogRepository = new Mock<IExceptionLogRepository>();
             _analyse = new Analyse {AnalyseId = 2, InArchief = true};
             _analyseAldi = new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi, InArchief = true};
 
             _controller =
-                new ArchiefController(_analyseRepository.Object, _jobcoachRepository.Object)
+                new ArchiefController(_analyseRepository.Object, _exceptionLogRepository.Object)
                 {
                     TempData = new Mock<ITempDataDictionary>().Object
                 };
@@ -104,13 +104,14 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.Zoek(_dbContext.Thomas, "verk") as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
         public void TestZoek_Succes_ReturnsPartial()
         {
-            _jobcoachRepository.Setup(r => r.GetByEmail(It.IsAny<string>())).Returns(_dbContext.Thomas);
-
             var result = _controller.Zoek(_dbContext.Thomas, "hallo") as PartialViewResult;
 
             Assert.Equal("_Analyses", result?.ViewName);
@@ -238,6 +239,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.HaalAnalyseUitArchief(1) as RedirectToActionResult;
             
             Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -262,6 +266,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.HaalAnalyseUitArchiefBevestigd(1) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]

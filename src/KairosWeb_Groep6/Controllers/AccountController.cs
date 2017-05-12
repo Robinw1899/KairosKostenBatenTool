@@ -376,21 +376,20 @@ namespace KairosWeb_Groep6.Controllers
                 //   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
 
                 // eerst mail proberen verzenden alvorens paswoord te resetten
-                Random random = new Random();
-                var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
+                //Random random = new Random();
+                //var password = PasswordGenerator.GeneratePassword(random.Next(6, 16));
                 var jobcoach = _jobcoachRepository.GetByEmail(user.Email);
                 _jobcoachRepository.Save();
 
                 string name = jobcoach.Voornaam ?? "";
-                string code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 string url = Url.Action("ResetPassword", "Account", new { email = jobcoach.Emailadres}, protocol: HttpContext.Request.Scheme);
 
-                bool mailVerzendenGelukt = await EmailSender.SendForgotPasswordMail(name, jobcoach.Emailadres, password, url);
+                bool mailVerzendenGelukt = await EmailSender.SendForgotPasswordMail(name, jobcoach.Emailadres, url);
 
                 if (mailVerzendenGelukt)
                 {
-                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                    await _userManager.ResetPasswordAsync(user, token, password);
+                    //var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    //await _userManager.ResetPasswordAsync(user, token, password);
                     TempData["Actie"] = "Registreer";
 
                     return View("ForgotPasswordConfirmation");

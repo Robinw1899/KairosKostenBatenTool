@@ -17,6 +17,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         private readonly Mock<IDepartementRepository> _departementRepository;
         private readonly Mock<IWerkgeverRepository> _werkgeverRepository;
         private readonly Mock<IContactPersoonRepository> _contactPersoonRepository;
+        private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
         private readonly ContactPersoonController _controller;
         private readonly Mock<Analyse> _analyse;
         private readonly DummyApplicationDbContext _dbContext;
@@ -30,10 +31,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _werkgeverRepository = new Mock<IWerkgeverRepository>();
             _contactPersoonRepository = new Mock<IContactPersoonRepository>();
             _dbContext = new DummyApplicationDbContext();
+            _exceptionLogRepository = new Mock<IExceptionLogRepository>();
 
             _controller = new ContactPersoonController(_analyseRepository.Object,
-                _departementRepository.Object, _werkgeverRepository.Object, _contactPersoonRepository.Object);
-            _controller.TempData = new Mock<ITempDataDictionary>().Object;
+                _departementRepository.Object, _werkgeverRepository.Object, _contactPersoonRepository.Object,
+                _exceptionLogRepository.Object) {TempData = new Mock<ITempDataDictionary>().Object};
 
             _analyse = new Mock<Analyse>();
         }
@@ -68,10 +70,13 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Throws(new Exception());
 
-            var result = _controller.Index(new Analyse()) as RedirectToActionResult;
+            var result = _controller.Index(new Analyse{Departement = _dbContext.Aldi}) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Werkgever", result?.ControllerName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -147,6 +152,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal(model.Email, resultModel?.Email);
             Assert.Equal(model.AnalyseId, resultModel?.AnalyseId);
             Assert.Equal("Index", result?.ViewName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -201,7 +209,8 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal(expectedModel.WerkgeverId, resultModel?.WerkgeverId);
             Assert.Equal(expectedModel.PersoonId, resultModel?.PersoonId);
 
-            Assert.Equal(1, _controller.ModelState.ErrorCount); // er is een modelerror toegevoegd
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -285,6 +294,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.VerwijderContactpersoon(0, 0) as RedirectToActionResult;
             
             Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
@@ -298,7 +310,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
             };
 
             _dbContext.Aldi.ContactPersoon = new ContactPersoon();
-            Analyse analyse = new Analyse { Departement = _dbContext.Aldi};
 
             _contactPersoonRepository.Setup(c => c.GetById(It.IsAny<int>())).Returns(cp);
 
@@ -321,6 +332,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = _controller.VerwijderBevestigd(0, 0, _analyse.Object) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
