@@ -19,6 +19,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         private readonly ArchiefController _controller;
         private readonly Mock<IAnalyseRepository> _analyseRepository;
         private readonly Mock<IJobcoachRepository> _jobcoachRepository;
+        private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
         private readonly DummyApplicationDbContext _dbContext;
         private readonly Analyse _analyseAldi;
         private readonly Analyse _analyse;
