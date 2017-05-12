@@ -258,20 +258,6 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
-        #region MaakPdfAnalyse
-        public IActionResult MaakPdfAnalyse(int id)
-        {
-            throw new NotImplementedException("Archief/MaakPdfAnalyse");
-        }
-        #endregion
-
-        #region AfdrukkenAnalyse
-        public IActionResult AfdrukkenAnalyse(int id)
-        {
-            throw new NotImplementedException("Archief/AfdrukkenAnalyse");
-        }
-        #endregion
-
         #region MailAnalyse
         public IActionResult MailAnalyse(int id)
         {
