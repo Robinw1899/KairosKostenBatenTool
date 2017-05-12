@@ -36,7 +36,6 @@ namespace KairosWeb_Groep6.Models.Domain
         #endregion
 
         #region Methods
-
         public void SelecteerMatchendeAnalyse(string zoekterm)
         {
             if (!string.IsNullOrEmpty(zoekterm))

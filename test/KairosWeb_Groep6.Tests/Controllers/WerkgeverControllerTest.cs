@@ -248,16 +248,16 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region ZoekWerkgever
-        //[Fact]
-        //public void TestZoekWerkgever_RepositoryGooitException_RedirectsToBestaandeWerkgever()
-        //{
-        //    _werkgeverRepository.Setup(r => r.GetWerkgevers(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()))
-        //        .Throws(new Exception());
+        [Fact]
+        public void TestZoekWerkgever_RepositoryGooitException_RedirectsToBestaandeWerkgever()
+        {
+            _werkgeverRepository.Setup(r => r.GetByName(It.IsAny<string>()))
+                .Throws(new Exception());
 
-        //    var result = _controller.ZoekWerkgever("hallo") as RedirectToActionResult;
+            var result = _controller.ZoekWerkgever(new BestaandeWerkgeverViewModel(), "hallo") as RedirectToActionResult;
 
-        //    Assert.Equal("BestaandeWerkgever", result?.ActionName);
-        //}
+            Assert.Equal("BestaandeWerkgever", result?.ActionName);
+        }
 
         [Fact]
         public void TestZoekWerkgever_NaamNull_MethodeFaaltNiet()
@@ -270,27 +270,63 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal("_Werkgevers", result?.ViewName);
         }
 
-        //[Fact]
-        //public void TestZoekWerkgever_NaamEmpty_MethodeFaaltNiet()
-        //{
-        //    _werkgeverRepository.Setup(r => r.GetAll())
-        //        .Returns(new List<Werkgever>());
+        [Fact]
+        public void TestZoekWerkgever_NaamEmpty_MethodeFaaltNiet()
+        {
+            _werkgeverRepository.Setup(r => r.GetWerkgevers())
+                .Returns(new List<Werkgever>
+                {
+                    _dbContext.Aldi.Werkgever,
+                    _dbContext.Aldi.Werkgever,
+                    _dbContext.Aldi.Werkgever
+                });
 
-        //    var result = _controller.ZoekWerkgever("") as PartialViewResult;
+            var result = _controller.ZoekWerkgever(new BestaandeWerkgeverViewModel(), "") as PartialViewResult;
+            var model = result?.ViewData.Model as BestaandeWerkgeverViewModel;
 
-        //    Assert.Equal("_Werkgevers", result?.ViewName);
-        //}
+            Assert.Equal("_Werkgevers", result?.ViewName);
+            Assert.Equal(3, model?.Werkgevers.Count());
+        }
 
-        //[Fact]
-        //public void TestZoekWerkgever_ReturnsPartial()
-        //{
-        //    _werkgeverRepository.Setup(r => r.GetAll())
-        //        .Returns(new List<Werkgever>());
+        [Fact]
+        public void TestZoekWerkgever_GeenResultaten_ReturnsEmptyModel()
+        {
+            _werkgeverRepository.Setup(r => r.GetWerkgevers())
+                .Returns(new List<Werkgever>
+                {
+                    _dbContext.Aldi.Werkgever,
+                    _dbContext.Aldi.Werkgever,
+                    _dbContext.Aldi.Werkgever
+                });
 
-        //    var result = _controller.ZoekWerkgever("geen") as PartialViewResult;
+            var result = _controller.ZoekWerkgever(new BestaandeWerkgeverViewModel(), "geen") as PartialViewResult;
+            var model = result?.ViewData.Model as BestaandeWerkgeverViewModel;
 
-        //    Assert.Equal("_Werkgevers", result?.ViewName);
-        //}
+            Assert.Equal("_Werkgevers", result?.ViewName);
+            Assert.Equal(0, model?.Werkgevers.Count());
+        }
+
+        [Fact]
+        public void TestZoekWerkgever_Succes_ReturnsPartialWithModel()
+        {
+            List<Werkgever> werkgevers = new List<Werkgever>
+            {
+                _dbContext.Aldi.Werkgever,
+                _dbContext.Aldi.Werkgever,
+                _dbContext.Aldi.Werkgever
+            };
+
+            _werkgeverRepository.Setup(r => r.GetWerkgevers())
+                .Returns(werkgevers);
+            _werkgeverRepository.Setup(r => r.GetByName("aldi"))
+                .Returns(werkgevers);
+
+            var result = _controller.ZoekWerkgever(new BestaandeWerkgeverViewModel(), "aldi") as PartialViewResult;
+            var model = result?.ViewData.Model as BestaandeWerkgeverViewModel;
+
+            Assert.Equal("_Werkgevers", result?.ViewName);
+            Assert.Equal(3, model?.Werkgevers.Count());
+        }
         #endregion
 
         #region Bestaand departement

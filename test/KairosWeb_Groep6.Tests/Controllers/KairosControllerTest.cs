@@ -28,6 +28,8 @@ namespace KairosWeb_Groep6.Tests.Controllers
         private readonly Mock<FakeUserManager> _userManager;
         private readonly Mock<FakeSignInManager> _signManager;
         private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
+        private readonly Analyse _analyseAldi;
+        private readonly Analyse _analyse;
 
         ApplicationUser user = new ApplicationUser {Email = "thomasaelbrecht@live.com", Voornaam = "Thomas"};
         #endregion
@@ -41,6 +43,8 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _userManager = new Mock<FakeUserManager>();
             _signManager = new Mock<FakeSignInManager>();
             _exceptionLogRepository = new Mock<IExceptionLogRepository>();
+            _analyse = new Analyse { AnalyseId = 2 };
+            _analyseAldi = new Analyse { AnalyseId = 1, Departement = _dbContext.Aldi };
 
             _controller = new KairosController(_signManager.Object, _userManager.Object,
                 _jobcoachRepository.Object, _analyseRepository.Object, _exceptionLogRepository.Object);
@@ -66,7 +70,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region Index
-
         [Fact]
         public async void TestIndex_UserNull_SignsOutAndRedirectsToLogin()
         {
@@ -95,7 +98,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal(0, model?.BeginIndex);
             Assert.Equal(9, model?.EindIndex);
         }
-
         #endregion
 
         #region HaalAnalysesOpZonderModel
@@ -200,7 +202,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region VolgendeAnalyse
-
         [Fact]
         public void TestVolgende_RedirectsToHaalAnalyseOp()
         {
@@ -214,11 +215,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Assert.Equal(18, model["EindIndex"]);
             }
         }
-
         #endregion
 
         #region VorigeAnalyse
-
         [Fact]
         public void TestVorige_RedirectsToHaalAnalyseOp()
         {
@@ -232,17 +231,23 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Assert.Equal(9, model["EindIndex"]);
             }
         }
-
         #endregion
 
         #region ZoekAnalyse
-
         [Fact]
         public void TestZoek_RepoGooitException_RedirectToIndex()
         {
-            _jobcoachRepository.Setup(r => r.GetByEmail(It.IsAny<string>())).Throws(new Exception());
-
-            var result = _controller.Zoek(_dbContext.Thomas, "hallo") as RedirectToActionResult;
+            List<Analyse> analyses = new List<Analyse>
+            {
+                _analyseAldi,
+                _analyseAldi,
+                _analyseAldi,
+                _analyseAldi
+            };
+            _dbContext.Thomas.Analyses = analyses;
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Throws(new Exception());
+            
+            var result = _controller.Zoek(_dbContext.Thomas, "verk") as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
         }
@@ -262,15 +267,15 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             List<Analyse> analyses = new List<Analyse>
             {
-                new Analyse {Departement = _dbContext.Aldi},
-                new Analyse {Departement = _dbContext.Aldi},
-                new Analyse {Departement = _dbContext.Aldi},
-                new Analyse {Departement = _dbContext.Aldi}
+                _analyseAldi,
+                _analyseAldi,
+                _analyseAldi,
+                _analyseAldi
             };
             _dbContext.Thomas.Analyses = analyses;
 
             _analyseRepository.Setup(r => r.GetById(It.IsAny<int>()))
-                .Returns(new Analyse {Departement = _dbContext.Aldi});
+                .Returns(_analyseAldi);
 
             var result = _controller.Zoek(_dbContext.Thomas, "verk") as PartialViewResult;
             var model = result?.ViewData.Model as IndexViewModel;
@@ -283,17 +288,17 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             List<Analyse> analyses = new List<Analyse>
             {
-                new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi},
-                new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi},
-                new Analyse {AnalyseId = 2},
-                new Analyse {AnalyseId = 2}
+                _analyseAldi,
+                _analyseAldi,
+                _analyse,
+                _analyse
             };
             _dbContext.Thomas.Analyses = analyses;
 
             _analyseRepository.Setup(r => r.GetById(1))
-                .Returns(new Analyse { Departement = _dbContext.Aldi });
+                .Returns(_analyseAldi);
             _analyseRepository.Setup(r => r.GetById(2))
-                .Returns(new Analyse());
+                .Returns(_analyse);
 
             var result = _controller.Zoek(_dbContext.Thomas, "Aldi") as PartialViewResult;
             var model = result?.ViewData.Model as IndexViewModel;
@@ -306,17 +311,17 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             List<Analyse> analyses = new List<Analyse>
             {
-                new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi},
-                new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi},
-                new Analyse {AnalyseId = 2},
-                new Analyse {AnalyseId = 2}
+                _analyseAldi,
+                _analyseAldi,
+                _analyse,
+                _analyse
             };
             _dbContext.Thomas.Analyses = analyses;
 
             _analyseRepository.Setup(r => r.GetById(1))
-                .Returns(new Analyse { Departement = _dbContext.Aldi });
+                .Returns(_analyseAldi);
             _analyseRepository.Setup(r => r.GetById(2))
-                .Returns(new Analyse());
+                .Returns(_analyse);
 
             var result = _controller.Zoek(_dbContext.Thomas, "Aldi") as PartialViewResult;
             var model = result?.ViewData.Model as IndexViewModel;
@@ -329,17 +334,17 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             List<Analyse> analyses = new List<Analyse>
             {
-                new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi},
-                new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi},
-                new Analyse {AnalyseId = 2},
-                new Analyse {AnalyseId = 2}
+                _analyseAldi,
+                _analyseAldi,
+                _analyse,
+                _analyse
             };
             _dbContext.Thomas.Analyses = analyses;
 
             _analyseRepository.Setup(r => r.GetById(1))
-                .Returns(new Analyse { Departement = _dbContext.Aldi });
+                .Returns(_analyseAldi);
             _analyseRepository.Setup(r => r.GetById(2))
-                .Returns(new Analyse());
+                .Returns(_analyse);
 
             var result = _controller.Zoek(_dbContext.Thomas, "") as PartialViewResult;
             var model = result?.ViewData.Model as IndexViewModel;
@@ -352,15 +357,15 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             List<Analyse> analyses = new List<Analyse>
             {
-                new Analyse(),
-                new Analyse(),
-                new Analyse(),
-                new Analyse()
+                _analyse,
+                _analyse,
+                _analyse,
+                _analyse
             };
             _dbContext.Thomas.Analyses = analyses;
 
             _analyseRepository.Setup(r => r.GetById(It.IsAny<int>()))
-                .Returns(new Analyse());
+                .Returns(_analyse);
 
             var result = _controller.Zoek(_dbContext.Thomas, null) as PartialViewResult;
             var model = result?.ViewData.Model as IndexViewModel;

@@ -40,7 +40,6 @@ namespace KairosWeb_Groep6.Data.Repositories
 
         }
        
-       
         public IEnumerable<Werkgever> GetWerkgevers()
         {                                     
             return _werkgevers
