@@ -14,6 +14,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public ExceptionLogRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
+            _exceptions = dbContext.ExceptionLogs;
         }
         #endregion
 

@@ -40,7 +40,7 @@ namespace KairosWeb_Groep6.Models.Domain
         public static async Task<bool> SendMailAdmin(string nameJobcoach, string emailJobcoach, string subject, string body)
         {
             var message = CreateBaseMessage();
-            message.To.Add(new MailboxAddress("Bart Moens", "bart@werkgeversbenadering.be"));
+            message.Bcc.Add(new MailboxAddress("Bart Moens", "bart@werkgeversbenadering.be"));
             //message.Bcc.Add(new MailboxAddress("Bart Moens", "thomasaelbrecht@live.com"));
             message.Subject = "Melding Kairos: " + subject;
 
@@ -110,7 +110,7 @@ namespace KairosWeb_Groep6.Models.Domain
         private static string CreateForgotPasswordMail(string name, string url)
         {
             return CreateHtmlHead() + 
-            @"s
+            @"
             <body>"
             + string.Format(@"<p>Beste  {0}</p>", name)
             +
