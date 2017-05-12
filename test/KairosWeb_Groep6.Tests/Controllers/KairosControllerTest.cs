@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using KairosWeb_Groep6.Controllers;
@@ -28,10 +29,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         private readonly Mock<FakeSignInManager> _signManager;
         private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
 
-        private EersteKeerAanmeldenViewModel _aanmeldenViewModel;
-        private EersteKeerAanmeldenViewModel _foutAanmeldenViewModel;
-
-        ApplicationUser user = new ApplicationUser { Email = "thomasaelbrecht@live.com", Voornaam = "Thomas" };
+        ApplicationUser user = new ApplicationUser {Email = "thomasaelbrecht@live.com", Voornaam = "Thomas"};
         #endregion
 
         #region Constructor
@@ -43,7 +41,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _userManager = new Mock<FakeUserManager>();
             _signManager = new Mock<FakeSignInManager>();
             _exceptionLogRepository = new Mock<IExceptionLogRepository>();
-            
+
             _controller = new KairosController(_signManager.Object, _userManager.Object,
                 _jobcoachRepository.Object, _analyseRepository.Object, _exceptionLogRepository.Object);
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
@@ -64,9 +62,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 new Analyse()
             };
         }
+
         #endregion
 
         #region Index
+
         [Fact]
         public async void TestIndex_UserNull_SignsOutAndRedirectsToLogin()
         {
@@ -95,9 +95,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal(0, model?.BeginIndex);
             Assert.Equal(9, model?.EindIndex);
         }
+
         #endregion
 
         #region HaalAnalysesOpZonderModel
+
         [Fact]
         public void TestHaalAnalysesOpZonderModel_RedirectsToHaalAnalysesOp()
         {
@@ -111,9 +113,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Assert.Equal(27, model["EindIndex"]);
             }
         }
+
         #endregion
 
         #region HaalAnalysesOp
+
         [Fact]
         public void TestHaalAnalysesOp_RepoGooitException_RedirectsToIndex()
         {
@@ -192,14 +196,16 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal(2, resultModel?.BeginIndex);
             Assert.Equal(11, resultModel?.EindIndex);
         }
+
         #endregion
 
         #region VolgendeAnalyse
+
         [Fact]
         public void TestVolgende_RedirectsToHaalAnalyseOp()
         {
             var result = _controller.Volgende(0, 9) as RedirectToActionResult;
-            RouteValueDictionary model = result?.RouteValues; 
+            RouteValueDictionary model = result?.RouteValues;
 
             Assert.Equal("HaalAnalysesOp", result?.ActionName);
             if (model != null)
@@ -208,9 +214,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Assert.Equal(18, model["EindIndex"]);
             }
         }
+
         #endregion
 
         #region VorigeAnalyse
+
         [Fact]
         public void TestVorige_RedirectsToHaalAnalyseOp()
         {
@@ -224,13 +232,146 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Assert.Equal(9, model["EindIndex"]);
             }
         }
+
         #endregion
 
         #region ZoekAnalyse
-        // To do
+
+        [Fact]
+        public void TestZoek_RepoGooitException_RedirectToIndex()
+        {
+            _jobcoachRepository.Setup(r => r.GetByEmail(It.IsAny<string>())).Throws(new Exception());
+
+            var result = _controller.Zoek(_dbContext.Thomas, "hallo") as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+        }
+
+        [Fact]
+        public void TestZoek_Succes_ReturnsPartial()
+        {
+            _jobcoachRepository.Setup(r => r.GetByEmail(It.IsAny<string>())).Returns(_dbContext.Thomas);
+
+            var result = _controller.Zoek(_dbContext.Thomas, "hallo") as PartialViewResult;
+
+            Assert.Equal("_Analyses", result?.ViewName);
+        }
+
+        [Fact]
+        public void TestZoek_Succes_ZoekenOpDepartement_ReturnsIndexViewModel()
+        {
+            List<Analyse> analyses = new List<Analyse>
+            {
+                new Analyse {Departement = _dbContext.Aldi},
+                new Analyse {Departement = _dbContext.Aldi},
+                new Analyse {Departement = _dbContext.Aldi},
+                new Analyse {Departement = _dbContext.Aldi}
+            };
+            _dbContext.Thomas.Analyses = analyses;
+
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>()))
+                .Returns(new Analyse {Departement = _dbContext.Aldi});
+
+            var result = _controller.Zoek(_dbContext.Thomas, "verk") as PartialViewResult;
+            var model = result?.ViewData.Model as IndexViewModel;
+
+            Assert.Equal(4, model?.Analyses.Count());
+        }
+
+        [Fact]
+        public void TestZoek_Succes_ZoekenOpWerkgever_ReturnsIndexViewModel()
+        {
+            List<Analyse> analyses = new List<Analyse>
+            {
+                new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi},
+                new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi},
+                new Analyse {AnalyseId = 2},
+                new Analyse {AnalyseId = 2}
+            };
+            _dbContext.Thomas.Analyses = analyses;
+
+            _analyseRepository.Setup(r => r.GetById(1))
+                .Returns(new Analyse { Departement = _dbContext.Aldi });
+            _analyseRepository.Setup(r => r.GetById(2))
+                .Returns(new Analyse());
+
+            var result = _controller.Zoek(_dbContext.Thomas, "Aldi") as PartialViewResult;
+            var model = result?.ViewData.Model as IndexViewModel;
+
+            Assert.Equal(2, model?.Analyses.Count());
+        }
+
+        [Fact]
+        public void TestZoek_Succes_ZoekenOpGemeente_ReturnsIndexViewModel()
+        {
+            List<Analyse> analyses = new List<Analyse>
+            {
+                new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi},
+                new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi},
+                new Analyse {AnalyseId = 2},
+                new Analyse {AnalyseId = 2}
+            };
+            _dbContext.Thomas.Analyses = analyses;
+
+            _analyseRepository.Setup(r => r.GetById(1))
+                .Returns(new Analyse { Departement = _dbContext.Aldi });
+            _analyseRepository.Setup(r => r.GetById(2))
+                .Returns(new Analyse());
+
+            var result = _controller.Zoek(_dbContext.Thomas, "Aldi") as PartialViewResult;
+            var model = result?.ViewData.Model as IndexViewModel;
+
+            Assert.Equal(2, model?.Analyses.Count());
+        }
+
+        [Fact]
+        public void TestZoek_Succes_LegeString_ReturnsIndexViewModel()
+        {
+            List<Analyse> analyses = new List<Analyse>
+            {
+                new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi},
+                new Analyse {AnalyseId = 1, Departement = _dbContext.Aldi},
+                new Analyse {AnalyseId = 2},
+                new Analyse {AnalyseId = 2}
+            };
+            _dbContext.Thomas.Analyses = analyses;
+
+            _analyseRepository.Setup(r => r.GetById(1))
+                .Returns(new Analyse { Departement = _dbContext.Aldi });
+            _analyseRepository.Setup(r => r.GetById(2))
+                .Returns(new Analyse());
+
+            var result = _controller.Zoek(_dbContext.Thomas, "") as PartialViewResult;
+            var model = result?.ViewData.Model as IndexViewModel;
+
+            Assert.Equal(4, model?.Analyses.Count());
+        }
+
+        [Fact]
+        public void TestZoek_Succes_ZoektermNull_ReturnsIndexViewModel()
+        {
+            List<Analyse> analyses = new List<Analyse>
+            {
+                new Analyse(),
+                new Analyse(),
+                new Analyse(),
+                new Analyse()
+            };
+            _dbContext.Thomas.Analyses = analyses;
+
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>()))
+                .Returns(new Analyse());
+
+            var result = _controller.Zoek(_dbContext.Thomas, null) as PartialViewResult;
+            var model = result?.ViewData.Model as IndexViewModel;
+
+            Assert.Equal(4, model?.Analyses.Count());
+        }
+
         #endregion
 
         #region EersteKeerAanmelden -- GET --
+
         [Fact]
         public async void EersteKeerAanmeldenGET_ExceptionGegooid_LogtUit()
         {
@@ -259,9 +400,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal(user.Email, model?.Email);
             Assert.Equal(_dbContext.Thomas.AlAangemeld, model?.AlAangemeld);
         }
+
         #endregion
 
         #region EersteKeerAanmelden -- POST --
+
         [Fact]
         public async void EersteKeerAanmelden_ResultNotSucceeded_LogUit()
         {
@@ -273,7 +416,8 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _userManager.Setup(u => u.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
                 .Returns(() => Task.FromResult(user));
 
-            var result = await _controller.EersteKeerAanmelden(new EersteKeerAanmeldenViewModel()) as RedirectToActionResult;
+            var result =
+                await _controller.EersteKeerAanmelden(new EersteKeerAanmeldenViewModel()) as RedirectToActionResult;
 
             Assert.Equal("Login", result?.ActionName);
             Assert.Equal("Account", result?.ControllerName);
@@ -288,7 +432,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
             IdentityResult idResult = IdentityResult.Success;
             Microsoft.AspNetCore.Identity.SignInResult signInResult
                 = Microsoft.AspNetCore.Identity.SignInResult.Success;
-           
+
             _userManager.Setup(u => u.ResetPasswordAsync(user, It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(Task.FromResult(idResult));
             _userManager.Setup(u => u.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
@@ -298,7 +442,8 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _jobcoachRepository.Setup(j => j.GetByEmail(It.IsAny<string>()))
                 .Returns(_dbContext.Thomas);
 
-            var result = await _controller.EersteKeerAanmelden(new EersteKeerAanmeldenViewModel()) as RedirectToActionResult;
+            var result =
+                await _controller.EersteKeerAanmelden(new EersteKeerAanmeldenViewModel()) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);
@@ -310,9 +455,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
             _jobcoachRepository.Verify(j => j.Save(), Times.Once);
         }
+
         #endregion
 
         #region Opmerking -- GET --
+
         [Fact]
         public void TestOpmerkingGET()
         {
@@ -322,9 +469,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal(null, model?.Onderwerp);
             Assert.Equal(null, model?.Bericht);
         }
+
         #endregion
 
         #region Opmerking -- POST --
+
         [Fact]
         public async void TestOpmerking_ModelStateInvalid_ReturnsViewWithModel()
         {
@@ -373,6 +522,8 @@ namespace KairosWeb_Groep6.Tests.Controllers
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);
         }
+
         #endregion
     }
 }
+;

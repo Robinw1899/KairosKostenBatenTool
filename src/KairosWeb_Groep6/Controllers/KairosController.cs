@@ -167,12 +167,13 @@ namespace KairosWeb_Groep6.Controllers
 
         #region Zoek analyse
         [HttpPost]
-        public IActionResult Zoek(string zoekterm)
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult Zoek(Jobcoach jobcoach, string zoekterm)
         {
             try
             {
-                string email = HttpContext.User.Identity.Name;
-                Jobcoach jobcoach = _jobcoachRepository.GetByEmail(email);
+                //string email = HttpContext.User.Identity.Name;
+                //Jobcoach jobcoach = _jobcoachRepository.GetByEmail(email);
 
                 if (jobcoach != null)
                 {
@@ -181,7 +182,7 @@ namespace KairosWeb_Groep6.Controllers
                         .Analyses
                         .NietInArchief()
                         .OrderByDescending(t => t.DatumLaatsteAanpassing)
-                        .Take(9)
+                        //.Take(9)
                         .ToList();
 
                     List<Analyse> analyses = new List<Analyse>();
