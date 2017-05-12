@@ -19,6 +19,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
     {
         #region Properties
         private readonly Mock<IJobcoachRepository> _jobcoachRepository;
+        private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
         private readonly ProfielController _controller;
         private readonly DefaultHttpContext _httpctx;
         private readonly DummyApplicationDbContext _dbContext;
@@ -34,8 +35,10 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _userManager = new Mock<FakeUserManager>();
             _signInManager = new Mock<FakeSignInManager>();
 
+            _exceptionLogRepository = new Mock<IExceptionLogRepository>();
+
             _controller = new ProfielController(_userManager.Object, _jobcoachRepository.Object,
-                _signInManager.Object);
+                _signInManager.Object, _exceptionLogRepository.Object);
             _httpctx = new DefaultHttpContext();
             _controller.ControllerContext.HttpContext = _httpctx;
             _controller.TempData = new Mock<ITempDataDictionary>().Object;
@@ -44,7 +47,21 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
         #region Index
         [Fact]
-        public void TestIndex()
+        public void TestIndex_RepositoryGooitException_RedirectToKairosIndex()
+        {
+            _jobcoachRepository.Setup(j => j.GetByEmail(It.IsAny<string>())).Throws(new Exception());
+
+            var result = _controller.Index() as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
+        }
+
+        [Fact]
+        public void TestIndex_Succes()
         {
             _jobcoachRepository.Setup(j => j.GetByEmail(It.IsAny<string>())).Returns(_dbContext.Thomas);
 
@@ -80,6 +97,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var result = await _controller.Opslaan(new ProfielViewModel()) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
+
+            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
+            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
         }
 
         [Fact]
