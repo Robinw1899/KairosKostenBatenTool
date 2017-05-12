@@ -188,29 +188,14 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #endregion
 
         #region Bestaande werkgever -- GET --
-        [Fact(Skip = "Not implemented yet")]
-        public void TestBestaandeWerkgeverGET_RepositoryGooitException_MethodeFaaltNiet()
-        {
-            _werkgeverRepository.Setup(r => r.GetAll()).Throws(new Exception());
-
-            var result = _controller.BestaandeWerkgever() as RedirectToActionResult;
-
-            Assert.Equal("Index", result?.ActionName);
-        }
-
-        [Fact(Skip = "Not implemented yet")]
+        [Fact]
         public void TestBestaandeWerkgever_ReturnsViewWithModel()
         {
-            _werkgeverRepository.Setup(r => r.GetAll())
-                .Returns(new List<Werkgever>
-                {
-                    _dbContext.Aldi.Werkgever
-                });
-
             var result = _controller.BestaandeWerkgever() as ViewResult;
             var model = result?.Model as BestaandeWerkgeverViewModel;
 
-            Assert.Equal(1, model?.Werkgevers.Count());
+            Assert.Equal(0, model?.Werkgevers.Count());
+            Assert.True(model?.FirstLoad);
         }
         #endregion
 

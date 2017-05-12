@@ -271,9 +271,6 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
-        
-
-
         #region Bestaand departement
         public IActionResult BestaandDepartement(int id)
         {// id is is het id van de werkgever
@@ -303,6 +300,7 @@ namespace KairosWeb_Groep6.Controllers
         }
         #endregion
 
+        #region ToonAlles
         public IActionResult ToonAlles()
         {
             BestaandeWerkgeverViewModel model = new BestaandeWerkgeverViewModel()
@@ -316,7 +314,8 @@ namespace KairosWeb_Groep6.Controllers
 
             return PartialView("_Werkgevers", model);
         }
-      
+        #endregion
+
         #region Nieuw departement
         public IActionResult NieuwDepartement(int id)
         {
