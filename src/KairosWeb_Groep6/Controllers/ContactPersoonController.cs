@@ -1,4 +1,5 @@
-﻿using KairosWeb_Groep6.Filters;
+﻿using System;
+using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.KairosViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -15,6 +16,7 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IDepartementRepository _departementRepository;
         private readonly IWerkgeverRepository _werkgeverRepository;
         private readonly IContactPersoonRepository _contactPersoonRepository;
+        private readonly IExceptionLogRepository _exceptionLogRepository;
         #endregion 
 
         #region Constructor
@@ -22,12 +24,14 @@ namespace KairosWeb_Groep6.Controllers
             IAnalyseRepository analyseRepository,
             IDepartementRepository departementenRepository,
             IWerkgeverRepository werkgeverRepository,
-            IContactPersoonRepository contactPersoonRepository)
+            IContactPersoonRepository contactPersoonRepository,
+            IExceptionLogRepository exceptionLogRepository)
         {
             _analyseRepository = analyseRepository;
             _departementRepository = departementenRepository;
             _werkgeverRepository = werkgeverRepository;
             _contactPersoonRepository = contactPersoonRepository;
+            _exceptionLogRepository = exceptionLogRepository;
         }
         #endregion
 
@@ -70,9 +74,11 @@ namespace KairosWeb_Groep6.Controllers
                     return RedirectToAction("VoegContactPersoonToe", new { id = werkgever.WerkgeverId });
                 }
             }
-            catch
+            catch (Exception e)
             {
-                TempData["error"] = "U hebt nog geen werkgever geselecteerd, gelieve deze eerst te selecteren";
+                _exceptionLogRepository.Add(new ExceptionLog(e, "ContactPersoon", "Index"));
+                _exceptionLogRepository.Save();
+                TempData["error"] = "Er ging onverwachts iets mis, probeer later opnieuw";
                 return RedirectToAction("Index", "Werkgever");
             }
         }
@@ -101,9 +107,11 @@ namespace KairosWeb_Groep6.Controllers
 
                 TempData["message"] = "De contactpersoon " + cp.Voornaam + " " + cp.Naam + " is succesvol toegevoegd";
             }
-            catch
+            catch (Exception e)
             {
-                ModelState.AddModelError("", "Er is al een contactpersoon met dit e-mailadres, gelieve een ander te kiezen");
+                _exceptionLogRepository.Add(new ExceptionLog(e, "ContactPersoon", "VoegToe"));
+                _exceptionLogRepository.Save();
+                TempData["error"] = "Er ging onverwachts iets mis, probeer later opnieuw";
                 return View("Index", model);
             }
 
@@ -140,9 +148,11 @@ namespace KairosWeb_Groep6.Controllers
                     }
                 }
             }
-            catch
+            catch (Exception e)
             {
-                ModelState.AddModelError("", "Er is al een contactpersoon met die e-mailadres");
+                _exceptionLogRepository.Add(new ExceptionLog(e, "ContactPersoon", "Opslaan"));
+                _exceptionLogRepository.Save();
+                TempData["error"] = "Er ging onverwachts iets mis, probeer later opnieuw";
             }
 
             // als we hier komen, moet het formulier nog eens getoond worden
@@ -162,8 +172,10 @@ namespace KairosWeb_Groep6.Controllers
                 ViewData["werkgeverId"] = werkgeverid;
                 ViewData["contactpersoon"] = cp.Voornaam + " " + cp.Naam;
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "ContactPersoon", "VerwijderContactPersoon"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er is een fout opgetreden tijdens het voorbereiden van het verwijderen, probeer later opnieuw";
                 return RedirectToAction("Index");
             }
@@ -192,53 +204,16 @@ namespace KairosWeb_Groep6.Controllers
 
                 TempData["message"] = "De contactpersoon " + cp.Voornaam + " " + cp.Naam + " is succesvol verwijderd";
             }
-            catch
+            catch (Exception e)
             {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "ContactPersoon", "VerwijderBevestigd"));
+                _exceptionLogRepository.Save();
                 TempData["error"] = "Er is een fout opgetreden tijdens het verwijderen van de contactpersoon, probeer later opnieuw";
             }
 
             return RedirectToAction("Index");
 
         }
-        #endregion
-
-        #region SelecteerContactPersoon
-        //public IActionResult SelecteerHoofdContactPersoon(int werkgeverId, int contactPersoonId)
-        //{
-        //    return RedirectToAction("SelecteerContactPersoon", new
-        //    {
-        //        werkgeverId,
-        //        contactPersoonId
-        //    });
-        //}
-
-        //[ServiceFilter(typeof(AnalyseFilter))]
-        //public IActionResult SelecteerContactPersoon(int werkgeverId, int contactPersoonId, Analyse analyse)
-        //{
-        //    try
-        //    {
-        //        Werkgever werkgever = _werkgeverRepository.GetById(werkgeverId);
-        //        ContactPersoon cp = werkgever
-        //            .ContactPersonen
-        //            .FirstOrDefault(c => c.ContactPersoonId == contactPersoonId);
-
-        //        if (cp != null)
-        //        {
-        //            analyse.ContactPersooon = cp;
-        //            _analyseRepository.Save();
-        //        }
-        //        else
-        //        {
-        //            TempData["error"] = "Deze contactpersoon bestaat niet, kies een andere";
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        TempData["error"] = "Er ging iets mis tijdens het ophalen en instellen van de contactpersoon";
-        //    }
-
-        //    return RedirectToAction("Index");
-        //}
         #endregion
     }
 }
