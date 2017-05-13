@@ -1,4 +1,6 @@
-﻿@model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
+﻿@using System.Linq
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
 
 @if (Model == null || !Model.Analyses.Any())
 {

@@ -191,17 +191,7 @@ namespace KairosWeb_Groep6.Controllers
                         .OrderByDescending(t => t.DatumLaatsteAanpassing)
                         //.Take(9)
                         .ToList();
-
-                    List<Analyse> analyses = new List<Analyse>();
-
-                    foreach (Analyse a in jobcoach.Analyses)
-                    {
-                        analyses.Add(_analyseRepository.GetById(a.AnalyseId));
-                    }
-
-                    jobcoach.Analyses = analyses;
                 }
-                // anders worden alle analyses getoond
 
                 IndexViewModel model = new IndexViewModel(jobcoach);              
 
