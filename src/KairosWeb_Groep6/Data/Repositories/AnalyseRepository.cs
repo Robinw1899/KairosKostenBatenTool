@@ -26,6 +26,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public IEnumerable<Analyse> GetAllZonderIncludes()
         {
             return _analyses
+                .Where(a => a.Verwijderd == false)
                 .AsNoTracking()
                 .ToList();
         }
@@ -33,6 +34,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public IEnumerable<Analyse> GetAnalysesNietInArchief()
         {          
             return _analyses
+                .Where(a => a.Verwijderd == false)
                 .Include(a => a.Departement)
                     .ThenInclude(d => d.Werkgever)
                 .Include(a => a.BegeleidingsKosten)
@@ -62,6 +64,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public IEnumerable<Analyse> GetAnalysesUitArchief()
         {
             return _analyses
+                .Where(a => a.Verwijderd == false)
                 .Include(a => a.Departement)
                     .ThenInclude(d => d.Werkgever)
                 .Include(a => a.BegeleidingsKosten)
@@ -91,6 +94,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public Analyse GetById(int id)
         {
             return _analyses
+                .Where(a => a.Verwijderd == false)
                 .Include(a => a.Departement)
                     .ThenInclude(d => d.Werkgever)
                 .Include(a => a.BegeleidingsKosten)
@@ -118,6 +122,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             List<Analyse> legeAnalyses = jobcoach
                 .Analyses
+                .Where(a => a.Verwijderd == false)
                 .Skip(index)
                 .Take(aantal)
                 .ToList();
@@ -129,6 +134,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             jobcoach.Analyses = jobcoach
                         .Analyses
+                        .Where(a => a.Verwijderd == false)
                         .Where(j => j.InArchief == archief)
                         .OrderByDescending(t => t.DatumLaatsteAanpassing)
                         .ToList();

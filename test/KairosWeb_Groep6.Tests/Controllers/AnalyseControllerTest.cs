@@ -12,11 +12,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
     public class AnalyseControllerTest
     {
         #region Properties
+        private readonly DummyApplicationDbContext _dbContext;
         private readonly Mock<IAnalyseRepository> _analyseRepository;
         private readonly Mock<IJobcoachRepository> _jobcoachRepository;
         private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
         private readonly AnalyseController _controller;
-        private readonly Jobcoach _jobcoach;
         #endregion
 
         #region Constructors
@@ -28,8 +28,8 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _controller = new AnalyseController(_analyseRepository.Object, _jobcoachRepository.Object,
                 _exceptionLogRepository.Object) {TempData = new Mock<ITempDataDictionary>().Object};
 
-            DummyApplicationDbContext dbContext = new DummyApplicationDbContext();
-            _jobcoach = dbContext.Thomas;
+            _dbContext = new DummyApplicationDbContext();
+            _dbContext.Thomas.Analyses.Add(new Analyse { AnalyseId = 1 });
         }
         #endregion
 
@@ -48,7 +48,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepository.Setup(r => r.Save()).Throws(new ArgumentException("Exception"));
 
-            var result = _controller.NieuweAnalyse(_jobcoach) as RedirectToActionResult;
+            var result = _controller.NieuweAnalyse(_dbContext.Thomas) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);
@@ -60,9 +60,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestNieuweAnalyse_Succes()
         {
-            _jobcoachRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(_jobcoach);
+            _jobcoachRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(_dbContext.Thomas);
 
-            var result = _controller.NieuweAnalyse(_jobcoach) as RedirectToActionResult;
+            var result = _controller.NieuweAnalyse(_dbContext.Thomas) as RedirectToActionResult;
 
             Assert.Equal("SelecteerWerkgever", result?.ActionName);
             Assert.Equal("Werkgever", result?.ControllerName);
@@ -75,7 +75,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Throws(new Exception());
 
-            var result = _controller.OpenAnalyse(1) as RedirectToActionResult;
+            var result = _controller.OpenAnalyse(_dbContext.Thomas, 1) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);
@@ -85,11 +85,32 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
+        public void TestOpenAnalyse_GeenAnalyseVanJobcoach()
+        {
+            var result = _controller.OpenAnalyse(_dbContext.Thomas, 10) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
+        public void TestOpenAnalyse_AnalyseVerwijderd()
+        {
+            _dbContext.Thomas.Analyses.Add(new Analyse{AnalyseId = 2, Verwijderd = true});
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(new Analyse {Verwijderd = true});
+
+            var result = _controller.OpenAnalyse(_dbContext.Thomas, 2) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
         public void TestOpenAnalyse_Succes()
         {
             _analyseRepository.Setup(r => r.GetById(1)).Returns(new Analyse());
 
-            var result = _controller.OpenAnalyse(1) as RedirectToActionResult;
+            var result = _controller.OpenAnalyse(_dbContext.Thomas, 1) as RedirectToActionResult;
 
 
             Assert.Equal("Index", result?.ActionName);
@@ -103,7 +124,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Throws(new Exception());
 
-            var result = _controller.VerwijderAnalyse(1, "") as RedirectToActionResult;
+            var result = _controller.VerwijderAnalyse(_dbContext.Thomas, 1, "") as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);
@@ -113,11 +134,33 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
+        public void TestVerwijderAnalyseGET_GeenAnalyseVanJobcoach()
+        {
+            var result = _controller.VerwijderAnalyse(_dbContext.Thomas, 10, "") as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
+        public void TestVerwijderAnalyseGET_AnalyseVerwijderd()
+        {
+            _dbContext.Thomas.Analyses.Add(new Analyse { AnalyseId = 2, Verwijderd = true });
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(new Analyse { Verwijderd = true });
+
+            var result = _controller.VerwijderAnalyse(_dbContext.Thomas, 2, "") as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
         public void TestVerwijderAnalyse_Succes()
         {
             _analyseRepository.Setup(r => r.GetById(1)).Returns(new Analyse());
+            _dbContext.Thomas.Analyses.Add(new Analyse { AnalyseId = 1 });
 
-            var result = _controller.VerwijderAnalyse(1, "") as ViewResult;
+            var result = _controller.VerwijderAnalyse(_dbContext.Thomas, 1, "") as ViewResult;
 
             //default view = naam van methode, niet automatisch ingevuld
             Assert.Equal(null, result?.ViewName);
@@ -130,7 +173,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Throws(new Exception());
 
-            var result = _controller.VerwijderAnalyseBevestigd(1) as RedirectToActionResult;
+            var result = _controller.VerwijderAnalyseBevestigd(_dbContext.Thomas, 1) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);
@@ -140,11 +183,31 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
+        public void TestVerwijdeAnalysePOST_GeenAnalyseVanJobcoach()
+        {
+            var result = _controller.VerwijderAnalyseBevestigd(_dbContext.Thomas, 10) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
+        public void TestVerwijderAnalysePOST_AnalyseVerwijderd()
+        {
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(new Analyse { Verwijderd = true });
+
+            var result = _controller.VerwijderAnalyseBevestigd(_dbContext.Thomas, 1) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
         public void TestVerwijderAnalysePOST_Succes()
         {
             _analyseRepository.Setup(r => r.GetById(1)).Returns(new Analyse());
 
-            var result = _controller.VerwijderAnalyseBevestigd(1) as RedirectToActionResult;
+            var result = _controller.VerwijderAnalyseBevestigd(_dbContext.Thomas, 1) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);
@@ -157,7 +220,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Throws(new Exception());
 
-            var result = _controller.Archiveer(1) as RedirectToActionResult;
+            var result = _controller.Archiveer(_dbContext.Thomas, 1) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);
@@ -167,11 +230,32 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
+        public void TestArchiveerGET_GeenAnalyseVanJobcoach()
+        {
+            var result = _controller.Archiveer(_dbContext.Thomas, 10) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
+        public void TestArchiveer_AnalyseVerwijderd()
+        {
+            _dbContext.Thomas.Analyses.Add(new Analyse { AnalyseId = 2, Verwijderd = true });
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(new Analyse { Verwijderd = true });
+
+            var result = _controller.Archiveer(_dbContext.Thomas, 2) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
         public void TestArchiveer_Succes()
         {
             _analyseRepository.Setup(r => r.GetById(1)).Returns(new Analyse());
 
-            var result = _controller.Archiveer(1) as ViewResult;
+            var result = _controller.Archiveer(_dbContext.Thomas, 1) as ViewResult;
 
             Assert.Equal("ArchiveerAnalyse", result?.ViewName);
         }
@@ -183,7 +267,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Throws(new Exception());
 
-            var result = _controller.ArchiveerBevestigd(1) as RedirectToActionResult;
+            var result = _controller.ArchiveerBevestigd(_dbContext.Thomas, 1) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);
@@ -193,11 +277,32 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
+        public void TestArchiveerPOST_GeenAnalyseVanJobcoach()
+        {
+            var result = _controller.ArchiveerBevestigd(_dbContext.Thomas, 10) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
+        public void TestArchiveerBevestigd_AnalyseVerwijderd()
+        {
+            _dbContext.Thomas.Analyses.Add(new Analyse { AnalyseId = 2, Verwijderd = true });
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(new Analyse { Verwijderd = true });
+
+            var result = _controller.ArchiveerBevestigd(_dbContext.Thomas, 2) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
         public void TestArchiveerPOST_Succes()
         {
             _analyseRepository.Setup(r => r.GetById(1)).Returns(new Analyse());
 
-            var result = _controller.ArchiveerBevestigd(1) as RedirectToActionResult;
+            var result = _controller.ArchiveerBevestigd(_dbContext.Thomas, 1) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);
