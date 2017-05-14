@@ -71,16 +71,10 @@
             localStorage.setItem("intro", "");
         }
     },
-    initFunctionsKostenEnBaten: function() {
+    initFunctionsKostenEnBaten: function () {
         $("a#add").click(function(event) {
             event.preventDefault();
-            $.get($(this).attr("href"),
-                function(data) {
-                    $("#divForm").html(data);
-                    siteView.toonFormulier();
-                });
-
-            return false;
+            siteView.toonFormulier();
         });
 
         $("a#bewerk").click(function(event) {
@@ -89,8 +83,52 @@
                 function(data) {
                     $("#divForm").html(data);
                     siteView.toonFormulier();
+                    siteView.initFunctionsKostenEnBaten();
                 });
         });
+
+        $("a#verwijder").click(function(event) {
+            event.preventDefault();
+            var url = $(this).attr("href");
+            $.get(url,
+                function(data) {
+                    $("#data").html(data);
+                    siteView.initFunctionsKostenEnBaten();
+                });
+        });
+
+        $("#form").submit(function (event) {
+            $.post(this.action,
+                $(this).serialize(),
+                function (data) {
+                    siteView.plaatsDataKostenBatenInHtml(data);
+                    siteView.initFunctionsKostenEnBaten();
+                });
+            return false;
+        });
+    },
+    resetFormulierKostenBaten: function () {
+        var url = $("a#add").attr("href");
+        $.get(url, function(data) {
+            $("#divForm").html(data);
+        });
+    },
+    plaatsDataKostenBatenInHtml: function(data) {
+        if (data.includes("form")) {
+            $("#divForm").html(data);
+            siteView.toonFormulier();
+            siteView.initFunctionsKostenEnBaten();
+        }
+
+        if (data.includes("table")) {
+            var url = $("#add").attr("href");
+            $.get(url,
+                function (formulier) {
+                    $("#data").html(data);
+                    $("#divForm").html(formulier);
+                    siteView.verbergFormulier();
+                });
+        }
     },
     initKlikbareRijen: function() {
         $(".klikbareRij").click(function(event) {

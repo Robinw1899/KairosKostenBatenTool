@@ -73,19 +73,27 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
 
-                    TempData["message"] = Meldingen.VoegToeSuccesvolKost;
+                    return PartialView("_OverzichtTabel", MaakModel(analyse));
                 }
+            }
+            catch (FormatException e)
+            {
+                ModelState.AddModelError("", e.Message);
             }
             catch(Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "EnclaveKosten", "VoegToe -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.VoegToeFoutmeldingKost;
+                if (e is FormatException || e is ArgumentException)
+                {
+                    ModelState.AddModelError("", e.Message);
+                }
+                else { 
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "EnclaveKosten", "VoegToe -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.VoegToeFoutmeldingKost;
+                }
             }
 
-            PlaatsTotaalInViewData(analyse);
-
-            return RedirectToAction("Index");
+            return PartialView("_Formulier", model);
         }
         #endregion
 
@@ -137,20 +145,25 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
 
-                    TempData["message"] = Meldingen.OpslaanSuccesvolKost;
+                    return PartialView("_OverzichtTabel", MaakModel(analyse));
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "EnclaveKosten", "Bewerk -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
-                return RedirectToAction("Index");
+                if (e is FormatException || e is ArgumentException)
+                {
+                    ModelState.AddModelError("", e.Message);
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "EnclaveKosten", "Bewerk -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
-            PlaatsTotaalInViewData(analyse);
-
-            return RedirectToAction("Index");
+            return PartialView("_Formulier", model);
         }
         #endregion
 
@@ -167,6 +180,8 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
                 }
+
+                return PartialView("_OverzichtTabel", MaakModel(analyse));
             }
             catch(Exception e)
             {
