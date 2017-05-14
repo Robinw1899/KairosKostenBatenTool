@@ -78,9 +78,17 @@ namespace KairosWeb_Groep6.Controllers.Baten
             }
             catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "UitzendKrachtBesparingen", "VoegToe -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.VoegToeFoutmeldingBaat;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "UitzendKrachtBesparing", "VoegToe -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Index");
@@ -109,9 +117,17 @@ namespace KairosWeb_Groep6.Controllers.Baten
             }
             catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "UitzendKrachtBesparingen", "Bewerk -- GET --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.OphalenFoutmeldingBaat;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "UitzendKrachtBesparing", "Bewerk -- GET --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Index");
@@ -140,11 +156,18 @@ namespace KairosWeb_Groep6.Controllers.Baten
             }
             catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "UitzendKrachtBesparingen", "Bewerk -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.OpslaanFoutmeldingBaat;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "UitzendKrachtBesparing", "Bewerk -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
-            
             return RedirectToAction("Index");
         }
         #endregion

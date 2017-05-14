@@ -76,11 +76,19 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     TempData["message"] = Meldingen.VoegToeSuccesvolBaat;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "MedewerkersZelfdeNiveau", "VoegToe -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.VoegToeFoutmeldingBaat;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "MedewerkersZelfdeNiveau", "VoegToe -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Index");
@@ -107,13 +115,21 @@ namespace KairosWeb_Groep6.Controllers.Baten
                     return PartialView("_Formulier", model);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "MedewerkersZelfdeNiveau", "Bewerk -- GET --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.OphalenFoutmeldingBaat;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "MedewerkersZelfdeNiveau", "Bewerk -- GET --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
-            
+
             return RedirectToAction("Index");
         }
 
@@ -140,9 +156,17 @@ namespace KairosWeb_Groep6.Controllers.Baten
             }
             catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "MedewerkersZelfdeNiveau", "Bewerk -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.OpslaanFoutmeldingBaat;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "MedewerkersZelfdeNiveau", "Bewerk -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Index");

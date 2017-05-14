@@ -76,11 +76,19 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     TempData["message"] = Meldingen.VoegToeSuccesvolKost;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "GereedschapsKosten", "VoegToe -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.VoegToeFoutmeldingKost;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "GereedschapsKost", "VoegToe -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
             PlaatsTotaalInViewData(analyse);
@@ -109,11 +117,19 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     return PartialView("_Formulier", model);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "GereedschapsKosten", "Bewerkt -- GET --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.OphalenFoutmeldingKost;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "GereedschapsKost", "Bewerk -- GET --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Index");
@@ -140,11 +156,19 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     TempData["message"] = Meldingen.OpslaanSuccesvolKost;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "GereedschapsKosten", "Bewerk -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "GereedSchapsKost", "Bewerk -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
             PlaatsTotaalInViewData(analyse);

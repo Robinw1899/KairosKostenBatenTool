@@ -87,10 +87,93 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .AsNoTracking()
                 .ToList();
         }
-
-        public Analyse GetById(int id)
+        public Analyse GetByIdNoInclude(int id)
         {
             return _analyses
+                .Where(a=>a.AnalyseId == id)
+                .Include(a => a.Departement)
+                .ThenInclude(d => d.Werkgever)
+                .SingleOrDefault();
+        }
+        public Analyse GetById(int id,Soort soort)
+        {
+            IQueryable<Analyse> query = _analyses.Where(a => a.AnalyseId == id);
+            switch (soort)
+            {
+                //kosten
+                case Soort.Loonkost:
+                    query.Include(a => a.Loonkosten);
+                    break;
+
+                case Soort.BegeleidingsKost:
+                    query.Include(a => a.BegeleidingsKosten);
+                    break;
+
+                case Soort.EnclaveKost:
+                    query.Include(a => a.EnclaveKosten);
+                    break;
+                        
+                case Soort.ExtraKost:
+                    query.Include(a => a.ExtraKosten);
+                    break;
+                     
+                case Soort.GereedschapsKost:
+                    query.Include(a => a.GereedschapsKosten);
+                    break;
+
+                case Soort.PersoneelsKost:
+                    query.Include(a => a.PersoneelsKosten);
+                    break;
+
+                //baten
+                case Soort.ExterneInkoop:
+                    query.Include(a => a.ExterneInkopen);
+                    break;
+
+                case Soort.ExtraBesparing:
+                    query.Include(a => a.ExtraBesparingen);
+                    break;
+
+                case Soort.ExtraOmzet:
+                    query.Include(a => a.ExtraOmzet);
+                    break;
+
+                case Soort.ExtraProductiviteit:
+                    query.Include(a => a.ExtraProductiviteit);
+                    break;
+
+                case Soort.LogistiekeBesparing:
+                    query.Include(a => a.LogistiekeBesparing);
+                    break;
+
+                case Soort.MedewerkersHogerNiveau:
+                    query.Include(a => a.MedewerkersHogerNiveauBaten);
+                    break;
+
+                case Soort.MedewerkersZelfdeNiveau:
+                    query.Include(a => a.MedewerkersZelfdeNiveauBaten);
+                    break;
+
+                case Soort.OverurenBesparing:
+                    query.Include(a => a.OverurenBesparing);
+                    break;
+
+                case Soort.Subsidie:
+                    query.Include(a => a.Subsidie);
+                    break;
+
+                case Soort.UitzendkrachtBesparing:
+                    query.Include(a => a.UitzendKrachtBesparingen);
+                    break;
+
+            }
+            return query.SingleOrDefault();
+           
+        }
+
+        public Analyse GetByIdAll(int id)
+        {
+             return _analyses
                 .Include(a => a.Departement)
                     .ThenInclude(d => d.Werkgever)
                 .Include(a => a.BegeleidingsKosten)
@@ -116,13 +199,13 @@ namespace KairosWeb_Groep6.Data.Repositories
         }
         public IEnumerable<Analyse> GetAnalyses(Jobcoach jobcoach, int index, int aantal)
         {
-            List<Analyse> legeAnalyses = jobcoach
+            List<Analyse> analyses = jobcoach
                 .Analyses
                 .Skip(index)
                 .Take(aantal)
                 .ToList();
 
-            return legeAnalyses;
+            return analyses;
         }
 
         public void SetAnalysesJobcoach(Jobcoach jobcoach, bool archief)

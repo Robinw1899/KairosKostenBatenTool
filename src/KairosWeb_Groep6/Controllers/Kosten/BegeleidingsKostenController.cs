@@ -66,7 +66,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                         Uren = model.Uren,
                         BrutoMaandloonBegeleider =dc.ConvertToDecimal( model.BrutoMaandloonBegeleider)
                     };
-
+                    
                     analyse.BegeleidingsKosten.Add(kost);
                     analyse.DatumLaatsteAanpassing = DateTime.Now;
                     _analyseRepository.Save();
@@ -74,11 +74,19 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     TempData["message"] = Meldingen.VoegToeSuccesvolKost;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "BegeleidingsKosten", "VoegToe -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.VoegToeFoutmeldingKost;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "BegeleidingsKost", "VoegToe -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Index");
@@ -105,11 +113,19 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     return PartialView("_Formulier", model);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "BegeleidingsKosten", "Bewerk -- GET --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.OphalenFoutmeldingKost;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "BegeleidingsKost", "Bewerk -- GET --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Index");
@@ -136,11 +152,19 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     TempData["message"] = Meldingen.OpslaanSuccesvolKost;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "BegeleidingsKosten", "Bewerk -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "BegeleidingsKost", "Bewerk -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Index");
