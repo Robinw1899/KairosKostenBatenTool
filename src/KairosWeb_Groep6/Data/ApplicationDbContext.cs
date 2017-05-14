@@ -149,6 +149,10 @@ namespace KairosWeb_Groep6.Data
                 .HasDefaultValue(false)
                 .IsRequired();
 
+            a.Property(t => t.Verwijderd)
+                .HasDefaultValue(false)
+                .IsRequired();
+
             a.HasOne(t => t.Departement)
                 .WithMany()
                 .OnDelete(DeleteBehavior.SetNull);
