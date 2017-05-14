@@ -30,12 +30,6 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
-            if (analyse.Klaar)
-            {
-                TempData["error"] = Meldingen.AnalyseKlaar;
-                return RedirectToAction("Index", "Resultaat");
-            }
-
             analyse.UpdateTotalen(_analyseRepository);
 
             IEnumerable<GereedschapsKostViewModel> viewModels = MaakModel(analyse);

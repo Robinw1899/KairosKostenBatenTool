@@ -53,7 +53,7 @@ namespace KairosWeb_Groep6.Tests.Controllers.Kosten
         {
             Analyse analyse = new Analyse
             {
-                Klaar = true
+                InArchief = true
             };
 
             var result = _controller.Index(analyse) as RedirectToActionResult;

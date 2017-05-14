@@ -150,7 +150,8 @@ namespace KairosWeb_Groep6.Controllers
 
         [HttpPost]
         [ActionName("VerwijderAnalyse")]
-        public IActionResult VerwijderAnalyseBevestigd(int id)
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult VerwijderAnalyseBevestigd(Jobcoach jobcoach, int id)
         {
             try
             {

@@ -147,7 +147,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             Analyse analyse = new Analyse
             {
-                Klaar = true
+                InArchief = true
             };
 
             _analyseRepo.Setup(r => r.Save()).Throws(new Exception());
@@ -165,13 +165,13 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             Analyse analyse = new Analyse
             {
-                Klaar = true
+                InArchief = true
             };
 
             var result = _controller.AnalyseKlaar(analyse) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
-            Assert.False(analyse.Klaar);
+            Assert.False(analyse.InArchief);
 
             _analyseRepo.Verify(r => r.Save(), Times.Once);
         }
@@ -181,13 +181,13 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             Analyse analyse = new Analyse
             {
-                Klaar = false
+                InArchief = false
             };
 
             var result = _controller.AnalyseKlaar(analyse) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
-            Assert.True(analyse.Klaar);
+            Assert.True(analyse.InArchief);
 
             _analyseRepo.Verify(r => r.Save(), Times.Once);
         }

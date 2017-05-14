@@ -37,7 +37,7 @@ namespace KairosWeb_Groep6.Controllers
 
             try
             {
-                model.AnalyseKlaar = analyse.Klaar;
+                model.AnalyseKlaar = analyse.InArchief;
                 model.AnalyseId = analyse.AnalyseId;
 
                 if (analyse.Departement != null)
@@ -181,7 +181,7 @@ namespace KairosWeb_Groep6.Controllers
             try
             {
                 // eerst kijken of deze analyse wel van deze jobcoach is
-                Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
+                Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == model.AnalyseId);
 
                 if (mogelijkeAnalyse == null)
                 {
@@ -230,10 +230,10 @@ namespace KairosWeb_Groep6.Controllers
         {
             try
             {
-                analyse.Klaar = !analyse.Klaar;
+                analyse.InArchief = !analyse.InArchief;
                 _analyseRepository.Save();
 
-                if (analyse.Klaar)
+                if (analyse.InArchief)
                 {
                     TempData["message"] = "De analyse is succesvol gemarkeerd als 'Klaar'";
                 }
