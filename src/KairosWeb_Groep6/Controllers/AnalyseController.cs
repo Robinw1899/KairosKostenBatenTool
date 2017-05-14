@@ -197,19 +197,31 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region Archiveer
-        public IActionResult Archiveer(int id)
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult Archiveer(Jobcoach jobcoach, int id)
         {
             try
             {
-                ViewData["analyseId"] = id;
-                Analyse analyse = _analyseRepository.GetById(id);
+                // eerst kijken of deze analyse wel van deze jobcoach is
+                Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                if (analyse.Departement != null)
+                if (mogelijkeAnalyse == null)
                 {
-                    ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+                    TempData["error"] = "U heeft geen toegang tot deze analyse! Open enkel analyses die u ziet " +
+                                        "op de homepagina of in het archief.";
                 }
+                else
+                {
+                    ViewData["analyseId"] = id;
+                    Analyse analyse = _analyseRepository.GetById(id);
 
-                return View("ArchiveerAnalyse");
+                    if (analyse.Departement != null)
+                    {
+                        ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+                    }
+
+                    return View("ArchiveerAnalyse");
+                }
             }
             catch (Exception e)
             {
@@ -223,37 +235,48 @@ namespace KairosWeb_Groep6.Controllers
 
         [HttpPost]
         [ActionName("Archiveer")]
-        public IActionResult ArchiveerBevestigd(int id)
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult ArchiveerBevestigd(Jobcoach jobcoach, int id)
         {
             try
             {
-                Analyse analyse = _analyseRepository.GetById(id);
+                // eerst kijken of deze analyse wel van deze jobcoach is
+                Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                if (analyse != null)
+                if (mogelijkeAnalyse == null)
                 {
-                    // uit archief halen + datum laatste aanpassing aanpassen
-                    analyse.InArchief = true;
-                    analyse.DatumLaatsteAanpassing = DateTime.Now;
-
-                    // alles opslaan in de databank
-                    _analyseRepository.Save();
-
-                    if (analyse.Departement == null)
-                    {
-                        TempData["message"] = "De analyse is succesvol gearchiveerd.";
-                    }
-                    else
-                    {
-                        TempData["message"] =
-                            $"De analyse van {analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}" +
-                            " is succesvol gearchiveerd.";
-                    }
+                    TempData["error"] = "U heeft geen toegang tot deze analyse! Open enkel analyses die u ziet " +
+                                        "op de homepagina of in het archief.";
                 }
                 else
                 {
-                    TempData["error"] = "Er ging onverwachts iets fout, probeer het later opnieuw";
+                    Analyse analyse = _analyseRepository.GetById(id);
+
+                    if (analyse != null)
+                    {
+                        // uit archief halen + datum laatste aanpassing aanpassen
+                        analyse.InArchief = true;
+                        analyse.DatumLaatsteAanpassing = DateTime.Now;
+
+                        // alles opslaan in de databank
+                        _analyseRepository.Save();
+
+                        if (analyse.Departement == null)
+                        {
+                            TempData["message"] = "De analyse is succesvol gearchiveerd.";
+                        }
+                        else
+                        {
+                            TempData["message"] =
+                                $"De analyse van {analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}" +
+                                " is succesvol gearchiveerd.";
+                        }
+                    }
+                    else
+                    {
+                        TempData["error"] = "Er ging onverwachts iets fout, probeer het later opnieuw";
+                    }
                 }
-               
             }
             catch (Exception e)
             {
