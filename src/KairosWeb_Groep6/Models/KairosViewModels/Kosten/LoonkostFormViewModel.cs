@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using KairosWeb_Groep6.Models.Domain;
 using KairosWeb_Groep6.Models.Domain.Kosten;
 using Microsoft.AspNetCore.Mvc;
@@ -65,7 +66,6 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
         }
 
         public LoonkostFormViewModel(Loonkost loon, IEnumerable<Doelgroep> doelgroepen)
-            : this(doelgroepen)
         {
             DecimalConverter dc = new DecimalConverter();
             Id = loon.Id;
@@ -77,6 +77,18 @@ namespace KairosWeb_Groep6.Models.KairosViewModels.Kosten
             AantalMaandenIBO = loon.AantalMaandenIBO;
             IBOPremie = dc.ConvertToString(loon.IBOPremie);
             doelgroep = loon.Doelgroep?.DoelgroepId;
+
+            Doelgroep mogelijkVerwijderd = doelgroepen.SingleOrDefault(d => d.DoelgroepId == loon.Doelgroep?.DoelgroepId);
+
+            if (mogelijkVerwijderd == null)
+            {
+                List<Doelgroep> doelgroeps = doelgroepen.ToList();
+                doelgroeps.Add(loon.Doelgroep);
+                doelgroepen = doelgroeps;
+            }
+
+            DoelgroepSelectList = new SelectList(doelgroepen, nameof(Doelgroep.DoelgroepId),
+                nameof(Doelgroep.Omschrijving), doelgroep);
         }
         #endregion
     }
