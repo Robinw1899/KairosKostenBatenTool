@@ -117,19 +117,31 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region MaakExcel
-        public IActionResult MaakExcel(int id)
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult MaakExcel(Jobcoach jobcoach, int id)
         {
             try
             {
-                Analyse analyse = _analyseRepository.GetById(id);
-                ExcelWriterResultaat excelWriter = new ExcelWriterResultaat();
-                string fileName = excelWriter.MaakExcel(analyse);
-                byte[] fileBytes = System.IO.File.ReadAllBytes(outputDir + fileName);
-                
-                // bestand terug verwijderen van de server
-                excelWriter.VerwijderBestand();
+                // eerst kijken of deze analyse wel van deze jobcoach is
+                Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                return File(fileBytes, "application/x-msdownload", fileName);
+                if (mogelijkeAnalyse == null)
+                {
+                    TempData["error"] = "U heeft geen toegang tot deze analyse! Open enkel analyses die u ziet " +
+                                        "op de homepagina of in het archief.";
+                }
+                else
+                {
+                    Analyse analyse = _analyseRepository.GetById(id);
+                    ExcelWriterResultaat excelWriter = new ExcelWriterResultaat();
+                    string fileName = excelWriter.MaakExcel(analyse);
+                    byte[] fileBytes = System.IO.File.ReadAllBytes(outputDir + fileName);
+
+                    // bestand terug verwijderen van de server
+                    excelWriter.VerwijderBestand();
+
+                    return File(fileBytes, "application/x-msdownload", fileName);
+                }
             }
             catch (Exception e)
             {
@@ -163,29 +175,41 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Mail(ResultaatMailViewModel model)
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public async Task<IActionResult> Mail(Jobcoach jobcoach, ResultaatMailViewModel model)
         {
             try
             {
-                Analyse analyse = _analyseRepository.GetById(model.AnalyseId);
-                ExcelWriterResultaat excelWriter = new ExcelWriterResultaat();
-                string fileName = excelWriter.MaakExcel(analyse);
-                FileInfo file = new FileInfo("temp\\" + fileName);
-                string naam = model.Voornaam + " " + model.Naam;
+                // eerst kijken of deze analyse wel van deze jobcoach is
+                Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                bool gelukt = await EmailSender.SendResultaat(naam, model.Emailadres, model.Onderwerp, model.Bericht, file);
-
-                // bestand terug verwijderen van de server
-                excelWriter.VerwijderBestand();
-
-                if (gelukt)
+                if (mogelijkeAnalyse == null)
                 {
-                    TempData["message"] = "Het resultaat is succesvol verzonden";
+                    TempData["error"] = "U heeft geen toegang tot deze analyse! Open enkel analyses die u ziet " +
+                                        "op de homepagina of in het archief.";
                 }
                 else
                 {
-                    TempData["error"] =
-                        "Het is op dit moment niet mogelijk om mails te verzenden, probeer later opnieuw";
+                    Analyse analyse = _analyseRepository.GetById(model.AnalyseId);
+                    ExcelWriterResultaat excelWriter = new ExcelWriterResultaat();
+                    string fileName = excelWriter.MaakExcel(analyse);
+                    FileInfo file = new FileInfo("temp\\" + fileName);
+                    string naam = model.Voornaam + " " + model.Naam;
+
+                    bool gelukt = await EmailSender.SendResultaat(naam, model.Emailadres, model.Onderwerp, model.Bericht, file);
+
+                    // bestand terug verwijderen van de server
+                    excelWriter.VerwijderBestand();
+
+                    if (gelukt)
+                    {
+                        TempData["message"] = "Het resultaat is succesvol verzonden";
+                    }
+                    else
+                    {
+                        TempData["error"] =
+                            "Het is op dit moment niet mogelijk om mails te verzenden, probeer later opnieuw";
+                    }
                 }
             }
             catch (Exception e)

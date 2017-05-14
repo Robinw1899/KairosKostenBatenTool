@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
 using Microsoft.AspNetCore.Authorization;
@@ -65,19 +66,32 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region OpenAnalyse
-        public IActionResult OpenAnalyse(int id)
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult OpenAnalyse(Jobcoach jobcoach, int id)
         {
             try
             {
-                Analyse analyse = _analyseRepository.GetById(id);
+                // eerst kijken of deze analyse wel van deze jobcoach is
+                Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                if (HttpContext != null)
-                {// nodig voor testen, HttpContext kan je niet mocken
-                    // analyse instellen in Session
-                    AnalyseFilter.SetAnalyseInSession(HttpContext, analyse);
+                if (mogelijkeAnalyse == null)
+                {
+                    TempData["error"] = "U heeft geen toegang tot deze analyse! Open enkel analyses die u ziet " +
+                                        "op de homepagina of in het archief.";
                 }
+                else
+                {
+                    Analyse analyse = _analyseRepository.GetById(id);
 
-                return RedirectToAction("Index", "Resultaat");
+                    if (HttpContext != null)
+                    {
+                        // nodig voor testen, HttpContext kan je niet mocken
+                        // analyse instellen in Session
+                        AnalyseFilter.SetAnalyseInSession(HttpContext, analyse);
+                    }
+
+                    return RedirectToAction("Index", "Resultaat");
+                }
             }
             catch (Exception e)
             {
@@ -91,22 +105,37 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region VerwijderAnalyse
-        public IActionResult VerwijderAnalyse(int id, string from)
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult VerwijderAnalyse(Jobcoach jobcoach, int id, string from)
         {
             try
             {
-                Analyse analyse = _analyseRepository.GetById(id);
+                // eerst kijken of deze analyse wel van deze jobcoach is
+                Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                ViewData["analyseId"] = id;
-
-                if (analyse.Departement != null)
+                if (mogelijkeAnalyse == null)
                 {
-                    ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+                    TempData["error"] = "U heeft geen toegang tot deze analyse! Verwijderd enkel analyses die u ziet " +
+                                        "op de homepagina of in het archief.";
                 }
+                else
+                {
+                    Analyse analyse = _analyseRepository.GetById(id);
 
-                ViewData["returnUrl"] = from;
+                    if (analyse != null)
+                    {
+                        ViewData["analyseId"] = id;
 
-                return View();
+                        if (analyse.Departement != null)
+                        {
+                            ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+                        }
+
+                        ViewData["returnUrl"] = from;
+
+                        return View();
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -125,22 +154,33 @@ namespace KairosWeb_Groep6.Controllers
         {
             try
             {
-                Analyse analyse = _analyseRepository.GetById(id);
+                // eerst kijken of deze analyse wel van deze jobcoach is
+                Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                if (analyse != null)
+                if (mogelijkeAnalyse == null)
                 {
-                    _analyseRepository.Remove(analyse);
+                    TempData["error"] = "U heeft geen toegang tot deze analyse! Verwijderd enkel analyses die u ziet " +
+                                        "op de homepagina of in het archief.";
+                }
+                else
+                {
+                    Analyse analyse = _analyseRepository.GetById(id);
 
-                    _analyseRepository.Save();
+                    if (analyse != null)
+                    {
+                        _analyseRepository.Remove(analyse);
 
-                    if (analyse.Departement == null)
-                    {
-                        TempData["message"] = "De analyse is succesvol verwijderd.";
-                    }
-                    else
-                    {
-                        TempData["message"] = $"De analyse van {analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}" +
-                                              " is succesvol verwijderd.";
+                        _analyseRepository.Save();
+
+                        if (analyse.Departement == null)
+                        {
+                            TempData["message"] = "De analyse is succesvol verwijderd.";
+                        }
+                        else
+                        {
+                            TempData["message"] = $"De analyse van {analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}" +
+                                                  " is succesvol verwijderd.";
+                        }
                     }
                 }
             }
