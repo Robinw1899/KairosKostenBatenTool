@@ -12,12 +12,6 @@ namespace KairosWeb_Groep6.Controllers
         [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult Index(Analyse analyse)
         {
-            if (analyse.Klaar)
-            {
-                TempData["error"] = Meldingen.AnalyseKlaar;
-                return RedirectToAction("Index", "Resultaat");
-            }
-
             BatenIndexViewModel model = new BatenIndexViewModel(analyse);
 
             return View(model);

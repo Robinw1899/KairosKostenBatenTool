@@ -20,12 +20,20 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             _dbContext = dbContext;
             _analyses = dbContext.Analyses;
-          
         }      
+
+        public IEnumerable<Analyse> GetAllZonderIncludes()
+        {
+            return _analyses
+                .Where(a => a.Verwijderd == false)
+                .AsNoTracking()
+                .ToList();
+        }
 
         public IEnumerable<Analyse> GetAnalysesNietInArchief()
         {          
             return _analyses
+                .Where(a => a.Verwijderd == false)
                 .Include(a => a.Departement)
                     .ThenInclude(d => d.Werkgever)
                 .Include(a => a.BegeleidingsKosten)
@@ -55,6 +63,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public IEnumerable<Analyse> GetAnalysesUitArchief()
         {
             return _analyses
+                .Where(a => a.Verwijderd == false)
                 .Include(a => a.Departement)
                     .ThenInclude(d => d.Werkgever)
                 .Include(a => a.BegeleidingsKosten)
@@ -84,7 +93,8 @@ namespace KairosWeb_Groep6.Data.Repositories
 
         public Analyse GetById(int id)
         {
-             return _analyses
+            return _analyses
+                .Where(a => a.Verwijderd == false)
                 .Include(a => a.Departement)
                     .ThenInclude(d => d.Werkgever)
                 .Include(a => a.BegeleidingsKosten)
@@ -108,10 +118,12 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.VoorbereidingsKosten)
                 .SingleOrDefault(a => a.AnalyseId == id);
         }
+
         public IEnumerable<Analyse> GetAnalyses(Jobcoach jobcoach, int index, int aantal)
         {
             List<Analyse> analyses = jobcoach
                 .Analyses
+                .Where(a => a.Verwijderd == false)
                 .Skip(index)
                 .Take(aantal)
                 .ToList();
@@ -123,6 +135,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             jobcoach.Analyses = jobcoach
                         .Analyses
+                        .Where(a => a.Verwijderd == false)
                         .Where(j => j.InArchief == archief)
                         .OrderByDescending(t => t.DatumLaatsteAanpassing)
                         .ToList();
@@ -146,7 +159,5 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             _dbContext.SaveChangesAsync();
         }
-
-       
     }
 }

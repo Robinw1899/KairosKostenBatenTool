@@ -149,7 +149,7 @@ namespace KairosWeb_Groep6.Data
                 .HasDefaultValue(false)
                 .IsRequired();
 
-            a.Property(t => t.Klaar)
+            a.Property(t => t.Verwijderd)
                 .HasDefaultValue(false)
                 .IsRequired();
 

@@ -52,20 +52,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
-        public void TestIndex_AnalyseKlaar_RedirectsToResultaat()
-        {
-            Analyse analyse = new Analyse
-            {
-                Klaar = true
-            };
-
-            var result = _controller.Index(analyse) as RedirectToActionResult;
-
-            Assert.Equal("Index", result?.ActionName);
-            Assert.Equal("Resultaat", result?.ControllerName);
-        }
-
-        [Fact]
         public void TestIndex_RepositoryGooitException_RedirectNaarWerkgeverIndex()
         {
             _werkgeverRepository.Setup(w => w.GetById(It.IsAny<int>())).Throws(new Exception());
