@@ -38,6 +38,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 {
                     TempData = new Mock<ITempDataDictionary>().Object
                 };
+            _dbContext.Thomas.Analyses.Add(new Analyse { AnalyseId = 1 });
         }
         #endregion
 
@@ -236,7 +237,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Throws(new Exception());
 
-            var result = _controller.HaalAnalyseUitArchief(1) as RedirectToActionResult;
+            var result = _controller.HaalAnalyseUitArchief(_dbContext.Thomas, 1) as RedirectToActionResult;
             
             Assert.Equal("Index", result?.ActionName);
 
@@ -245,11 +246,19 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
+        public void TesHaalAnalyseUitArchief_GeenAnalyseVanJobcoach()
+        {
+            var result = _controller.HaalAnalyseUitArchief(_dbContext.Thomas, 10) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+        }
+
+        [Fact]
         public void TestHaalAnalyseUitArchief_Succes()
         {
             _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(_analyse);
 
-            var result = _controller.HaalAnalyseUitArchief(1) as ViewResult;
+            var result = _controller.HaalAnalyseUitArchief(_dbContext.Thomas, 1) as ViewResult;
 
             Assert.Equal(1, _controller.ViewData["analyseId"]);
             Assert.Equal(null, _controller.ViewData["werkgever"]); // er is geen Departement ingesteld
@@ -263,7 +272,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Throws(new Exception());
 
-            var result = _controller.HaalAnalyseUitArchiefBevestigd(1) as RedirectToActionResult;
+            var result = _controller.HaalAnalyseUitArchiefBevestigd(_dbContext.Thomas, 1) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
 
@@ -272,11 +281,19 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
+        public void TesHaalAnalyseUitArchiefBevestigd_GeenAnalyseVanJobcoach()
+        {
+            var result = _controller.HaalAnalyseUitArchiefBevestigd(_dbContext.Thomas, 10) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+        }
+
+        [Fact]
         public void TestHaalAnalyseUitArchiefBevestigd_Succes()
         {
             _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(_analyse);
 
-            var result = _controller.HaalAnalyseUitArchiefBevestigd(1) as RedirectToActionResult;
+            var result = _controller.HaalAnalyseUitArchiefBevestigd(_dbContext.Thomas, 1) as RedirectToActionResult;
 
             Assert.False(_analyse.InArchief);
             Assert.Equal("Index", result?.ActionName);
