@@ -63,7 +63,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     {
                         Beschrijving = model.Beschrijving,
                         AantalUrenPerWeek = model.AantalUrenPerWeek,
-                        BrutoMaandloonFulltime =  dc.ConvertToDecimal(model.BrutoMaandloonFulltime),
+                        BrutoMaandloonFulltime = dc.ConvertToDecimal(model.BrutoMaandloonFulltime),
                         Ondersteuningspremie = model.Ondersteuningspremie,
                         AantalMaandenIBO = model.AantalMaandenIBO,
                         IBOPremie = dc.ConvertToDecimal(model.IBOPremie)
@@ -84,9 +84,17 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             }
             catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "LoonKosten", "VoegToe -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.VoegToeFoutmeldingKost;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "LoonKosten", "VoegToe -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Index");
@@ -151,11 +159,17 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             }
             catch(Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "LoonKosten", "Bewerk -- GET --"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                if(e is ArgumentException || e is FormatException)
+                {
+                    ModelState.AddModelError("", e.Message);
+                }else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "LoonKosten", "Bewerk -- GET --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }             
             }
-
             return RedirectToAction("Index");
         }
         #endregion

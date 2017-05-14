@@ -20,8 +20,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             _dbContext = dbContext;
             _analyses = dbContext.Analyses;
-          
-        }
+        }      
 
         public IEnumerable<Analyse> GetAllZonderIncludes()
         {
@@ -89,7 +88,8 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Where(a => a.InArchief) // == true mag weggelaten worden
                 .AsNoTracking()
                 .ToList();
-        }
+        }    
+     
 
         public Analyse GetById(int id)
         {
@@ -118,16 +118,17 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(a => a.VoorbereidingsKosten)
                 .SingleOrDefault(a => a.AnalyseId == id);
         }
+
         public IEnumerable<Analyse> GetAnalyses(Jobcoach jobcoach, int index, int aantal)
         {
-            List<Analyse> legeAnalyses = jobcoach
+            List<Analyse> analyses = jobcoach
                 .Analyses
                 .Where(a => a.Verwijderd == false)
                 .Skip(index)
                 .Take(aantal)
                 .ToList();
 
-            return legeAnalyses;
+            return analyses;
         }
 
         public void SetAnalysesJobcoach(Jobcoach jobcoach, bool archief)
@@ -158,7 +159,5 @@ namespace KairosWeb_Groep6.Data.Repositories
         {
             _dbContext.SaveChangesAsync();
         }
-
-       
     }
 }
