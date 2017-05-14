@@ -53,20 +53,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
-        public void TestIndex_AnalyseKlaar_RedirectsToResultaat()
-        {
-            Analyse analyse = new Analyse
-            {
-                InArchief = true
-            };
-
-            var result = _controller.Index(analyse) as RedirectToActionResult;
-
-            Assert.Equal("Index", result?.ActionName);
-            Assert.Equal("Resultaat", result?.ControllerName);
-        }
-
-        [Fact]
         public void TestIndex_Succes()
         {
             Analyse analyse = new Analyse { Departement = _dbContext.Aldi };

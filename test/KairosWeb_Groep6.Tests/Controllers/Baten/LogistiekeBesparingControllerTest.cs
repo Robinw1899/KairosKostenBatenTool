@@ -49,20 +49,6 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
             Assert.Equal(3000M, transportkosten);
             Assert.Equal(2000M, handlingskosten);
         }
-
-        [Fact]
-        public void TestIndex_AnalyseKlaar_RedirectsToResultaat()
-        {
-            Analyse analyse = new Analyse
-            {
-                InArchief = true
-            };
-
-            var result = _controller.Index(analyse) as RedirectToActionResult;
-
-            Assert.Equal("Index", result?.ActionName);
-            Assert.Equal("Resultaat", result?.ControllerName);
-        }
         #endregion
 
         #region Opslaan

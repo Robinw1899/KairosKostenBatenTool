@@ -47,9 +47,13 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _analyseRepo = new Mock<IAnalyseRepository>();
             _exceptionLogRepository = new Mock<IExceptionLogRepository>();
 
-            _controller = new ResultaatController(_analyseRepo.Object, _exceptionLogRepository.Object);
+            _controller =
+                new ResultaatController(_analyseRepo.Object, _exceptionLogRepository.Object)
+                {
+                    TempData = new Mock<ITempDataDictionary>().Object
+                };
 
-            _controller.TempData = new Mock<ITempDataDictionary>().Object;
+            _dbContext.Thomas.Analyses.Add(new Analyse { AnalyseId = 1 });
         }
         #endregion
 
@@ -110,7 +114,15 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepo.Setup(a => a.GetById(1)).Throws(new Exception());
 
-            var result = _controller.MaakExcel(1) as RedirectToActionResult;
+            var result = _controller.MaakExcel(_dbContext.Thomas, 1) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+        }
+
+        [Fact]
+        public void TestMaakExcel_GeenAnalyseVanJobcoach()
+        {
+            var result = _controller.MaakExcel(_dbContext.Thomas, 10) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
         }
@@ -132,12 +144,20 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepo.Setup(a => a.GetById(1)).Throws(new Exception());
 
-            var result = await _controller.Mail(new ResultaatMailViewModel(){AnalyseId = 1}) as RedirectToActionResult;
+            var result = await _controller.Mail(_dbContext.Thomas, new ResultaatMailViewModel{AnalyseId = 1}) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
 
             _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
             _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
+        }
+
+        [Fact]
+        public async void TestMail_GeenAnalyseVanJobcoach()
+        {
+            var result = await _controller.Mail(_dbContext.Thomas, new ResultaatMailViewModel { AnalyseId = 10 }) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
         }
         #endregion
 

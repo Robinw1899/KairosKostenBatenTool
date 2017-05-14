@@ -27,6 +27,8 @@ namespace KairosWeb_Groep6.Models.Domain
         public decimal KostenTotaal { get; set; }
 
         public decimal BatenTotaal { get; set; }
+
+        public bool Verwijderd { get; set; }
         #endregion
 
         #region Kosten

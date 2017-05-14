@@ -53,22 +53,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
-        public void TestIndex_AnalyseKlaar_RedirectsToResultaat()
-        {
-            _controller.TempData = new Mock<ITempDataDictionary>().Object;
-
-            Analyse analyse = new Analyse
-            {
-                InArchief = true
-            };
-
-            var result = _controller.Index(analyse) as RedirectToActionResult;
-
-            Assert.Equal("Index", result?.ActionName);
-            Assert.Equal("Resultaat", result?.ControllerName);
-        }
-
-        [Fact]
         public void TestBegeleidingsKost_RedirectsToBegeleidingsController()
         {
             var result = _controller.BegeleidingsKosten() as RedirectToActionResult;

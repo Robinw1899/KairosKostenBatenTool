@@ -89,28 +89,6 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
         #region ZoekAnalyse
         [Fact]
-        public void TestZoek_RepoGooitException_RedirectToIndex()
-        {
-            List<Analyse> analyses = new List<Analyse>
-            {
-                _analyseAldi,
-                _analyseAldi,
-                _analyseAldi,
-                _analyseAldi
-            };
-            _dbContext.Thomas.Analyses = analyses;
-
-            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Throws(new Exception());
-
-            var result = _controller.Zoek(_dbContext.Thomas, "verk") as RedirectToActionResult;
-
-            Assert.Equal("Index", result?.ActionName);
-
-            _exceptionLogRepository.Verify(r => r.Add(It.IsAny<ExceptionLog>()), Times.Once);
-            _exceptionLogRepository.Verify(r => r.Save(), Times.Once);
-        }
-
-        [Fact]
         public void TestZoek_Succes_ReturnsPartial()
         {
             var result = _controller.Zoek(_dbContext.Thomas, "hallo") as PartialViewResult;
