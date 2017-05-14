@@ -94,6 +94,18 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
+        public void TestOpenAnalyse_AnalyseVerwijderd()
+        {
+            _dbContext.Thomas.Analyses.Add(new Analyse{AnalyseId = 2, Verwijderd = true});
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(new Analyse {Verwijderd = true});
+
+            var result = _controller.OpenAnalyse(_dbContext.Thomas, 2) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
         public void TestOpenAnalyse_Succes()
         {
             _analyseRepository.Setup(r => r.GetById(1)).Returns(new Analyse());
@@ -125,6 +137,18 @@ namespace KairosWeb_Groep6.Tests.Controllers
         public void TestVerwijderAnalyseGET_GeenAnalyseVanJobcoach()
         {
             var result = _controller.VerwijderAnalyse(_dbContext.Thomas, 10, "") as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
+        public void TestVerwijderAnalyseGET_AnalyseVerwijderd()
+        {
+            _dbContext.Thomas.Analyses.Add(new Analyse { AnalyseId = 2, Verwijderd = true });
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(new Analyse { Verwijderd = true });
+
+            var result = _controller.VerwijderAnalyse(_dbContext.Thomas, 2, "") as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);
@@ -168,6 +192,17 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
+        public void TestVerwijderAnalysePOST_AnalyseVerwijderd()
+        {
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(new Analyse { Verwijderd = true });
+
+            var result = _controller.VerwijderAnalyseBevestigd(_dbContext.Thomas, 1) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
         public void TestVerwijderAnalysePOST_Succes()
         {
             _analyseRepository.Setup(r => r.GetById(1)).Returns(new Analyse());
@@ -204,6 +239,18 @@ namespace KairosWeb_Groep6.Tests.Controllers
         }
 
         [Fact]
+        public void TestArchiveer_AnalyseVerwijderd()
+        {
+            _dbContext.Thomas.Analyses.Add(new Analyse { AnalyseId = 2, Verwijderd = true });
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(new Analyse { Verwijderd = true });
+
+            var result = _controller.Archiveer(_dbContext.Thomas, 2) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
         public void TestArchiveer_Succes()
         {
             _analyseRepository.Setup(r => r.GetById(1)).Returns(new Analyse());
@@ -233,6 +280,18 @@ namespace KairosWeb_Groep6.Tests.Controllers
         public void TestArchiveerPOST_GeenAnalyseVanJobcoach()
         {
             var result = _controller.ArchiveerBevestigd(_dbContext.Thomas, 10) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kairos", result?.ControllerName);
+        }
+
+        [Fact]
+        public void TestArchiveerBevestigd_AnalyseVerwijderd()
+        {
+            _dbContext.Thomas.Analyses.Add(new Analyse { AnalyseId = 2, Verwijderd = true });
+            _analyseRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(new Analyse { Verwijderd = true });
+
+            var result = _controller.ArchiveerBevestigd(_dbContext.Thomas, 2) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("Kairos", result?.ControllerName);

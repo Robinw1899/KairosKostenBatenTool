@@ -126,6 +126,17 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
             Assert.Equal("Index", result?.ActionName);
         }
+
+        [Fact]
+        public void TestMaakExcel_AnalyseVerwijderd()
+        {
+            _dbContext.Thomas.Analyses.Add(new Analyse { AnalyseId = 2, Verwijderd = true });
+            _analyseRepo.Setup(r => r.GetById(It.IsAny<int>())).Returns(new Analyse { Verwijderd = true });
+
+            var result = _controller.MaakExcel(_dbContext.Thomas, 2) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+        }
         #endregion
 
         #region Mail -- GET
@@ -156,6 +167,17 @@ namespace KairosWeb_Groep6.Tests.Controllers
         public async void TestMail_GeenAnalyseVanJobcoach()
         {
             var result = await _controller.Mail(_dbContext.Thomas, new ResultaatMailViewModel { AnalyseId = 10 }) as RedirectToActionResult;
+
+            Assert.Equal("Index", result?.ActionName);
+        }
+
+        [Fact]
+        public async void TestMail_AnalyseVerwijderd()
+        {
+            _dbContext.Thomas.Analyses.Add(new Analyse { AnalyseId = 2, Verwijderd = true });
+            _analyseRepo.Setup(r => r.GetById(It.IsAny<int>())).Returns(new Analyse { Verwijderd = true });
+
+            var result = await _controller.Mail(_dbContext.Thomas, new ResultaatMailViewModel { AnalyseId = 2 }) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
         }

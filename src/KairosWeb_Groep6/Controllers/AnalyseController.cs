@@ -74,7 +74,7 @@ namespace KairosWeb_Groep6.Controllers
                 // eerst kijken of deze analyse wel van deze jobcoach is
                 Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                if (mogelijkeAnalyse == null)
+                if (mogelijkeAnalyse == null || mogelijkeAnalyse.Verwijderd)
                 {
                     TempData["error"] = "U heeft geen toegang tot deze analyse! Open enkel analyses die u ziet " +
                                         "op de homepagina of in het archief.";
@@ -113,7 +113,7 @@ namespace KairosWeb_Groep6.Controllers
                 // eerst kijken of deze analyse wel van deze jobcoach is
                 Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                if (mogelijkeAnalyse == null)
+                if (mogelijkeAnalyse == null || mogelijkeAnalyse.Verwijderd)
                 {
                     TempData["error"] = "U heeft geen toegang tot deze analyse! Verwijderd enkel analyses die u ziet " +
                                         "op de homepagina of in het archief.";
@@ -158,7 +158,7 @@ namespace KairosWeb_Groep6.Controllers
                 // eerst kijken of deze analyse wel van deze jobcoach is
                 Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                if (mogelijkeAnalyse == null)
+                if (mogelijkeAnalyse == null || mogelijkeAnalyse.Verwijderd)
                 {
                     TempData["error"] = "U heeft geen toegang tot deze analyse! Verwijderd enkel analyses die u ziet " +
                                         "op de homepagina of in het archief.";
@@ -169,7 +169,7 @@ namespace KairosWeb_Groep6.Controllers
 
                     if (analyse != null)
                     {
-                        _analyseRepository.Remove(analyse);
+                        analyse.Verwijderd = true;
 
                         _analyseRepository.Save();
 
@@ -205,7 +205,7 @@ namespace KairosWeb_Groep6.Controllers
                 // eerst kijken of deze analyse wel van deze jobcoach is
                 Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                if (mogelijkeAnalyse == null)
+                if (mogelijkeAnalyse == null || mogelijkeAnalyse.Verwijderd)
                 {
                     TempData["error"] = "U heeft geen toegang tot deze analyse! Open enkel analyses die u ziet " +
                                         "op de homepagina of in het archief.";
@@ -243,7 +243,7 @@ namespace KairosWeb_Groep6.Controllers
                 // eerst kijken of deze analyse wel van deze jobcoach is
                 Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                if (mogelijkeAnalyse == null)
+                if (mogelijkeAnalyse == null || mogelijkeAnalyse.Verwijderd)
                 {
                     TempData["error"] = "U heeft geen toegang tot deze analyse! Open enkel analyses die u ziet " +
                                         "op de homepagina of in het archief.";
