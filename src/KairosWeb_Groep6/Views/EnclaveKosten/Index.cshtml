@@ -1,6 +1,9 @@
-﻿@using KairosWeb_Groep6.Models.Domain
+﻿@using System.Collections.Generic
+@using KairosWeb_Groep6.Models.Domain
 @using KairosWeb_Groep6.Models.Domain.Extensions
-@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModel>
+@using KairosWeb_Groep6.Models.KairosViewModels.Kosten
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model IEnumerable<EnclaveKostViewModel>
 @{
     ViewData["Title"] = Soort.EnclaveKost.GeefOmschrijving();    
 }
