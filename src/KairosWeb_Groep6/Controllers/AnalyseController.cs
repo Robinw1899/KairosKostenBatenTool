@@ -115,7 +115,7 @@ namespace KairosWeb_Groep6.Controllers
 
                 if (mogelijkeAnalyse == null || mogelijkeAnalyse.Verwijderd)
                 {
-                    TempData["error"] = "U heeft geen toegang tot deze analyse! Verwijderd enkel analyses die u ziet " +
+                    TempData["error"] = "U heeft geen toegang tot deze analyse! Verwijder enkel analyses die u ziet " +
                                         "op de homepagina of in het archief.";
                 }
                 else

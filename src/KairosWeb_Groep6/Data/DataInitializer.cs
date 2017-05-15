@@ -124,6 +124,8 @@ namespace KairosWeb_Groep6.Data
 
                 analyse.UitzendKrachtBesparingen = MaakUitzendKrachtBesparingen();
 
+                analyse.UpdateTotalen(_analyseRepository);
+
                 _analyseRepository.Add(analyse);
                 _analyseRepository.Save();
 

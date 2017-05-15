@@ -12,6 +12,8 @@
 
         // de doelgroepvermindering die hoort bij deze doelgroep, dit kan veranderen!
         public decimal StandaardDoelgroepVermindering { get; set; }
+
+        public bool Verwijderd { get; set; }
         #endregion
 
         #region Constructors
