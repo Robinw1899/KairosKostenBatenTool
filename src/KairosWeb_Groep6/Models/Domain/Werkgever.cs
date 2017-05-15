@@ -70,7 +70,7 @@ namespace KairosWeb_Groep6.Models.Domain
             return false;
         }
 
-        protected bool Equals(Werkgever other)
+        public bool Equals(Werkgever other)
         {
             // gegenereerde code
             if (other == null)

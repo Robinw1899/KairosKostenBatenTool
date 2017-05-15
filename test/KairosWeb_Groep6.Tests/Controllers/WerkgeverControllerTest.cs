@@ -19,6 +19,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         private readonly Mock<IDepartementRepository> _departementRepository;
         private readonly Mock<IWerkgeverRepository> _werkgeverRepository;
         private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
+        private readonly Mock<IJobcoachRepository> _jobcoachRepository;
         private readonly WerkgeverController _controller;
         private readonly Mock<Analyse> _analyse;
         private readonly DummyApplicationDbContext _dbContext;
@@ -31,9 +32,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _departementRepository = new Mock<IDepartementRepository>();
             _werkgeverRepository = new Mock<IWerkgeverRepository>();
             _exceptionLogRepository = new Mock<IExceptionLogRepository>();
+            _jobcoachRepository = new Mock<IJobcoachRepository>();
 
             _controller = new WerkgeverController(_analyseRepository.Object,
-                _departementRepository.Object, _werkgeverRepository.Object, _exceptionLogRepository.Object)
+                _departementRepository.Object, _werkgeverRepository.Object, _exceptionLogRepository.Object,
+                _jobcoachRepository.Object)
             {
                 TempData = new Mock<ITempDataDictionary>().Object
             };
@@ -200,7 +203,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         {
             _analyseRepository.Setup(a => a.Save()).Throws(new Exception());
 
-            var result = _controller.SelecteerBestaandeWerkgever(_analyse.Object, 1, 1) as RedirectToActionResult;
+            var result = _controller.SelecteerBestaandeWerkgever(_dbContext.Thomas, _analyse.Object, 1, 1) as RedirectToActionResult;
 
             Assert.Equal("BestaandeWerkgever", result?.ActionName);
 
@@ -211,9 +214,10 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestBestaandeWerkgever_Succes_RedirectsToIndexContactPersoon()
         {
-            _departementRepository.Setup(r => r.GetById(It.IsAny<int>())).Returns(_dbContext.Aldi);
+            _jobcoachRepository.Setup(r => r.GetDepartementenVanJobcoach(It.IsAny<Jobcoach>()))
+                .Returns(new List<Departement>{ _dbContext.Aldi });
 
-            var result = _controller.SelecteerBestaandeWerkgever(_analyse.Object, 1, 1) as RedirectToActionResult;
+            var result = _controller.SelecteerBestaandeWerkgever(_dbContext.Thomas, _analyse.Object, 0, 1) as RedirectToActionResult;
 
             Assert.Equal("Index", result?.ActionName);
             Assert.Equal("ContactPersoon", result?.ControllerName);
@@ -252,10 +256,10 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestZoekWerkgever_RepositoryGooitException_RedirectsToBestaandeWerkgever()
         {
-            _werkgeverRepository.Setup(r => r.GetByName(It.IsAny<string>()))
+            _werkgeverRepository.Setup(r => r.GetByName(It.IsAny<Jobcoach>(), It.IsAny<string>()))
                 .Throws(new Exception());
 
-            var result = _controller.ZoekWerkgever(new BestaandeWerkgeverViewModel(), "hallo") as RedirectToActionResult;
+            var result = _controller.ZoekWerkgever(_dbContext.Thomas, new BestaandeWerkgeverViewModel(), "hallo") as RedirectToActionResult;
 
             Assert.Equal("BestaandeWerkgever", result?.ActionName);
 
@@ -266,10 +270,13 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestZoekWerkgever_NaamNull_MethodeFaaltNiet()
         {
+            _jobcoachRepository.Setup(r => r.GetWerkgeversVanJobcoach(It.IsAny<Jobcoach>()))
+                .Returns(new List<Werkgever> { _dbContext.Aldi.Werkgever });
+
             _werkgeverRepository.Setup(r => r.GetAll())
                 .Returns(new List<Werkgever>());
 
-            var result = _controller.ZoekWerkgever(null) as PartialViewResult;
+            var result = _controller.ZoekWerkgever(_dbContext.Thomas, null) as PartialViewResult;
 
             Assert.Equal("_Werkgevers", result?.ViewName);
         }
@@ -277,6 +284,14 @@ namespace KairosWeb_Groep6.Tests.Controllers
         [Fact]
         public void TestZoekWerkgever_NaamEmpty_MethodeFaaltNiet()
         {
+            _jobcoachRepository.Setup(r => r.GetWerkgeversVanJobcoach(It.IsAny<Jobcoach>()))
+                .Returns(new List<Werkgever>
+                {
+                    _dbContext.Aldi.Werkgever,
+                    _dbContext.Aldi.Werkgever,
+                    _dbContext.Aldi.Werkgever
+                });
+
             _werkgeverRepository.Setup(r => r.GetWerkgevers())
                 .Returns(new List<Werkgever>
                 {
@@ -285,7 +300,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
                     _dbContext.Aldi.Werkgever
                 });
 
-            var result = _controller.ZoekWerkgever(new BestaandeWerkgeverViewModel(), "") as PartialViewResult;
+            var result = _controller.ZoekWerkgever(_dbContext.Thomas, new BestaandeWerkgeverViewModel(), "") as PartialViewResult;
             var model = result?.ViewData.Model as BestaandeWerkgeverViewModel;
 
             Assert.Equal("_Werkgevers", result?.ViewName);
@@ -303,7 +318,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
                     _dbContext.Aldi.Werkgever
                 });
 
-            var result = _controller.ZoekWerkgever(new BestaandeWerkgeverViewModel(), "geen") as PartialViewResult;
+            var result = _controller.ZoekWerkgever(_dbContext.Thomas, new BestaandeWerkgeverViewModel(), "geen") as PartialViewResult;
             var model = result?.ViewData.Model as BestaandeWerkgeverViewModel;
 
             Assert.Equal("_Werkgevers", result?.ViewName);
@@ -322,10 +337,10 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
             _werkgeverRepository.Setup(r => r.GetWerkgevers())
                 .Returns(werkgevers);
-            _werkgeverRepository.Setup(r => r.GetByName("aldi"))
+            _werkgeverRepository.Setup(r => r.GetByName(It.IsAny<Jobcoach>(), "aldi"))
                 .Returns(werkgevers);
 
-            var result = _controller.ZoekWerkgever(new BestaandeWerkgeverViewModel(), "aldi") as PartialViewResult;
+            var result = _controller.ZoekWerkgever(_dbContext.Thomas, new BestaandeWerkgeverViewModel(), "aldi") as PartialViewResult;
             var model = result?.ViewData.Model as BestaandeWerkgeverViewModel;
 
             Assert.Equal("_Werkgevers", result?.ViewName);
