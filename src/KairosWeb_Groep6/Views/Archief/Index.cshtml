@@ -55,12 +55,13 @@
 
         $("#zoekterm").submit(function (event) {
             event.preventDefault();
-            $.post(this.action, $(this).serialize(),
+            $.post(this.action,
+                $(this).serialize(),
                 function (data) {
                     $("#analyses").html(data);
                     $("#loader").slideUp(500);
                 });
 
-        })
+        });
     </script>
 }

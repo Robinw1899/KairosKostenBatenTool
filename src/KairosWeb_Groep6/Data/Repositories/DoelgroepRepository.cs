@@ -31,6 +31,7 @@ namespace KairosWeb_Groep6.Data.Repositories
         public IEnumerable<Doelgroep> GetAll()
         {
             return doelgroepen
+                .Where(d => d.Verwijderd == false) // de doelgroepen die niet verwijderd zijn
                 .AsNoTracking()
                 .ToList();
         }

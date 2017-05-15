@@ -177,7 +177,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             try
             {
                 EnclaveKost kost = analyse.EnclaveKosten
-                                                 .SingleOrDefault(k => k.Id == id);
+                    .SingleOrDefault(k => k.Id == id);
                 if (kost != null)
                 {
                     analyse.EnclaveKosten.Remove(kost);
@@ -185,7 +185,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
                     _analyseRepository.Save();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 _exceptionLogRepository.Add(new ExceptionLog(e, "EnclaveKosten", "Verwijder"));
                 _exceptionLogRepository.Save();
@@ -219,4 +219,3 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #endregion
     }
 }
-

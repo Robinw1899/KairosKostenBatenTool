@@ -1,14 +1,13 @@
-﻿@using System.Globalization
-@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModel>
+﻿@model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModel>
 
-<table class="table table-bordered table-condensed table-responsive">
-    <tr>
-        <th>Beschrijving</th>
-        <th>Jaarbedrag</th>
-        <th></th>
-    </tr>
-    @if (Model == null || !Model.Any()) // als de lijst leeg is
-    {
+    <table class="table table-bordered table-condensed table-responsive">
+        <tr>
+            <th>Beschrijving</th>
+            <th>Jaarbedrag</th>
+            <th></th>
+        </tr>
+        @if (Model == null || !Model.Any()) // als de lijst leeg is
+        {
         <tr>
             <td colspan="3" class="alert alert-info">
                 Er zijn nog geen gegevens ingevuld.
@@ -16,21 +15,21 @@
                 de tabel te klikken.
             </td>
         </tr>
-    }
-    else
-    {
+        }
+        else
+        {
         foreach (var kost in Model)
         {
-            <tr>
-                <td>@kost.Beschrijving</td>
-                <td>@kost.Bedrag</td>
-                <td>
-                    <div class="options">
-                        <a asp-action="Bewerk" asp-route-id="@kost.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>
-                        <a asp-action="Verwijder" asp-route-id="@kost.Id" id="verwijder"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                    </div>
-                </td>
-            </tr>
+        <tr>
+            <td>@kost.Beschrijving</td>
+            <td>@kost.Bedrag</td>
+            <td>
+                <div class="options">
+                    <a asp-action="Bewerk" asp-route-id="@kost.Id" id="bewerk"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    <a asp-action="Verwijder" asp-route-id="@kost.Id" id="verwijder"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </div>
+            </td>
+        </tr>
         }
 
         <tr class="alert alert-success">
@@ -41,5 +40,5 @@
                 @(ViewData["totaal"])
             </td>
         </tr>
-    }
-</table>
+        }
+    </table>

@@ -7,12 +7,15 @@
 
         public string Omschrijving { get; set; }
 
-        // het minimum brutoloon dat hoort bij deze doelgroep, dit kan veranderen!
+        // het minimum brutoloon dat hoort bij deze doelgroep
         public decimal MinBrutoloon { get; set; }
 
-        // de doelgroepvermindering die hoort bij deze doelgroep, dit kan veranderen!
+        // de doelgroepvermindering die hoort bij deze doelgroep
         public decimal StandaardDoelgroepVermindering { get; set; }
 
+        // deze boolean duidt aan of de doelgroep verwijderd is door de admin
+        // op de plaatsen waar deze gebruikt wordt, blijft alles normaal
+        // in een nieuwe analyse staat deze niet meer
         public bool Verwijderd { get; set; }
         #endregion
 
