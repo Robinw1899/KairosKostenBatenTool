@@ -128,10 +128,10 @@ namespace KairosWeb_Groep6
 
             //DataInitializer initializer = new DataInitializer(context, userManager, gebruikerRepository,
             //                                                  departementRepository, analyseRepository, werkgeverRepository,
-            //                                                 introductietekstRepository, doelgroepRepository);
-            ////initializer.InitializeIntrotekst();
-            //initializer.InitializeDoelgroepen();
+            //                                                  introductietekstRepository, doelgroepRepository);
             //initializer.InitializeData().Wait();
+            //initializer.InitializeIntrotekst();
+            //initializer.InitializeDoelgroepen();
         }
 
         private RequestLocalizationOptions BuildLocalizationOptions()
