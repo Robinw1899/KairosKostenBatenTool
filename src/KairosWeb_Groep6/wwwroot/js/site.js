@@ -1,40 +1,40 @@
 ﻿var siteView = {
-    init: function() {
+    init: function () {
         // Button "Annuleer" bij elk formulier onder een tabel
         // verbergt het formulier
-        $("#closeForm").click(function(event) {
+        $("#closeForm").click(function (event) {
             siteView.verbergFormulier();
         });
 
         // Button "+" onder elke tabel toont het formulier
-        $("#openForm").click(function(event) {
+        $("#openForm").click(function (event) {
             siteView.toonFormulier();
         });
 
         // verberg de intro bij het klikken op de x
-        $("#verbergIntro").click(function(event) {
+        $("#verbergIntro").click(function (event) {
             siteView.verbergIntro();
         });
 
         // toon de intro opnieuw
-        $("#toonIntro").click(function(event) {
+        $("#toonIntro").click(function (event) {
             siteView.toonIntro();
         });
 
-        $("#logoToonIntro").click(function(event) {
+        $("#logoToonIntro").click(function (event) {
             siteView.toonIntro();
         });
 
         siteView.controleerOfIntroGetoondMoetWorden();
     },
-    verbergFormulier: function() {
+    verbergFormulier: function () {
         $("#form").hide(500);
     },
 
-    toonFormulier: function() {
+    toonFormulier: function () {
         $("#form").show(500);
     },
-    controleerOfIntroGetoondMoetWorden: function() {
+    controleerOfIntroGetoondMoetWorden: function () {
         if (localStorage != null) {
             var value = localStorage.getItem("intro");
 
@@ -43,16 +43,16 @@
             }
         }
     },
-    verbergIntro: function() {
+    verbergIntro: function () {
         $(".intro").hide(500);
 
         if (localStorage != null) {
             localStorage.setItem("intro", "verborgen");
         }
     },
-    toonIntro: function() {
+    toonIntro: function () {
         $(".intro").show(500,
-            function() {
+            function () {
                 // de hoogte van het loginform gelijk zetten aan de hoogte van de introtekst
                 var width = $(document).width();
                 if (width >= 768) {
@@ -72,66 +72,28 @@
         }
     },
     initFunctionsKostenEnBaten: function () {
-        $("a#add").click(function(event) {
-            event.preventDefault();
-            siteView.toonFormulier();
-        });
-
-        $("a#bewerk").click(function(event) {
+        $("a#add").click(function (event) {
             event.preventDefault();
             $.get($(this).attr("href"),
-                function(data) {
+                function (data) {
                     $("#divForm").html(data);
                     siteView.toonFormulier();
-                    siteView.initFunctionsKostenEnBaten();
                 });
-        });
 
-        $("a#verwijder").click(function(event) {
-            event.preventDefault();
-            var url = $(this).attr("href");
-            $.get(url,
-                function(data) {
-                    $("#data").html(data);
-                    siteView.initFunctionsKostenEnBaten();
-                });
-        });
-
-        $("#form").submit(function (event) {
-            $.post(this.action,
-                $(this).serialize(),
-                function (data) {
-                    siteView.plaatsDataKostenBatenInHtml(data);
-                    siteView.initFunctionsKostenEnBaten();
-                });
             return false;
         });
-    },
-    resetFormulierKostenBaten: function () {
-        var url = $("a#add").attr("href");
-        $.get(url, function(data) {
-            $("#divForm").html(data);
+
+        $("a#bewerk").click(function (event) {
+            event.preventDefault();
+            $.get($(this).attr("href"),
+                function (data) {
+                    $("#divForm").html(data);
+                    siteView.toonFormulier();
+                });
         });
     },
-    plaatsDataKostenBatenInHtml: function(data) {
-        if (data.includes("form")) {
-            $("#divForm").html(data);
-            siteView.toonFormulier();
-            siteView.initFunctionsKostenEnBaten();
-        }
-
-        if (data.includes("table")) {
-            var url = $("#add").attr("href");
-            $.get(url,
-                function (formulier) {
-                    $("#data").html(data);
-                    $("#divForm").html(formulier);
-                    siteView.verbergFormulier();
-                });
-        }
-    },
-    initKlikbareRijen: function() {
-        $(".klikbareRij").click(function(event) {
+    initKlikbareRijen: function () {
+        $(".klikbareRij").click(function (event) {
             var href = $(this).data("href");
 
             if (href) {
@@ -139,12 +101,12 @@
             }
         });
     },
-    toonMeer: function() {
-        $("#toonmeer").click(function(event) {
+    toonMeer: function () {
+        $("#toonmeer").click(function (event) {
             event.preventDefault();
             var url = $(this).attr("href");
             $.get(url,
-                function(data) {
+                function (data) {
                     $("#data").html(data);
                 });
         });
@@ -154,10 +116,10 @@
 
         $.get(url, function (data) {
             $("#loader").slideUp(500);
-            $("#analyses").html(data);        
+            $("#analyses").html(data);
         });
     },
-    laadActionsVorigeVolgende: function() {
+    laadActionsVorigeVolgende: function () {
         // actions instellen
         $("a#vorige").click(function (event) {
             event.preventDefault();
@@ -185,6 +147,6 @@
     }
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
     siteView.init();
 });

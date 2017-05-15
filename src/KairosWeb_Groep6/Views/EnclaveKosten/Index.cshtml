@@ -2,7 +2,7 @@
 @using KairosWeb_Groep6.Models.Domain.Extensions
 @model IEnumerable<KairosWeb_Groep6.Models.KairosViewModels.Kosten.EnclaveKostViewModel>
 @{
-    ViewData["Title"] = Soort.EnclaveKost.GeefOmschrijving();    
+    ViewData["Title"] = Soort.EnclaveKost.GeefOmschrijving();
 }
 
 <div>
@@ -29,7 +29,7 @@
     </div>
 
     <div id="divForm">
-        @Html.Partial("_Formulier", new EnclaveKostViewModel())
+
     </div>
 </div>
 
@@ -51,6 +51,6 @@
         siteView.initFunctionsKostenEnBaten();
         $("#kosten").addClass("active");
     </script>
-    
+
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
