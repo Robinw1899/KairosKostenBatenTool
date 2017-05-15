@@ -43,6 +43,27 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .SingleOrDefault(g => g.PersoonId == id);
         }
 
+        public List<Departement> GetDepartementenVanJobcoach(Jobcoach jobcoach)
+        {
+            return jobcoach
+                .Analyses
+                .Where(a => a.Departement != null)
+                .Select(a => a.Departement)
+                .Distinct()
+                .ToList();
+        }
+
+        public List<Werkgever> GetWerkgeversVanJobcoach(Jobcoach jobcoach)
+        {
+            return jobcoach
+                .Analyses
+                .Where(a => a.Departement != null)
+                .Select(a => a.Departement)
+                .Select(d => d.Werkgever)
+                .Distinct()
+                .ToList();
+        }
+
         public void Add(Jobcoach gebruiker)
         {
             _jobcoaches.Add(gebruiker);

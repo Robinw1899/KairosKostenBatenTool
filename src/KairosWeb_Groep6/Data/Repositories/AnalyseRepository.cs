@@ -89,7 +89,6 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .AsNoTracking()
                 .ToList();
         }    
-     
 
         public Analyse GetById(int id)
         {
