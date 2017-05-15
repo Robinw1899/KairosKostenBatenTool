@@ -26,12 +26,6 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
-            if (analyse.Klaar)
-            {
-                TempData["error"] = Meldingen.AnalyseKlaar;
-                return RedirectToAction("Index", "Resultaat");
-            }
-
             analyse.UpdateTotalen(_analyseRepository);
 
             ExtraOmzetViewModel model = MaakModel(analyse);
@@ -65,9 +59,17 @@ namespace KairosWeb_Groep6.Controllers.Baten
             }
             catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "ExtraOmzet", "Opslaan"));
-                _exceptionLogRepository.Save();
-                TempData["error"] = Meldingen.OpslaanFoutmeldingBaat;
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "ExtraOmzet", "Opslaan -- GET --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = Meldingen.OpslaanFoutmeldingKost;
+                    return RedirectToAction("Index");
+                }
             }
 
             return RedirectToAction("Index");

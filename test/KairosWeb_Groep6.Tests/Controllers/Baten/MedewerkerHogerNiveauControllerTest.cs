@@ -47,20 +47,6 @@ namespace KairosWeb_Groep6.Tests.Controllers.Baten
 
             Assert.Equal(6, model?.Count());
         }
-
-        [Fact]
-        public void TestIndex_AnalyseKlaar_RedirectsToResultaat()
-        {
-            Analyse analyse = new Analyse
-            {
-                Klaar = true
-            };
-
-            var result = _controller.Index(analyse) as RedirectToActionResult;
-
-            Assert.Equal("Index", result?.ActionName);
-            Assert.Equal("Resultaat", result?.ControllerName);
-        }
         #endregion
 
         #region VoegToe -- GET --

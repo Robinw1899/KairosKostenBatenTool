@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain;
@@ -168,19 +167,31 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region HaalAnalyseUitArchief
-        public IActionResult HaalAnalyseUitArchief(int id)
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult HaalAnalyseUitArchief(Jobcoach jobcoach, int id)
         {
             try
             {
-                ViewData["analyseId"] = id;
-                Analyse analyse = _analyseRepository.GetById(id);
+                // eerst kijken of deze analyse wel van deze jobcoach is
+                Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                if (analyse.Departement != null)
+                if (mogelijkeAnalyse == null || mogelijkeAnalyse.Verwijderd)
                 {
-                    ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+                    TempData["error"] = "U heeft geen toegang tot deze analyse! Open enkel analyses die u ziet " +
+                                        "op de homepagina of in het archief.";
                 }
+                else
+                {
+                    ViewData["analyseId"] = id;
+                    Analyse analyse = _analyseRepository.GetById(id);
 
-                return View("HaalAnalyseUitArchief");
+                    if (analyse.Departement != null)
+                    {
+                        ViewData["werkgever"] = $"{analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}";
+                    }
+
+                    return View("HaalAnalyseUitArchief");
+                }
             }
             catch(Exception e)
             {
@@ -194,27 +205,39 @@ namespace KairosWeb_Groep6.Controllers
 
         [HttpPost]
         [ActionName("HaalAnalyseUitArchief")]
-        public IActionResult HaalAnalyseUitArchiefBevestigd(int id)
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult HaalAnalyseUitArchiefBevestigd(Jobcoach jobcoach, int id)
         {
             try
             {
-                Analyse analyse = _analyseRepository.GetById(id);
+                // eerst kijken of deze analyse wel van deze jobcoach is
+                Analyse mogelijkeAnalyse = jobcoach.Analyses.SingleOrDefault(a => a.AnalyseId == id);
 
-                // uit archief halen + datum laatste aanpassing aanpassen
-                analyse.InArchief = false;
-                analyse.DatumLaatsteAanpassing = DateTime.Now;
-
-                // alles opslaan in de databank
-                _analyseRepository.Save();
-
-                if (analyse.Departement == null)
+                if (mogelijkeAnalyse == null || mogelijkeAnalyse.Verwijderd)
                 {
-                    TempData["message"] = "De analyse is succesvol uit het archief gehaald.";
+                    TempData["error"] = "U heeft geen toegang tot deze analyse! Open enkel analyses die u ziet " +
+                                        "op de homepagina of in het archief.";
                 }
                 else
                 {
-                    TempData["message"] = $"De analyse van {analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}" +
-                                          " is succesvol uit het archief gehaald.";
+                    Analyse analyse = _analyseRepository.GetById(id);
+
+                    // uit archief halen + datum laatste aanpassing aanpassen
+                    analyse.InArchief = false;
+                    analyse.DatumLaatsteAanpassing = DateTime.Now;
+
+                    // alles opslaan in de databank
+                    _analyseRepository.Save();
+
+                    if (analyse.Departement == null)
+                    {
+                        TempData["message"] = "De analyse is succesvol uit het archief gehaald.";
+                    }
+                    else
+                    {
+                        TempData["message"] = $"De analyse van {analyse.Departement.Werkgever.Naam} - {analyse.Departement.Naam}" +
+                                              " is succesvol uit het archief gehaald.";
+                    }
                 }
             }
             catch(Exception e)

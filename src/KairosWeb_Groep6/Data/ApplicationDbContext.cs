@@ -68,6 +68,10 @@ namespace KairosWeb_Groep6.Data
 
             d.Property(t => t.StandaardDoelgroepVermindering)
                 .IsRequired();
+
+            d.Property(t => t.Verwijderd)
+                .HasDefaultValue(false)
+                .IsRequired();
         }
 
         private static void MapContactPersoon(EntityTypeBuilder<ContactPersoon> c)
@@ -149,7 +153,7 @@ namespace KairosWeb_Groep6.Data
                 .HasDefaultValue(false)
                 .IsRequired();
 
-            a.Property(t => t.Klaar)
+            a.Property(t => t.Verwijderd)
                 .HasDefaultValue(false)
                 .IsRequired();
 

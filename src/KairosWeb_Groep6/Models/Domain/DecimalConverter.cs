@@ -26,7 +26,7 @@ namespace KairosWeb_Groep6.Models.Domain
                 return decimalVal;
             }catch(FormatException e)
             {
-                throw new FormatException("De ingegeven waarde mag geen letters of tekens bevatten");
+                throw new FormatException("U mag enkel getallen met een punt of een komma invoeren");
             }              
             catch (ArgumentNullException e)
             {

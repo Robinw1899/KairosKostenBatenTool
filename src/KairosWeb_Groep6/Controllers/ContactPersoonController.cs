@@ -41,12 +41,6 @@ namespace KairosWeb_Groep6.Controllers
         {
             try
             {
-                if (analyse.Klaar)
-                {
-                    TempData["error"] = Meldingen.AnalyseKlaar;
-                    return RedirectToAction("Index", "Resultaat");
-                }
-
                 if (analyse.Departement == null)
                 {
                     TempData["error"] = "U hebt nog geen werkgever geselecteerd, gelieve deze eerst te selecteren";
