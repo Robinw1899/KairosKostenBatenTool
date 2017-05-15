@@ -77,7 +77,9 @@ namespace KairosWeb_Groep6.Controllers
 
                 if (werkgever != null && !nieuweWerkgever.Equals(werkgever))
                 {
-                    departement.Werkgever = nieuweWerkgever;
+                    werkgever.Departementen.Remove(departement);
+                    departement = new Departement(model.Departement) { Werkgever = nieuweWerkgever };
+                    nieuweWerkgever.Departementen.Add(departement);
                 }
                 else
                 {
@@ -159,6 +161,8 @@ namespace KairosWeb_Groep6.Controllers
 
                 // anders maken we een nieuw departement aan
                 departement = new Departement(model.Departement) { Werkgever = werkgever };
+
+                werkgever.Departementen.Add(departement);
 
                 // alles instellen
                 _departementRepository.Add(departement);
@@ -406,6 +410,7 @@ namespace KairosWeb_Groep6.Controllers
                 }
 
                 departement = new Departement(model.Departement);
+                werkgever.Departementen.Add(departement);
 
                 werkgever = _werkgeverRepository.GetById(model.WerkgeverId);
 
