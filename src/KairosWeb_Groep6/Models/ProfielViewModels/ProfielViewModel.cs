@@ -9,6 +9,9 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
         [HiddenInput]
         public int GebruikerId { get; set; }
 
+        [HiddenInput]
+        public int OrganisatieId { get; set; }
+
         [Required(ErrorMessage = "Gelieve je naam in te vullen")]
         [Display(Name = "Naam", Prompt = "Naam")]
         public string Naam { get; set; }
@@ -42,7 +45,7 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
         [Display(Name = "Postcode", Prompt = "Postcode")]
         [DataType(DataType.PostalCode)]
         [Range(1000, 9999)]
-        public int? Postcode { get; set; }
+        public int Postcode { get; set; }
 
         [Required(ErrorMessage = "Gelieve de gemeente van je organisatie in te vullen")]
         [Display(Name = "Gemeente", Prompt = "Gemeente")]
@@ -62,6 +65,7 @@ namespace KairosWeb_Groep6.Models.ProfielViewModels
 
             if (gebruiker.Organisatie != null)
             {
+                OrganisatieId = gebruiker.Organisatie.OrganisatieId;
                 OrganisatieNaam = gebruiker.Organisatie.Naam;
                 StraatOrganisatie = gebruiker.Organisatie.Straat;
                 NrOrganisatie = gebruiker.Organisatie.Nummer;

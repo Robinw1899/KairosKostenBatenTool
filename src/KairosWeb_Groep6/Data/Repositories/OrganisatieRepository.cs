@@ -29,6 +29,12 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .ToList();
         }
 
+        public Organisatie GetById(int id)
+        {
+            return _organisaties
+                .SingleOrDefault(o => o.OrganisatieId == id);
+        }
+
         public void Add(Organisatie organisatie)
         {
             _organisaties.Add(organisatie);

@@ -18,6 +18,7 @@ namespace KairosWeb_Groep6.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IJobcoachRepository _gebruikerRepository;
         private readonly IExceptionLogRepository _exceptionLogRepository;
+        private readonly IOrganisatieRepository _organisatieRepository;
         #endregion
 
         #region Constructors
@@ -25,12 +26,14 @@ namespace KairosWeb_Groep6.Controllers
             UserManager<ApplicationUser> userManager,
             IJobcoachRepository gebruikerRepository,
             SignInManager<ApplicationUser> signInManager,
-            IExceptionLogRepository exceptionLogRepository)
+            IExceptionLogRepository exceptionLogRepository,
+            IOrganisatieRepository organisatieRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _gebruikerRepository = gebruikerRepository;
             _exceptionLogRepository = exceptionLogRepository;
+            _organisatieRepository = organisatieRepository;
         }
         #endregion
 
@@ -64,19 +67,37 @@ namespace KairosWeb_Groep6.Controllers
                 try
                 {
                     Jobcoach jobcoach = _gebruikerRepository.GetById(model.GebruikerId);
+
+                    jobcoach.Voornaam = model.Voornaam;
+                    jobcoach.Naam = model.Naam;
                     jobcoach.Emailadres = model.Email;
-                    jobcoach.Organisatie.Naam = model.OrganisatieNaam;
-                    jobcoach.Organisatie.Gemeente = model.Gemeente;
 
-                    if (model.NrOrganisatie != null)
-                        jobcoach.Organisatie.Nummer = (int)model.NrOrganisatie;
+                    Organisatie organisatie = _organisatieRepository.GetById(model.OrganisatieId);
 
-                    if (model.Postcode != null)
-                        jobcoach.Organisatie.Postcode = (int)model.Postcode;
+                    Organisatie nieuwe = new Organisatie(model.OrganisatieNaam, model.StraatOrganisatie, model.NrOrganisatie ?? 0,
+                        model.BusOrganisatie, model.Postcode, model.Gemeente);
 
-                    jobcoach.Organisatie.Straat = model.StraatOrganisatie;
-                    jobcoach.Organisatie.Bus = model.BusOrganisatie;
+                    if (organisatie != null && !organisatie.Equals(nieuwe))
+                    {
+                        // ze zijn niet meer gelijk, dus de jobcoach heeft mogelijk iets gewijzigd dat bij de andere
+                        // niet mag wijzigen
+                        // of de jobcoach is van organisatie veranderd
+                        jobcoach.Organisatie = nieuwe;
+                    }
+                    else
+                    {
+                        jobcoach.Organisatie.Naam = model.OrganisatieNaam;
+                        jobcoach.Organisatie.Gemeente = model.Gemeente;
 
+                        if (model.NrOrganisatie != null)
+                            jobcoach.Organisatie.Nummer = (int)model.NrOrganisatie;
+
+                        jobcoach.Organisatie.Postcode = model.Postcode;
+
+                        jobcoach.Organisatie.Straat = model.StraatOrganisatie;
+                        jobcoach.Organisatie.Bus = model.BusOrganisatie;
+                    }
+                    
                     if (model.Email != null && !model.Email.Equals(HttpContext.User.Identity.Name))
                     {// email is gewijzigd
                         var user = await _userManager.GetUserAsync(User);
