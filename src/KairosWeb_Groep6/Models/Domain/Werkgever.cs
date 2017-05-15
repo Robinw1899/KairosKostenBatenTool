@@ -40,7 +40,7 @@ namespace KairosWeb_Groep6.Models.Domain
             
         }
 
-        public Werkgever(string naam, string straat, int nummer, string bus, int postcode, string gemeente, int aantalWerkuren, decimal patronaleBijdrage)
+        public Werkgever(string naam, string straat, int nummer, string bus, int postcode, string gemeente, decimal aantalWerkuren, decimal patronaleBijdrage)
         {
             Naam = naam;
             Straat = straat;

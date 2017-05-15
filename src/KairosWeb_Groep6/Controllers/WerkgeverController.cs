@@ -63,18 +63,26 @@ namespace KairosWeb_Groep6.Controllers
                 Werkgever werkgever = departement.Werkgever;
 
                 // werkgever instellen
-                werkgever.Naam = model.Naam;
-                werkgever.Straat = model.Straat;
-                werkgever.Nummer = model.Nummer;
-                werkgever.Bus = model.Bus;
-                werkgever.Postcode = model.Postcode;
-                werkgever.Gemeente = model.Gemeente;
-                werkgever.AantalWerkuren = model.AantalWerkuren;
-                werkgever.PatronaleBijdrage = model.PatronaleBijdrage;
+                Werkgever nieuweWerkgever = new Werkgever(model.Naam, model.Straat, model.Nummer ?? 0, model.Bus,
+                    model.Postcode, model.Gemeente, model.AantalWerkuren, model.PatronaleBijdrage);
 
                 // departement instellen
-                departement.Naam = model.Naam;
-                departement.Werkgever = werkgever;
+                if (departement != null && !string.Equals(model.Departement, departement.Naam))
+                {
+                    // de jobcoach heeft de departementsnaam gewijzigd,
+                    // dus we maken een nieuw departement aan
+                    departement = new Departement(model.Departement){ Werkgever = werkgever};
+                    werkgever.Departementen.Add(departement);
+                }
+
+                if (werkgever != null && !nieuweWerkgever.Equals(werkgever))
+                {
+                    departement.Werkgever = nieuweWerkgever;
+                }
+                else
+                {
+                    departement.Werkgever = werkgever;
+                }
 
                 // instellen in de analyse
                 analyse.Departement = departement;
@@ -82,6 +90,8 @@ namespace KairosWeb_Groep6.Controllers
                 // alles opslaan
                 _departementRepository.Save();
                 _analyseRepository.Save();
+
+                TempData["message"] = "De werkgever is succesvol opgeslaan";
 
                 return RedirectToAction("Index");
             }
