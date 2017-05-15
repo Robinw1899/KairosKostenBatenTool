@@ -8,7 +8,7 @@ namespace KairosWeb_Groep6.Models.Domain
     public interface IWerkgeverRepository
     {
         IEnumerable<Werkgever> GetAll();    
-        IEnumerable<Werkgever> GetByName(string naam);
+        IEnumerable<Werkgever> GetByName(Jobcoach jobcoach, string naam);
         IEnumerable<Werkgever> GetWerkgevers();      
         Werkgever GetById(int id);
         void Add(Werkgever werkgever);

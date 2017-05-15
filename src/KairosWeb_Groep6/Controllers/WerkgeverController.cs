@@ -18,6 +18,7 @@ namespace KairosWeb_Groep6.Controllers
         private readonly IDepartementRepository _departementRepository;
         private readonly IWerkgeverRepository _werkgeverRepository;
         private readonly IExceptionLogRepository _exceptionLogRepository;
+        private readonly IJobcoachRepository _jobcoachRepository;
         #endregion
 
         #region Constructors
@@ -25,12 +26,14 @@ namespace KairosWeb_Groep6.Controllers
             IAnalyseRepository analyseRepository,
             IDepartementRepository departementenRepository,
             IWerkgeverRepository werkgeverRepository,
-            IExceptionLogRepository exceptionLogRepository)
+            IExceptionLogRepository exceptionLogRepository,
+            IJobcoachRepository jobcoachRepository)
         {
             _analyseRepository = analyseRepository;
             _departementRepository = departementenRepository;
             _werkgeverRepository = werkgeverRepository;
             _exceptionLogRepository = exceptionLogRepository;
+            _jobcoachRepository = jobcoachRepository;
         }
         #endregion
 
@@ -60,18 +63,28 @@ namespace KairosWeb_Groep6.Controllers
                 Werkgever werkgever = departement.Werkgever;
 
                 // werkgever instellen
-                werkgever.Naam = model.Naam;
-                werkgever.Straat = model.Straat;
-                werkgever.Nummer = model.Nummer;
-                werkgever.Bus = model.Bus;
-                werkgever.Postcode = model.Postcode;
-                werkgever.Gemeente = model.Gemeente;
-                werkgever.AantalWerkuren = model.AantalWerkuren;
-                werkgever.PatronaleBijdrage = model.PatronaleBijdrage;
+                Werkgever nieuweWerkgever = new Werkgever(model.Naam, model.Straat, model.Nummer ?? 0, model.Bus,
+                    model.Postcode, model.Gemeente, model.AantalWerkuren, model.PatronaleBijdrage);
 
                 // departement instellen
-                departement.Naam = model.Naam;
-                departement.Werkgever = werkgever;
+                if (departement != null && !string.Equals(model.Departement, departement.Naam))
+                {
+                    // de jobcoach heeft de departementsnaam gewijzigd,
+                    // dus we maken een nieuw departement aan
+                    departement = new Departement(model.Departement){ Werkgever = werkgever};
+                    werkgever.Departementen.Add(departement);
+                }
+
+                if (werkgever != null && !nieuweWerkgever.Equals(werkgever))
+                {
+                    werkgever.Departementen.Remove(departement);
+                    departement = new Departement(model.Departement) { Werkgever = nieuweWerkgever };
+                    nieuweWerkgever.Departementen.Add(departement);
+                }
+                else
+                {
+                    departement.Werkgever = werkgever;
+                }
 
                 // instellen in de analyse
                 analyse.Departement = departement;
@@ -79,6 +92,8 @@ namespace KairosWeb_Groep6.Controllers
                 // alles opslaan
                 _departementRepository.Save();
                 _analyseRepository.Save();
+
+                TempData["message"] = "De werkgever is succesvol opgeslaan";
 
                 return RedirectToAction("Index");
             }
@@ -147,6 +162,8 @@ namespace KairosWeb_Groep6.Controllers
                 // anders maken we een nieuw departement aan
                 departement = new Departement(model.Departement) { Werkgever = werkgever };
 
+                werkgever.Departementen.Add(departement);
+
                 // alles instellen
                 _departementRepository.Add(departement);
                 analyse.Departement = departement;
@@ -189,11 +206,20 @@ namespace KairosWeb_Groep6.Controllers
         }
 
         [ServiceFilter(typeof(AnalyseFilter))]
-        public IActionResult SelecteerBestaandeWerkgever(Analyse analyse, int id, int werkgeverid)
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult SelecteerBestaandeWerkgever(Jobcoach jobcoach, Analyse analyse, int id, int werkgeverid)
         { // id is het id van het departement dat geselecteerd werd
             try
             {
-                Departement departement = _departementRepository.GetById(id);
+                List<Departement> departementenVanJobcoach = _jobcoachRepository.GetDepartementenVanJobcoach(jobcoach);
+                Departement departement = departementenVanJobcoach.SingleOrDefault(d => d.DepartementId == id);
+
+                if (departement == null)
+                {
+                    TempData["error"] = "U heeft geen toegang tot dit departement, kies enkel degene die u hieronder ziet.";
+                    return RedirectToAction("BestaandeWerkgever", "", null);
+                }
+
                 analyse.Departement = departement;
 
                 _analyseRepository.Save();
@@ -246,17 +272,18 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("BestaandDepartement");
         }
 
-        
-        public IActionResult ZoekWerkgever(BestaandeWerkgeverViewModel model, string naam = "")
+
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult ZoekWerkgever(Jobcoach jobcoach, BestaandeWerkgeverViewModel model, string naam = "")
         {
             try
             {              
                 IEnumerable<Werkgever> werkgevers = new List<Werkgever>() ;
-              
+
                 if (naam != null && !naam.Equals(""))
-                    werkgevers = _werkgeverRepository.GetByName(naam);
+                    werkgevers = _werkgeverRepository.GetByName(jobcoach, naam);
                 else
-                    werkgevers = _werkgeverRepository.GetWerkgevers();
+                    werkgevers = _jobcoachRepository.GetWerkgeversVanJobcoach(jobcoach);
 
 
                  model = new BestaandeWerkgeverViewModel
@@ -311,13 +338,14 @@ namespace KairosWeb_Groep6.Controllers
         #endregion
 
         #region ToonAlles
-        public IActionResult ToonAlles()
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult ToonAlles(Jobcoach jobcoach)
         {
             BestaandeWerkgeverViewModel model = new BestaandeWerkgeverViewModel()
             {
-                Werkgevers = _werkgeverRepository
-                .GetAll()
-                .Select(a => new WerkgeverViewModel(a))
+                Werkgevers = _jobcoachRepository
+                .GetWerkgeversVanJobcoach(jobcoach)
+                .Select(w => new WerkgeverViewModel(w))
                 .ToList(),
                 FirstLoad = false              
             };
@@ -382,6 +410,7 @@ namespace KairosWeb_Groep6.Controllers
                 }
 
                 departement = new Departement(model.Departement);
+                werkgever.Departementen.Add(departement);
 
                 werkgever = _werkgeverRepository.GetById(model.WerkgeverId);
 

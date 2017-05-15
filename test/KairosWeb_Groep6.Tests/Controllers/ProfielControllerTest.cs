@@ -20,6 +20,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
         #region Properties
         private readonly Mock<IJobcoachRepository> _jobcoachRepository;
         private readonly Mock<IExceptionLogRepository> _exceptionLogRepository;
+        private readonly Mock<IOrganisatieRepository> _organisatieRepository;
         private readonly ProfielController _controller;
         private readonly DefaultHttpContext _httpctx;
         private readonly DummyApplicationDbContext _dbContext;
@@ -34,11 +35,11 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _jobcoachRepository = new Mock<IJobcoachRepository>();
             _userManager = new Mock<FakeUserManager>();
             _signInManager = new Mock<FakeSignInManager>();
-
+            _organisatieRepository = new Mock<IOrganisatieRepository>();
             _exceptionLogRepository = new Mock<IExceptionLogRepository>();
 
             _controller = new ProfielController(_userManager.Object, _jobcoachRepository.Object,
-                _signInManager.Object, _exceptionLogRepository.Object);
+                _signInManager.Object, _exceptionLogRepository.Object, _organisatieRepository.Object);
             _httpctx = new DefaultHttpContext();
             _controller.ControllerContext.HttpContext = _httpctx;
             _controller.TempData = new Mock<ITempDataDictionary>().Object;

@@ -31,11 +31,15 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .Include(w=>w.Departementen)
                 .First();
         }     
-        public IEnumerable<Werkgever> GetByName(string naam)
+        public IEnumerable<Werkgever> GetByName(Jobcoach jobcoach, string naam)
         {
-            return _werkgevers
+            return jobcoach
+                .Analyses
+                .Where(a => a.Departement != null)
+                .Select(a => a.Departement)
+                .Select(d => d.Werkgever)
+                .Distinct()
                 .Where(w => w.Naam.Contains(naam))
-                .Include(w => w.Departementen)
                 .ToList();
 
         }
