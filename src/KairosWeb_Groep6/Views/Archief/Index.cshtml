@@ -1,24 +1,24 @@
 ﻿@model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
 @{
     ViewData["title"] = ViewData["zoeken"] == null ? "Archief" : "Zoekresultaten";
-    var klasse = ViewData["zoeken"] == null ? "col-md-12" : "col-md-9";
+    var klasse = ViewData["zoeken"] == null ? "col-md-9" : "col-md-6";
 }
 
 <div>
     <div class="page-header" style="overflow: auto;">
         <!--Overflow omdat anders de border boven de h3 en knop staat-->
-        <div class="col-md-7">
+        <div class="col-md-3">
             <h3>@ViewData["title"]</h3>
         </div>
-        <div class="col-md-5" style="margin-top: 20px;">
+        <div class="col-md-9" style="margin-top: 20px;">
             @if (ViewData["zoeken"] != null)
             {// als we gezocht hebben knop tonen
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <a class="btn btn-default" asp-action="Index" asp-controller="Archief">Toon alles</a>
                 </div>
             }
 
-            <div class="@klasse">
+            <div class="@klasse" style="padding-right:0px">
                 <!--margin omdat de h3 dezelfde margin heeft-->
                 <form asp-action="Zoek" method="post" id="zoekterm">
                     <div class="input-group">
@@ -29,6 +29,18 @@
                     </div>
                 </form>
             </div>
+            <div class="col-md-2" style="padding-right:0px; padding-left:17px;">
+                <form asp-action="ZoekDatum" method="post" id="zoekdatum">
+                    <div class="input-group">
+                        @Html.DropDownListFor(m => m.DatumId, Model.listItems)
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-1">
+                <a class="btn btn-info" id="toggleGrid"><i class="fa fa-th-large" aria-hidden="true"></i></a>
+                <a class="btn btn-info" id="toggleList"><i class="fa fa-list-ul" aria-hidden="true"></i></a>
+            </div>
+
         </div>
     </div>
     
@@ -47,7 +59,20 @@
 
 @section Scripts{
     <script>
-        $(document).ready(function() {
+        $("#toggleList").click(function () {
+            $("#toggleList").toggle();
+            $("#toggleGrid").toggle();
+            $(".card_wrapper").removeClass("col-sm-12 col-md-6 col-lg-4").addClass("col-sm-12 col-md-12 col-lg-12");
+        });
+
+        $("#toggleGrid").click(function () {
+            $("#toggleList").toggle();
+            $("#toggleGrid").toggle();
+            $(".card_wrapper").removeClass("col-sm-12 col-md-12 col-lg-12").addClass("col-sm-12 col-md-6 col-lg-4");
+        });
+
+        $(document).ready(function () {
+            $("#toggleGrid").toggle();  
             if (siteView) {
                 siteView.laadAnalyses();
             }
@@ -63,5 +88,15 @@
                 });
 
         });
+        $("#zoekdatum").change(function (event) {
+            event.preventDefault();
+            $("#analyses").html("");
+            $("#loader").slideDown(500);
+            $.post("/Kairos/ZoekDatum?val=" + $("#DatumId").val(), $(this).serialize(),
+                function (data) {
+                    $("#analyses").html(data);
+                    $("#loader").slideUp(500);
+                });
+        })
     </script>
 }

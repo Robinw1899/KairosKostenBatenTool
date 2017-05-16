@@ -73,7 +73,7 @@ namespace KairosWeb_Groep6.Controllers
                 model.listItems = from date in datumTypes
                                   select new SelectListItem
                                   {
-                                      Text = date.ToString(),
+                                      Text = ((int)date) > 1 ? ((int)date).ToString() + " maanden" : ((int)date).ToString() + " maand",
                                       Value = ((int)date).ToString()
                                   };
 
