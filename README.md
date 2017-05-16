@@ -2,13 +2,10 @@
 
 Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worden en wat goed/minder goed ging.
 
-## Opgenomen priors in sprint 5
+## Opgenomen priors in sprint 6
+* Prior 80: de jobcoach moet het resultaat van de berekening in excel kunnen opslaan of rechtstreeks via mail kunnen versturen naar werkgever
 * Prior 130: administator moet overzicht van de werkgevers waarvoor een berekening gemaakt werd kunnen exporteren naar Excel
 * Prior 200: de administrator moet doelgroepen (subsidies) kunnen toevoegen/aanpassen/verwijderen
-
-## Vragen voor klant
-* Moeten er extra doelgroepen kunnen gemaakt worden?
-* Moeten er gebruikers kunnen geselecteerd worden om te exporteren?
 
 ## Niet vergeten!
 * Vaak committen
@@ -20,18 +17,7 @@ Hier vind je wat meer informatie over het project,  wat er nog moet gedaan worde
 * Hulp vragen indien je twijfelt, niet zelf beslissen en denken dat je wel goed zal zitten! Dit bespaart elkaar veel werk...
 
 ## To do:
-### To do voor webapplicatie
-* Demo jobcoach analyseren
-
-## Retrospective
-### Wat ging goed?
-
-
-### Wat kan beter?
-
-
-### Wat gaan we verbeteren voor de volgende sprint?
-
+Klaar!
 
 ## Observatie jobcoach:
 * Geen gebruik gemaakt van google API (automatisch aanvullen adres), misschien aangeven dat dit automatisch aangevuld kan worden.
