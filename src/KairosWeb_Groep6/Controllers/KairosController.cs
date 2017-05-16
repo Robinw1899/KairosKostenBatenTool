@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain.Extensions;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -193,7 +194,16 @@ namespace KairosWeb_Groep6.Controllers
                         .ToList();
                 }
 
-                IndexViewModel model = new IndexViewModel(jobcoach);              
+                IndexViewModel model = new IndexViewModel(jobcoach);
+                IEnumerable<Datum> datumTypes = Enum.GetValues(typeof(Datum))
+                                                    .Cast<Datum>();
+
+                model.listItems = from date in datumTypes
+                                  select new SelectListItem
+                                  {
+                                      Text = date.ToString(),
+                                      Value = ((int)date).ToString()
+                                  };
 
                 ViewData["zoeken"] = "zoeken";
                 return PartialView("_Analyses",model);

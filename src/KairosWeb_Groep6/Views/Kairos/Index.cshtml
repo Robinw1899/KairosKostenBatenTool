@@ -29,6 +29,14 @@
                 </form>
             </div>
 
+            <div class="col-md-2">
+                <form asp-action="ZoekDatum" method="post" id="zoekdatum">
+                    <div class="input-group">
+                        @Html.DropDownListFor(m => m.DatumId, Model.listItems)
+                    </div>
+                </form>
+            </div>
+
             <div class="col-md-1">                   
                 <a class="btn btn-info" id="toggleGrid"><i class="fa fa-th-large" aria-hidden="true"></i></a> 
                 <a class="btn btn-info" id="toggleList"><i class="fa fa-list-ul" aria-hidden="true"></i></a> 
@@ -83,5 +91,17 @@
                     $("#loader").slideUp(500);
                 });           
         });
+
+        $("#zoekdatum").change(function (event) {
+            event.preventDefault();
+            $("#analyses").html("");
+            $("#loader").slideDown(500);
+            $.post("/Kairos/ZoekDatum?val=" + $("#DatumId").val(), $(this).serialize(),
+                function (data) {
+                    $("#analyses").html(data);
+                    $("#loader").slideUp(500);
+                });
+        })
+
     </script>
 }
