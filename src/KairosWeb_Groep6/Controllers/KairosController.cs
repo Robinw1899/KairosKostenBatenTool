@@ -139,7 +139,8 @@ namespace KairosWeb_Groep6.Controllers
                     BeginIndex = model.BeginIndex,
                     EindIndex = model.BeginIndex + MAX_AANTAL_ANALYSES,
                     ShowVolgende = volgende,
-                    ShowVorige = vorige                   
+                    ShowVorige = vorige,
+                    TotaalAnalyses = totaal                   
                 };
 
                 return PartialView("_Analyses", model);
@@ -192,20 +193,23 @@ namespace KairosWeb_Groep6.Controllers
             {
                 //string email = HttpContext.User.Identity.Name;
                 //Jobcoach jobcoach = _jobcoachRepository.GetByEmail(email);
-
+                int totaal = 0;
                 if (jobcoach != null)
                 {
                     jobcoach.SelecteerMatchendeAnalyse(zoekterm);
+
                     jobcoach.Analyses = jobcoach
                         .Analyses
-                        .NietInArchief()
-                        .OrderByDescending(t => t.DatumLaatsteAanpassing)
-                        //.Take(9)
+                        .NietInArchief().ToList();
+                    totaal = jobcoach.Analyses.Count();
+                    jobcoach.Analyses = jobcoach
+                        .Analyses
+                        .OrderByDescending(t => t.DatumLaatsteAanpassing)                     
                         .ToList();
                 }
 
                 IndexViewModel model = new IndexViewModel(jobcoach);
-             
+                model.TotaalAnalyses = totaal;
                 ViewData["zoeken"] = "zoeken";
                 return PartialView("_Analyses",model);
                
@@ -227,17 +231,19 @@ namespace KairosWeb_Groep6.Controllers
         {
             try
             {
+                int totaal = 0;
                 if (jobcoach != null)
                 {
 
                     jobcoach.SelecteedMatchendeAnalyseDatum(val);
+                    totaal = jobcoach.Analyses.Count();
                     jobcoach.Analyses = jobcoach
                            .Analyses
                            .NietInArchief()
                            .OrderByDescending(t => t.DatumLaatsteAanpassing)
                            .ToList();
                     IndexViewModel model = new IndexViewModel(jobcoach);
-
+                    model.TotaalAnalyses = totaal;
                     ViewData["zoeken"] = "zoeken";
                     return PartialView("_Analyses", model);
                 }

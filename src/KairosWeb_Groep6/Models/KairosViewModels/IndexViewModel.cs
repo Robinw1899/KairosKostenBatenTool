@@ -26,6 +26,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         public IEnumerable<SelectListItem> listItems { get; set; }
 
+        public int TotaalAnalyses { get; set; }
+
         public int DatumId { get; set; }
         public IndexViewModel()
         {
@@ -43,6 +45,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
                                     .Select(a => new AnalyseViewModel(a))
                                     .ToList();
             listItems = new List<SelectListItem>();
+            TotaalAnalyses = Analyses.Count();
         }
 
 

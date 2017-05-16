@@ -3,7 +3,7 @@
 @model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
 
 @if (Model == null || !Model.Analyses.Any())
-{
+{  
     if (ViewData["zoeken"] == null)
     {
         <div class="col-md-12">
@@ -14,7 +14,9 @@
         </div>
     }
 }
-
+<div>
+    <label class="label-info" style="padding-left:15px; background-color:transparent">@Model.TotaalAnalyses Resultaten</label>
+</div>
 <div class="col-sm-12">
     <a asp-controller="Analyse" asp-action="NieuweAnalyse">
         <div class="card text-center animated zoomIn" style="color: black;">
