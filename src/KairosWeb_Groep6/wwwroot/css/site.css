@@ -283,6 +283,10 @@ h6#infoTekstVerplichteVelden {
 .bedragKost {
     padding-right: 7px;
 }
+#DatumId{
+    height: 34px;
+    width: 100px;
+}
 
 
 @media only screen and (min-width: 1024px) {
@@ -443,5 +447,9 @@ h6#infoTekstVerplichteVelden {
     }
     #btnVolgendeExtraOmzet{
         padding-right: 37px !important;
+    }
+    #DatumId {
+        height: 34px;
+        width: 100px;
     }
 }
