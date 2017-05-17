@@ -98,7 +98,7 @@
             $("#analyses").html("");
             $("#loader").slideDown(500);
             $.post("/Kairos/ZoekDatum?val=" + $("#DatumId").val(), $(this).serialize(),
-                function (data) {
+                function (data) {                      
                     $("#analyses").html(data);
                     $("#loader").slideUp(500);
                 });

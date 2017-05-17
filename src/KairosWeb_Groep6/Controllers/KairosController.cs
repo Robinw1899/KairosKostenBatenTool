@@ -196,6 +196,11 @@ namespace KairosWeb_Groep6.Controllers
                 int totaal = 0;
                 if (jobcoach != null)
                 {
+                    if(zoekterm == null)
+                    {
+                        return RedirectToAction("HaalAnalysesOpZonderModel","Kairos",new {beginIndex = 0, EindIndex = MAX_AANTAL_ANALYSES });
+                    }
+
                     jobcoach.SelecteerMatchendeAnalyse(zoekterm);
 
                     jobcoach.Analyses = jobcoach
@@ -236,10 +241,15 @@ namespace KairosWeb_Groep6.Controllers
                 {
 
                     jobcoach.SelecteedMatchendeAnalyseDatum(val);
-                    totaal = jobcoach.Analyses.Count();
+
                     jobcoach.Analyses = jobcoach
                            .Analyses
-                           .NietInArchief()
+                           .NietInArchief().ToList();
+
+                    totaal = jobcoach.Analyses.Count();
+
+                    jobcoach.Analyses = jobcoach
+                           .Analyses
                            .OrderByDescending(t => t.DatumLaatsteAanpassing)
                            .ToList();
                     IndexViewModel model = new IndexViewModel(jobcoach);

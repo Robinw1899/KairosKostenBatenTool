@@ -1,6 +1,9 @@
 ﻿@using System.Linq
 @using Microsoft.AspNetCore.Mvc.Rendering
 @model KairosWeb_Groep6.Models.KairosViewModels.IndexViewModel
+@{
+    var Resultaat = Model.TotaalAnalyses == 1 ? "Resultaat" : "Resultaten";
+ }
 
 @if (Model == null || !Model.Analyses.Any())
 {  
@@ -15,7 +18,7 @@
     }
 }
 <div>
-    <label class="label-info" style="padding-left:15px; background-color:transparent">@Model.TotaalAnalyses Resultaten</label>
+    <label class="label-info" style="padding-left:15px; background-color:transparent">@Model.TotaalAnalyses @Resultaat</label>
 </div>
 <div class="col-sm-12">
     <a asp-controller="Analyse" asp-action="NieuweAnalyse">
