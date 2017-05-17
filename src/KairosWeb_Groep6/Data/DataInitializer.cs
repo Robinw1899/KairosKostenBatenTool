@@ -236,7 +236,7 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true};
+            jobcoach = new Jobcoach(naam, voornaam, email, organisatie) { AlAangemeld = true};
             _gebruikerRepository.Add(jobcoach);
 
             await _userManager.CreateAsync(user, "kairos2017");
@@ -253,7 +253,7 @@ namespace KairosWeb_Groep6.Data
                 Email = email
             };
 
-            jobcoach = new Jobcoach(naam, voornaam, email) { AlAangemeld = true };
+            jobcoach = new Jobcoach(naam, voornaam, email, organisatie) { AlAangemeld = true };
             _gebruikerRepository.Add(jobcoach);
 
             await _userManager.CreateAsync(user, "kairos2017");
