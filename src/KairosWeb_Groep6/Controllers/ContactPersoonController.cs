@@ -109,7 +109,7 @@ namespace KairosWeb_Groep6.Controllers
                 return View("Index", model);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Kosten");
         }
         #endregion
 

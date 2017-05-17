@@ -167,6 +167,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
             _analyseRepository.Verify(c => c.Save(), Times.Once);
 
             Assert.Equal("Index", result?.ActionName);
+            Assert.Equal("Kosten", result?.ControllerName);
         }
         #endregion
 
