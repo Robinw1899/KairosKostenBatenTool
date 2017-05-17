@@ -92,7 +92,7 @@
             event.preventDefault();
             $("#analyses").html("");
             $("#loader").slideDown(500);
-            $.post("/Kairos/ZoekDatum?val=" + $("#DatumId").val(), $(this).serialize(),
+            $.post("/Archief/ZoekDatum?val=" + $("#DatumId").val(), $(this).serialize(),
                 function (data) {
                     $("#analyses").html(data);
                     $("#loader").slideUp(500);
