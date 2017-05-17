@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KairosWeb_Groep6.Filters;
 using KairosWeb_Groep6.Models.Domain.Extensions;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KairosWeb_Groep6.Controllers
 {
@@ -66,6 +67,16 @@ namespace KairosWeb_Groep6.Controllers
                     BeginIndex = 0,
                     EindIndex = MAX_AANTAL_ANALYSES
                 };
+                IEnumerable<Datum> datumTypes = Enum.GetValues(typeof(Datum))
+                                                 .Cast<Datum>();
+
+                model.listItems = from date in datumTypes
+                                  select new SelectListItem
+                                  {
+                                      Text = ((int)date) > 1 ? ((int)date).ToString() + " maanden" : ((int)date).ToString() + " maand",
+                                      Value = ((int)date).ToString()
+                                  };
+
 
                 return View("Index", model);
             }
@@ -128,7 +139,8 @@ namespace KairosWeb_Groep6.Controllers
                     BeginIndex = model.BeginIndex,
                     EindIndex = model.BeginIndex + MAX_AANTAL_ANALYSES,
                     ShowVolgende = volgende,
-                    ShowVorige = vorige                   
+                    ShowVorige = vorige,
+                    TotaalAnalyses = totaal                   
                 };
 
                 return PartialView("_Analyses", model);
@@ -181,20 +193,31 @@ namespace KairosWeb_Groep6.Controllers
             {
                 //string email = HttpContext.User.Identity.Name;
                 //Jobcoach jobcoach = _jobcoachRepository.GetByEmail(email);
-
+                int totaal = 0;
                 if (jobcoach != null)
                 {
+                    if(zoekterm == null)
+                    {
+                        return RedirectToAction("HaalAnalysesOpZonderModel","Kairos",new {beginIndex = 0, EindIndex = MAX_AANTAL_ANALYSES });
+                    }
+
                     jobcoach.SelecteerMatchendeAnalyse(zoekterm);
+
                     jobcoach.Analyses = jobcoach
                         .Analyses
                         .NietInArchief()
-                        .OrderByDescending(t => t.DatumLaatsteAanpassing)
-                        //.Take(9)
+                        .Where(a=>a.Verwijderd == false)
+                        .ToList();
+                    totaal = jobcoach.Analyses.Count();
+                    jobcoach.Analyses = jobcoach
+                        .Analyses
+                        .OrderByDescending(t => t.DatumLaatsteAanpassing)         
+                      
                         .ToList();
                 }
 
-                IndexViewModel model = new IndexViewModel(jobcoach);              
-
+                IndexViewModel model = new IndexViewModel(jobcoach);
+                model.TotaalAnalyses = totaal;
                 ViewData["zoeken"] = "zoeken";
                 return PartialView("_Analyses",model);
                
@@ -209,6 +232,47 @@ namespace KairosWeb_Groep6.Controllers
             return RedirectToAction("Index");
         }
         #endregion
+        #region Datumsearch   
+        [HttpPost]
+        [ServiceFilter(typeof(JobcoachFilter))]
+        public IActionResult ZoekDatum(string val, Jobcoach jobcoach)
+        {
+            try
+            {
+                int totaal = 0;
+                if (jobcoach != null)
+                {
+
+                    jobcoach.SelecteedMatchendeAnalyseDatum(val);
+
+                    jobcoach.Analyses = jobcoach
+                           .Analyses
+                           .NietInArchief()
+                           .Where(a=>a.Verwijderd == false)
+                           .ToList();
+
+                    totaal = jobcoach.Analyses.Count();
+
+                    jobcoach.Analyses = jobcoach
+                           .Analyses
+                           .OrderByDescending(t => t.DatumLaatsteAanpassing)
+                           .ToList();
+                    IndexViewModel model = new IndexViewModel(jobcoach);
+                    model.TotaalAnalyses = totaal;
+                    ViewData["zoeken"] = "zoeken";
+                    return PartialView("_Analyses", model);
+                }
+            }
+            catch (Exception e)
+            {
+                _exceptionLogRepository.Add(new ExceptionLog(e, "Kairos", "DropDownchange"));
+                _exceptionLogRepository.Save();
+                TempData["error"] = "Er liep iets mis, probeer later opnieuw.";
+            }
+            return RedirectToAction("Index");
+        }
+        #endregion
+
 
         #region Eerste keer aanmelden
         public async Task<IActionResult> EersteKeerAanmelden()

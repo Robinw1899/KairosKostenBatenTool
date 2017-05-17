@@ -30,6 +30,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.ExtraKost);
             analyse.UpdateTotalen(_analyseRepository);
 
             var viewModels = MaakModel(analyse);
@@ -55,6 +56,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.ExtraKost);
                     DecimalConverter dc = new DecimalConverter();
                     var kost = new ExtraKost
                     {
@@ -97,6 +99,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             // id is het id van de kost die moet bewerkt wordens
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.ExtraKost);
                 var kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
                 var model = new ExtraKostViewModel();
                 DecimalConverter dc = new DecimalConverter();
@@ -135,6 +138,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.ExtraKost);
                 var kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, model.Id);
                 DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && kost != null)
@@ -177,6 +181,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             // id is het id van de kost die moet verwijderd worden
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.ExtraKost);
                 var kost = KostOfBaatExtensions.GetBy(analyse.ExtraKosten, id);
 
                 if (kost != null)

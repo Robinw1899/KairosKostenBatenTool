@@ -43,11 +43,10 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
 
         [Display(Name = "Gemiddeld aantal werkuren per week", Prompt = "Gemiddeld aantal werkuren per week")]
         [Required(ErrorMessage = "Gelieve een gemiddeld aantal werkuren per week op te geven")]
-        public decimal AantalWerkuren { get; set; }
+        public string AantalWerkuren { get; set; }
 
-        [Display(Name = "Patronale bijdrage", Prompt = "Patronale bijdrage (standaard 35%)")]
-        [Range(0, 100, ErrorMessage = "De patronale bijdrage moet liggen tussen 0 en 100 (grenzen inbegrepen)")]
-        public decimal PatronaleBijdrage { get; set; }
+        [Display(Name = "Patronale bijdrage", Prompt = "Patronale bijdrage (standaard 35%)")]   
+        public string PatronaleBijdrage { get; set; }
         #endregion
 
         #region Constructors
@@ -67,6 +66,7 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         {
             if (werkgever != null)
             {
+                DecimalConverter dc = new DecimalConverter();
                 WerkgeverId = werkgever.WerkgeverId;
                 Naam = werkgever.Naam;
                 Straat = werkgever.Straat;
@@ -74,9 +74,8 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
                 Bus = werkgever.Bus;
                 Postcode = werkgever.Postcode;
                 Gemeente = werkgever.Gemeente;
-
-                AantalWerkuren = werkgever.AantalWerkuren;
-                PatronaleBijdrage = werkgever.PatronaleBijdrage;
+                AantalWerkuren = dc.ConvertToString(werkgever.AantalWerkuren);
+                PatronaleBijdrage = dc.ConvertToString(werkgever.PatronaleBijdrage);
             }
         }
         #endregion

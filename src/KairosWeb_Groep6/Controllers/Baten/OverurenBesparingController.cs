@@ -26,6 +26,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.OverurenBesparing);
             analyse.UpdateTotalen(_analyseRepository);
 
             OverurenBesparingViewModel model = MaakModel(analyse);
@@ -41,6 +42,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.OverurenBesparing);
                     DecimalConverter dc = new DecimalConverter();
                     OverurenBesparing baat = new OverurenBesparing
                     {

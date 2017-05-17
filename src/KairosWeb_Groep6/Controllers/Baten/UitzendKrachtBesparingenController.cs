@@ -30,6 +30,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.UitzendkrachtBesparing);
             analyse.UpdateTotalen(_analyseRepository);
 
             IEnumerable<UitzendKrachtBesparingViewModel> viewModels = MaakModel(analyse);
@@ -54,6 +55,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.UitzendkrachtBesparing);
                     DecimalConverter dc = new DecimalConverter();
                     UitzendKrachtBesparing baat = new UitzendKrachtBesparing
                     {
@@ -94,6 +96,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         {
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.UitzendkrachtBesparing);
                 UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, id);
 
                 UitzendKrachtBesparingViewModel model = new UitzendKrachtBesparingViewModel();
@@ -132,6 +135,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         {
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.UitzendkrachtBesparing);
                 UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, model.Id);
                 DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && baat != null)
@@ -171,6 +175,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         {
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.UitzendkrachtBesparing);
                 UitzendKrachtBesparing baat = KostOfBaatExtensions.GetBy(analyse.UitzendKrachtBesparingen, id);
 
                 if (baat != null)

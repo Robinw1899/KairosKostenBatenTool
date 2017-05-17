@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using KairosWeb_Groep6.Models.Domain;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace KairosWeb_Groep6.Models.KairosViewModels
 {
@@ -23,10 +24,15 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
         public bool ShowVolgende { get; set; }
         public bool ShowVorige { get; set; }
 
-        
+        public IEnumerable<SelectListItem> listItems { get; set; }
+
+        public int TotaalAnalyses { get; set; }
+
+        public int DatumId { get; set; }
         public IndexViewModel()
-        {          
+        {
             Analyses = new List<AnalyseViewModel>();
+            listItems = new List<SelectListItem>();
         }
 
         public IndexViewModel(Jobcoach gebruiker)
@@ -38,6 +44,11 @@ namespace KairosWeb_Groep6.Models.KairosViewModels
             Analyses = gebruiker.Analyses
                                     .Select(a => new AnalyseViewModel(a))
                                     .ToList();
+            listItems = new List<SelectListItem>();
+            TotaalAnalyses = Analyses.Count();
         }
+
+
+
     }
 }

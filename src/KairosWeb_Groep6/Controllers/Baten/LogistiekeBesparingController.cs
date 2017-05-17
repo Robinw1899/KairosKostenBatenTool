@@ -26,6 +26,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.LogistiekeBesparing);
             analyse.UpdateTotalen(_analyseRepository);
 
             LogistiekeBesparingViewModel model = new LogistiekeBesparingViewModel(analyse.LogistiekeBesparing);
@@ -41,6 +42,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.LogistiekeBesparing);
                     DecimalConverter dc = new DecimalConverter();
                     LogistiekeBesparing baat = new LogistiekeBesparing
                     {

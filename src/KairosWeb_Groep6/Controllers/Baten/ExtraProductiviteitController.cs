@@ -26,6 +26,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.ExtraProductiviteit);
             analyse.UpdateTotalen(_analyseRepository);
 
             var model = MaakModel(analyse);
@@ -41,6 +42,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.ExtraProductiviteit);
                     DecimalConverter dc = new DecimalConverter();
                     ExtraProductiviteit baat = new ExtraProductiviteit
                     {

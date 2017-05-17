@@ -59,6 +59,174 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .AsNoTracking()
                 .ToList();
         }
+        public Analyse GetById(int id, Soort soort)
+        {
+            IQueryable<Analyse> query = null;
+
+
+            switch (soort)
+            {
+                //kosten
+                case Soort.Loonkost:
+                    query = _analyses
+                     .Where(a => a.AnalyseId == id)
+                        .Include(a => a.Departement)
+                             .ThenInclude(d => d.Werkgever)
+                        .Include(a => a.Loonkosten).ThenInclude(l => l.Doelgroep);
+                    break;
+
+                case Soort.BegeleidingsKost:
+                    query = _analyses
+                    .Where(a => a.AnalyseId == id)
+                       .Include(a => a.Departement)
+                            .ThenInclude(d => d.Werkgever)
+                       .Include(a => a.BegeleidingsKosten);
+                    break;
+
+                case Soort.EnclaveKost:
+                    query = _analyses
+                   .Where(a => a.AnalyseId == id)
+                      .Include(a => a.Departement)
+                           .ThenInclude(d => d.Werkgever)
+                      .Include(a => a.EnclaveKosten);
+                    break;
+
+                case Soort.ExtraKost:
+                    query = _analyses
+                    .Where(a => a.AnalyseId == id)
+                       .Include(a => a.Departement)
+                            .ThenInclude(d => d.Werkgever)
+                       .Include(a => a.ExtraKosten);
+                    break;
+
+                case Soort.GereedschapsKost:
+                    query = _analyses
+                    .Where(a => a.AnalyseId == id)
+                       .Include(a => a.Departement)
+                            .ThenInclude(d => d.Werkgever)
+                       .Include(a => a.GereedschapsKosten);
+                    break;
+
+                case Soort.PersoneelsKost:
+                    query = _analyses
+                      .Where(a => a.AnalyseId == id)
+                         .Include(a => a.Departement)
+                              .ThenInclude(d => d.Werkgever)
+                         .Include(a => a.PersoneelsKosten);
+                    break;
+
+                case Soort.VoorbereidingsKost:
+                    query = _analyses
+                       .Where(a => a.AnalyseId == id)
+                          .Include(a => a.Departement)
+                               .ThenInclude(d => d.Werkgever)
+                          .Include(a => a.VoorbereidingsKosten);
+                    break;
+
+                case Soort.OpleidingsKost:
+                    query = _analyses
+                       .Where(a => a.AnalyseId == id)
+                          .Include(a => a.Departement)
+                               .ThenInclude(d => d.Werkgever)
+                          .Include(a => a.OpleidingsKosten);
+                    break;
+
+                //baten
+                case Soort.ExterneInkoop:
+                    query = _analyses
+                       .Where(a => a.AnalyseId == id)
+                          .Include(a => a.Departement)
+                               .ThenInclude(d => d.Werkgever)
+                          .Include(a => a.ExterneInkopen);
+                    break;
+
+                case Soort.ExtraBesparing:
+                    query = _analyses
+                      .Where(a => a.AnalyseId == id)
+                         .Include(a => a.Departement)
+                              .ThenInclude(d => d.Werkgever)
+                         .Include(a => a.ExtraBesparingen);
+                    break;
+
+                case Soort.ExtraOmzet:
+                    query = _analyses
+                       .Where(a => a.AnalyseId == id)
+                          .Include(a => a.Departement)
+                               .ThenInclude(d => d.Werkgever)
+                          .Include(a => a.ExtraOmzet);
+                    break;
+
+                case Soort.ExtraProductiviteit:
+                    query = _analyses
+                      .Where(a => a.AnalyseId == id)
+                         .Include(a => a.Departement)
+                              .ThenInclude(d => d.Werkgever)
+                         .Include(a => a.ExtraProductiviteit);
+                    break;
+
+                case Soort.LogistiekeBesparing:
+                    query = _analyses
+                      .Where(a => a.AnalyseId == id)
+                         .Include(a => a.Departement)
+                              .ThenInclude(d => d.Werkgever)
+                         .Include(a => a.LogistiekeBesparing);
+                    break;
+
+                case Soort.MedewerkersHogerNiveau:
+                    query = _analyses
+                     .Where(a => a.AnalyseId == id)
+                        .Include(a => a.Departement)
+                             .ThenInclude(d => d.Werkgever)
+                        .Include(a => a.MedewerkersHogerNiveauBaten);
+                    break;
+
+                case Soort.MedewerkersZelfdeNiveau:
+                    query = _analyses
+                     .Where(a => a.AnalyseId == id)
+                        .Include(a => a.Departement)
+                             .ThenInclude(d => d.Werkgever)
+                        .Include(a => a.MedewerkersZelfdeNiveauBaten);
+                    break;
+
+                case Soort.OverurenBesparing:
+                    query = _analyses
+                      .Where(a => a.AnalyseId == id)
+                         .Include(a => a.Departement)
+                              .ThenInclude(d => d.Werkgever)
+                         .Include(a => a.OverurenBesparing);
+                    break;
+
+                case Soort.Subsidie:
+                    query = _analyses
+                     .Where(a => a.AnalyseId == id)
+                        .Include(a => a.Departement)
+                             .ThenInclude(d => d.Werkgever)
+                        .Include(a => a.Subsidie);
+                    break;
+
+                case Soort.UitzendkrachtBesparing:
+                    query = _analyses
+                      .Where(a => a.AnalyseId == id)
+                         .Include(a => a.Departement)
+                              .ThenInclude(d => d.Werkgever)
+                         .Include(a => a.UitzendKrachtBesparingen);
+                    break;
+
+            }
+
+            // execute
+            return query.Select(a => a).FirstOrDefault();
+
+        }
+        public Analyse GetById(int id)
+        {
+            return _analyses
+                .Where(a => a.AnalyseId == id)
+                .Include(a => a.Departement)
+                .ThenInclude(d => d.Werkgever)
+                .SingleOrDefault();
+        }
+
 
         public IEnumerable<Analyse> GetAnalysesUitArchief()
         {
@@ -90,7 +258,7 @@ namespace KairosWeb_Groep6.Data.Repositories
                 .ToList();
         }    
 
-        public Analyse GetById(int id)
+        public Analyse GetByIdAll(int id)
         {
             return _analyses
                 .Where(a => a.Verwijderd == false)
@@ -129,6 +297,7 @@ namespace KairosWeb_Groep6.Data.Repositories
 
             return analyses;
         }
+
 
         public void SetAnalysesJobcoach(Jobcoach jobcoach, bool archief)
         {

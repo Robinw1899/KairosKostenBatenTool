@@ -30,6 +30,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.VoorbereidingsKost);
             analyse.UpdateTotalen(_analyseRepository);
 
             PlaatsTotaalInViewData(analyse);
@@ -52,6 +53,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.VoorbereidingsKost);
                     DecimalConverter dc = new DecimalConverter();
                     VoorbereidingsKost kost = new VoorbereidingsKost
                     {
@@ -92,6 +94,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet bewerkt wordens
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.VoorbereidingsKost);
                 VoorbereidingsKost kost = KostOfBaatExtensions.GetBy(analyse.VoorbereidingsKosten, id);
 
                 VoorbereidingsKostViewModel model = new VoorbereidingsKostViewModel();
@@ -171,6 +174,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet verwijderd worden
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.VoorbereidingsKost);
                 VoorbereidingsKost kost = KostOfBaatExtensions.GetBy(analyse.VoorbereidingsKosten, id);
 
                 if (kost != null)

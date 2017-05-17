@@ -37,6 +37,7 @@ namespace KairosWeb_Groep6.Controllers
 
             try
             {
+               analyse =  _analyseRepository.GetByIdAll(analyse.AnalyseId);
                 model.AnalyseKlaar = analyse.InArchief;
                 model.AnalyseId = analyse.AnalyseId;
 
@@ -100,6 +101,7 @@ namespace KairosWeb_Groep6.Controllers
         {
             try
             {
+                analyse = _analyseRepository.GetByIdAll(analyse.AnalyseId);
                 analyse.UpdateTotalen(_analyseRepository);
                 _analyseRepository.Save();
 
@@ -132,7 +134,7 @@ namespace KairosWeb_Groep6.Controllers
                 }
                 else
                 {
-                    Analyse analyse = _analyseRepository.GetById(id);
+                    Analyse analyse = _analyseRepository.GetByIdAll(id);
                     ExcelWriterResultaat excelWriter = new ExcelWriterResultaat();
                     string fileName = excelWriter.MaakExcel(analyse);
                     byte[] fileBytes = System.IO.File.ReadAllBytes(outputDir + fileName);
@@ -190,7 +192,7 @@ namespace KairosWeb_Groep6.Controllers
                 }
                 else
                 {
-                    Analyse analyse = _analyseRepository.GetById(model.AnalyseId);
+                    Analyse analyse = _analyseRepository.GetByIdAll(model.AnalyseId);
                     ExcelWriterResultaat excelWriter = new ExcelWriterResultaat();
                     string fileName = excelWriter.MaakExcel(analyse);
                     FileInfo file = new FileInfo("temp\\" + fileName);

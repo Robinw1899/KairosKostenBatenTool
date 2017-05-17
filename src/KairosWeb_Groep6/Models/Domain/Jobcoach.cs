@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace KairosWeb_Groep6.Models.Domain
 {
@@ -57,6 +58,39 @@ namespace KairosWeb_Groep6.Models.Domain
                 Analyses = analyses;
             }
         }
+
+        public void SelecteedMatchendeAnalyseDatum(string val)
+        {
+            if (!string.IsNullOrEmpty(val))
+            {
+                IList<Analyse> analysesInDatum = null;
+                switch (val)
+                {
+                    case "1":
+                        analysesInDatum = Analyses.Where(a => (a.DatumLaatsteAanpassing - DateTime.Today).TotalDays <= 30).ToList();
+                        break;
+                    case "3":
+                        analysesInDatum = Analyses.Where(a => (a.DatumLaatsteAanpassing - DateTime.Today).TotalDays <= 90).ToList();
+                        break;
+                    case "6":
+                        analysesInDatum = Analyses.Where(a => (a.DatumLaatsteAanpassing - DateTime.Today).TotalDays <= 180).ToList();
+                        break;
+                    case "12":
+                        analysesInDatum = Analyses.Where(a => (a.DatumLaatsteAanpassing - DateTime.Today).TotalDays <= 360).ToList();
+                        break;
+                    case "18":
+                        analysesInDatum = Analyses.Where(a => (a.DatumLaatsteAanpassing - DateTime.Today).TotalDays <= 720).ToList();
+                        break;
+
+                    default:
+                        analysesInDatum = Analyses;
+                        break;
+                }
+                Analyses = analysesInDatum;
+
+            }
+        }
+
         #endregion
     }
 }

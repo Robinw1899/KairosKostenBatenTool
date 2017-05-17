@@ -26,6 +26,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.Subsidie);
             analyse.UpdateTotalen(_analyseRepository);
 
             SubsidieViewModel model = MaakModel(analyse);
@@ -42,6 +43,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.Subsidie);
                     // de baat bestaat reeds:
                     DecimalConverter dc = new DecimalConverter();
                     Subsidie baat = new Subsidie

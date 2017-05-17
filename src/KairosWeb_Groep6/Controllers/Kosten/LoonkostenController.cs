@@ -36,6 +36,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.Loonkost);
             analyse.UpdateTotalen(_analyseRepository);
 
             PlaatsTotaalInViewData(analyse);
@@ -58,6 +59,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.Loonkost);
                     DecimalConverter dc = new DecimalConverter();
                     Loonkost kost = new Loonkost
                     {
@@ -106,6 +108,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet bewerkt wordens
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.Loonkost);
                 Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, id);
 
                 if (kost != null)
@@ -131,6 +134,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.Loonkost);
                 Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, model.Id);
                 DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && kost != null)
@@ -179,6 +183,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet verwijderd worden
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.Loonkost);
                 Loonkost kost = KostOfBaatExtensions.GetBy(analyse.Loonkosten, id);
 
                 if (kost != null)

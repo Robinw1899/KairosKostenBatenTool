@@ -30,6 +30,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.MedewerkersHogerNiveau);
             analyse.UpdateTotalen(_analyseRepository);
 
             IEnumerable<MedewerkerNiveauBaatViewModel> viewModels = MaakModel(analyse);
@@ -54,6 +55,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.MedewerkersHogerNiveau);
                     DecimalConverter dc = new DecimalConverter();
                     MedewerkerNiveauBaat baat = new MedewerkerNiveauBaat
                     {
@@ -94,6 +96,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         {// id is het id van de baat die moet bewerkt wordens
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.MedewerkersHogerNiveau);
                 MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersHogerNiveauBaten, id);
                 MedewerkerNiveauBaatViewModel model = new MedewerkerNiveauBaatViewModel();
                 DecimalConverter dc = new DecimalConverter();
@@ -133,6 +136,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         {// id is het id van de baat die moet bewerkt worden
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.MedewerkersHogerNiveau);
                 MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersHogerNiveauBaten, model.Id);
                 DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && baat != null)
@@ -173,6 +177,7 @@ namespace KairosWeb_Groep6.Controllers.Baten
         {// id is het id van de baat die moet verwijderd worden
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.MedewerkersHogerNiveau);
                 MedewerkerNiveauBaat baat = KostOfBaatExtensions.GetBy(analyse.MedewerkersHogerNiveauBaten, id);
 
                 if (baat != null)

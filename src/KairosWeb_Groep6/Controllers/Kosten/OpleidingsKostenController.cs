@@ -30,6 +30,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.OpleidingsKost);
             analyse.UpdateTotalen(_analyseRepository);
 
             IEnumerable<OpleidingsKostViewModel> viewModels = MaakModel(analyse);
@@ -54,6 +55,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.OpleidingsKost);
                     DecimalConverter dc = new DecimalConverter();
                     OpleidingsKost kost = new OpleidingsKost
                     {
@@ -94,6 +96,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet bewerkt wordens
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.OpleidingsKost);
                 OpleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.OpleidingsKosten, id);
 
                 OpleidingsKostViewModel model = new OpleidingsKostViewModel();
@@ -134,6 +137,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet bewerkt worden
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.OpleidingsKost);
                 OpleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.OpleidingsKosten, model.Id);
                 DecimalConverter dc = new DecimalConverter();
 
@@ -175,6 +179,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet verwijderd worden
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.OpleidingsKost);
                 OpleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.OpleidingsKosten, id);
                 if (kost != null)
                 {
