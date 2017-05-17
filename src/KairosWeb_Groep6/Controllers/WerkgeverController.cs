@@ -61,10 +61,11 @@ namespace KairosWeb_Groep6.Controllers
             {
                 Departement departement = _departementRepository.GetById(model.DepartementId);
                 Werkgever werkgever = departement.Werkgever;
-
+                DecimalConverter dc = new DecimalConverter();
+                analyse = _analyseRepository.GetByIdAll(analyse.AnalyseId);
                 // werkgever instellen
                 Werkgever nieuweWerkgever = new Werkgever(model.Naam, model.Straat, model.Nummer ?? 0, model.Bus,
-                    model.Postcode, model.Gemeente, model.AantalWerkuren, model.PatronaleBijdrage);
+                    model.Postcode, model.Gemeente, dc.ConvertToDecimal(model.AantalWerkuren), dc.ConvertToDecimal(model.PatronaleBijdrage));
 
                 // departement instellen
                 if (departement != null && !string.Equals(model.Departement, departement.Naam))
@@ -99,9 +100,17 @@ namespace KairosWeb_Groep6.Controllers
             }
             catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "Opslaan"));
-                _exceptionLogRepository.Save();
-                TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "Opslaan "));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
+
+                }
             }
 
             return View("Index", model);
@@ -119,7 +128,7 @@ namespace KairosWeb_Groep6.Controllers
         public IActionResult NieuweWerkgever()
         {
             // model aanmaken
-            WerkgeverViewModel model = new WerkgeverViewModel{PatronaleBijdrage = 35};
+            WerkgeverViewModel model = new WerkgeverViewModel{PatronaleBijdrage = "35"};
 
             // view returnen
             return View(model);
@@ -132,15 +141,16 @@ namespace KairosWeb_Groep6.Controllers
             try
             {
                 Departement departement = _departementRepository.GetByName(model.Departement);
-
+                analyse = _analyseRepository.GetByIdAll(analyse.AnalyseId);
+                DecimalConverter dc = new DecimalConverter();
                 // de werkgever al aanmaken, zodat straks de controle kan gebeuren
                 Werkgever werkgever = new Werkgever
                 {  // nieuwe werkgever aanmaken
                     Naam = model.Naam,
                     Postcode = model.Postcode,
                     Gemeente = model.Gemeente,
-                    AantalWerkuren = model.AantalWerkuren,
-                    PatronaleBijdrage = model.PatronaleBijdrage
+                    AantalWerkuren = dc.ConvertToDecimal(model.AantalWerkuren),
+                    PatronaleBijdrage = dc.ConvertToDecimal(model.PatronaleBijdrage)
                 };
 
                 // straat en nummer zijn niet verplicht,
@@ -178,9 +188,17 @@ namespace KairosWeb_Groep6.Controllers
             }
             catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "NieuweWerkgever -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "NieuweWerkgever -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
+
+                }
             }
 
             return View("NieuweWerkgever", model);
@@ -213,7 +231,7 @@ namespace KairosWeb_Groep6.Controllers
             {
                 List<Departement> departementenVanJobcoach = _jobcoachRepository.GetDepartementenVanJobcoach(jobcoach);
                 Departement departement = departementenVanJobcoach.SingleOrDefault(d => d.DepartementId == id);
-
+                analyse = _analyseRepository.GetByIdAll(analyse.AnalyseId);
                 if (departement == null)
                 {
                     TempData["error"] = "U heeft geen toegang tot dit departement, kies enkel degene die u hieronder ziet.";
@@ -385,13 +403,14 @@ namespace KairosWeb_Groep6.Controllers
             try
             {
                 Departement departement = _departementRepository.GetByName(model.Departement);
+                DecimalConverter dc = new DecimalConverter();
                 Werkgever werkgever = new Werkgever
                 {  // nieuwe werkgever aanmaken
                     Naam = model.Naam,
                     Postcode = model.Postcode,
                     Gemeente = model.Gemeente,
-                    AantalWerkuren = model.AantalWerkuren,
-                    PatronaleBijdrage = model.PatronaleBijdrage,
+                    AantalWerkuren = dc.ConvertToDecimal(model.AantalWerkuren),
+                    PatronaleBijdrage = dc.ConvertToDecimal(model.PatronaleBijdrage),
                     // straat en nummer zijn niet verplicht,
                     // maar als ze ingevuld zijn, instellen in de werkgever
                     Straat = model.Straat,
@@ -425,12 +444,20 @@ namespace KairosWeb_Groep6.Controllers
                 _analyseRepository.Save();
 
                 return RedirectToAction("Index", "Resultaat");
-            }
+            }        
             catch (Exception e)
             {
-                _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "NieuwDepartement -- POST --"));
-                _exceptionLogRepository.Save();
-                TempData["Error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
+                if (e is ArgumentException || e is FormatException)
+                {
+                    TempData["error"] = e.Message;
+                }
+                else
+                {
+                    _exceptionLogRepository.Add(new ExceptionLog(e, "Werkgever", "NieuwDepartement -- POST --"));
+                    _exceptionLogRepository.Save();
+                    TempData["error"] = "Er ging onverwachts iets fout, probeer later opnieuw";
+                
+                }
             }
 
             return View(model);

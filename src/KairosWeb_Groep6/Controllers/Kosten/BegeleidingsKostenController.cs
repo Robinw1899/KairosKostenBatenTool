@@ -30,6 +30,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.BegeleidingsKost);
             analyse.UpdateTotalen(_analyseRepository);
 
             PlaatsTotaalInViewData(analyse);
@@ -52,6 +53,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.BegeleidingsKost);
                     DecimalConverter dc = new DecimalConverter();
                     BegeleidingsKost kost = new BegeleidingsKost
                     {
@@ -92,6 +94,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet bewerkt wordens
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.BegeleidingsKost);
                 BegeleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, id);
                 BegeleidingsKostViewModel model = new BegeleidingsKostViewModel();
                 DecimalConverter dc = new DecimalConverter();
@@ -130,6 +133,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet bewerkt worden
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.BegeleidingsKost);
                 BegeleidingsKost kost = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, model.Id);
                 DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && kost != null)
@@ -170,6 +174,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet verwijderd worden
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.BegeleidingsKost);
                 BegeleidingsKost baat = KostOfBaatExtensions.GetBy(analyse.BegeleidingsKosten, id);
                 if (baat != null)
                 {

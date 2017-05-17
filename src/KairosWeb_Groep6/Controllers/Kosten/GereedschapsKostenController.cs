@@ -30,6 +30,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.GereedschapsKost);
             analyse.UpdateTotalen(_analyseRepository);
 
             IEnumerable<GereedschapsKostViewModel> viewModels = MaakModel(analyse);
@@ -54,6 +55,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.GereedschapsKost);
                     DecimalConverter dc = new DecimalConverter();
                     GereedschapsKost kost = new GereedschapsKost
                     {
@@ -96,6 +98,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de kost die moet bewerkt worden
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.GereedschapsKost);
                 GereedschapsKost kost = KostOfBaatExtensions.GetBy(analyse.GereedschapsKosten, id);
                 GereedschapsKostViewModel model = new GereedschapsKostViewModel();
                 DecimalConverter dc = new DecimalConverter();
@@ -134,6 +137,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.GereedschapsKost);
                 GereedschapsKost kost = KostOfBaatExtensions.GetBy(analyse.GereedschapsKosten, model.Id);
                 DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && kost != null)
@@ -176,6 +180,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet verwijderd worden
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.GereedschapsKost);
                 GereedschapsKost kost = KostOfBaatExtensions.GetBy(analyse.GereedschapsKosten, id);
 
                 if (kost != null)

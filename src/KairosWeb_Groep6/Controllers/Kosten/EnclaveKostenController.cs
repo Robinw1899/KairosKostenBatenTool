@@ -30,6 +30,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         #region Index
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.EnclaveKost);
             analyse.UpdateTotalen(_analyseRepository);
 
             IEnumerable<EnclaveKostViewModel> viewModels = MaakModel(analyse);
@@ -54,6 +55,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
             {
                 if (ModelState.IsValid)
                 {
+                    analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.EnclaveKost);
                     DecimalConverter dc = new DecimalConverter();
                     EnclaveKost kost = new EnclaveKost
                     {
@@ -96,6 +98,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de baat die moet bewerkt wordens
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.EnclaveKost);
                 EnclaveKost kost = KostOfBaatExtensions.GetBy(analyse.EnclaveKosten, id);
                 EnclaveKostViewModel model = new EnclaveKostViewModel();
                 DecimalConverter dc = new DecimalConverter();
@@ -134,6 +137,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.EnclaveKost);
                 EnclaveKost kost = KostOfBaatExtensions.GetBy(analyse.EnclaveKosten, model.Id);
                 DecimalConverter dc = new DecimalConverter();
                 if (ModelState.IsValid && kost != null)
@@ -176,6 +180,7 @@ namespace KairosWeb_Groep6.Controllers.Kosten
         {// id is het id van de kost die moet verwijderd worden
             try
             {
+                analyse = _analyseRepository.GetById(analyse.AnalyseId, Soort.EnclaveKost);
                 EnclaveKost kost = analyse.EnclaveKosten
                     .SingleOrDefault(k => k.Id == id);
                 if (kost != null)

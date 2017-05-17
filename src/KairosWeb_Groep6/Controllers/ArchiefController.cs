@@ -158,6 +158,7 @@ namespace KairosWeb_Groep6.Controllers
                     jobcoach.Analyses = jobcoach
                         .Analyses
                         .InArchief()
+                        .Where(a=>a.Verwijderd == false)
                         .OrderByDescending(t => t.DatumLaatsteAanpassing)
                         .ToList();
                 }
@@ -192,6 +193,7 @@ namespace KairosWeb_Groep6.Controllers
                     jobcoach.Analyses = jobcoach
                            .Analyses
                            .InArchief()
+                           .Where(a=>a.Verwijderd == false)
                            .OrderByDescending(t => t.DatumLaatsteAanpassing)
                            .ToList();
                     IndexViewModel model = new IndexViewModel(jobcoach);

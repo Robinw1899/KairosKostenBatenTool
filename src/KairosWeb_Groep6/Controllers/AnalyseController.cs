@@ -81,7 +81,7 @@ namespace KairosWeb_Groep6.Controllers
                 }
                 else
                 {
-                    Analyse analyse = _analyseRepository.GetById(id);
+                    Analyse analyse = _analyseRepository.GetByIdAll(id);
 
                     if (HttpContext != null)
                     {

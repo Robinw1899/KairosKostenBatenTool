@@ -205,11 +205,14 @@ namespace KairosWeb_Groep6.Controllers
 
                     jobcoach.Analyses = jobcoach
                         .Analyses
-                        .NietInArchief().ToList();
+                        .NietInArchief()
+                        .Where(a=>a.Verwijderd == false)
+                        .ToList();
                     totaal = jobcoach.Analyses.Count();
                     jobcoach.Analyses = jobcoach
                         .Analyses
-                        .OrderByDescending(t => t.DatumLaatsteAanpassing)                     
+                        .OrderByDescending(t => t.DatumLaatsteAanpassing)         
+                      
                         .ToList();
                 }
 
@@ -244,7 +247,9 @@ namespace KairosWeb_Groep6.Controllers
 
                     jobcoach.Analyses = jobcoach
                            .Analyses
-                           .NietInArchief().ToList();
+                           .NietInArchief()
+                           .Where(a=>a.Verwijderd == false)
+                           .ToList();
 
                     totaal = jobcoach.Analyses.Count();
 
