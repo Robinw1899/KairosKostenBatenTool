@@ -12,10 +12,12 @@ namespace KairosWeb_Groep6.Tests.Controllers
     public class BatenControllerTest
     {
         private readonly BatenController _controller;
+        private readonly Mock<IAnalyseRepository> _analyseRepository;
 
         public BatenControllerTest()
         {
-            _controller = new BatenController();
+            _analyseRepository = new Mock<IAnalyseRepository>();
+            _controller = new BatenController(_analyseRepository.Object);
         }
 
         [Fact]
@@ -33,6 +35,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 Subsidie = dbContext.Subsidie,
                 LogistiekeBesparing = dbContext.LogistiekeBesparing
             };
+
+            _analyseRepository.Setup(r => r.GetByIdAll(It.IsAny<int>()))
+                .Returns(analyse);
 
             var result = _controller.Index(analyse) as ViewResult;
             var model = result?.Model as BatenIndexViewModel;

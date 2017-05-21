@@ -113,7 +113,7 @@ namespace KairosWeb_Groep6.Controllers
                     return View(model);
                 }
             }
-
+            
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError(string.Empty, "Iets ging fout, probeer later opnieuw.");
             return View(model);

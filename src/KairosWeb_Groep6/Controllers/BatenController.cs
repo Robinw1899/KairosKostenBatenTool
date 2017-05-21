@@ -9,9 +9,17 @@ namespace KairosWeb_Groep6.Controllers
     [Authorize]
     public class BatenController : Controller
     {
+        private readonly IAnalyseRepository _analyseRepository;
+
+        public BatenController(IAnalyseRepository analyseRepository)
+        {
+            _analyseRepository = analyseRepository;
+        }
+
         [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetByIdAll(analyse.AnalyseId);
             BatenIndexViewModel model = new BatenIndexViewModel(analyse);
 
             return View(model);

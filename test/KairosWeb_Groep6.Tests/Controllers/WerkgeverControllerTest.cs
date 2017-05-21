@@ -120,7 +120,7 @@ namespace KairosWeb_Groep6.Tests.Controllers
             var model = result?.Model as WerkgeverViewModel;
 
             Assert.Equal(typeof(WerkgeverViewModel), model?.GetType());
-            Assert.Equal(35, model?.PatronaleBijdrage);
+            Assert.Equal(35, Convert.ToDecimal(model?.PatronaleBijdrage));
         }
         #endregion
 
@@ -163,14 +163,14 @@ namespace KairosWeb_Groep6.Tests.Controllers
 
             WerkgeverViewModel model = new WerkgeverViewModel
             {
-                AantalWerkuren = 35M,
+                AantalWerkuren = "" + 35,
                 Bus = "",
                 Departement = "HR",
                 Gemeente = "Wieze",
                 Postcode = 9280,
                 Nummer = 42,
                 Straat = "Wolvenstraat",
-                PatronaleBijdrage = 35M,
+                PatronaleBijdrage = "" + 35,
                 Naam = "Thomas NV"
             };
 

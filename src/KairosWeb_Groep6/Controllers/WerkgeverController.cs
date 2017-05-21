@@ -443,7 +443,9 @@ namespace KairosWeb_Groep6.Controllers
                 _departementRepository.Save();
                 _analyseRepository.Save();
 
-                return RedirectToAction("Index", "Resultaat");
+                TempData["message"] = "Het nieuwe departement is succesvol toegevoegd";
+
+                return RedirectToAction("Index", "ContactPersoon");
             }        
             catch (Exception e)
             {

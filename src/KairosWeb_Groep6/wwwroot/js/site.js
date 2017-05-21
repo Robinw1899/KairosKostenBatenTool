@@ -128,6 +128,11 @@
 
             $.get($(this).attr("href"),
                 function (data) {
+                    if ($("#toggleGrid").css("display") === "inline-block") {
+                        $("#toggleGrid").hide();
+                        $("#toggleList").show();
+                    }
+
                     $("#loader").slideUp(500);
                     $("#analyses").html(data);
                 });
@@ -140,6 +145,11 @@
 
             $.get($(this).attr("href"),
                 function (data) {
+                    if ($("#toggleGrid").css("display") === "inline-block") {
+                        $("#toggleGrid").hide();
+                        $("#toggleList").show();
+                    }
+
                     $("#loader").slideUp(500);
                     $("#analyses").html(data);
                 });

@@ -1,0 +1,7 @@
+---
+applications:
+- name: KairosWeb_Groep6
+  memory: 1024M
+  command: dotnet run
+  env:
+    CACHE_NUGET_PACKAGES: false

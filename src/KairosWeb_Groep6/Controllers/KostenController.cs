@@ -9,9 +9,17 @@ namespace KairosWeb_Groep6.Controllers
     [Authorize]
     public class KostenController : Controller
     {
+        private readonly IAnalyseRepository _analyseRepository;
+
+        public KostenController(IAnalyseRepository analyseRepository)
+        {
+            _analyseRepository = analyseRepository;
+        }
+
         [ServiceFilter(typeof(AnalyseFilter))]
         public IActionResult Index(Analyse analyse)
         {
+            analyse = _analyseRepository.GetByIdAll(analyse.AnalyseId);
             KostenIndexViewModel model = new KostenIndexViewModel(analyse);
 
             return View(model);

@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Controllers\favicon.ico" />
     <Content Include="wwwroot\images\aanmelden_bg.jpg" />
     <Content Include="wwwroot\images\loader.gif" />
   </ItemGroup>

@@ -24,7 +24,7 @@ namespace KairosWeb_Groep6.Models.Domain
                 if(decimalVal < 0)
                     throw new ArgumentException("De ingegeven waarde mag niet kleiner zijn dan 0");
                 return decimalVal;
-            }catch(FormatException e)
+            }catch(FormatException)
             {
                 throw new FormatException("U mag enkel getallen met een punt of een komma invoeren");
             }              

@@ -12,10 +12,12 @@ namespace KairosWeb_Groep6.Tests.Controllers
     public class KostenControllerTest
     {
         private readonly KostenController _controller;
+        private readonly Mock<IAnalyseRepository> _analyseRepository;
 
         public KostenControllerTest()
         {
-            _controller = new KostenController();
+            _analyseRepository = new Mock<IAnalyseRepository>();
+            _controller = new KostenController(_analyseRepository.Object);
         }
 
         [Fact]
@@ -36,6 +38,9 @@ namespace KairosWeb_Groep6.Tests.Controllers
                 VoorbereidingsKosten = dbContext.VoorbereidingsKosten,
                 EnclaveKosten = dbContext.EnclaveKosten,
             };
+
+            _analyseRepository.Setup(r => r.GetByIdAll(It.IsAny<int>()))
+                .Returns(analyse);
 
             var result = _controller.Index(analyse) as ViewResult;
             var model = result?.Model as KostenIndexViewModel;
